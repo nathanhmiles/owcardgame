@@ -1,0 +1,114 @@
+%!Adobe-FontList 1.22
+%Locale:0x409
+
+%BeginFont
+Handler:DirectoryHandler
+FontType:Invalid
+OutlineFileName:/Users/blakebarber/Desktop/Overwatch Hero Cards Folder/Document fonts/AdobeFnt22.lst
+FileLength:2546
+FileModTime:626036078
+%EndFont
+
+%BeginFont
+Handler:DirectoryHandler
+FontType:Type1
+FontName:HelveticaLTStd-Roman
+FamilyName:Helvetica LT Std
+StyleName:Roman
+MenuName:Helvetica LT Std
+StyleBits:0
+WeightClass:400
+WidthClass:5
+AngleClass:0
+FullName:Helvetica LT Std Roman
+FamilyNameNative:
+StyleNameNative:Roman
+FullNameNative:
+WritingScript:Cyrillic
+OutlineFileName:/Users/blakebarber/Desktop/Overwatch Hero Cards Folder/Document fonts/HelveticaLTStd-Roman.otf
+DataFormat:sfntData
+UsesStandardEncoding:yes
+isCFF:yes
+hasSVG:no
+VariableFontType:NonVariableFont
+FileLength:45728
+FileModTime:506005276
+NameArray:0,Mac,18,Helvetica LT Std
+NameArray:0,Mac,4,Helvetica LT Std Roman
+NameArray:0,Win,1,Helvetica LT Std
+%EndFont
+
+%BeginFont
+Handler:DirectoryHandler
+FontType:TrueType
+FontName:KeepCalm-Medium
+FamilyName:Keep Calm
+StyleName:Regular
+MenuName:Keep Calm Med
+StyleBits:0
+WeightClass:500
+WidthClass:5
+AngleClass:0
+FullName:Keep Calm Medium
+WritingScript:Roman
+OutlineFileName:/Users/blakebarber/Desktop/Overwatch Hero Cards Folder/Document fonts/KeepCalm-Medium.ttf
+DataFormat:sfntData
+hasSVG:no
+VariableFontType:NonVariableFont
+FileLength:86716
+FileModTime:448917964
+NameArray:0,Mac,4,Keep Calm Medium
+NameArray:0,Win,1,Keep Calm Med
+NameArray:0,Win,16,Keep Calm
+%EndFont
+
+%BeginFont
+Handler:DirectoryHandler
+FontType:TrueType
+FontName:BigNoodleTitling
+FamilyName:BigNoodleTitling
+StyleName:Regular
+MenuName:BigNoodleTitling
+StyleBits:0
+WeightClass:400
+WidthClass:5
+AngleClass:0
+FullName:BigNoodleTitling
+WritingScript:Roman
+OutlineFileName:/Users/blakebarber/Desktop/Overwatch Hero Cards Folder/Document fonts/big_noodle_titling.ttf
+DataFormat:sfntData
+hasSVG:no
+VariableFontType:NonVariableFont
+FileLength:26828
+FileModTime:79762734
+NameArray:0,Mac,18,BigNoodleTitling
+NameArray:0,Mac,4,BigNoodleTitling
+NameArray:0,Win,1,BigNoodleTitling
+NameArray:0,Win,16,BigNoodleTitling
+%EndFont
+
+%BeginFont
+Handler:DirectoryHandler
+FontType:TrueType
+FontName:BigNoodleTitling-Oblique
+FamilyName:BigNoodleTitling
+StyleName:Oblique
+MenuName:BigNoodleTitling
+StyleBits:1
+WeightClass:400
+WidthClass:5
+AngleClass:0
+FullName:BigNoodleTitling Oblique
+WritingScript:Roman
+OutlineFileName:/Users/blakebarber/Desktop/Overwatch Hero Cards Folder/Document fonts/big_noodle_titling_oblique.ttf
+DataFormat:sfntData
+hasSVG:no
+VariableFontType:NonVariableFont
+FileLength:27876
+FileModTime:79762714
+NameArray:0,Mac,18,BigNoodleTitling Oblique
+NameArray:0,Mac,4,BigNoodleTitling Oblique
+NameArray:0,Win,1,BigNoodleTitling
+NameArray:0,Win,16,BigNoodleTitling
+%EndFont
+
