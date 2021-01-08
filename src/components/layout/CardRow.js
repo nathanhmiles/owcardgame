@@ -9,7 +9,7 @@ export default function CardRow(props) {
   return (
     <div className="cardrow">
       <div className="rowlabel">{props.label}</div>
-      <img src={Row} alt="" style={{height: '220px'}} />
+      <img src={Row} alt="" className="rowimage" />
       {cards && cards.map((card) => {return(
         <Card hero={card} />
       )})}
