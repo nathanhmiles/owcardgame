@@ -1,19 +1,20 @@
 import Card from '../cards/Card';
-import Ana from '../heroes/Ana';
-import Ashe from '../heroes/Ashe';
-import Baptiste from '../heroes/Baptiste';
-import Bastion from '../heroes/Bastion';
-import Bob from '../heroes/Bob';
-import Brigitte from '../heroes/Brigitte';
+import Heroes from '../heroes/Heroes';
 
 export default function Player2Hand(props) {
   const cards = [];
+
+  // TODO: randomly add a specificed number of cards from heroes to hand
+  // be aware of cards already drawn/discarded - add a boolean attribute to cards
+  function drawCards(num) {
+    
+  }
   
   return(
     <div id="player2hand" className="playerhand">
-      <Card hero={Baptiste} />
-      <Card hero={Bastion} />
-      <Card hero={Brigitte} />
+      <Card hero={Heroes.Baptiste} />
+      <Card hero={Heroes.Bastion} />
+      <Card hero={Heroes.Brigitte} />
     </div>
   );
 }
