@@ -1,16 +1,14 @@
-import CardRow from './CardRow';
 import Player2Hand from './Player2Hand';
+import PowerCounter from  './PowerCounter';
 
-export default function Player2Area() {
-  // id 2f == player 2 front row. m == middle b == back
-  const rowIds = ['2f', '2m', '2b'];
-  
-  return (
+export default function Player1Area() {
+  const power = 0;
+
+  return(
     <div id="player2area" className="playarea">
-      {rowIds.map((id) => { return (
-        <CardRow id={id} />
-      )})}
+      <div id="player2name" className="playername">Player 2</div>
       <Player2Hand />
+      <PowerCounter power={power} />
     </div>
   );
 }

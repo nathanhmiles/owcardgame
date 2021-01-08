@@ -4,16 +4,15 @@ import Ashe from '../heroes/Ashe';
 import Baptiste from '../heroes/Baptiste';
 import Bastion from '../heroes/Bastion';
 import Bob from '../heroes/Bob';
-import Brigitte from '../heroes/Brigitte';
 
 export default function Player1Hand(props) {
-    
+  const cards = [];
+
   return(
     <div id="player1hand" className="playerhand">
-      <div id="player1name" className="playername">Player 1</div>
-      <Card hero={Baptiste} />
-      <Card hero={Bastion} />
-      <Card hero={Brigitte} />
+      <Card hero={Ana} />
+      <Card hero={Ashe} />
+      <Card hero={Bob} />
     </div>
-  );
+  ); 
 }

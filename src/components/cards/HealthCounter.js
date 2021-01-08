@@ -1,5 +1,9 @@
-export default function HealthCounter() {
+import background from 'assets/healthbackground.png'
+
+export default function HealthCounter(props) {
   return (
-    <div></div>
+    <div className="healthcounter">
+      {props.health}
+    </div>
   );
 }
