@@ -1,11 +1,12 @@
-import AnaImage from '../../assets/cards/Ana.png';
 import HealthCounter from './HealthCounter';
 
-export default function Card() {
+export default function Card(props) {
+  const {image, name, ability1, ability2} = props.hero;
+  
   return (
-    <div id="ana">
+    <div className="card" onMouseOver="">
       <HealthCounter />
-      <img src={AnaImage} style={{height: '300px'}} alt="Ana Card" />
+      <img src={image} className="cardimg" alt="Card" />
     </div>
   );
 }

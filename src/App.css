@@ -1,0 +1,75 @@
+@font-face {
+  font-family: KeepCalm-Medium;
+  src: url("./assets/fonts/KeepCalm-Medium.ttf");
+}
+
+body {
+  font-family: KeepCalm-Medium;
+  color: white;
+}
+
+.playarea {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+
+#centerlogo {
+  height: 100px;
+  margin: 0 20px 0 20px;
+}
+
+#centerlogocontainer {
+  display: flex;
+  justify-content: space-evenly;
+  align-items: center;
+  font-size: 3vw;
+}
+
+.credit {
+  font-size: small;
+}
+
+.cardrow {
+  display: flex;
+  align-items: center;
+}
+
+.synergycounter {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-color: aqua;
+  border-radius: 50%;
+  width: 50px;
+  height: 50px;
+  font-size: x-large;
+}
+
+.playerhand {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.playername {
+  font-size: 3vw;
+  position: absolute;
+  left: 200px;
+}
+
+.card {
+  margin: 10px;
+  height: 200px;
+  width: auto;
+}
+
+.card:hover {
+  height: 500px;
+}
+
+.cardimg {
+  max-height: 100%;
+  width: auto;
+}
