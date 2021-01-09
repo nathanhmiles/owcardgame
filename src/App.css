@@ -67,6 +67,10 @@ body {
   left: 200px;
 }
 
+.playerarea-section {
+  width: 15vw;
+}
+
 .card {
   margin: 10px;
   height: 200px;
@@ -141,7 +145,7 @@ body {
   position: absolute;
   top: 15vh;
   height: 80vh;
-  font-size: 20pt !important;
+  font-size: 20pt;
 }
 
 #disclaimer {
