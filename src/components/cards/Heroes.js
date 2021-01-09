@@ -1,242 +1,242 @@
-const Heroes = [
-  {
-    image:  'assets/heroes/Ana.png',
+const Heroes = {
+  Ana: {
     name: 'Ana',
+    image:  'assets/heroes/Ana.png',
     health: 4,  
     ability1: () => {},
     ability2: () => {}
   },
-  {
-    image:  'assets/heroes/Ashe.png',
+  Ashe: {
     name: 'Ashe',
+    image:  'assets/heroes/Ashe.png',
     health: 3,  
     ability1: () => {},
     ability2: () => {}
   },
-  {
-    image:  'assets/heroes/Baptiste.png',
+  Baptiste: {
     name: 'Baptiste',
+    image:  'assets/heroes/Baptiste.png',
     health: 4,  
     ability1: () => {},
     ability2: () => {}
   },
-  {
-    image:  'assets/heroes/Bastion.png',
+  Bastion: {
     name: 'Bastion',
+    image:  'assets/heroes/Bastion.png',
     health: 5,  
     ability1: () => {},
     ability2: () => {}
   },
-  {
-    image:  'assets/heroes/Bob.png',
+  Bob: {
     name: 'Bob',
+    image:  'assets/heroes/Bob.png',
     health: 3,  
     ability1: () => {},
     ability2: () => {}
   },
-  {
-    image:  'assets/heroes/Brigitte.png',
+  Brigitte: {
     name: 'Brigitte',
+    image:  'assets/heroes/Brigitte.png',
     health: 4,  
     ability1: () => {},
     ability2: () => {}
   },
-  {
-    image:  'assets/heroes/Doomfist.png',
+  Doomfist: {
     name: 'Doomfist',
+    image:  'assets/heroes/Doomfist.png',
     health: 4,  
     ability1: () => {},
     ability2: () => {}
   },
-  {
-    image:  'assets/heroes/Dva-Meka.png',
-    name: 'D.va + Meka',
+  DvaMeka: {
+    name: 'DvaMeka',
+    image:  'assets/heroes/DvaMeka.png',
     health: 4,  
     ability1: () => {},
     ability2: () => {}
   },
-  {
+  Dva: { 
     image:  'assets/heroes/Dva.png',
-    name: 'D.va',
+    name: 'Dva',
     health: 2,  
     ability1: () => {},
     ability2: () => {}
   },
-  {
+  Echo: { 
     image:  'assets/heroes/Echo.png',
     name: 'Echo',
     health: 4,  
     ability1: () => {},
     ability2: () => {}
   },
-  {
+  Genji: {   
     image:  'assets/heroes/Genji.png',
     name: 'Genji',
     health: 4,  
     ability1: () => {},
     ability2: () => {}
   },
-  {
-    image:  'assets/heroes/Hanzo.png',
+  Hanzo: {
     name: 'Hanzo',
+    image:  'assets/heroes/Hanzo.png',
     health: 4,  
     ability1: () => {},
     ability2: () => {}
   },
-  {
-    image:  'assets/heroes/Junkrat.png',
+  Junkrat: {
     name: 'Junkrat',
+    image:  'assets/heroes/Junkrat.png',
     health: 3,  
     ability1: () => {},
     ability2: () => {}
   },
-  {
-    image:  'assets/heroes/Lucio.png',
+  Lucio: {
     name: 'Lucio',
+    image:  'assets/heroes/Lucio.png',
     health: 3,  
     ability1: () => {},
     ability2: () => {}
   },
-  {
-    image:  'assets/heroes/McCree.png',
+  McCree: {
     name: 'McCree',
+    image:  'assets/heroes/McCree.png',
     health: 4,  
     ability1: () => {},
     ability2: () => {}
   },
-  {
-    image:  'assets/heroes/Mei.png',
+  Mei: {
     name: 'Mei',
+    image:  'assets/heroes/Mei.png',
     health: 4,  
     ability1: () => {},
     ability2: () => {}
   },
-  {
-    image:  'assets/heroes/Mercy.png',
+  Mercy: {
     name: 'Mercy',
+    image:  'assets/heroes/Mercy.png',
     health: 3,  
     ability1: () => {},
     ability2: () => {}
   },
-  {
-    image:  'assets/heroes/Moira.png',
+  Moira: {
     name: 'Moira',
+    image:  'assets/heroes/Moira.png',
     health: 3,  
     ability1: () => {},
     ability2: () => {}
   },
-  {
-    image:  'assets/heroes/Orisa.png',
+  Orisa: {
     name: 'Orisa',
+    image:  'assets/heroes/Orisa.png',
     health: 5,  
     ability1: () => {},
     ability2: () => {}
   },
-  {
-    image:  'assets/heroes/Pharah.png',
+  Pharah: {
     name: 'Pharah',
+    image:  'assets/heroes/Pharah.png',
     health: 4,  
     ability1: () => {},
     ability2: () => {}
   },
-  {
-    image:  'assets/heroes/Reaper.png',
+  Reaper: {
     name: 'Reaper',
+    image:  'assets/heroes/Reaper.png',
     health: 4,  
     ability1: () => {},
     ability2: () => {}
   },
-  {
-    image:  'assets/heroes/Reinhardt.png',
+  Reinhardt: {
     name: 'Reinhardt',
+    image: 'assets/heroes/Reinhardt.png',
     health: 4,  
     ability1: () => {},
     ability2: () => {}
   },
-  {
-    image:  'assets/heroes/Roadhog.png',
+  Roadhog: {
     name: 'Roadhog',
+    image: 'assets/heroes/Roadhog.png',
     health: 5,  
     ability1: () => {},
     ability2: () => {}
   },
-  {
-    image:  'assets/heroes/Sigma.png',
-    name: 'Sigma',
-    health: 4,  
-    ability1: () => {},
-    ability2: () => {}
-  },
-  {
-    image:  'assets/heroes/Soldier.png',
+  Sigma:
+    {
+      image:  'assets/heroes/Sigma.png',
+      health: 4,  
+      ability1: () => {},
+      ability2: () => {}
+    },
+  Soldier: {
     name: 'Soldier',
+    image:  'assets/heroes/Soldier.png',
     health: 4,  
     ability1: () => {},
     ability2: () => {}
   },
-  {
-    image:  'assets/heroes/Sombra.png',
+  Sombra: {
     name: 'Sombra',
+    image:  'assets/heroes/Sombra.png',
     health: 4,  
     ability1: () => {},
     ability2: () => {}
   },
-  {
-    image:  'assets/heroes/Symmetra.png',
+  Symmetra: {
     name: 'Symmetra',
+    image:  'assets/heroes/Symmetra.png',
     health: 3,  
     ability1: () => {},
     ability2: () => {}
   },
-  {
-    image:  'assets/heroes/Torbjorn.png',
+  Torbjorn: {
     name: 'Torbjorn',
+    image:  'assets/heroes/Torbjorn.png',
     health: 4,  
     ability1: () => {},
     ability2: () => {}
   },
-  {
-    image:  'assets/heroes/Tracer.png',
+  Tracer: {
     name: 'Tracer',
+    image:  'assets/heroes/Tracer.png',
     health: 3,  
     ability1: () => {},
     ability2: () => {}
   },
-  {
-    image:  'assets/heroes/Widowmaker.png',
+  Widowmaker: {
     name: 'Widowmaker',
+    image:  'assets/heroes/Widowmaker.png',
     health: 4,  
     ability1: () => {},
     ability2: () => {}
   },
-  {
-    image:  'assets/heroes/Winston.png',
+  Winston: {
     name: 'Winston',
+    image:  'assets/heroes/Winston.png',
     health: 4,  
     ability1: () => {},
     ability2: () => {}
   },
-  {
-    image:  'assets/heroes/Wrecking-Ball.png',
-    name: 'Wrecking Ball',
+  WreckingBall: {
+    name: 'WreckingBall',
+    image:  'assets/heroes/WreckingBall.png',
     health: 3,  
     ability1: () => {},
     ability2: () => {}
   },
-  {
-    image:  'assets/heroes/Zarya.png',
+  Zarya: {
     name: 'Zarya',
+    image:  'assets/heroes/Zarya.png',
     health: 4,  
     ability1: () => {},
     ability2: () => {}
   },
-  {
-    image:  'assets/heroes/Zenyatta.png',
+  Zenyatta: {
     name: 'Zenyatta',
+    image:  'assets/heroes/Zenyatta.png',
     health: 4,  
     ability1: () => {},
     ability2: () => {}
   }
-]
+}
 
 export default Heroes;
