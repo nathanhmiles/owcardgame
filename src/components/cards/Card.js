@@ -6,9 +6,9 @@ export default function Card(props) {
   const discarded = false;
   
   return (
-    <div className="card" draggable="true">
+    <div id={name + "-card"} className="card" draggable="true">
       <HealthCounter health={health} />
-      <img src={image} className="cardimg" alt="Card" />
+      <img src={image} className="cardimg" alt={name + " Card"} />
     </div>
   );
 }
