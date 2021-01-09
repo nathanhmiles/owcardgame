@@ -2,6 +2,7 @@ const Heroes = {
   Ana: {
     name: 'Ana',
     image:  'assets/heroes/Ana.png',
+    icon: 'assets/heroes/Ana-icon.png',
     health: 4,  
     ability1: () => {},
     ability2: () => {}
@@ -16,6 +17,7 @@ const Heroes = {
   Baptiste: {
     name: 'Baptiste',
     image:  'assets/heroes/Baptiste.png',
+    icon: 'assets/heroes/Baptiste-icon.png',
     health: 4,  
     ability1: () => {},
     ability2: () => {}
@@ -23,6 +25,7 @@ const Heroes = {
   Bastion: {
     name: 'Bastion',
     image:  'assets/heroes/Bastion.png',
+    icon: 'assets/heroes/Bastion-icon.png',
     health: 5,  
     ability1: () => {},
     ability2: () => {}
@@ -30,6 +33,7 @@ const Heroes = {
   Bob: {
     name: 'Bob',
     image:  'assets/heroes/Bob.png',
+    icon: 'assets/heroes/Bob-icon.png',
     health: 3,  
     ability1: () => {},
     ability2: () => {}
@@ -79,6 +83,7 @@ const Heroes = {
   Hanzo: {
     name: 'Hanzo',
     image:  'assets/heroes/Hanzo.png',
+    icon: 'assets/heroes/Hanzo-icon.png',
     health: 4,  
     ability1: () => {},
     ability2: () => {}
@@ -93,6 +98,7 @@ const Heroes = {
   Lucio: {
     name: 'Lucio',
     image:  'assets/heroes/Lucio.png',
+    icon: 'assets/heroes/Lucio-icon.png',
     health: 3,  
     ability1: () => {},
     ability2: () => {}
@@ -107,6 +113,7 @@ const Heroes = {
   Mei: {
     name: 'Mei',
     image:  'assets/heroes/Mei.png',
+    icon: 'assets/heroes/Mei-icon.png',
     health: 4,  
     ability1: () => {},
     ability2: () => {}
@@ -114,6 +121,7 @@ const Heroes = {
   Mercy: {
     name: 'Mercy',
     image:  'assets/heroes/Mercy.png',
+    icon: 'assets/heroes/Mercy-icon.png',
     health: 3,  
     ability1: () => {},
     ability2: () => {}
@@ -128,6 +136,7 @@ const Heroes = {
   Orisa: {
     name: 'Orisa',
     image:  'assets/heroes/Orisa.png',
+    icon: 'assets/heroes/Orisa-icon.png',
     health: 5,  
     ability1: () => {},
     ability2: () => {}
@@ -162,7 +171,9 @@ const Heroes = {
   },
   Sigma:
     {
+      name: 'Sigma',
       image:  'assets/heroes/Sigma.png',
+      icon: 'assets/heroes/Sigma-icon.png',
       health: 4,  
       ability1: () => {},
       ability2: () => {}
@@ -191,6 +202,7 @@ const Heroes = {
   Torbjorn: {
     name: 'Torbjorn',
     image:  'assets/heroes/Torbjorn.png',
+    icon: 'assets/heroes/Torbjorn-icon.png',
     health: 4,  
     ability1: () => {},
     ability2: () => {}
@@ -205,6 +217,7 @@ const Heroes = {
   Widowmaker: {
     name: 'Widowmaker',
     image:  'assets/heroes/Widowmaker.png',
+    icon: 'assets/heroes/Widowmaker-icon.png',
     health: 4,  
     ability1: () => {},
     ability2: () => {}
@@ -219,6 +232,7 @@ const Heroes = {
   WreckingBall: {
     name: 'WreckingBall',
     image:  'assets/heroes/WreckingBall.png',
+    icon: 'assets/heroes/WreckingBall-icon.png',
     health: 3,  
     ability1: () => {},
     ability2: () => {}
@@ -226,6 +240,7 @@ const Heroes = {
   Zarya: {
     name: 'Zarya',
     image:  'assets/heroes/Zarya.png',
+    icon: 'assets/heroes/Zarya-icon.png',
     health: 4,  
     ability1: () => {},
     ability2: () => {}
@@ -233,6 +248,7 @@ const Heroes = {
   Zenyatta: {
     name: 'Zenyatta',
     image:  'assets/heroes/Zenyatta.png',
+    icon: 'assets/heroes/Zenyatta-icon.png',
     health: 4,  
     ability1: () => {},
     ability2: () => {}
