@@ -15,7 +15,7 @@ body {
   justify-content: center;
 }
 
-.playarea {
+.playerarea {
   display: flex;
   flex-direction: row;
   justify-content: space-between;
@@ -36,6 +36,11 @@ body {
 
 .credit {
   font-size: small;
+  width: 15vw;
+}
+
+.title {
+  width: 20vw;
 }
 
 .cardrow {
@@ -73,16 +78,6 @@ body {
   
 }
 
-.healthcounter {
-  background-image: url('./assets/healthbackground.png');
-  z-index: 20;
-  position: relative;
-  top: 12%;
-  left: 84.5%;
-  height: 5%;
-  width: 6%;
-  border-radius: 50%;
-}
 
 .cardimg {
   max-height: 100%;
@@ -95,25 +90,52 @@ body {
   right: auto;
 }
 
-.synergycounter {
+.counterarea {
+  display: flex;
+  width: 20vw;
+  flex-direction: row;
+  flex-wrap: wrap;
+  justify-content: flex-start;
+  max-width: 150px;
+}
+
+.counter {
   display: flex;
   justify-content: center;
   align-items: center;
-  background-color: aqua;
   border-radius: 50%;
+}
+
+.herocounter {
+  width: 50px;
+  height: 50px;
+}
+
+.healthcounter {
+  background-image: url('assets/healthbackground.png');
+  z-index: 20;
+  position: relative;
+  top: 12%;
+  left: 84%;
+  height: 5%;
+  width: 7%;
+}
+
+.synergycounter {
+  background-color: aqua;
   width: 50px;
   height: 50px;
   font-size: x-large;
 }
 
 .powercounter {
-  display: flex;
-  justify-content: center;
-  align-items: center;
   background-color: yellow;
-  border-radius: 50%;
-  width: 100px;
-  height: 100px;
+  max-width: 100px;
+  max-height: 100px;
+  min-width: 60px;
+  min-height: 60px;
+  width: 8vw;
+  height: 8vw;
   font-size: 30pt;
   color: black;
 }

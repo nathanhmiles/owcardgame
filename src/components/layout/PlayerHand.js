@@ -1,7 +1,7 @@
 import Card from '../cards/Card';
 import Heroes from '../heroes/Heroes';
 
-export default function Player2Hand(props) {
+export default function PlayerHand(props) {
   const cards = [];
 
   // TODO: randomly add a specificed number of cards from heroes to hand
@@ -9,12 +9,12 @@ export default function Player2Hand(props) {
   function drawCards(num) {
     
   }
-  
+
   return(
-    <div id="player2hand" className="playerhand">
-      <Card hero={Heroes.Baptiste} />
-      <Card hero={Heroes.Bastion} />
-      <Card hero={Heroes.Brigitte} />
+    <div className="playerhand">
+      <Card hero={Heroes.Ana} />
+      <Card hero={Heroes.Ashe} />
+      <Card hero={Heroes.Bob} />
     </div>
-  );
+  ); 
 }
