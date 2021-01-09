@@ -10,7 +10,7 @@ export default function PlayerHand(props) {
   }
 
   // TODO: randomly add a specificed number of cards from heroes to hand
-  // be aware of cards already drawn/discarded
+  // TODO: check if card already drawn/discarded by that player
   function drawCards(num) {
     for (let i = 0; i < num; i++) {
       let keys = Object.keys(Heroes);
@@ -20,7 +20,7 @@ export default function PlayerHand(props) {
     }
   }
 
-  drawCards(3);
+  drawCards(6);
 
   return(
     <div className="playerhand">
