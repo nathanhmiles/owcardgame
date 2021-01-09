@@ -10,4 +10,6 @@ export default function Hero(props) {
   function ability2() {
   
   }
+
+  return {name, health, image, ability1, ability2}
 }
