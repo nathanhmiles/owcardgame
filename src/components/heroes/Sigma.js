@@ -1,4 +1,4 @@
-import image from '../../assets/heroes/Sigma.png';
+import image from 'assets/heroes/Sigma.png';
 
 const name = "Sigma";
 const health = 4;

@@ -1,4 +1,4 @@
-import image from '../../assets/heroes/McCree.png';
+import image from 'assets/heroes/McCree.png';
 
 const name = "McCree";
 const health = 4;

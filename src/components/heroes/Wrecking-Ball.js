@@ -1,4 +1,4 @@
-import image from '../../assets/heroes/Wrecking-Ball.png';
+import image from 'assets/heroes/Wrecking-Ball.png';
 
 const name = "Wrecking Ball";
 const health = 3;

@@ -1,4 +1,4 @@
-import image from '../../assets/heroes/Hanzo.png';
+import image from 'assets/heroes/Hanzo.png';
 
 const name = "Hanzo";
 const health = 4;

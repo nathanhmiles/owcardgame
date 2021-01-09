@@ -1,4 +1,4 @@
-import image from '../../assets/heroes/Doomfist.png';
+import image from 'assets/heroes/Doomfist.png';
 
 const name = "Doomfist";
 const health = 4;

@@ -1,4 +1,4 @@
-import image from '../../assets/heroes/Genji.png';
+import image from 'assets/heroes/Genji.png';
 
 const name = "Genji";
 const health = 4;

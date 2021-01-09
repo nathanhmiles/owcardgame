@@ -1,4 +1,4 @@
-import image from '../../assets/heroes/Junkrat.png';
+import image from 'assets/heroes/Junkrat.png';
 
 const name = "Junkrat";
 const health = 3;

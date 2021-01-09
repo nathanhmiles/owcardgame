@@ -1,5 +1,5 @@
-import Card from '../cards/Card';
-import Heroes from '../heroes/Heroes';
+import Card from 'components/cards/Card';
+import Heroes from 'components/heroes/Heroes';
 
 export default function PlayerHand(props) {
   const cards = [];

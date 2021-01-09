@@ -1,4 +1,4 @@
-import image from '../../assets/heroes/Widowmaker.png';
+import image from 'assets/heroes/Widowmaker.png';
 
 const name = "Widowmaker";
 const health = 4;

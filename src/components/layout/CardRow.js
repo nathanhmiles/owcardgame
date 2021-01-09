@@ -1,6 +1,6 @@
-import Row from '../../assets/row.png';
+import Row from 'assets/row.png';
 import SynergyCounter from './SynergyCounter';
-import Card from '../cards/Card';
+import Card from 'components/cards/Card';
 import CounterArea from 'components/layout/CounterArea';
 
 export default function CardRow(props) {

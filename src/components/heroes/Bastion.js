@@ -1,4 +1,4 @@
-import image from '../../assets/heroes/Bastion.png';
+import image from 'assets/heroes/Bastion.png';
 
 const name = "Bastion";
 const health = 5;

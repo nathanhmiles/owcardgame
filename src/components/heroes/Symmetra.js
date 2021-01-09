@@ -1,4 +1,4 @@
-import image from '../../assets/heroes/Symmetra.png';
+import image from 'assets/heroes/Symmetra.png';
 
 const name = "Symmetra";
 const health = 3;

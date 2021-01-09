@@ -1,4 +1,4 @@
-import image from '../../assets/heroes/Dva.png';
+import image from 'assets/heroes/Dva.png';
 
 const name = "D.va";
 const health = 2;

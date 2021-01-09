@@ -1,4 +1,4 @@
-import image from '../../assets/heroes/Orisa.png';
+import image from 'assets/heroes/Orisa.png';
 
 const name = "Orisa";
 const health = 5;
