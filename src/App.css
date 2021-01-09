@@ -139,3 +139,10 @@ body {
   font-size: 30pt;
   color: black;
 }
+
+#disclaimer {
+  font-size: 7pt;
+    display: flex;
+    justify-content: center;
+    margin-top: 20px;
+}

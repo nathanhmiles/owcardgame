@@ -3,6 +3,7 @@ import PlayerArea from 'components/layout/PlayerArea';
 import PlayerBoard from 'components/layout/PlayerBoard';
 import Heroes from 'components/cards/Heroes';
 import TitleCard from 'components/layout/TitleCard';
+import Footer from 'components/layout/Footer';
 
 
 function App() {
@@ -13,6 +14,7 @@ function App() {
       <TitleCard />
       <PlayerBoard playerNum={1} />
       <PlayerArea playerNum={1} />
+      <Footer />
     </div>
   );
 }
