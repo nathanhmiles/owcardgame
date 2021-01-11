@@ -50,13 +50,18 @@ body {
   align-items: center;
   justify-content: center;
   background-color: #111;
-  
   padding: 70px 0px 70px 0px;
   margin: 10px;
+  width: 80%;
 }
 
 .rowimage {
   width: 80%;
+  background-image: url('assets/row.png');
+  background-repeat: no-repeat;
+  background-size: 100% 100%;
+  background-position: center;
+  min-height: 250px;
 }
 
 /* Should the ul take place of the div? */
@@ -96,8 +101,8 @@ ul {
 
 .rowlabel {
   position: absolute;
-  left: auto;
-  right: auto;
+  left: 50%;
+  margin-top: 8rem; /* rem probably not the right way to do this, but it works */
 }
 
 .counterarea {

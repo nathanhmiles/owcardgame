@@ -1,4 +1,3 @@
-
 // Data for all hero cards
 // hero.location options are: "deck", "hand", rowId (e.g. "2m"), "discarded"
 // TODO: create test to ensure no cards have anything other than the above values as location
@@ -11,8 +10,6 @@ const Heroes = [
     health: 4,
     ability1: () => {},
     ability2: () => {},
-    player1location: "deck",
-    player2location: "deck",
   },
   {
     id: "ashe",
@@ -21,8 +18,6 @@ const Heroes = [
     health: 3,
     ability1: () => {},
     ability2: () => {},
-    player1location: "deck",
-    player2location: "deck",
   },
   {
     id: "baptiste",
@@ -32,8 +27,6 @@ const Heroes = [
     health: 4,
     ability1: () => {},
     ability2: () => {},
-    player1location: "deck",
-    player2location: "deck",
   },
   {
     id: "bastion",
@@ -43,8 +36,6 @@ const Heroes = [
     health: 5,
     ability1: () => {},
     ability2: () => {},
-    player1location: "deck",
-    player2location: "deck",
   },
   {
     id: "bob",
@@ -54,8 +45,6 @@ const Heroes = [
     health: 3,
     ability1: () => {},
     ability2: () => {},
-    player1location: "deck",
-    player2location: "deck",
   },
   {
     id: "brigitte",
@@ -64,8 +53,6 @@ const Heroes = [
     health: 4,
     ability1: () => {},
     ability2: () => {},
-    player1location: "deck",
-    player2location: "deck",
   },
   {
     id: "doomfist",
@@ -74,8 +61,6 @@ const Heroes = [
     health: 4,
     ability1: () => {},
     ability2: () => {},
-    player1location: "deck",
-    player2location: "deck",
   },
   {
     id: "dvameka",
@@ -84,8 +69,6 @@ const Heroes = [
     health: 4,
     ability1: () => {},
     ability2: () => {},
-    player1location: "deck",
-    player2location: "deck",
   },
   {
     id: "dva",
@@ -94,8 +77,6 @@ const Heroes = [
     health: 2,
     ability1: () => {},
     ability2: () => {},
-    player1location: "deck",
-    player2location: "deck",
   },
   {
     id: "echo",
@@ -104,8 +85,6 @@ const Heroes = [
     health: 4,
     ability1: () => {},
     ability2: () => {},
-    player1location: "deck",
-    player2location: "deck",
   },
   {
     id: "genji",
@@ -114,8 +93,6 @@ const Heroes = [
     health: 4,
     ability1: () => {},
     ability2: () => {},
-    player1location: "deck",
-    player2location: "deck",
   },
   {
     id: "hanzo",
@@ -125,8 +102,6 @@ const Heroes = [
     health: 4,
     ability1: () => {},
     ability2: () => {},
-    player1location: "deck",
-    player2location: "deck",
   },
   {
     id: "junkrat",
@@ -135,8 +110,6 @@ const Heroes = [
     health: 3,
     ability1: () => {},
     ability2: () => {},
-    player1location: "deck",
-    player2location: "deck",
   },
   {
     id: "lucio",
@@ -146,8 +119,6 @@ const Heroes = [
     health: 3,
     ability1: () => {},
     ability2: () => {},
-    player1location: "deck",
-    player2location: "deck",
   },
   {
     id: "mccree",
@@ -156,8 +127,6 @@ const Heroes = [
     health: 4,
     ability1: () => {},
     ability2: () => {},
-    player1location: "deck",
-    player2location: "deck",
   },
   {
     id: "mei",
@@ -167,8 +136,6 @@ const Heroes = [
     health: 4,
     ability1: () => {},
     ability2: () => {},
-    player1location: "deck",
-    player2location: "deck",
   },
   {
     id: "mercy",
@@ -178,8 +145,6 @@ const Heroes = [
     health: 3,
     ability1: () => {},
     ability2: () => {},
-    player1location: "deck",
-    player2location: "deck",
   },
   {
     id: "moira",
@@ -188,8 +153,6 @@ const Heroes = [
     health: 3,
     ability1: () => {},
     ability2: () => {},
-    player1location: "deck",
-    player2location: "deck",
   },
   {
     id: "orisa",
@@ -199,8 +162,6 @@ const Heroes = [
     health: 5,
     ability1: () => {},
     ability2: () => {},
-    player1location: "deck",
-    player2location: "deck",
   },
   {
     id: "pharah",
@@ -209,8 +170,6 @@ const Heroes = [
     health: 4,
     ability1: () => {},
     ability2: () => {},
-    player1location: "deck",
-    player2location: "deck",
   },
   {
     id: "reaper",
@@ -219,8 +178,6 @@ const Heroes = [
     health: 4,
     ability1: () => {},
     ability2: () => {},
-    player1location: "deck",
-    player2location: "deck",
   },
   {
     id: "reinhardt",
@@ -229,8 +186,6 @@ const Heroes = [
     health: 4,
     ability1: () => {},
     ability2: () => {},
-    player1location: "deck",
-    player2location: "deck",
   },
   {
     id: "roadhog",
@@ -239,8 +194,6 @@ const Heroes = [
     health: 5,
     ability1: () => {},
     ability2: () => {},
-    player1location: "deck",
-    player2location: "deck",
   },
   {
     id: "sigma",
@@ -250,8 +203,6 @@ const Heroes = [
     health: 4,
     ability1: () => {},
     ability2: () => {},
-    player1location: "deck",
-    player2location: "deck",
   },
   {
     id: "soldier",
@@ -260,8 +211,6 @@ const Heroes = [
     health: 4,
     ability1: () => {},
     ability2: () => {},
-    player1location: "deck",
-    player2location: "deck",
   },
   {
     id: "sombra",
@@ -270,8 +219,6 @@ const Heroes = [
     health: 4,
     ability1: () => {},
     ability2: () => {},
-    player1location: "deck",
-    player2location: "deck",
   },
   {
     id: "symmetra",
@@ -280,8 +227,6 @@ const Heroes = [
     health: 3,
     ability1: () => {},
     ability2: () => {},
-    player1location: "deck",
-    player2location: "deck",
   },
   {
     id: "torbjorn",
@@ -291,8 +236,6 @@ const Heroes = [
     health: 4,
     ability1: () => {},
     ability2: () => {},
-    player1location: "deck",
-    player2location: "deck",
   },
   {
     id: "tracer",
@@ -301,8 +244,6 @@ const Heroes = [
     health: 3,
     ability1: () => {},
     ability2: () => {},
-    player1location: "deck",
-    player2location: "deck",
   },
   {
     id: "widowmaker",
@@ -312,8 +253,6 @@ const Heroes = [
     health: 4,
     ability1: () => {},
     ability2: () => {},
-    player1location: "deck",
-    player2location: "deck",
   },
   {
     id: "winston",
@@ -322,8 +261,6 @@ const Heroes = [
     health: 4,
     ability1: () => {},
     ability2: () => {},
-    player1location: "deck",
-    player2location: "deck",
   },
   {
     id: "wreckingball",
@@ -333,8 +270,6 @@ const Heroes = [
     health: 3,
     ability1: () => {},
     ability2: () => {},
-    player1location: "deck",
-    player2location: "deck",
   },
   {
     id: "zarya",
@@ -344,8 +279,6 @@ const Heroes = [
     health: 4,
     ability1: () => {},
     ability2: () => {},
-    player1location: "deck",
-    player2location: "deck",
   },
   {
     id: "zenyatta",
@@ -355,8 +288,6 @@ const Heroes = [
     health: 4,
     ability1: () => {},
     ability2: () => {},
-    player1location: "deck",
-    player2location: "deck",
   },
 ];
 
