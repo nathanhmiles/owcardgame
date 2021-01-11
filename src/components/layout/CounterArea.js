@@ -6,7 +6,7 @@ export default function CounterArea() {
     <div className="counterarea">
       {Heroes.map((hero, index) => {
         if ('icon' in hero) {
-          return (<HeroCounter hero={hero} />);
+          return (<HeroCounter hero={hero} key={hero.id} />);
         } else {return(null)}
       })}
     </div>

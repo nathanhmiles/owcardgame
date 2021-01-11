@@ -6,6 +6,8 @@
 body {
   font-family: KeepCalm-Medium;
   color: white;
+  background-color: #000000;
+  background-image: url("https://www.transparenttextures.com/patterns/dark-wood.png");
 }
 
 .board {
@@ -48,12 +50,19 @@ body {
   align-items: center;
   justify-content: center;
   background-color: #111;
+  
   padding: 70px 0px 70px 0px;
-  border: 10px solid black;
+  margin: 10px;
 }
 
 .rowimage {
   width: 80%;
+}
+
+/* Should the ul take place of the div? */
+ul {
+  list-style: none;
+  display: flex;
 }
 
 .playerhand {

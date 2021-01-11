@@ -6,7 +6,7 @@ export default function Card(props) {
   //TODO: make cardfocused functions - context?
   // TODO: fix img src issue - should be require(image).default
   return (
-    <div id={`${name}-card`} className="card" draggable="true">
+    <div id={`${name}-card`} className="card">
       <HealthCounter health={health} />
       <img src={require(`assets/heroes/${id}.png`).default} className="cardimg" alt={`${name} Card`} />
     </div>

@@ -12,9 +12,13 @@ export default function CardRow(props) {
       <CounterArea />
       <div className="rowlabel">{props.label}</div>
       <img src={Row} alt="" className="rowimage" />
+      <ul id={props.id} className="rowlist">
       {rowCards && rowCards.map((card) => {return(
-        <Card hero={card} />
+        <li>
+          <Card hero={card} key={card.id} />
+        </li>
       )})}
+      </ul>
       <SynergyCounter synergy={synergy} />
     </div>
   );
