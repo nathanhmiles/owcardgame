@@ -1,7 +1,6 @@
 import './App.css';
 import PlayerArea from 'components/layout/PlayerArea';
 import PlayerBoard from 'components/layout/PlayerBoard';
-import Heroes from 'components/cards/Heroes';
 import TitleCard from 'components/layout/TitleCard';
 import Footer from 'components/layout/Footer';
 

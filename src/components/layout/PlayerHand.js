@@ -13,10 +13,8 @@ export default function PlayerHand(props) {
   // TODO: check if card already drawn/discarded by that player
   function drawCards(num) {
     for (let i = 0; i < num; i++) {
-      let keys = Object.keys(Heroes);
-      const randInt = getRandInt(0, keys.length);
-      const selectedHero = keys[randInt];
-      cards.push(Heroes[selectedHero]);
+      const randInt = getRandInt(0, Heroes.length);
+      cards.push(Heroes[randInt]);
     }
   }
 

@@ -2,8 +2,9 @@
 // Data for all hero cards
 // hero.location options are: "deck", "hand", rowId (e.g. "2m"), "discarded"
 // TODO: create test to ensure no cards have anything other than the above values as location
-const Heroes = {
-  Ana: {
+const Heroes = [
+  {
+    id: "ana",
     name: "Ana",
     image: "assets/heroes/Ana.png",
     icon: "assets/heroes/Ana-icon.png",
@@ -13,7 +14,8 @@ const Heroes = {
     player1location: "deck",
     player2location: "deck",
   },
-  Ashe: {
+  {
+    id: "ashe",
     name: "Ashe",
     image: "assets/heroes/Ashe.png",
     health: 3,
@@ -22,7 +24,8 @@ const Heroes = {
     player1location: "deck",
     player2location: "deck",
   },
-  Baptiste: {
+  {
+    id: "baptiste",
     name: "Baptiste",
     image: "assets/heroes/Baptiste.png",
     icon: "assets/heroes/Baptiste-icon.png",
@@ -32,7 +35,8 @@ const Heroes = {
     player1location: "deck",
     player2location: "deck",
   },
-  Bastion: {
+  {
+    id: "bastion",
     name: "Bastion",
     image: "assets/heroes/Bastion.png",
     icon: "assets/heroes/Bastion-icon.png",
@@ -42,7 +46,8 @@ const Heroes = {
     player1location: "deck",
     player2location: "deck",
   },
-  Bob: {
+  {
+    id: "bob",
     name: "Bob",
     image: "assets/heroes/Bob.png",
     icon: "assets/heroes/Bob-icon.png",
@@ -52,7 +57,8 @@ const Heroes = {
     player1location: "deck",
     player2location: "deck",
   },
-  Brigitte: {
+  {
+    id: "brigitte",
     name: "Brigitte",
     image: "assets/heroes/Brigitte.png",
     health: 4,
@@ -61,7 +67,8 @@ const Heroes = {
     player1location: "deck",
     player2location: "deck",
   },
-  Doomfist: {
+  {
+    id: "doomfist",
     name: "Doomfist",
     image: "assets/heroes/Doomfist.png",
     health: 4,
@@ -70,8 +77,9 @@ const Heroes = {
     player1location: "deck",
     player2location: "deck",
   },
-  DvaMeka: {
-    name: "DvaMeka",
+  {
+    id: "dvameka",
+    name: "D.va + Meka",
     image: "assets/heroes/DvaMeka.png",
     health: 4,
     ability1: () => {},
@@ -79,34 +87,38 @@ const Heroes = {
     player1location: "deck",
     player2location: "deck",
   },
-  Dva: {
+  {
+    id: "dva",
+    name: "D.va",
     image: "assets/heroes/Dva.png",
-    name: "Dva",
     health: 2,
     ability1: () => {},
     ability2: () => {},
     player1location: "deck",
     player2location: "deck",
   },
-  Echo: {
-    image: "assets/heroes/Echo.png",
+  {
+    id: "echo",
     name: "Echo",
+    image: "assets/heroes/Echo.png",
     health: 4,
     ability1: () => {},
     ability2: () => {},
     player1location: "deck",
     player2location: "deck",
   },
-  Genji: {
-    image: "assets/heroes/Genji.png",
+  {
+    id: "genji",
     name: "Genji",
+    image: "assets/heroes/Genji.png",
     health: 4,
     ability1: () => {},
     ability2: () => {},
     player1location: "deck",
     player2location: "deck",
   },
-  Hanzo: {
+  {
+    id: "hanzo",
     name: "Hanzo",
     image: "assets/heroes/Hanzo.png",
     icon: "assets/heroes/Hanzo-icon.png",
@@ -116,7 +128,8 @@ const Heroes = {
     player1location: "deck",
     player2location: "deck",
   },
-  Junkrat: {
+  {
+    id: "junkrat",
     name: "Junkrat",
     image: "assets/heroes/Junkrat.png",
     health: 3,
@@ -125,7 +138,8 @@ const Heroes = {
     player1location: "deck",
     player2location: "deck",
   },
-  Lucio: {
+  {
+    id: "lucio",
     name: "Lucio",
     image: "assets/heroes/Lucio.png",
     icon: "assets/heroes/Lucio-icon.png",
@@ -135,7 +149,8 @@ const Heroes = {
     player1location: "deck",
     player2location: "deck",
   },
-  McCree: {
+  {
+    id: "mccree",
     name: "McCree",
     image: "assets/heroes/McCree.png",
     health: 4,
@@ -144,7 +159,8 @@ const Heroes = {
     player1location: "deck",
     player2location: "deck",
   },
-  Mei: {
+  {
+    id: "mei",
     name: "Mei",
     image: "assets/heroes/Mei.png",
     icon: "assets/heroes/Mei-icon.png",
@@ -154,7 +170,8 @@ const Heroes = {
     player1location: "deck",
     player2location: "deck",
   },
-  Mercy: {
+  {
+    id: "mercy",
     name: "Mercy",
     image: "assets/heroes/Mercy.png",
     icon: "assets/heroes/Mercy-icon.png",
@@ -164,7 +181,8 @@ const Heroes = {
     player1location: "deck",
     player2location: "deck",
   },
-  Moira: {
+  {
+    id: "moira",
     name: "Moira",
     image: "assets/heroes/Moira.png",
     health: 3,
@@ -173,7 +191,8 @@ const Heroes = {
     player1location: "deck",
     player2location: "deck",
   },
-  Orisa: {
+  {
+    id: "orisa",
     name: "Orisa",
     image: "assets/heroes/Orisa.png",
     icon: "assets/heroes/Orisa-icon.png",
@@ -183,7 +202,8 @@ const Heroes = {
     player1location: "deck",
     player2location: "deck",
   },
-  Pharah: {
+  {
+    id: "pharah",
     name: "Pharah",
     image: "assets/heroes/Pharah.png",
     health: 4,
@@ -192,7 +212,8 @@ const Heroes = {
     player1location: "deck",
     player2location: "deck",
   },
-  Reaper: {
+  {
+    id: "reaper",
     name: "Reaper",
     image: "assets/heroes/Reaper.png",
     health: 4,
@@ -201,7 +222,8 @@ const Heroes = {
     player1location: "deck",
     player2location: "deck",
   },
-  Reinhardt: {
+  {
+    id: "reinhardt",
     name: "Reinhardt",
     image: "assets/heroes/Reinhardt.png",
     health: 4,
@@ -210,7 +232,8 @@ const Heroes = {
     player1location: "deck",
     player2location: "deck",
   },
-  Roadhog: {
+  {
+    id: "roadhog",
     name: "Roadhog",
     image: "assets/heroes/Roadhog.png",
     health: 5,
@@ -219,7 +242,8 @@ const Heroes = {
     player1location: "deck",
     player2location: "deck",
   },
-  Sigma: {
+  {
+    id: "sigma",
     name: "Sigma",
     image: "assets/heroes/Sigma.png",
     icon: "assets/heroes/Sigma-icon.png",
@@ -229,8 +253,9 @@ const Heroes = {
     player1location: "deck",
     player2location: "deck",
   },
-  Soldier: {
-    name: "Soldier",
+  {
+    id: "soldier",
+    name: "Soldier 76",
     image: "assets/heroes/Soldier.png",
     health: 4,
     ability1: () => {},
@@ -238,7 +263,8 @@ const Heroes = {
     player1location: "deck",
     player2location: "deck",
   },
-  Sombra: {
+  {
+    id: "sombra",
     name: "Sombra",
     image: "assets/heroes/Sombra.png",
     health: 4,
@@ -247,7 +273,8 @@ const Heroes = {
     player1location: "deck",
     player2location: "deck",
   },
-  Symmetra: {
+  {
+    id: "symmetra",
     name: "Symmetra",
     image: "assets/heroes/Symmetra.png",
     health: 3,
@@ -256,7 +283,8 @@ const Heroes = {
     player1location: "deck",
     player2location: "deck",
   },
-  Torbjorn: {
+  {
+    id: "torbjorn",
     name: "Torbjorn",
     image: "assets/heroes/Torbjorn.png",
     icon: "assets/heroes/Torbjorn-icon.png",
@@ -266,7 +294,8 @@ const Heroes = {
     player1location: "deck",
     player2location: "deck",
   },
-  Tracer: {
+  {
+    id: "tracer",
     name: "Tracer",
     image: "assets/heroes/Tracer.png",
     health: 3,
@@ -275,7 +304,8 @@ const Heroes = {
     player1location: "deck",
     player2location: "deck",
   },
-  Widowmaker: {
+  {
+    id: "widowmaker",
     name: "Widowmaker",
     image: "assets/heroes/Widowmaker.png",
     icon: "assets/heroes/Widowmaker-icon.png",
@@ -285,7 +315,8 @@ const Heroes = {
     player1location: "deck",
     player2location: "deck",
   },
-  Winston: {
+  {
+    id: "winston",
     name: "Winston",
     image: "assets/heroes/Winston.png",
     health: 4,
@@ -294,8 +325,9 @@ const Heroes = {
     player1location: "deck",
     player2location: "deck",
   },
-  WreckingBall: {
-    name: "WreckingBall",
+  {
+    id: "wreckingball",
+    name: "Wrecking Ball",
     image: "assets/heroes/WreckingBall.png",
     icon: "assets/heroes/WreckingBall-icon.png",
     health: 3,
@@ -304,7 +336,8 @@ const Heroes = {
     player1location: "deck",
     player2location: "deck",
   },
-  Zarya: {
+  {
+    id: "zarya",
     name: "Zarya",
     image: "assets/heroes/Zarya.png",
     icon: "assets/heroes/Zarya-icon.png",
@@ -314,7 +347,8 @@ const Heroes = {
     player1location: "deck",
     player2location: "deck",
   },
-  Zenyatta: {
+  {
+    id: "zenyatta",
     name: "Zenyatta",
     image: "assets/heroes/Zenyatta.png",
     icon: "assets/heroes/Zenyatta-icon.png",
@@ -324,6 +358,6 @@ const Heroes = {
     player1location: "deck",
     player2location: "deck",
   },
-};
+];
 
 export default Heroes;
