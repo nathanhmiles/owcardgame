@@ -39,13 +39,16 @@ body {
 .credit {
   font-size: small;
   width: 15vw;
+  display: flex;
+  justify-content: center;
+  text-align: center;
 }
 
 .title {
   width: 20vw;
 }
 
-.cardrow {
+.rowarea {
   display: flex;
   align-items: center;
   justify-content: center;
@@ -55,13 +58,13 @@ body {
   width: 80%;
 }
 
-.rowimage {
+.cardrow {
   width: 80%;
-  background-image: url('assets/row.png');
-  background-repeat: no-repeat;
-  background-size: 100% 100%;
-  background-position: center;
   min-height: 250px;
+  background-color: black;
+  margin: 20px;
+  display: flex;
+  flex-grow: 1;
 }
 
 /* Should the ul take place of the div? */
@@ -101,7 +104,7 @@ ul {
 
 .rowlabel {
   position: absolute;
-  left: 50%;
+  left: 48%;
   margin-top: 8rem; /* rem probably not the right way to do this, but it works */
 }
 

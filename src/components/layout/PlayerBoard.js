@@ -1,4 +1,5 @@
 import CardRow from './CardRow';
+import data from 'data';
 
 export default function PlayerBoard(props) {
   

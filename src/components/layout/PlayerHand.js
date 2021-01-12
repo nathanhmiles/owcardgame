@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import Card from 'components/cards/Card';
-import Heroes from 'components/cards/Heroes';
+import data from 'data';
 import {DragDropContext, Droppable, Draggable} from 'react-beautiful-dnd';
 
 export default function PlayerHand(props) {
@@ -15,9 +15,9 @@ export default function PlayerHand(props) {
   // TODO: randomly add a specificed number of cards from heroes to hand
   // TODO: check if card already drawn/discarded by that player
   function drawCards() {
-    // for (let i = 0; i < num; i++) {}
-    const randInt = getRandInt(0, Heroes.length);
-    const newCard = Heroes[randInt];
+    const randInt = getRandInt(0, Object.keys(data.heroes).length);
+    const randKey = Object.keys(data.heroes)[randInt];
+    const newCard = data.heroes[randKey];
     setHand(prevHand => {
       return [...prevHand, newCard]
     })
