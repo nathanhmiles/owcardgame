@@ -12,8 +12,8 @@ export default function CardRow(props) {
   return (
     <div className="rowarea">
       <CounterArea />
-      <div className="cardrow">
       <div className="rowlabel">{props.label}</div>
+      <div className="cardrow">
       <Droppable droppableId={props.id} direction="horizontal">
       {(provided) => (
         <ul id={props.id} className="rowlist" {...provided.droppableProps} ref={provided.innerRef}>
