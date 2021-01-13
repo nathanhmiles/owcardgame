@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import rowsContext from "context/rowsContext";
+import playerCardsContext from 'context/playerCardsContext';
 import { DragDropContext } from "react-beautiful-dnd";
 import "./App.css";
 import PlayerArea from "components/layout/PlayerArea";
@@ -10,6 +11,7 @@ import data from "data";
 
 function App() {
   const [rowsState, setRowsState] = useState(data.rows);
+  const [playerCards, setPlayerCards] = useState(data.playercards);
 
   function handleOnDragEnd(result) {
     const { destination, source, draggableId} = result;
@@ -39,6 +41,7 @@ function App() {
   return (
     <div>
       <rowsContext.Provider value={{ rowsState, setRowsState }}>
+      <playerCardsContext.Provider value={{ playerCards, setPlayerCards }}>
         <DragDropContext onDragEnd={handleOnDragEnd}>
           <PlayerArea playerNum={2} />
           <PlayerBoard playerNum={2} />
@@ -47,6 +50,7 @@ function App() {
           <PlayerArea playerNum={1} />
         </DragDropContext>
         <Footer />
+        </playerCardsContext.Provider>
       </rowsContext.Provider>
     </div>
   );

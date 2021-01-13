@@ -3,17 +3,51 @@ import Card from 'components/cards/Card';
 import data from 'data';
 import {Droppable, Draggable} from 'react-beautiful-dnd';
 import rowsContext from 'context/rowsContext';
+import playerCardsContext from 'context/playerCardsContext';
 
 export default function PlayerHand(props) {
-  
+  // Context
   const { rowsState, setRowsState } = useContext(rowsContext);
-  const playerHandId = `player${props.playerNum}hand`;
+  const { playerCards, setPlayerCards } = useContext(playerCardsContext);
 
+  // Which player
+  const playerHandId = `player${props.playerNum}hand`;
+  
+  // Ids of cards in the player's hand
   const handCards = rowsState[playerHandId].cardIds;
   
   // returns random number between min (inc) and max (exc)
   function getRandInt(min, max) {
     return Math.floor(Math.random() * (max - min)) + min;
+  }
+
+  // Creates a card with its own health and id unique to the playerCard, returns unique ID
+  function createPlayerCard(playerNum, heroId) {
+    const playerId = `player${playerNum}cards`;
+    
+    // Get info that needs to be unique to that player, other info not needed, just reference data
+    const { id, health } = data.heroes[heroId];
+    
+    // Create values unique to that card not stored in data
+    const playerHeroId = `${playerNum}${heroId}`;
+    const shieldValue = 0;
+    const isDiscarded = false;
+
+    // Combine values into one new hero object and assign to relevant player
+    const newCard = {playerHeroId, id, health, shieldValue, isDiscarded};
+    
+    setPlayerCards({
+      ...playerCards,
+      [playerId]: {
+        ...playerCards[playerId],
+        cards: {
+          ...playerCards[playerId].cards,
+          [playerHeroId]: {...newCard}
+        }
+      }
+    })
+
+    return playerHeroId;
   }
 
   // TODO: randomly add a specificed number of cards from heroes to hand
@@ -22,8 +56,10 @@ export default function PlayerHand(props) {
     const randInt = getRandInt(0, Object.keys(data.heroes).length);
     const randKey = Object.keys(data.heroes)[randInt];
     const newCardId = data.heroes[randKey].id;
-    const newCardIds = [...rowsState[playerHandId].cardIds, newCardId];
-    
+    const playerHeroId = createPlayerCard(props.playerNum, newCardId);
+
+    const newCardIds = [...rowsState[playerHandId].cardIds, playerHeroId];
+
     setRowsState({
       ...rowsState,
       [playerHandId]: {
@@ -44,7 +80,7 @@ export default function PlayerHand(props) {
               <Draggable key={cardId} draggableId={cardId} index={index}>
                 {(provided) => (
                   <li {...provided.draggableProps} {...provided.dragHandleProps} ref={provided.innerRef}>
-                    <Card heroId={cardId} />
+                    <Card playerHeroId={cardId} playerNum={props.playerNum} />
                   </li>
                 )}
               </Draggable>

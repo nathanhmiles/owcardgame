@@ -291,6 +291,16 @@ const data = {
       ability2: () => {},
     },
   },
+  playercards: {
+    'player1cards' :{
+      id: 'player1cards',
+      cards: {}
+    },
+    'player2cards': {
+      id: 'player2cards',
+      cards: {}
+    }
+  },
   rows: {
     'player1hand': {
       id: 'player1hand',
