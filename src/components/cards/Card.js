@@ -1,7 +1,9 @@
 import HealthCounter from './HealthCounter';
+import data from 'data';
 
 export default function Card(props) {
-  const {id, name, image, health, ability1, ability2} = props.hero;
+  const id = props.heroId;
+  const {name, health} = data.heroes[id];
   
   //TODO: make cardfocused functions - context?
   // TODO: fix img src issue - should be require(image).default

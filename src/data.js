@@ -292,35 +292,43 @@ const data = {
     },
   },
   rows: {
+    'player1hand': {
+      id: 'player1hand',
+      cardIds: [],
+    },
+    'player2hand': {
+      id: 'player2hand',
+      cardIds: [],
+    },
     '1f': {
       id: '1f',
       label: 'Front Row',
-      cards: []
+      cardIds: []
     },
     '1m': {
       id: '1m',
       label: 'Middle Row',
-      cards: []
+      cardIds: []
     },
     '1b': {
       id: '1b',
       label: 'Back Row',
-      cards: []
+      cardIds: []
     },
     '2f': {
       id: '2f',
       label: 'Front Row',
-      cards: []
+      cardIds: []
     },
     '2m': {
       id: '2m',
       label: 'Middle Row',
-      cards: []
+      cardIds: []
     },
     '2b': {
       id: '2b',
       label: 'Back Row',
-      cards: []
+      cardIds: []
     }
   }
 };

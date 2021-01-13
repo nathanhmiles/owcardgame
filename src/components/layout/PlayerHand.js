@@ -1,11 +1,16 @@
-import React, { useState } from 'react';
+import React, { useContext } from 'react';
 import Card from 'components/cards/Card';
 import data from 'data';
-import {DragDropContext, Droppable, Draggable} from 'react-beautiful-dnd';
+import {Droppable, Draggable} from 'react-beautiful-dnd';
+import rowsContext from 'context/rowsContext';
 
 export default function PlayerHand(props) {
-  const [hand, setHand] =  useState([]);
   
+  const { rowsState, setRowsState } = useContext(rowsContext);
+  const playerHandId = `player${props.playerNum}hand`;
+
+  const handCards = rowsState[playerHandId].cardIds;
+  console.log(`handCards are: ${typeof handCards[0]}`);
 
   // returns random number between min (inc) and max (exc)
   function getRandInt(min, max) {
@@ -17,33 +22,33 @@ export default function PlayerHand(props) {
   function drawCards() {
     const randInt = getRandInt(0, Object.keys(data.heroes).length);
     const randKey = Object.keys(data.heroes)[randInt];
-    const newCard = data.heroes[randKey];
-    setHand(prevHand => {
-      return [...prevHand, newCard]
+    const newCardId = data.heroes[randKey].id;
+    console.log(`newCardId is: ${typeof newCardId}`);
+    const newCardIds = [...rowsState[playerHandId].cardIds, newCardId];
+    for (let id of newCardIds) {
+      console.log(`newCardIds are: ${typeof id}`)
+    }
+    setRowsState({
+      ...rowsState,
+      [playerHandId]: {
+        ...rowsState[playerHandId],
+        cardIds: newCardIds
+      }
     })
-  }
-
-  function handleOnDragEnd(result) {
-    if(!result.destination) return;
-    const items = Array.from(hand);
-    const [reorderedItem] = items.splice(result.source.index, 1);
-    items.splice(result.destination.index, 0, reorderedItem);
-
-    setHand(items);
   }
 
   return(
     <div className="playerhand">
-    <DragDropContext onDragEnd={handleOnDragEnd}>
-      <Droppable droppableId="playerhand" direction="horizontal">
+    
+      <Droppable droppableId={`player${props.playerNum}hand`} direction="horizontal">
       {(provided) => (
         <ul className="handlist" {...provided.droppableProps} ref={provided.innerRef}>
-          {hand && hand.map((card, index) => {
+          {handCards && handCards.map((cardId, index) => {
             return(
-              <Draggable key={card.id} draggableId={card.id} index={index}>
+              <Draggable key={cardId} draggableId={cardId} index={index}>
                 {(provided) => (
                   <li {...provided.draggableProps} {...provided.dragHandleProps} ref={provided.innerRef}>
-                    <Card hero={card} />
+                    <Card heroId={cardId} />
                   </li>
                 )}
               </Draggable>
@@ -54,7 +59,6 @@ export default function PlayerHand(props) {
       )}
       
       </Droppable>
-    </DragDropContext>
     <button style={{width: '50px', height: '50px'}} onClick={drawCards}>Draw</button>
     </div>
   ); 
