@@ -8,11 +8,8 @@ import playerCardsContext from "context/playerCardsContext";
 export default function CardDisplay(props) {
   // Context
   const { rowsState, setRowsState } = useContext(rowsContext);
-  const { playerCards, setPlayerCards } = useContext(playerCardsContext);
 
    // Variables
-   const playerHandId = `player${props.playerNum}hand`;
-   const playerCardsId = `player${props.playerNum}cards`;
    const cards = rowsState[props.rowId].cardIds;
   
   return (
