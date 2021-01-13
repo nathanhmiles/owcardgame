@@ -12,8 +12,8 @@ function App() {
   const [rowsState, setRowsState] = useState(data.rows);
 
   function handleOnDragEnd(result) {
-    
     const { destination, source, draggableId} = result;
+    console.log(result);
     if (!destination) return;
     
     const row = rowsState[source.droppableId];
@@ -25,14 +25,13 @@ function App() {
       ...row,
       cardIds: newCardIds,
     };
+    console.log({...newRow})
     
     const newState = {
       ...rowsState,
-      rows: {
-        ...rowsState.rows,
-        [newRow.id]: newRow,
-      }
+      [newRow.id]: newRow,
     };
+    console.log({...newState});
     
     setRowsState(newState);
   }

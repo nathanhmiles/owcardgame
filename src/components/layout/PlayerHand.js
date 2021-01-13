@@ -10,8 +10,7 @@ export default function PlayerHand(props) {
   const playerHandId = `player${props.playerNum}hand`;
 
   const handCards = rowsState[playerHandId].cardIds;
-  console.log(`handCards are: ${typeof handCards[0]}`);
-
+  
   // returns random number between min (inc) and max (exc)
   function getRandInt(min, max) {
     return Math.floor(Math.random() * (max - min)) + min;
@@ -23,18 +22,15 @@ export default function PlayerHand(props) {
     const randInt = getRandInt(0, Object.keys(data.heroes).length);
     const randKey = Object.keys(data.heroes)[randInt];
     const newCardId = data.heroes[randKey].id;
-    console.log(`newCardId is: ${typeof newCardId}`);
     const newCardIds = [...rowsState[playerHandId].cardIds, newCardId];
-    for (let id of newCardIds) {
-      console.log(`newCardIds are: ${typeof id}`)
-    }
+    
     setRowsState({
       ...rowsState,
       [playerHandId]: {
         ...rowsState[playerHandId],
         cardIds: newCardIds
       }
-    })
+    });
   }
 
   return(
