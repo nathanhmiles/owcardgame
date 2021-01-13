@@ -18,24 +18,55 @@ function App() {
     console.log(result);
     if (!destination) return;
     
-    const row = rowsState[source.droppableId];
-    const newCardIds = Array.from(row.cardIds);
-    newCardIds.splice(source.index, 1);
-    newCardIds.splice(destination.index, 0, draggableId);
-    
-    const newRow = {
-      ...row,
-      cardIds: newCardIds,
+    const start = rowsState[source.droppableId];
+    const finish = rowsState[destination.droppableId];
+
+    // If moving within the same row
+    if (start === finish) {
+      const newCardIds = Array.from(start.cardIds);
+      newCardIds.splice(source.index, 1);
+      newCardIds.splice(destination.index, 0, draggableId);
+      
+      const newRow = {
+        ...start,
+        cardIds: newCardIds,
+      };
+      console.log({...newRow})
+      
+      const newState = {
+        ...rowsState,
+        [newRow.id]: newRow,
+      };
+      console.log({...newState});
+      
+      setRowsState(newState);
+      return;
+    }
+
+    // Moving from one list to another
+    const startCardIds = Array.from(start.cardIds);
+    startCardIds.splice(source.index, 1);
+    const newStart = {
+      ...start,
+      cardIds: startCardIds,
     };
-    console.log({...newRow})
-    
+
+    const finishCardIds = Array.from(finish.cardIds);
+    finishCardIds.splice(destination.index, 0, draggableId);
+    const newFinish = {
+      ...finish,
+      cardIds: finishCardIds,
+    };
+
     const newState = {
       ...rowsState,
-      [newRow.id]: newRow,
+      [newStart.id]: newStart,
+      [newFinish.id]: newFinish,
     };
-    console.log({...newState});
     
     setRowsState(newState);
+
+
   }
 
   return (

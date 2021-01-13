@@ -1,5 +1,6 @@
 import React, { useContext } from "react";
 import Card from "components/cards/Card";
+import CardDisplay from "components/layout/CardDisplay";
 import data from "data";
 import { Droppable, Draggable } from "react-beautiful-dnd";
 import rowsContext from "context/rowsContext";
@@ -68,40 +69,13 @@ export default function PlayerHand(props) {
   }
 
   return (
-    <div className="playerhand">
-      <Droppable
+    <div className="playerhand row">
+      <CardDisplay
+        playerNum={props.playerNum}
         droppableId={`player${props.playerNum}hand`}
-        direction="horizontal"
-      >
-        {(provided) => (
-          <ul
-            className="handlist"
-            {...provided.droppableProps}
-            ref={provided.innerRef}
-          >
-            {handCards &&
-              handCards.map((cardId, index) => {
-                return (
-                  <Draggable key={cardId} draggableId={cardId} index={index}>
-                    {(provided) => (
-                      <li
-                        {...provided.draggableProps}
-                        {...provided.dragHandleProps}
-                        ref={provided.innerRef}
-                      >
-                        <Card
-                          playerHeroId={cardId}
-                          playerNum={props.playerNum}
-                        />
-                      </li>
-                    )}
-                  </Draggable>
-                );
-              })}
-            {provided.placeholder}
-          </ul>
-        )}
-      </Droppable>
+        listClass={"handlist"}
+        rowId={playerHandId}
+      />
       <button style={{ width: "50px", height: "50px" }} onClick={drawCards}>
         Draw
       </button>

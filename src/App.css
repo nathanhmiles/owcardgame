@@ -58,12 +58,16 @@ body {
   width: 80%;
 }
 
-.cardrow {
+.boardrow {
   width: 80%;
   min-height: 250px;
   background-color: black;
   margin: 20px;
   display: flex;
+  flex-grow: 1;
+}
+
+.row {
   flex-grow: 1;
 }
 
