@@ -164,11 +164,17 @@ ul {
   font-size: 30pt;
 }
 
+#cardfocuscontainer {
+  display: flex;
+  justify-content: center;
+}
+
 #cardfocus {
-  position: absolute;
-  top: 15vh;
-  height: 80vh;
+  position: fixed;
+  top: 20vh;
+  height: 60vh;
   font-size: 20pt;
+  z-index: 50;
 }
 
 #disclaimer {

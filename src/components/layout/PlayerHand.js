@@ -75,6 +75,7 @@ export default function PlayerHand(props) {
         droppableId={`player${props.playerNum}hand`}
         listClass={"handlist"}
         rowId={playerHandId}
+        setCardFocus={props.setCardFocus}
       />
       <button style={{ width: "50px", height: "50px" }} onClick={drawCards}>
         Draw

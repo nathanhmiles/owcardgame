@@ -33,7 +33,7 @@ export default function CardDisplay(props) {
                       {...provided.dragHandleProps}
                       ref={provided.innerRef}
                     >
-                      <Card playerHeroId={cardId} playerNum={props.playerNum} />
+                      <Card setCardFocus={props.setCardFocus} playerHeroId={cardId} playerNum={props.playerNum} />
                     </li>
                   )}
                 </Draggable>

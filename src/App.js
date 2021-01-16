@@ -7,11 +7,13 @@ import PlayerArea from "components/layout/PlayerArea";
 import PlayerBoard from "components/layout/PlayerBoard";
 import TitleCard from "components/layout/TitleCard";
 import Footer from "components/layout/Footer";
+import CardFocus from 'components/cards/CardFocus';
 import data from "data";
 
 function App() {
   const [rowsState, setRowsState] = useState(data.rows);
   const [playerCards, setPlayerCards] = useState(data.playercards);
+  const [cardFocus, setCardFocus] = useState(null);
 
   function handleOnDragEnd(result) {
     const { destination, source, draggableId} = result;
@@ -74,12 +76,13 @@ function App() {
       <rowsContext.Provider value={{ rowsState, setRowsState }}>
       <playerCardsContext.Provider value={{ playerCards, setPlayerCards }}>
         <DragDropContext onDragEnd={handleOnDragEnd}>
-          <PlayerArea playerNum={2} />
-          <PlayerBoard playerNum={2} />
+          <PlayerArea playerNum={2} setCardFocus={setCardFocus} />
+          <PlayerBoard playerNum={2} setCardFocus={setCardFocus} />
           <TitleCard />
-          <PlayerBoard playerNum={1} />
-          <PlayerArea playerNum={1} />
+          <PlayerBoard playerNum={1} setCardFocus={setCardFocus} />
+          <PlayerArea playerNum={1} setCardFocus={setCardFocus} />
         </DragDropContext>
+        {cardFocus && <CardFocus unsetCardFocus={() => {setCardFocus(null)}} heroId={cardFocus} />}
         <Footer />
         </playerCardsContext.Provider>
       </rowsContext.Provider>

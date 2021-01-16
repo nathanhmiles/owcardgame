@@ -8,7 +8,7 @@ export default function PlayerArea(props) {
   return (
     <div className="playerarea">
       <div className="playername playerarea-section">Player {props.playerNum}</div> 
-      <PlayerHand playerNum={props.playerNum}/>
+      <PlayerHand setCardFocus={props.setCardFocus} playerNum={props.playerNum}/>
       <PowerCounter power={power} />
     </div>
   );

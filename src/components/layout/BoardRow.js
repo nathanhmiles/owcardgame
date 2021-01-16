@@ -21,6 +21,7 @@ export default function BoardRow(props) {
           droppableId={props.id}
           listClass="rowlist row"
           rowId={props.id}
+          setCardFocus={props.setCardFocus} 
         />
       </div>
       <SynergyCounter synergy={synergy} />
