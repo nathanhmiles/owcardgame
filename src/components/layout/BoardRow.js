@@ -1,4 +1,4 @@
-import React, { useState, useContext } from "react";
+import React, { useState, useContext, useEffect } from "react";
 import rowsContext from 'context/rowsContext';
 import { Droppable, Draggable } from "react-beautiful-dnd";
 import SynergyCounter from "./SynergyCounter";
@@ -9,7 +9,28 @@ import data from "data";
 
 export default function BoardRow(props) {
   const {rowsState, setRowsState} = useContext(rowsContext);
-  const synergy = rowsState[props.id].synergy;
+  const rowCards = rowsState[props.rowId].cardIds;
+
+  useEffect(() => {
+    if ('synergy' in rowsState[props.rowId]) {
+      let rowSynergy = 0;
+      for (let cardId of rowCards) {
+        const rowPosition = props.rowId[1];
+        const heroId = cardId.slice(1, cardId.length);
+        rowSynergy += data.heroes[heroId].synergy[rowPosition];
+      }
+      setRowsState(prevState => ({
+        ...prevState,
+        [props.rowId]: {
+          ...prevState[props.rowId],
+          synergy: rowSynergy,
+        }
+      }))
+    }
+  }, [rowCards]);
+
+  
+  const synergy = rowsState[props.rowId].synergy;
 
   return (
     <div className="rowarea">
@@ -18,9 +39,9 @@ export default function BoardRow(props) {
       <div className="boardrow row">
         <CardDisplay 
           playerNum={props.playerNum}
-          droppableId={props.id}
+          droppableId={props.rowId}
           listClass="rowlist row"
-          rowId={props.id}
+          rowId={props.rowId}
           setCardFocus={props.setCardFocus} 
         />
       </div>
