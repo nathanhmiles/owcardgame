@@ -13,9 +13,8 @@ export default function Card(props) {
     `player${playerNum}cards`
   ].cards[playerHeroId];
 
-  //TODO: make cardfocused functions - context?
   return (
-    <div id={`${id}-card`} className="card" onClick={() => {props.setCardFocus(id)}}>
+    <div id={`${id}-card`} className="card" onClick={() => {props.setCardFocus(playerHeroId)}}>
       <HealthCounter health={health} />
       <img
         src={require(`assets/heroes/${id}.png`).default}

@@ -627,8 +627,12 @@ const data = {
         m: 2,
         b: 3,
       },
-      ability1: () => {},
-      ability2: () => {},
+      ability1: () => {
+        console.log('zen ability1')
+      },
+      ability2: () => {
+        console.log('zen ability2')
+      },
     },
   },
   playercards: {
