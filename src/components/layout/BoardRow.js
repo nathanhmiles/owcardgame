@@ -1,8 +1,6 @@
 import React, { useState, useContext, useEffect } from "react";
 import rowsContext from "context/rowsContext";
-import { Droppable, Draggable } from "react-beautiful-dnd";
 import SynergyCounter from "./SynergyCounter";
-import Card from "components/cards/Card";
 import CounterArea from "components/layout/CounterArea";
 import CardDisplay from "components/layout/CardDisplay";
 import data from "data";
@@ -20,19 +18,21 @@ export default function BoardRow(props) {
     let rowSynergy = 0;
     const rowPosition = props.rowId[1];
 
+    // For every card in the row, add up the power and synergy values
     for (let cardId of rowCards) {
       const heroId = cardId.slice(1, cardId.length);
       power += data.heroes[heroId].power[rowPosition];
       rowSynergy += data.heroes[heroId].synergy[rowPosition];
     }
+
+    // Set power and synergy state
     setPlayerPower(prevState => ({
       ...prevState,
       [rowPosition]: power,  
     }));
-    console.log(`BoardRow ${props.playerNum} playerpower is ${Object.values(playerPower)}`);
-    console.log(`Row ${props.rowId} changes its power to ${power}`);
     setRowSynergy(rowSynergy);
 
+    // TODO: Not all dependencies here, check
   }, [rowSynergy, rowsState]);
 
   return (

@@ -53,7 +53,7 @@ body {
   align-items: center;
   justify-content: center;
   background-color: #111;
-  padding: 70px 0px 70px 0px;
+  padding: 70px 20px 70px 20px;
   margin: 10px;
   width: 80%;
 }
@@ -77,6 +77,9 @@ body {
 ul {
   list-style: none;
   display: flex;
+  flex-grow: 1;
+  min-height: 200px;
+  justify-content: center;
 }
 
 .playerhand {
@@ -162,6 +165,7 @@ ul {
   width: 8vw;
   height: 8vw;
   font-size: 30pt;
+  margin: 20px;
 }
 
 #cardfocuscontainer {

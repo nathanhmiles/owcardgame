@@ -1,8 +1,6 @@
 import React, { useContext } from "react";
-import Card from "components/cards/Card";
 import CardDisplay from "components/layout/CardDisplay";
 import data from "data";
-import { Droppable, Draggable } from "react-beautiful-dnd";
 import rowsContext from "context/rowsContext";
 import playerCardsContext from "context/playerCardsContext";
 
@@ -24,13 +22,13 @@ export default function PlayerHand(props) {
   // Creates a card with its own health and id unique to the playerCard, returns player-specific ID
   function createPlayerCard(playerNum, heroId) {
     // Get card values
-    const { id, health } = data.heroes[heroId];
+    const { id, name, health } = data.heroes[heroId];
     const playerHeroId = `${playerNum}${heroId}`;
     const shieldValue = 0;
     const isDiscarded = false;
 
     // Combine values into one new hero object and assign to relevant player
-    const newCard = { playerHeroId, id, health, shieldValue, isDiscarded };
+    const newCard = { playerHeroId, id, name, health, shieldValue, isDiscarded };
     setPlayerCards({
       ...playerCards,
       [playerCardsId]: {
@@ -77,7 +75,7 @@ export default function PlayerHand(props) {
         rowId={playerHandId}
         setCardFocus={props.setCardFocus}
       />
-      <button style={{ width: "50px", height: "50px" }} onClick={drawCards}>
+      <button disabled={handCards.length >= 6} style={{ width: "50px", height: "50px" }} onClick={drawCards}>
         Draw
       </button>
     </div>
