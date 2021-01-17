@@ -645,40 +645,56 @@ const data = {
     'player1hand': {
       id: 'player1hand',
       cardIds: [],
+      power: {
+        f: 0,
+        m: 0,
+        b: 0,
+      },
     },
     'player2hand': {
       id: 'player2hand',
       cardIds: [],
+      power: {
+        f: 0,
+        m: 0,
+        b: 0,
+      },
     },
     '1f': {
       id: '1f',
       label: 'Front Row',
       cardIds: [],
+      synergy: 0,
     },
     '1m': {
       id: '1m',
       label: 'Middle Row',
       cardIds: [],
+      synergy: 0,
     },
     '1b': {
       id: '1b',
       label: 'Back Row',
       cardIds: [],
+      synergy: 0,
     },
     '2b': {
       id: '2b',
       label: 'Back Row',
       cardIds: [],
+      synergy: 0,
     },
     '2m': {
       id: '2m',
       label: 'Middle Row',
       cardIds: [],
+      synergy: 0,
     },
     '2f': {
       id: '2f',
       label: 'Front Row',
       cardIds: [],
+      synergy: 0,
     },
   }
 };

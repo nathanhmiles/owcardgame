@@ -7,33 +7,42 @@ import data from "data";
 
 export default function BoardRow(props) {
   const { rowsState, setRowsState } = useContext(rowsContext);
-  const [rowSynergy, setRowSynergy] = useState(0);
-  const playerPower = props.playerPower;
-  const setPlayerPower = props.setPlayerPower;
-  const rowCards = rowsState[props.rowId].cardIds;
+  const rowId = props.rowId;
+  const rowCards = rowsState[rowId].cardIds;
+  const playerNum = props.playerNum;
+  const playerHand = `player${playerNum}hand`;
 
   // Update synergy and power values anytime a card moves row
   useEffect(() => {
-    let power = 0;
+    let playerPower = 0;
     let rowSynergy = 0;
     const rowPosition = props.rowId[1];
 
     // For every card in the row, add up the power and synergy values
     for (let cardId of rowCards) {
       const heroId = cardId.slice(1, cardId.length);
-      power += data.heroes[heroId].power[rowPosition];
+      playerPower += data.heroes[heroId].power[rowPosition];
       rowSynergy += data.heroes[heroId].synergy[rowPosition];
     }
 
     // Set power and synergy state
-    setPlayerPower(prevState => ({
+    setRowsState(prevState => ({
       ...prevState,
-      [rowPosition]: power,  
+      [playerHand]: {
+        ...prevState[playerHand],
+        power: {
+          ...prevState[playerHand].power,
+            [rowPosition]: playerPower,
+        }, 
+      },
+      [rowId]: {
+        ...prevState[props.rowId],
+        synergy: rowSynergy,
+      }
     }));
-    setRowSynergy(rowSynergy);
 
     // TODO: Not all dependencies here, check
-  }, [rowSynergy, rowsState]);
+  }, [rowCards]);
 
   return (
     <div className="rowarea">
@@ -48,7 +57,7 @@ export default function BoardRow(props) {
           setCardFocus={props.setCardFocus}
         />
       </div>
-      <SynergyCounter synergy={rowSynergy} />
+      <SynergyCounter synergy={rowsState[rowId].synergy} />
     </div>
   );
 }

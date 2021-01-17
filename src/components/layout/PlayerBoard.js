@@ -13,8 +13,6 @@ export default function PlayerBoard(props) {
           return (
             <BoardRow
               setCardFocus={props.setCardFocus}
-              setPlayerPower={props.setPlayerPower}
-              playerPower={props.playerPower}
               playerNum={props.playerNum}
               label={rows[rowId].label}
               rowId={rows[rowId].id}

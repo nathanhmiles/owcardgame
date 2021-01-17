@@ -1,14 +1,12 @@
-import React, { useState } from "react";
+import React, { useContext } from "react";
+import rowsContext from "context/rowsContext";
 import PlayerArea from "components/layout/PlayerArea";
 import PlayerBoard from "components/layout/PlayerBoard";
 
 export default function PlayerHalf(props) {
+  const { rowsState } = useContext(rowsContext);
   // Power state for each player
-  const [playerPower, setPlayerPower] = useState({
-    f: 0,
-    m: 0,
-    b: 0,
-  });
+  const playerPower = rowsState[`player${props.playerNum}hand`].power;
   const totalPower = Object.values(playerPower).reduce((a, b) => a + b, 0);
   
   // Reverse order depending on which player (player 2 is on top of the screen, 1 on bottom)
@@ -18,8 +16,6 @@ export default function PlayerHalf(props) {
         <PlayerBoard
           playerNum={props.playerNum}
           setCardFocus={props.setCardFocus}
-          playerPower={playerPower}
-          setPlayerPower={setPlayerPower}
         />
         <PlayerArea
           playerNum={props.playerNum}
@@ -39,8 +35,6 @@ export default function PlayerHalf(props) {
         <PlayerBoard
           playerNum={props.playerNum}
           setCardFocus={props.setCardFocus}
-          playerPower={playerPower}
-          setPlayerPower={setPlayerPower}
         />
       </div>
     );
