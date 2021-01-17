@@ -3,7 +3,7 @@ import rowsContext from "context/rowsContext";
 import playerCardsContext from 'context/playerCardsContext';
 import { DragDropContext } from "react-beautiful-dnd";
 import "./App.css";
-import PlayerArea from "components/layout/PlayerArea";
+import PlayerHalf from "components/layout/PlayerHalf";
 import PlayerBoard from "components/layout/PlayerBoard";
 import TitleCard from "components/layout/TitleCard";
 import Footer from "components/layout/Footer";
@@ -17,7 +17,6 @@ function App() {
 
   function handleOnDragEnd(result) {
     const { destination, source, draggableId} = result;
-    console.log(result);
     if (!destination) return;
     
     const start = rowsState[source.droppableId];
@@ -33,13 +32,11 @@ function App() {
         ...start,
         cardIds: newCardIds,
       };
-      console.log({...newRow})
       
       const newState = {
         ...rowsState,
         [newRow.id]: newRow,
       };
-      console.log({...newState});
       
       setRowsState(newState);
       return;
@@ -76,11 +73,9 @@ function App() {
       <rowsContext.Provider value={{ rowsState, setRowsState }}>
       <playerCardsContext.Provider value={{ playerCards, setPlayerCards }}>
         <DragDropContext onDragEnd={handleOnDragEnd}>
-          <PlayerArea playerNum={2} setCardFocus={setCardFocus} />
-          <PlayerBoard playerNum={2} setCardFocus={setCardFocus} />
+          <PlayerHalf playerNum={2} setCardFocus={setCardFocus} />
           <TitleCard />
-          <PlayerBoard playerNum={1} setCardFocus={setCardFocus} />
-          <PlayerArea playerNum={1} setCardFocus={setCardFocus} />
+          <PlayerHalf playerNum={1} setCardFocus={setCardFocus} />
         </DragDropContext>
         {cardFocus && <CardFocus unsetCardFocus={() => {setCardFocus(null)}} heroId={cardFocus} />}
         <Footer />
