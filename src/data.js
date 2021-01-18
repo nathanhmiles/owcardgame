@@ -686,36 +686,42 @@ const data = {
       label: 'Front Row',
       cardIds: [],
       synergy: 0,
+      effects: [],
     },
     '1m': {
       id: '1m',
       label: 'Middle Row',
       cardIds: [],
       synergy: 0,
+      effects: [],
     },
     '1b': {
       id: '1b',
       label: 'Back Row',
       cardIds: [],
       synergy: 0,
+      effects: [],
     },
     '2b': {
       id: '2b',
       label: 'Back Row',
       cardIds: [],
       synergy: 0,
+      effects: [],
     },
     '2m': {
       id: '2m',
       label: 'Middle Row',
       cardIds: [],
       synergy: 0,
+      effects: [],
     },
     '2f': {
       id: '2f',
       label: 'Front Row',
       cardIds: [],
       synergy: 0,
+      effects: [],
     },
   }
 };

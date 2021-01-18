@@ -5,7 +5,7 @@ export default function CardEffects(props) {
   const effects = props.effects;
 
   return (
-    <div classNam="effectscontainer">
+    <div className="effectscontainer">
     {effects.length > 0 ? (
       <div className={`effects ${type}effects counterarea`}>
       {effects && effects.map((heroId) => {

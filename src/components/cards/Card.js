@@ -2,7 +2,6 @@ import React, { useContext } from "react";
 import playerCardsContext from "context/playerCardsContext";
 import CardEffects from 'components/cards/CardEffects';
 import HealthCounter from "./HealthCounter";
-import HeroCounter from 'components/layout/HeroCounter';
 
 export default function Card(props) {
   const { playerCards } = useContext(playerCardsContext);
@@ -20,6 +19,10 @@ export default function Card(props) {
     allyEffects,
     isDiscarded,
   } = playerCards[`player${playerNum}cards`].cards[playerHeroId];
+
+  function discardCard() {
+    // TODO: e.g. clear counters related to card, set isDiscarded
+  }
 
   return (
     <div className="cardcontainer">

@@ -130,15 +130,14 @@ ul {
 
 .counterarea {
   display: flex;
-  flex-direction: row;
+  flex-direction: column;
   flex-wrap: wrap;
 }
 
 .row-counterarea {
-  width: 20vw;
   justify-content: flex-start;
   max-width: 150px;
-  
+  flex-grow: 1;
 }
 
 .card-counterarea {
@@ -176,9 +175,9 @@ ul {
   background-image: url('assets/healthbackground.png');
   z-index: 25;
   position: relative;
-  top: 8%;
+  top: 6%;
   left: 85%;
-  height: 5%;
+  height: 7%;
   width: 7%;
 }
 

@@ -1,9 +1,12 @@
-export default function HealthCounter(props) {
-  const id = props.heroId;
+export default function HeroCounter(props) {
+  const playerHeroId = props.playerHeroId;
+  const heroId = playerHeroId.slice(1, playerHeroId.length);
+  const playerNum = props.playerNum;
+
   return (
-    <div className="counter">
+    <div className="counter" onClick={() => props.setCardFocus(`${playerHeroId}`)}>
       <img
-        src={require(`assets/heroes/${id}-icon.png`).default}
+        src={require(`assets/heroes/${heroId}-icon.png`).default}
         className="counter herocounter"
         alt="Hero Counter"
       />
