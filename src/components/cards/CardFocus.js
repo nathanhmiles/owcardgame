@@ -9,23 +9,21 @@ export default function CardFocus(props) {
   const playerNum = playerHeroId[0];
 
   // Get card attributes from relevant player
-  const { id, name, health, shieldValue } = playerCards[
+  const { id, name, health, ability1, ability2, shieldValue } = playerCards[
     `player${playerNum}cards`
   ].cards[playerHeroId];
-  const heroAbility1 = data.heroes[id].ability1;
-  const heroAbility2 = data.heroes[id].ability2;
   
   // Hero ability functions
   function activateAbility1(e) {
     e.stopPropagation();
     console.log('ability1 clicked');
-    heroAbility1();
+    ability1();
   }
 
   function activateAbility2(e) {
     e.stopPropagation();
     console.log('ability2 clicked');
-    heroAbility2();
+    ability2();
   }
 
   return(

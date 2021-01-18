@@ -564,7 +564,12 @@ const data = {
         m: 3,
         b: 1,
       },
-      ability1: () => {},
+      ability1: () => {
+        console.log('widow ability1');
+        const targetRow = '2b'; // This should be an async function that waits for user click and gets rowId from the div element
+        
+        console.log(Object.keys(this));
+      },
       ability2: () => {
         
       },
