@@ -1,4 +1,4 @@
-import owlogo from 'assets/logo.png'
+import owlogo from 'assets/logo2.png'
 
 export default function TitleCard() {
   return(

@@ -61,7 +61,9 @@ body {
 .boardrow {
   width: 80%;
   min-height: 250px;
-  background-color: black;
+  background: url('assets/row-background.png');
+  background-position: center;
+  background-size: cover;
   margin: 20px;
   display: flex;
   flex-grow: 1;
@@ -97,9 +99,19 @@ ul {
   width: 15vw;
 }
 
+.cardcontainer {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  max-width: 178px;
+}
+
 .card {
   position: relative;
-  margin: 10px;
+  display: flex;
+  margin: 36px 12px 36px 12px;
   height: 200px;
   width: auto;
   z-index: 20;
@@ -118,11 +130,34 @@ ul {
 
 .counterarea {
   display: flex;
-  width: 20vw;
   flex-direction: row;
   flex-wrap: wrap;
+}
+
+.row-counterarea {
+  width: 20vw;
   justify-content: flex-start;
   max-width: 150px;
+  
+}
+
+.card-counterarea {
+
+}
+
+.effects {
+  height: 100px;
+  justify-content: center;
+  display: flex;
+  justify-content: center;
+}
+
+.allyeffects {
+
+}
+
+.enemyeffects {
+
 }
 
 .counter {
@@ -139,10 +174,10 @@ ul {
 
 .healthcounter {
   background-image: url('assets/healthbackground.png');
-  z-index: 20;
+  z-index: 25;
   position: relative;
-  top: 12.5%;
-  left: 84%;
+  top: 8%;
+  left: 85%;
   height: 5%;
   width: 7%;
 }
@@ -175,9 +210,10 @@ ul {
 
 .cardfocus {
   position: fixed;
+  display: flex;
   top: 20vh;
   height: 60vh;
-  font-size: 20pt;
+  font-size: 28pt;
   z-index: 50;
 }
 

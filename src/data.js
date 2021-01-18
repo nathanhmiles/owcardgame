@@ -8,6 +8,7 @@ const data = {
       name: "Ana",
       image: "assets/heroes/ana.png",
       icon: "assets/heroes/ana-icon.png",
+      effect: () => {},
       health: 4,
       power: {
         f: 1,
@@ -45,6 +46,7 @@ const data = {
       name: "Baptiste",
       image: "assets/heroes/baptiste.png",
       icon: "assets/heroes/baptiste-icon.png",
+      effect: () => {},
       health: 4,
       power: {
         f: 3,
@@ -64,6 +66,7 @@ const data = {
       name: "Bastion",
       image: "assets/heroes/bastion.png",
       icon: "assets/heroes/bastion-icon.png",
+      effect: () => {},
       health: 5,
       power: {
         f: 1,
@@ -83,6 +86,7 @@ const data = {
       name: "Bob",
       image: "assets/heroes/bob.png",
       icon: "assets/heroes/bob-icon.png",
+      effect: () => {},
       health: 3,
       power: {
         f: 1,
@@ -210,6 +214,7 @@ const data = {
       name: "Hanzo",
       image: "assets/heroes/hanzo.png",
       icon: "assets/heroes/hanzo-icon.png",
+      effect: () => {},
       health: 4,
       power: {
         f: 1,
@@ -247,6 +252,7 @@ const data = {
       name: "Lucio",
       image: "assets/heroes/lucio.png",
       icon: "assets/heroes/lucio-icon.png",
+      effect: () => {},
       health: 3,
       power: {
         f: 2,
@@ -284,6 +290,7 @@ const data = {
       name: "Mei",
       image: "assets/heroes/mei.png",
       icon: "assets/heroes/mei-icon.png",
+      effect: () => {},
       health: 4,
       power: {
         f: 2,
@@ -303,6 +310,7 @@ const data = {
       name: "Mercy",
       image: "assets/heroes/mercy.png",
       icon: "assets/heroes/mercy-icon.png",
+      effect: () => {},
       health: 3,
       power: {
         f: 1,
@@ -340,6 +348,7 @@ const data = {
       name: "Orisa",
       image: "assets/heroes/orisa.png",
       icon: "assets/heroes/orisa-icon.png",
+      effect: () => {},
       health: 5,
       power: {
         f: 1,
@@ -431,6 +440,7 @@ const data = {
       name: "Sigma",
       image: "assets/heroes/sigma.png",
       icon: "assets/heroes/sigma-icon.png",
+      effect: () => {},
       health: 4,
       power: {
         f: 1,
@@ -504,6 +514,7 @@ const data = {
       name: "Torbjorn",
       image: "assets/heroes/torbjorn.png",
       icon: "assets/heroes/torbjorn-icon.png",
+      effect: () => {},
       health: 4,
       power: {
         f: 3,
@@ -541,6 +552,7 @@ const data = {
       name: "Widowmaker",
       image: "assets/heroes/widowmaker.png",
       icon: "assets/heroes/widowmaker-icon.png",
+      effect: () => {},
       health: 4,
       power: {
         f: 2,
@@ -553,7 +565,9 @@ const data = {
         b: 1,
       },
       ability1: () => {},
-      ability2: () => {},
+      ability2: () => {
+        
+      },
     },
     winston: {
       id: "winston",
@@ -578,6 +592,7 @@ const data = {
       name: "Wrecking Ball",
       image: "assets/heroes/wreckingball.png",
       icon: "assets/heroes/wreckingball-icon.png",
+      effect: () => {},
       health: 3,
       power: {
         f: 2,
@@ -597,6 +612,7 @@ const data = {
       name: "Zarya",
       image: "assets/heroes/zarya.png",
       icon: "assets/heroes/zarya-icon.png",
+      effect: () => {},
       health: 4,
       power: {
         f: 2,
@@ -616,6 +632,7 @@ const data = {
       name: "Zenyatta",
       image: "assets/heroes/zenyatta.png",
       icon: "assets/heroes/zenyatta-icon.png",
+      effect: () => {},
       health: 4,
       power: {
         f: 2,

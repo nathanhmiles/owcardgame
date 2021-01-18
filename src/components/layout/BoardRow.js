@@ -46,7 +46,7 @@ export default function BoardRow(props) {
 
   return (
     <div className="rowarea">
-      <CounterArea />
+      <CounterArea type={'row'} />
       <div className="rowlabel">{props.label}</div>
       <div className="boardrow row">
         <CardDisplay

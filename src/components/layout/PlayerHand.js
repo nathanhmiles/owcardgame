@@ -25,10 +25,21 @@ export default function PlayerHand(props) {
     const { id, name, health } = data.heroes[heroId];
     const playerHeroId = `${playerNum}${heroId}`;
     const shieldValue = 0;
+    const enemyEffects = [];
+    const allyEffects = [];
     const isDiscarded = false;
 
     // Combine values into one new hero object and assign to relevant player
-    const newCard = { playerHeroId, id, name, health, shieldValue, isDiscarded };
+    const newCard = {
+      playerHeroId,
+      id,
+      name,
+      health,
+      shieldValue,
+      enemyEffects,
+      allyEffects,
+      isDiscarded,
+    };
     setPlayerCards({
       ...playerCards,
       [playerCardsId]: {
@@ -75,7 +86,11 @@ export default function PlayerHand(props) {
         rowId={playerHandId}
         setCardFocus={props.setCardFocus}
       />
-      <button disabled={handCards.length >= 6} style={{ width: "50px", height: "50px" }} onClick={drawCards}>
+      <button
+        disabled={handCards.length >= 6}
+        style={{ width: "50px", height: "50px" }}
+        onClick={drawCards}
+      >
         Draw
       </button>
     </div>
