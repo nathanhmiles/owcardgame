@@ -1,18 +1,16 @@
 import React, { useContext } from "react";
 import CardDisplay from "components/layout/CardDisplay";
 import data from "data";
-import rowsContext from "context/rowsContext";
-import playerCardsContext from "context/playerCardsContext";
+import gameContext from "context/gameContext";
 
 export default function PlayerHand(props) {
   // Context
-  const { rowsState, setRowsState } = useContext(rowsContext);
-  const { playerCards, setPlayerCards } = useContext(playerCardsContext);
-
+  const { gameState, setGameState } = useContext(gameContext);
+  
   // Variables
   const playerHandId = `player${props.playerNum}hand`;
   const playerCardsId = `player${props.playerNum}cards`;
-  const handCards = rowsState[playerHandId].cardIds;
+  const handCards = gameState.rows[playerHandId].cardIds;
 
   // Helper function - returns random number between min (inc) and max (exc)
   function getRandInt(min, max) {
@@ -44,16 +42,22 @@ export default function PlayerHand(props) {
       allyEffects,
       isDiscarded,
     };
-    setPlayerCards({
-      ...playerCards,
-      [playerCardsId]: {
-        ...playerCards[playerCardsId],
-        cards: {
-          ...playerCards[playerCardsId].cards,
-          [playerHeroId]: { ...newCard },
+
+    setGameState(prevState => ({
+      ...prevState,
+      playerCards: {
+        ...prevState.playerCards,
+        [`player${playerNum}cards`]: {
+          ...prevState.playerCards[`player${playerNum}cards`],
+          cards: {
+            ...prevState.playerCards[`player${playerNum}cards`].cards,
+            [playerHeroId]: newCard,
+          },
         },
       },
-    });
+    }));
+
+    console.log(gameState.playerCards);
     // return player-specific id to be used elsewhere
     return playerHeroId;
   }
@@ -68,17 +72,20 @@ export default function PlayerHand(props) {
       const newCardId = data.heroes[randKey].id;
       // Create the player-specific card using the random id and get player-specific id
       var playerHeroId = createPlayerCard(props.playerNum, newCardId);
-    } while (playerHeroId in playerCards[playerCardsId].cards);
+    } while (playerHeroId in gameState.playerCards[playerCardsId].cards);
 
     // Create updated array and update state
-    const newCardIds = [...rowsState[playerHandId].cardIds, playerHeroId];
-    setRowsState({
-      ...rowsState,
-      [playerHandId]: {
-        ...rowsState[playerHandId],
-        cardIds: newCardIds,
+    const newCardIds = [...gameState.rows[playerHandId].cardIds, playerHeroId];
+    setGameState(prevState => ({
+      ...prevState,
+      rows: {
+        ...prevState.rows,
+        [playerHandId]: {
+          ...prevState.rows[playerHandId],
+          cardIds: newCardIds,
+        },
       },
-    });
+    }));
   }
 
   return (

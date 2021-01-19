@@ -1,13 +1,16 @@
 import React, { useContext } from "react";
-import playerCardsContext from "context/playerCardsContext";
+import gameContext from 'context/gameContext';
 import CardEffects from 'components/cards/CardEffects';
 import HealthCounter from "./HealthCounter";
 
 export default function Card(props) {
-  const { playerCards } = useContext(playerCardsContext);
+  // Context
+  const { gameState } = useContext(gameContext);
 
+  // Variables
   const playerHeroId = props.playerHeroId;
   const playerNum = props.playerNum;
+  const playerCardsId = `player${playerNum}cards`;
 
   // Get card attributes from relevant player
   const {
@@ -20,7 +23,7 @@ export default function Card(props) {
     enemyEffects,
     allyEffects,
     isDiscarded,
-  } = playerCards[`player${playerNum}cards`].cards[playerHeroId];
+  } = gameState.playerCards[playerCardsId].cards[playerHeroId];
 
   function discardCard() {
     // TODO: e.g. clear counters related to card, set isDiscarded

@@ -564,7 +564,7 @@ const data = {
         m: 3,
         b: 1,
       },
-      ability1(rowsState, setRowsState, playerCards, setPlayerCards) {
+      ability1() {
         console.log('widow ability1');
         
       },
@@ -655,7 +655,7 @@ const data = {
       },
     },
   },
-  playercards: {
+  playerCards: {
     'player1cards' :{
       id: 'player1cards',
       cards: {}

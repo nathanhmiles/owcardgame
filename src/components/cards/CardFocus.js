@@ -1,17 +1,22 @@
 import React, { useContext } from "react";
-import playerCardsContext from "context/playerCardsContext";
+import gameContext from "context/gameContext";
 import HealthCounter from "./HealthCounter";
 import data from 'data';
 
 export default function CardFocus(props) {
-  const { playerCards, setPlayerCards } = useContext(playerCardsContext);
+  const { gameState, setGameState } = useContext(gameContext);
   const playerHeroId = props.heroId;
   const playerNum = playerHeroId[0];
 
   // Get card attributes from relevant player
-  const { id, name, health, ability1, ability2, shieldValue } = playerCards[
-    `player${playerNum}cards`
-  ].cards[playerHeroId];
+  const { 
+    id, 
+    name, 
+    health, 
+    ability1, 
+    ability2, 
+    shieldValue 
+  } = gameState.playerCards[`player${playerNum}cards`].cards[playerHeroId];
   
   // Hero ability functions
   // Gets the values for the new state from the ability function, then sets the state
@@ -19,9 +24,12 @@ export default function CardFocus(props) {
     e.stopPropagation();
     console.log('ability1 clicked');
     const abilityResult = ability1();
-    setPlayerCards(prevState => ({
+    setGameState(prevState => ({
       ...prevState,
-      [abilityResult.key]: [abilityResult.value],
+      playerCards: {
+        ...prevState.playerCards,
+        [abilityResult.key]: [abilityResult.value],
+      },
     }));
   }
 
@@ -30,8 +38,6 @@ export default function CardFocus(props) {
     console.log('ability2 clicked');
     ability2();
     data.heroes.widowmaker.ability2();
-    console.log(playerCards);
-    console.log(data.heroes.widowmaker);
   }
 
   return(

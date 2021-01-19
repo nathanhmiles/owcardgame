@@ -1,6 +1,5 @@
 import React, { useState } from "react";
-import rowsContext from "context/rowsContext";
-import playerCardsContext from 'context/playerCardsContext';
+import gameContext from 'context/gameContext';
 import turnContext from 'context/turnContext';
 import { DragDropContext } from "react-beautiful-dnd";
 import "./App.css";
@@ -11,17 +10,16 @@ import CardFocus from 'components/cards/CardFocus';
 import data from "data";
 
 function App() {
-  const [rowsState, setRowsState] = useState(data.rows);
-  const [playerCards, setPlayerCards] = useState(data.playercards);
-  const [cardFocus, setCardFocus] = useState(null);
+  const [gameState, setGameState] = useState(data);
   const [turnState, setTurnState] = useState(1);
+  const [cardFocus, setCardFocus] = useState(null);
 
   function handleOnDragEnd(result) {
     const { destination, source, draggableId} = result;
     if (!destination) return;
     
-    const start = rowsState[source.droppableId];
-    const finish = rowsState[destination.droppableId];
+    const start = gameState.rows[source.droppableId];
+    const finish = gameState.rows[destination.droppableId];
 
     // If moving within the same row
     if (start === finish) {
@@ -35,11 +33,14 @@ function App() {
       };
       
       const newState = {
-        ...rowsState,
-        [newRow.id]: newRow,
+        ...gameState,
+        rows: {
+          ...gameState.rows,
+          [newRow.id]: newRow,
+        },
       };
       
-      setRowsState(newState);
+      setGameState(newState);
       return;
     }
 
@@ -59,21 +60,21 @@ function App() {
     };
 
     const newState = {
-      ...rowsState,
-      [newStart.id]: newStart,
-      [newFinish.id]: newFinish,
+      ...gameState,
+      rows: {
+        ...gameState.rows,
+        [newStart.id]: newStart,
+        [newFinish.id]: newFinish,
+      },
     };
     
-    setRowsState(newState);
-
-
+    setGameState(newState);
   }
 
   return (
     <div>
       <turnContext.Provider value={{ turnState, setTurnState }}>
-      <rowsContext.Provider value={{ rowsState, setRowsState }}>
-      <playerCardsContext.Provider value={{ playerCards, setPlayerCards }}>
+      <gameContext.Provider value={{ gameState, setGameState }}>
         <DragDropContext onDragEnd={handleOnDragEnd}>
           <PlayerHalf playerNum={2} setCardFocus={setCardFocus} />
           <TitleCard />
@@ -81,8 +82,7 @@ function App() {
         </DragDropContext>
         {cardFocus && <CardFocus unsetCardFocus={() => {setCardFocus(null)}} heroId={cardFocus} />}
         <Footer />
-        </playerCardsContext.Provider>
-      </rowsContext.Provider>
+      </gameContext.Provider>
       </turnContext.Provider>
     </div>
   );

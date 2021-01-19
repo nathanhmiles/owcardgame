@@ -1,14 +1,14 @@
 import React, { useContext } from 'react';
-import rowsContext from 'context/rowsContext';
+import gameContext from 'context/gameContext';
 import HeroCounter from 'components/layout/HeroCounter';
 
 export default function CounterArea(props) {
-  const { rowsState } = useContext(rowsContext);
+  const { gameState } = useContext(gameContext);
   const type = props.type;
   const rowId = props.rowId;
   
   // Create icons array and store ids of hero with icons inside
-  const effects = rowsState[rowId].effects;
+  const effects = gameState.rows[rowId].effects;
   
   return(
     <div className={`${type}-counterarea counterarea`}>
