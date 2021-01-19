@@ -5,7 +5,6 @@ import turnContext from 'context/turnContext';
 import { DragDropContext } from "react-beautiful-dnd";
 import "./App.css";
 import PlayerHalf from "components/layout/PlayerHalf";
-import PlayerBoard from "components/layout/PlayerBoard";
 import TitleCard from "components/layout/TitleCard";
 import Footer from "components/layout/Footer";
 import CardFocus from 'components/cards/CardFocus';

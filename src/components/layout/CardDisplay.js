@@ -1,13 +1,11 @@
 import React, { useContext } from "react";
 import Card from "components/cards/Card";
-import data from "data";
 import { Droppable, Draggable } from "react-beautiful-dnd";
 import rowsContext from "context/rowsContext";
-import playerCardsContext from "context/playerCardsContext";
 
 export default function CardDisplay(props) {
   // Context
-  const { rowsState, setRowsState } = useContext(rowsContext);
+  const { rowsState } = useContext(rowsContext);
 
    // Variables
    const cards = rowsState[props.rowId].cardIds;

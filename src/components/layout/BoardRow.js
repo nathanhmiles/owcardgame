@@ -1,14 +1,13 @@
-import React, { useState, useContext, useEffect } from "react";
+import React, { useContext, useEffect } from "react";
 import rowsContext from "context/rowsContext";
 import playerCardsContext from "context/playerCardsContext";
 import SynergyCounter from "./SynergyCounter";
 import CounterArea from "components/layout/CounterArea";
 import CardDisplay from "components/layout/CardDisplay";
-import data from "data";
 
 export default function BoardRow(props) {
   const { rowsState, setRowsState } = useContext(rowsContext);
-  const { playerCards, setPlayerCards } = useContext(playerCardsContext);
+  const { playerCards } = useContext(playerCardsContext);
   const rowId = props.rowId;
   const rowCards = rowsState[rowId].cardIds;
   const playerNum = props.playerNum;

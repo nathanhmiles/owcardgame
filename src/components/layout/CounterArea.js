@@ -1,6 +1,5 @@
 import React, { useContext } from 'react';
 import rowsContext from 'context/rowsContext';
-import data from 'data';
 import HeroCounter from 'components/layout/HeroCounter';
 
 export default function CounterArea(props) {
