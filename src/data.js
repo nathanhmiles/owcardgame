@@ -566,6 +566,14 @@ const data = {
       },
       ability1() {
         console.log('widow ability1');
+        const targetRow = '2b';
+
+        return {
+          type: 'row',
+          rowId: targetRow,
+          rowKey: 'effects',
+          rowValue: '2widowmaker',
+        }
         
       },
       ability2() {

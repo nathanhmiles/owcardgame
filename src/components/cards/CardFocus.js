@@ -23,14 +23,22 @@ export default function CardFocus(props) {
   function activateAbility1(e) {
     e.stopPropagation();
     console.log('ability1 clicked');
+    // Get ability information from playercards data
     const abilityResult = ability1();
-    setGameState(prevState => ({
-      ...prevState,
-      playerCards: {
-        ...prevState.playerCards,
-        [abilityResult.key]: [abilityResult.value],
-      },
-    }));
+    
+    // Apply results of the ability to state
+    if (abilityResult.type === 'row') {
+      setGameState(prevState => ({
+        ...prevState,
+        rows: {
+          ...prevState.rows,
+          [abilityResult.rowId]: {
+            ...prevState.rows[abilityResult.rowId],
+            [abilityResult.rowKey]: [...prevState.rows[abilityResult.rowId][abilityResult.rowKey], abilityResult.rowValue],
+          },
+        },
+      }));
+    }
   }
 
   function activateAbility2(e) {
