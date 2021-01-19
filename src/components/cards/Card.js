@@ -14,6 +14,8 @@ export default function Card(props) {
     id,
     name,
     health,
+    power,
+    synergy,
     shieldValue,
     enemyEffects,
     allyEffects,

@@ -22,7 +22,7 @@ export default function PlayerHand(props) {
   // Creates a card with its own health and id unique to the playerCard, returns player-specific ID
   function createPlayerCard(playerNum, heroId) {
     // Get card values
-    const { id, name, health, ability1, ability2 } = data.heroes[heroId];
+    const { id, name, health, power, synergy, ability1, ability2 } = data.heroes[heroId];
     const playerHeroId = `${playerNum}${heroId}`;
     const shieldValue = 0;
     const enemyEffects = [];
@@ -35,6 +35,8 @@ export default function PlayerHand(props) {
       id,
       name,
       health,
+      power,
+      synergy,
       ability1,
       ability2,
       shieldValue,

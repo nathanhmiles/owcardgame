@@ -4,7 +4,7 @@ import HealthCounter from "./HealthCounter";
 import data from 'data';
 
 export default function CardFocus(props) {
-  const { playerCards } = useContext(playerCardsContext);
+  const { playerCards, setPlayerCards } = useContext(playerCardsContext);
   const playerHeroId = props.heroId;
   const playerNum = playerHeroId[0];
 
@@ -14,16 +14,24 @@ export default function CardFocus(props) {
   ].cards[playerHeroId];
   
   // Hero ability functions
+  // Gets the values for the new state from the ability function, then sets the state
   function activateAbility1(e) {
     e.stopPropagation();
     console.log('ability1 clicked');
-    ability1();
+    const abilityResult = ability1();
+    setPlayerCards(prevState => ({
+      ...prevState,
+      [abilityResult.key]: [abilityResult.value],
+    }));
   }
 
   function activateAbility2(e) {
     e.stopPropagation();
     console.log('ability2 clicked');
     ability2();
+    data.heroes.widowmaker.ability2();
+    console.log(playerCards);
+    console.log(data.heroes.widowmaker);
   }
 
   return(

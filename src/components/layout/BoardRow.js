@@ -1,5 +1,6 @@
 import React, { useState, useContext, useEffect } from "react";
 import rowsContext from "context/rowsContext";
+import playerCardsContext from "context/playerCardsContext";
 import SynergyCounter from "./SynergyCounter";
 import CounterArea from "components/layout/CounterArea";
 import CardDisplay from "components/layout/CardDisplay";
@@ -7,6 +8,7 @@ import data from "data";
 
 export default function BoardRow(props) {
   const { rowsState, setRowsState } = useContext(rowsContext);
+  const { playerCards, setPlayerCards } = useContext(playerCardsContext);
   const rowId = props.rowId;
   const rowCards = rowsState[rowId].cardIds;
   const playerNum = props.playerNum;
@@ -20,9 +22,8 @@ export default function BoardRow(props) {
 
     // For every card in the row, add up the power and synergy values
     for (let cardId of rowCards) {
-      const heroId = cardId.slice(1, cardId.length);
-      playerPower += data.heroes[heroId].power[rowPosition];
-      rowSynergy += data.heroes[heroId].synergy[rowPosition];
+      playerPower += playerCards[`player${playerNum}cards`].cards[cardId].power[rowPosition];
+      rowSynergy += playerCards[`player${playerNum}cards`].cards[cardId].synergy[rowPosition];
     }
 
     // Set power and synergy state
