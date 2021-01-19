@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import rowsContext from "context/rowsContext";
 import playerCardsContext from 'context/playerCardsContext';
+import turnContext from 'context/turnContext';
 import { DragDropContext } from "react-beautiful-dnd";
 import "./App.css";
 import PlayerHalf from "components/layout/PlayerHalf";
@@ -14,6 +15,7 @@ function App() {
   const [rowsState, setRowsState] = useState(data.rows);
   const [playerCards, setPlayerCards] = useState(data.playercards);
   const [cardFocus, setCardFocus] = useState(null);
+  const [turnState, setTurnState] = useState(1);
 
   function handleOnDragEnd(result) {
     const { destination, source, draggableId} = result;
@@ -70,6 +72,7 @@ function App() {
 
   return (
     <div>
+      <turnContext.Provider value={{ turnState, setTurnState }}>
       <rowsContext.Provider value={{ rowsState, setRowsState }}>
       <playerCardsContext.Provider value={{ playerCards, setPlayerCards }}>
         <DragDropContext onDragEnd={handleOnDragEnd}>
@@ -81,6 +84,7 @@ function App() {
         <Footer />
         </playerCardsContext.Provider>
       </rowsContext.Provider>
+      </turnContext.Provider>
     </div>
   );
 }
