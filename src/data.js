@@ -593,31 +593,31 @@ const data = {
 
         
       },
-      ability2() {
+      ability2(rowSynergy) {
         console.log('widow ability2 started');
-        
+        const synergyCost = 3;
         return new Promise((resolve, reject) => {
-          $('.card').on('click', (e) => {
-            const targetCard = e.target.parentElement.id;
-            
-            const abilityResult = {
-              type: 'card',
-              playerHeroId: targetCard,
-              cardKey: 'health',
-              cardValue: 0,
-            };
+            if (rowSynergy >= synergyCost) {
+            $('.card').on('click', (e) => {
+              const targetCard = e.target.parentElement.id;
+              
+              const abilityResult = {
+                type: 'card',
+                playerHeroId: targetCard,
+                cardKey: 'health',
+                cardValue: 0,
+                synergyCost: synergyCost,
+              };
 
-            $('.card').off('click');
+              $('.card').off('click');
 
-            if (targetCard) {
-              resolve(abilityResult);
-            } else {
-              reject('Error with widow ability2');
-            }
-
-          });
-        });
-      },
+                resolve(abilityResult);
+              });
+              } else {
+                reject('Error with widow ability2');
+            }           
+          }); 
+      }
     },
     winston: {
       id: "winston",

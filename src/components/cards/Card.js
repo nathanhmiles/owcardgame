@@ -11,6 +11,7 @@ export default function Card(props) {
   const playerHeroId = props.playerHeroId;
   const playerNum = props.playerNum;
   const playerCardsId = `player${playerNum}cards`;
+  const rowId = props.rowId;
 
   // Get card attributes from relevant player
   const {
@@ -32,7 +33,12 @@ export default function Card(props) {
   return (
     <div className="cardcontainer">
       {playerNum === 1 ? (<CardEffects type="enemy" effects={enemyEffects} />) : (<CardEffects type="ally" effects={allyEffects} />)}
-      <div id={`${playerHeroId}`} style={health > 0 ? null : {filter: 'grayscale(1)'}} className="card" onClick={() => {props.setCardFocus(playerHeroId);}}>
+      <div 
+        id={`${playerHeroId}`} 
+        style={health > 0 ? null : {filter: 'grayscale(1)'}} 
+        className="card" 
+        onClick={() => {props.setCardFocus({playerHeroId: playerHeroId, rowId: rowId});}}
+      >
         <HealthCounter health={health} />
         <img
           src={require(`assets/heroes/${id}.png`).default}

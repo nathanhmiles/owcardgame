@@ -80,7 +80,11 @@ function App() {
           <TitleCard />
           <PlayerHalf playerNum={1} setCardFocus={setCardFocus} />
         </DragDropContext>
-        {cardFocus && <CardFocus unsetCardFocus={() => {setCardFocus(null)}} heroId={cardFocus} />}
+        {cardFocus && <CardFocus 
+          setCardFocus={setCardFocus}
+          unsetCardFocus={() => {setCardFocus(null)}} 
+          cardFocus={cardFocus}
+        />}
         <Footer />
       </gameContext.Provider>
       </turnContext.Provider>

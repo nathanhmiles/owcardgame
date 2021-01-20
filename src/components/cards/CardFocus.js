@@ -5,8 +5,11 @@ import data from 'data';
 
 export default function CardFocus(props) {
   const { gameState, setGameState } = useContext(gameContext);
-  const playerHeroId = props.heroId;
+  const cardFocus = props.cardFocus;
+  const playerHeroId = cardFocus.playerHeroId;
   const playerNum = playerHeroId[0];
+  const rowId = cardFocus.rowId;
+  const setCardFocus = props.setCardFocus;
   const unsetCardFocus = props.unsetCardFocus;
 
   // Get card attributes from relevant player
@@ -66,6 +69,19 @@ export default function CardFocus(props) {
     } else console.log(abilityResult);
   }
 
+  function setRowSynergy(rowId, synergyCost) {
+    setGameState(prevState => ({
+      ...prevState,
+      rows: {
+        ...prevState.rows,
+        [rowId]: {
+          ...prevState.rows[rowId],
+          synergy: prevState.rows[rowId].synergy - synergyCost,
+        },
+      },
+    }));
+  }
+
   // Hero ability functions
   async function activateAbility1(e) {
     e.stopPropagation();
@@ -78,11 +94,17 @@ export default function CardFocus(props) {
 
   async function activateAbility2(e) {
     e.stopPropagation();
-    unsetCardFocus();
-
-    // Call the relevant hero's ability, then set state using the result
-    const abilityResult = await ability2();
-    setAbilityResult(abilityResult);
+    try {
+      const rowSynergy = gameState.rows[rowId].synergy;
+      unsetCardFocus();
+      // Call the relevant hero's ability, then set state using the result, and deduct synergy
+      const abilityResult = await ability2(rowSynergy);
+      setAbilityResult(abilityResult);
+      setRowSynergy(rowId, abilityResult.synergyCost);
+    } catch (err) {
+      setCardFocus(cardFocus);
+      console.log(err);
+    }
   };
 
 
