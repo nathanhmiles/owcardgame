@@ -32,7 +32,7 @@ export default function Card(props) {
   return (
     <div className="cardcontainer">
       {playerNum === 1 ? (<CardEffects type="enemy" effects={enemyEffects} />) : (<CardEffects type="ally" effects={allyEffects} />)}
-      <div id={`${playerHeroId}`} className="card" onClick={() => {props.setCardFocus(playerHeroId);}}>
+      <div id={`${playerHeroId}`} style={health > 0 ? null : {filter: 'grayscale(1)'}} className="card" onClick={() => {props.setCardFocus(playerHeroId);}}>
         <HealthCounter health={health} />
         <img
           src={require(`assets/heroes/${id}.png`).default}
