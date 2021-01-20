@@ -46,7 +46,7 @@ export default function BoardRow(props) {
   }, [rowCards]);
 
   return (
-    <div className="rowarea">
+    <div id={`${rowId}`} className="rowarea">
       <CounterArea 
         type={'row'} 
         setCardFocus={props.setCardFocus} 

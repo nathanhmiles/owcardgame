@@ -2,6 +2,7 @@ import React, { useContext } from "react";
 import CardDisplay from "components/layout/CardDisplay";
 import data from "data";
 import gameContext from "context/gameContext";
+import helper from 'helper';
 
 export default function PlayerHand(props) {
   // Context
@@ -12,15 +13,10 @@ export default function PlayerHand(props) {
   const playerCardsId = `player${props.playerNum}cards`;
   const handCards = gameState.rows[playerHandId].cardIds;
 
-  // Helper function - returns random number between min (inc) and max (exc)
-  function getRandInt(min, max) {
-    return Math.floor(Math.random() * (max - min)) + min;
-  }
-
   // Creates a card with its own health and id unique to the playerCard, returns player-specific ID
   function createPlayerCard(playerNum, heroId) {
     // Get card values
-    const { id, name, health, power, synergy, ability1, ability2 } = data.heroes[heroId];
+    const { id, name, health, power, synergy, ability1, ability2, effect } = data.heroes[heroId];
     const playerHeroId = `${playerNum}${heroId}`;
     const shieldValue = 0;
     const enemyEffects = [];
@@ -35,9 +31,10 @@ export default function PlayerHand(props) {
       health,
       power,
       synergy,
+      shieldValue,
       ability1,
       ability2,
-      shieldValue,
+      effect,
       enemyEffects,
       allyEffects,
       isDiscarded,
@@ -67,7 +64,7 @@ export default function PlayerHand(props) {
     // TODO: specify number of cards to draw?
     // Draw a random card id, then check if it was already drawn, if so draw again
     do {
-      const randInt = getRandInt(0, Object.keys(data.heroes).length);
+      const randInt = helper.getRandInt(0, Object.keys(data.heroes).length);
       const randKey = Object.keys(data.heroes)[randInt];
       const newCardId = data.heroes[randKey].id;
       // Create the player-specific card using the random id and get player-specific id

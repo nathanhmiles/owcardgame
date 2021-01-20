@@ -1,6 +1,7 @@
+import helper from 'helper';
+import $ from 'jquery';
+
 // Data for all hero cards
-// hero.location options are: "deck", "hand", rowId (e.g. "2m"), "discarded"
-// TODO: create test to ensure no cards have anything other than the above values as location
 const data = {
   heroes: {
     ana: {
@@ -564,20 +565,42 @@ const data = {
         m: 3,
         b: 1,
       },
-      ability1() {
-        console.log('widow ability1');
-        const targetRow = '2b';
+      ability1(setAbilityResult) {
+        console.log('widow ability1 started')
+        $('.rowarea').on('click', (e) => {
+          
+          const targetRow = e.target.id;
+          console.log(targetRow);
 
-        return {
-          type: 'row',
-          rowId: targetRow,
-          rowKey: 'effects',
-          rowValue: '2widowmaker',
-        }
+          const abilityResult = {
+            type: 'row',
+            rowId: targetRow,
+            rowKey: 'effects',
+            rowValue: '2widowmaker',
+          };
+
+          setAbilityResult(abilityResult);
+          $('.rowarea').off('click');
+        });
+
         
       },
-      ability2() {
-        console.log('widow ability2');
+      ability2(setAbilityResult) {
+        $('.card').on('click', (e) => {
+          
+          const targetCard = e.target.parentElement.id;
+          console.log(targetCard);
+
+          const abilityResult = {
+            type: 'card',
+            playerHeroId: targetCard,
+            cardKey: 'health',
+            cardValue: 0,
+          };
+
+          setAbilityResult(abilityResult);
+          $('.card').off('click');
+        });
       },
     },
     winston: {
