@@ -565,41 +565,57 @@ const data = {
         m: 3,
         b: 1,
       },
-      ability1(setAbilityResult) {
+      ability1() {
         console.log('widow ability1 started')
-        $('.rowarea').on('click', (e) => {
-          
-          const targetRow = e.target.id;
-          console.log(targetRow);
+        return new Promise((resolve, reject) => {
+          $('.rowarea').on('click', (e) => {
+            
+            const targetRow = e.target.id;
+            console.log(targetRow);
+  
+            const abilityResult = {
+              type: 'row',
+              rowId: targetRow,
+              rowKey: 'effects',
+              rowValue: '2widowmaker',
+            };
+            
+            $('.rowarea').off('click');
+            if (targetRow) {
+              resolve(abilityResult);
+            } else {
+              reject('Error with widow ability1');
+            }
 
-          const abilityResult = {
-            type: 'row',
-            rowId: targetRow,
-            rowKey: 'effects',
-            rowValue: '2widowmaker',
-          };
-
-          setAbilityResult(abilityResult);
-          $('.rowarea').off('click');
+        });
+        
         });
 
         
       },
-      ability2(setAbilityResult) {
-        $('.card').on('click', (e) => {
-          
-          const targetCard = e.target.parentElement.id;
-          console.log(targetCard);
+      ability2() {
+        console.log('widow ability2 started');
+        
+        return new Promise((resolve, reject) => {
+          $('.card').on('click', (e) => {
+            const targetCard = e.target.parentElement.id;
+            
+            const abilityResult = {
+              type: 'card',
+              playerHeroId: targetCard,
+              cardKey: 'health',
+              cardValue: 0,
+            };
 
-          const abilityResult = {
-            type: 'card',
-            playerHeroId: targetCard,
-            cardKey: 'health',
-            cardValue: 0,
-          };
+            $('.card').off('click');
 
-          setAbilityResult(abilityResult);
-          $('.card').off('click');
+            if (targetCard) {
+              resolve(abilityResult);
+            } else {
+              reject('Error with widow ability2');
+            }
+
+          });
         });
       },
     },

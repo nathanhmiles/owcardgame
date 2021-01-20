@@ -54,7 +54,6 @@ export default function PlayerHand(props) {
       },
     }));
 
-    console.log(gameState.playerCards);
     // return player-specific id to be used elsewhere
     return playerHeroId;
   }

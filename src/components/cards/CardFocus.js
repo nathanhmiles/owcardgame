@@ -27,8 +27,9 @@ export default function CardFocus(props) {
   
   // Applies the ability result to state
   function setAbilityResult(abilityResult) {
-    // Apply results of the ability to state
+    
     if (abilityResult.type === 'row') {
+      // Apply abilities that affect a whole row
       setGameState(prevState => ({
         ...prevState,
         rows: {
@@ -39,7 +40,9 @@ export default function CardFocus(props) {
           },
         },
       }));
+
     } else if (abilityResult.type === 'card') {
+      // Apply abilities that affect a specific card
       const targetPlayer = abilityResult.playerHeroId[0];
   
       setGameState(prevState => ({
@@ -64,21 +67,24 @@ export default function CardFocus(props) {
   }
 
   // Hero ability functions
-  function activateAbility1(e) {
+  async function activateAbility1(e) {
     e.stopPropagation();
     unsetCardFocus();
     
-    // Call the relevant hero's ability, and allow them to set state by passing in setAbilityResult
-    ability1(setAbilityResult);
+    // Call the relevant hero's ability, then set state using the result
+    const abilityResult = await ability1();
+    setAbilityResult(abilityResult);
   };
 
-  function activateAbility2(e) {
+  async function activateAbility2(e) {
     e.stopPropagation();
     unsetCardFocus();
 
-    // Call the relevant hero's ability, and allow them to set state by passing in setAbilityResult
-    ability2(setAbilityResult);    
+    // Call the relevant hero's ability, then set state using the result
+    const abilityResult = await ability2();
+    setAbilityResult(abilityResult);
   };
+
 
   return(
     <div id="cardfocuscontainer">
