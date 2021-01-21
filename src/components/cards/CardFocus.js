@@ -65,8 +65,8 @@ export default function CardFocus(props) {
         },
       }));
 
-      console.log(gameState.playerCards);
     } else console.log(abilityResult);
+    
   }
 
   function setRowSynergy(rowId, synergyCost) {

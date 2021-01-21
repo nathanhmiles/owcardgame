@@ -17,6 +17,7 @@ export default function PlayerHand(props) {
   function createPlayerCard(playerNum, heroId) {
     // Get card values
     const { id, name, health, power, synergy, ability1, ability2, effect } = data.heroes[heroId];
+    const maxHealth = health;
     const playerHeroId = `${playerNum}${heroId}`;
     const shieldValue = 0;
     const enemyEffects = [];
@@ -29,6 +30,7 @@ export default function PlayerHand(props) {
       id,
       name,
       health,
+      maxHealth,
       power,
       synergy,
       shieldValue,
