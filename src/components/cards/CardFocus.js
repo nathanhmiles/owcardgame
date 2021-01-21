@@ -47,8 +47,10 @@ export default function CardFocus(props) {
       }));
     } else if (abilityResult.type === "card") {
       // Apply abilities that affect a specific card
-      const targetPlayer = abilityResult.playerHeroId[0];
-
+      const targetCardId = abilityResult.targetCardId;
+      const targetPlayer = targetCardId[0];
+      const targetRow = abilityResult.targetRow;
+      
       setGameState((prevState) => ({
         ...prevState,
         playerCards: {
@@ -57,16 +59,15 @@ export default function CardFocus(props) {
             ...prevState.playerCards[`player${targetPlayer}cards`],
             cards: {
               ...prevState.playerCards[`player${targetPlayer}cards`].cards,
-              [abilityResult.playerHeroId]: {
-                ...prevState.playerCards[`player${targetPlayer}cards`].cards[
-                  abilityResult.playerHeroId
-                ],
+              [targetCardId]: {
+                ...prevState.playerCards[`player${targetPlayer}cards`].cards[targetCardId],
                 [abilityResult.cardKey]: abilityResult.cardValue,
               },
             },
           },
         },
       }));
+
     } else console.log(abilityResult);
   }
 
@@ -87,20 +88,25 @@ export default function CardFocus(props) {
   async function activateAbility1(e) {
     e.stopPropagation();
 
-    // Check that the card is not in the player's hand (has been played)
+    // Check that the card is not in the player's hand
     if (rowId[0] !== "p") {
-      unsetCardFocus();
+      try {
 
-      // Call the relevant hero's ability, then set state using the result
-      const abilityResult = await ability1();
-      setAbilityResult(abilityResult);
-    }
+        unsetCardFocus();
+        
+        // Call the relevant hero's ability, then set state using the result
+        const abilityResult = await ability1();
+        setAbilityResult(abilityResult);
+      } catch (err) {
+        alert(err);
+      }
+    } else alert("Play cards before using abilities!");
   }
 
   async function activateAbility2(e) {
     e.stopPropagation();
 
-    // Check that the card is not in the player's hand (has been played)
+    // Check that the card is not in the player's hand
     if (rowId[0] !== "p") {
       try {
         const rowSynergy = gameState.rows[rowId].synergy;
@@ -112,9 +118,9 @@ export default function CardFocus(props) {
         setRowSynergy(rowId, abilityResult.synergyCost);
       } catch (err) {
         setCardFocus(cardFocus);
-        console.log(err);
+        alert(err);
       }
-    }
+    } else alert("Play cards before using abilities!");
   }
 
   return (

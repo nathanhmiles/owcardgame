@@ -69,7 +69,7 @@ body {
   flex-grow: 1;
 }
 
-.row {
+.cardRow {
   flex-grow: 1;
   display: flex;
   justify-content: center;
@@ -134,7 +134,7 @@ ul {
   flex-wrap: wrap;
 }
 
-.row-counterarea {
+.cardRow-counterarea {
   justify-content: flex-start;
   max-width: 150px;
   flex-grow: 1;

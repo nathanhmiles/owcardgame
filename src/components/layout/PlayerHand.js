@@ -87,7 +87,7 @@ export default function PlayerHand(props) {
   }
 
   return (
-    <div className="playerhand row">
+    <div className="playerhand cardRow">
       <CardDisplay
         playerNum={props.playerNum}
         droppableId={`player${props.playerNum}hand`}

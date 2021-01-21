@@ -46,7 +46,7 @@ export default function BoardRow(props) {
   }, [rowCards]);
 
   return (
-    <div id={`${rowId}`} className="rowarea">
+    <div id={rowId} className="rowarea row">
       <CounterArea 
         type={'row'} 
         setCardFocus={props.setCardFocus} 
@@ -54,11 +54,11 @@ export default function BoardRow(props) {
         rowId = {props.rowId}
       />
       <div className="rowlabel">{props.label}</div>
-      <div className="boardrow row">
+      <div className="boardrow cardRow">
         <CardDisplay
           playerNum={props.playerNum}
           droppableId={props.rowId}
-          listClass="rowlist row"
+          listClass="rowlist cardRow"
           rowId={props.rowId}
           setCardFocus={props.setCardFocus}
         />
