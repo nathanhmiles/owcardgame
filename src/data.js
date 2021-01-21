@@ -3,6 +3,46 @@ import $ from 'jquery';
 
 // Data for all hero cards
 const data = {
+  specialHeroes: {
+    bob: {
+      id: "bob",
+      name: "Bob",
+      image: "assets/heroes/bob.png",
+      icon: "assets/heroes/bob-icon.png",
+      effect: () => {},
+      health: 3,
+      power: {
+        f: 1,
+        m: 1,
+        b: 1,
+      },
+      synergy: {
+        f: 0,
+        m: 0,
+        b: 0,
+      },
+      ability1: () => {},
+      ability2: () => {},
+    },
+    dva: {
+      id: "dva",
+      name: "D.va",
+      image: "assets/heroes/dva.png",
+      health: 2,
+      power: {
+        f: 1,
+        m: 1,
+        b: 1,
+      },
+      synergy: {
+        f: 0,
+        m: 0,
+        b: 0,
+      },
+      ability1: () => {},
+      ability2: () => {},
+    },
+  },
   heroes: {
     ana: {
       id: "ana",
@@ -82,26 +122,7 @@ const data = {
       ability1: () => {},
       ability2: () => {},
     },
-    bob: {
-      id: "bob",
-      name: "Bob",
-      image: "assets/heroes/bob.png",
-      icon: "assets/heroes/bob-icon.png",
-      effect: () => {},
-      health: 3,
-      power: {
-        f: 1,
-        m: 1,
-        b: 1,
-      },
-      synergy: {
-        f: 0,
-        m: 0,
-        b: 0,
-      },
-      ability1: () => {},
-      ability2: () => {},
-    },
+    
     brigitte: {
       id: "brigitte",
       name: "Brigitte",
@@ -138,24 +159,7 @@ const data = {
       ability1: () => {},
       ability2: () => {},
     },
-    dva: {
-      id: "dva",
-      name: "D.va",
-      image: "assets/heroes/dva.png",
-      health: 2,
-      power: {
-        f: 1,
-        m: 1,
-        b: 1,
-      },
-      synergy: {
-        f: 0,
-        m: 0,
-        b: 0,
-      },
-      ability1: () => {},
-      ability2: () => {},
-    },
+    
     dvameka: {
       id: "dvameka",
       name: "D.va + Meka",
