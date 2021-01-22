@@ -1,7 +1,6 @@
 import React, { useContext } from "react";
 import HeroAbilities from 'components/cards/HeroAbilities';
 import gameContext from "context/gameContext";
-import update from 'immutability-helper';
 import HealthCounter from "./HealthCounter";
 import data from "data";
 
@@ -46,7 +45,7 @@ export default function CardFocus(props) {
         />
         <HeroAbilities 
           playerNum={playerNum}
-          playerHeroId={playerHeroId}
+          playerHeroId={'2widowmaker'}
           rowId={rowId}
           cardFocus={cardFocus}
           setCardFocus={setCardFocus}
