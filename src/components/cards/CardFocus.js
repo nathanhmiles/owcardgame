@@ -1,5 +1,6 @@
 import React, { useContext } from "react";
 import gameContext from "context/gameContext";
+import update from 'immutability-helper';
 import HealthCounter from "./HealthCounter";
 import data from "data";
 
@@ -32,41 +33,27 @@ export default function CardFocus(props) {
   function setAbilityResult(abilityResult) {
     if (abilityResult.type === "row") {
       // Apply abilities that affect a whole row
-      setGameState((prevState) => ({
-        ...prevState,
-        rows: {
-          ...prevState.rows,
-          [abilityResult.rowId]: {
-            ...prevState.rows[abilityResult.rowId],
-            [abilityResult.rowKey]: [
-              ...prevState.rows[abilityResult.rowId][abilityResult.rowKey],
-              abilityResult.rowValue,
-            ],
-          },
-        },
-      }));
+
+      const newState = update(gameState, {
+        rows: {[abilityResult.rowId]: {
+          [abilityResult.rowKey]: {$push: [abilityResult.rowValue]}
+        }}});
+
+      setGameState(newState);
+
     } else if (abilityResult.type === "card") {
       // Apply abilities that affect a specific card
       const targetCardId = abilityResult.targetCardId;
       const targetPlayer = targetCardId[0];
       const targetRow = abilityResult.targetRow;
       
-      setGameState((prevState) => ({
-        ...prevState,
-        playerCards: {
-          ...prevState.playerCards,
-          [`player${targetPlayer}cards`]: {
-            ...prevState.playerCards[`player${targetPlayer}cards`],
-            cards: {
-              ...prevState.playerCards[`player${targetPlayer}cards`].cards,
-              [targetCardId]: {
-                ...prevState.playerCards[`player${targetPlayer}cards`].cards[targetCardId],
-                [abilityResult.cardKey]: abilityResult.cardValue,
-              },
-            },
-          },
-        },
-      }));
+      const newState = update(gameState, {
+        playerCards: {[`player${targetPlayer}cards`]: {
+          cards: {[targetCardId] :{[abilityResult.cardKey]: {$set: abilityResult.cardValue}}}
+        }}
+      });
+
+      setGameState(newState);
 
     } else console.log(abilityResult);
   }

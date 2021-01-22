@@ -1,13 +1,14 @@
 import React, { useContext } from "react";
+import update from "immutability-helper";
 import CardDisplay from "components/layout/CardDisplay";
 import data from "data";
 import gameContext from "context/gameContext";
-import helper from 'helper';
+import helper from "helper";
 
 export default function PlayerHand(props) {
   // Context
   const { gameState, setGameState } = useContext(gameContext);
-  
+
   // Variables
   const playerHandId = `player${props.playerNum}hand`;
   const playerCardsId = `player${props.playerNum}cards`;
@@ -16,7 +17,16 @@ export default function PlayerHand(props) {
   // Creates a card with its own health and id unique to the playerCard, returns player-specific ID
   function createPlayerCard(playerNum, heroId) {
     // Get card values
-    const { id, name, health, power, synergy, ability1, ability2, effect } = data.heroes[heroId];
+    const {
+      id,
+      name,
+      health,
+      power,
+      synergy,
+      ability1,
+      ability2,
+      effect,
+    } = data.heroes[heroId];
     const maxHealth = health;
     const playerHeroId = `${playerNum}${heroId}`;
     const shieldValue = 0;
@@ -41,8 +51,19 @@ export default function PlayerHand(props) {
       allyEffects,
       isDiscarded,
     };
+    
+    const newState = update(gameState, {
+      playerCards: {
+        [`player${playerNum}cards`]: {
+          cards: { [playerHeroId]: { $set: newCard } },
+        },
+      },
+    });
 
-    setGameState(prevState => ({
+    setGameState(newState);
+
+    /*
+    setGameState((prevState) => ({
       ...prevState,
       playerCards: {
         ...prevState.playerCards,
@@ -55,6 +76,7 @@ export default function PlayerHand(props) {
         },
       },
     }));
+    */
 
     // return player-specific id to be used elsewhere
     return playerHeroId;
@@ -74,7 +96,7 @@ export default function PlayerHand(props) {
 
     // Create updated array and update state
     const newCardIds = [...gameState.rows[playerHandId].cardIds, playerHeroId];
-    setGameState(prevState => ({
+    setGameState((prevState) => ({
       ...prevState,
       rows: {
         ...prevState.rows,

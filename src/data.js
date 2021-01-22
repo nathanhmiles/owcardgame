@@ -572,9 +572,9 @@ const data = {
       ability1() {
         console.log('widow ability1 started')
         return new Promise((resolve, reject) => {
-          $('ul').on('click', (e) => {
+          $('.row').on('click', (e) => {
             
-            const targetRow = e.target.id;
+            const targetRow = $(e.target).closest('.row').attr('id');
             console.log(targetRow);
   
             const abilityResult = {
@@ -584,7 +584,7 @@ const data = {
               rowValue: '2widowmaker',
             };
             
-            $('ul').off('click');
+            $('.row').off('click');
             if (targetRow[0] !== 'p') {
               resolve(abilityResult);
             } else {

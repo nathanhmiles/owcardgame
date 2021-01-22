@@ -1,4 +1,5 @@
 import React, { useContext, useEffect } from "react";
+import update from 'immutability-helper';
 import gameContext from "context/gameContext";
 import SynergyCounter from "./SynergyCounter";
 import CounterArea from "components/layout/CounterArea";
@@ -10,6 +11,7 @@ export default function BoardRow(props) {
   const rowCards = gameState.rows[rowId].cardIds;
   const playerNum = props.playerNum;
   const playerHand = `player${playerNum}hand`;
+  const synergyValue = gameState.rows[rowId].synergy
 
   // Update synergy and power values anytime a card moves row
   useEffect(() => {
@@ -23,7 +25,21 @@ export default function BoardRow(props) {
       rowSynergy += gameState.playerCards[`player${playerNum}cards`].cards[cardId].synergy[rowPosition];
     }
 
+
+    
+    const newState = update(gameState, {
+      rows: {
+        [playerHand]: {power: {[rowPosition]: {$set: playerPower}}},
+        [rowId]: {synergy: {$set: rowSynergy}}
+      }
+    });
+    
     // Set power and synergy state
+    setGameState(newState);
+
+    
+
+    /*
     setGameState(prevState => ({
       ...prevState,
       rows: {
@@ -41,6 +57,8 @@ export default function BoardRow(props) {
         }
       },
     }));
+    */
+    
 
     // TODO: Not all dependencies here, check
   }, [rowCards]);
@@ -63,7 +81,7 @@ export default function BoardRow(props) {
           setCardFocus={props.setCardFocus}
         />
       </div>
-      <SynergyCounter synergy={gameState.rows[rowId].synergy} />
+      <SynergyCounter synergy={synergyValue} />
     </div>
   );
 }
