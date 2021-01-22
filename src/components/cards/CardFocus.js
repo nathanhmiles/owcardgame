@@ -43,14 +43,16 @@ export default function CardFocus(props) {
           className="cardimg"
           alt={"Card Focus"}
         />
-        <HeroAbilities 
+        {health > 0 ? (
+          <HeroAbilities 
           playerNum={playerNum}
-          playerHeroId={'2widowmaker'}
+          playerHeroId={playerHeroId}
           rowId={rowId}
           cardFocus={cardFocus}
           setCardFocus={setCardFocus}
           unsetCardFocus={unsetCardFocus}
         />
+        ) :(null)}
       </div>
     </div>
   );
