@@ -2,7 +2,6 @@ import React, { useContext } from "react";
 import HeroAbilities from 'components/cards/HeroAbilities';
 import gameContext from "context/gameContext";
 import HealthCounter from "./HealthCounter";
-import data from "data";
 
 export default function CardFocus(props) {
   const { gameState, setGameState } = useContext(gameContext);
@@ -18,11 +17,7 @@ export default function CardFocus(props) {
     id,
     name,
     health,
-    power,
-    synergy,
     shieldValue,
-    ability1,
-    ability2,
     effect,
     enemyEffects,
     allyEffects,

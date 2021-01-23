@@ -32,6 +32,7 @@ export default function PlayerHand(props) {
     const shieldValue = 0;
     const enemyEffects = [];
     const allyEffects = [];
+    const isPlayed = false;
     const isDiscarded = false;
 
     // Combine values into one new hero object and assign to relevant player

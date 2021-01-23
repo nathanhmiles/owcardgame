@@ -1,5 +1,5 @@
 import React, { useContext, useEffect } from "react";
-import update from 'immutability-helper';
+import update from "immutability-helper";
 import gameContext from "context/gameContext";
 import SynergyCounter from "./SynergyCounter";
 import CounterArea from "components/layout/CounterArea";
@@ -11,7 +11,7 @@ export default function BoardRow(props) {
   const rowCards = gameState.rows[rowId].cardIds;
   const playerNum = props.playerNum;
   const playerHand = `player${playerNum}hand`;
-  const synergyValue = gameState.rows[rowId].synergy
+  const synergyValue = gameState.rows[rowId].synergy;
 
   // Update synergy and power values anytime a card moves row
   useEffect(() => {
@@ -19,25 +19,32 @@ export default function BoardRow(props) {
     let rowSynergy = 0;
     const rowPosition = props.rowId[1];
 
+
+    /*
     // For every card in the row, add up the power and synergy values
     for (let cardId of rowCards) {
-      playerPower += gameState.playerCards[`player${playerNum}cards`].cards[cardId].power[rowPosition];
-      rowSynergy += gameState.playerCards[`player${playerNum}cards`].cards[cardId].synergy[rowPosition];
+      playerPower +=
+        gameState.playerCards[`player${playerNum}cards`].cards[cardId].power[
+          rowPosition
+        ];
+      rowSynergy +=
+        gameState.playerCards[`player${playerNum}cards`].cards[cardId].synergy[
+          rowPosition
+        ];
     }
 
-
-    
-    const newState = update(gameState, {
-      rows: {
-        [playerHand]: {power: {[rowPosition]: {$set: playerPower}}},
-        [rowId]: {synergy: {$set: rowSynergy}}
-      }
-    });
-    
     // Set power and synergy state
-    setGameState(newState);
-
-    
+    setGameState((prevState) => ({
+      ...prevState,
+      rows: {
+        ...prevState.rows,
+        [rowId]: {
+          ...prevState.rows[rowId],
+          synergy: rowSynergy,
+        }
+      }
+    }));
+    */
 
     /*
     setGameState(prevState => ({
@@ -58,18 +65,17 @@ export default function BoardRow(props) {
       },
     }));
     */
-    
 
     // TODO: Not all dependencies here, check
   }, [rowCards]);
 
   return (
     <div id={rowId} className="rowarea row">
-      <CounterArea 
-        type={'row'} 
-        setCardFocus={props.setCardFocus} 
-        playerNum={props.playerNum} 
-        rowId = {props.rowId}
+      <CounterArea
+        type={"row"}
+        setCardFocus={props.setCardFocus}
+        playerNum={props.playerNum}
+        rowId={props.rowId}
       />
       <div className="rowlabel">{props.label}</div>
       <div className="boardrow cardRow">
