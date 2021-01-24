@@ -42,8 +42,110 @@ export default function HeroAbilities(props) {
 
   // Abilities data
   const abilities = {
+    genji: {
+      ability1: {
+        maxTargets: 3,
+        run() {
+          return new Promise((resolve, reject) => {
+            $(".card").on("click", (e) => {
+
+                const targetCardId = $(e.target).closest(".card").attr("id");
+                const targetPlayer = targetCardId[0];
+                const targetRow = $(e.target).closest(".row").attr("id");
+
+                // Check target is valid
+                if (targetRow[0] === "p" || targetRow[0] === playerNum) {
+                  reject("Incorrect target");
+                  return;
+                }
+                const cardKey = "health";
+                const cardValue = -1;
+                $(".card").off("click");
+                // Apply abilities that affect a specific card
+  
+                setGameState((prevState) => ({
+                  ...prevState,
+                  playerCards: {
+                    ...prevState.playerCards,
+                    [`player${targetPlayer}cards`]: {
+                      ...prevState.playerCards[`player${targetPlayer}cards`],
+                      cards: {
+                        ...prevState.playerCards[`player${targetPlayer}cards`]
+                          .cards,
+                        [targetCardId]: {
+                          ...prevState.playerCards[`player${targetPlayer}cards`]
+                            .cards[targetCardId],
+                          [cardKey]: (prevState.playerCards[`player${targetPlayer}cards`]
+                          .cards[targetCardId][cardKey] + cardValue),
+                        },
+                      },
+                    },
+                  },
+                }));
+
+                
+                resolve();
+              });
+            });
+        }
+      },
+      ability2: {
+        synergyCost: 3,
+        run() {
+          return new Promise((resolve, reject) => {
+            $(".card").on("click", (e) => {
+              const targetCardId = $(e.target).closest(".card").attr("id");
+              const targetPlayer = targetCardId[0];
+              const targetRow = $(e.target).closest(".row").attr("id");
+              // Check target is valid
+              if (
+                targetRow[0] === "p" ||
+                targetRow[0] === playerNum ||
+                // Check target has been damaged
+                gameState.playerCards[`player${targetPlayer}cards`].cards[
+                  targetCardId
+                ].health ===
+                  gameState.playerCards[`player${targetPlayer}cards`].cards[
+                    targetCardId
+                  ].maxHealth
+              ) {
+                reject("Incorrect target");
+                return;
+              }
+              const cardKey = "health";
+              const cardValue = 0;
+              $(".card").off("click");
+              // Apply abilities that affect a specific card
+
+              setGameState((prevState) => ({
+                ...prevState,
+                playerCards: {
+                  ...prevState.playerCards,
+                  [`player${targetPlayer}cards`]: {
+                    ...prevState.playerCards[`player${targetPlayer}cards`],
+                    cards: {
+                      ...prevState.playerCards[`player${targetPlayer}cards`]
+                        .cards,
+                      [targetCardId]: {
+                        ...prevState.playerCards[`player${targetPlayer}cards`]
+                          .cards[targetCardId],
+                        [cardKey]: cardValue,
+                      },
+                    },
+                  },
+                },
+              }));
+              resolve();
+            });
+          });
+
+        },
+      },
+    },
+
     widowmaker: {
       ability1: {
+        maxTargets: 1,
         run() {
           console.log("widow ability1 started");
           return new Promise((resolve, reject) => {
@@ -53,9 +155,11 @@ export default function HeroAbilities(props) {
 
               const rowKey = "effects";
               const rowValue = "2widowmaker";
-              
+
               $(".row").off("click");
-              if (targetRow[0] !== "p") {
+              if (targetRow[0] === "p" || targetRow[0] === playerNum) {
+                reject("Incorrect target");
+              } else {
                 setGameState((prevState) => ({
                   ...prevState,
                   rows: {
@@ -63,17 +167,13 @@ export default function HeroAbilities(props) {
                     [targetRow]: {
                       ...prevState.rows[targetRow],
                       [rowKey]: [
-                        ...prevState.rows[targetRow][
-                          rowKey
-                        ],
+                        ...prevState.rows[targetRow][rowKey],
                         rowValue,
                       ],
                     },
                   },
                 }));
                 resolve();
-              } else {
-                reject("Can't target player hand");
               }
             });
           });
@@ -88,12 +188,12 @@ export default function HeroAbilities(props) {
               const targetCardId = $(e.target).closest(".card").attr("id");
               const targetPlayer = targetCardId[0];
               const targetRow = $(e.target).closest(".row").attr("id");
-              if (targetRow[0] === "p") {
-                reject("Cant target player's hand");
+              if (targetRow[0] === "p" || targetRow[0] === playerNum) {
+                reject("Incorrect target row");
+                return;
               }
-                const cardKey = "health";
-                const cardValue = 0;
-
+              const cardKey = "health";
+              const cardValue = 0;
               $(".card").off("click");
               // Apply abilities that affect a specific card
 
@@ -116,21 +216,16 @@ export default function HeroAbilities(props) {
                 },
               }));
 
-              
               resolve();
             });
           });
         },
       },
     },
+
     zenyatta: {
       ability1: {
-        run() {
-
-        }
-      },
-      ability2: {
-        synergyCost: 3,
+        maxTargets: 1,
         run() {
           return new Promise((resolve, reject) => {
             $(".card").on("click", (e) => {
@@ -140,9 +235,9 @@ export default function HeroAbilities(props) {
               if (targetRow[0] === "p") {
                 reject("Cant target player's hand");
               }
-              const cardKey = "health";
-              const cardValue =  0;
-              
+              const cardKey = "";
+              const cardValue = 0;
+
               $(".card").off("click");
               // Apply abilities that affect a specific card
 
@@ -165,25 +260,34 @@ export default function HeroAbilities(props) {
                 },
               }));
 
-              
               resolve();
             });
           });
         },
-      }
+      },
+      ability2: {
+        synergyCost: 3,
+        run() {},
+      },
     },
   };
 
   // Handle the calling of hero abilites, including checking the ability call is valid
   async function activateAbility1(e) {
     e.stopPropagation();
-
+    const maxTargets = abilities[heroId].ability1.maxTargets;
+    console.log(`maxtargets is ${maxTargets}`)
     // Check that the card is not in the player's hand
     if (rowId[0] !== "p") {
       // Call the relevant hero's ability
       try {
         unsetCardFocus();
-        await abilities[heroId].ability1.run();
+        let i = 0;
+        do {
+          await abilities[heroId].ability1.run();
+          console.log(`ability1-${i} done`)
+          i += 1;  
+        } while (i < maxTargets)
       } catch (err) {
         alert(err);
       }
