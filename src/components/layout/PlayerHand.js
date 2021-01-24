@@ -3,16 +3,20 @@ import update from "immutability-helper";
 import CardDisplay from "components/layout/CardDisplay";
 import data from "data";
 import gameContext from "context/gameContext";
+import turnContext from "context/turnContext";
 import helper from "helper";
 
 export default function PlayerHand(props) {
   // Context
   const { gameState, setGameState } = useContext(gameContext);
+  const { turnState, setTurnState } = useContext(turnContext);
 
   // Variables
-  const playerHandId = `player${props.playerNum}hand`;
-  const playerCardsId = `player${props.playerNum}cards`;
+  const playerNum = props.playerNum;
+  const playerHandId = `player${playerNum}hand`;
+  const playerCardsId = `player${playerNum}cards`;
   const handCards = gameState.rows[playerHandId].cardIds;
+
 
   // Creates a card with its own health and id unique to the playerCard, returns player-specific ID
   function createPlayerCard(playerNum, heroId) {
@@ -119,11 +123,28 @@ export default function PlayerHand(props) {
         setCardFocus={props.setCardFocus}
       />
       <button
+        className="drawbutton"
         disabled={handCards.length >= 6}
-        style={{ width: "50px", height: "50px" }}
         onClick={drawCards}
       >
         Draw
+      </button>
+      <button 
+        disabled={!(turnState.playerTurn === playerNum)} 
+        className="endturnbutton"
+        onClick={turnState.playerTurn === 1 ? (
+          () => setTurnState(prevState => ({
+            turnCount: (prevState.turnCount + 1),
+            playerTurn: 2,
+          }))) : (
+          () => setTurnState(prevState => ({
+            turnCount: (prevState.turnCount + 1),
+            playerTurn: 1,
+          }))
+          )
+        }
+      >
+        End Turn
       </button>
     </div>
   );

@@ -1,6 +1,6 @@
 import React, { useContext } from "react";
 import Card from "components/cards/Card";
-import { Droppable, Draggable } from "react-beautiful-dnd";
+import { Droppable } from "react-beautiful-dnd";
 import gameContext from "context/gameContext";
 
 export default function CardDisplay(props) {

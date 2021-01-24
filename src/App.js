@@ -17,10 +17,14 @@ function App() {
     player2: { wins: 0 },
     wonLastMatch: 0,
   });
-  const [turnState, setTurnState] = useState(helper.getRandInt(1, 3));
+  const [turnState, setTurnState] = useState({
+    turnCount: 1,
+    playerTurn: helper.getRandInt(1, 3),
+  });
   const [cardFocus, setCardFocus] = useState(null);
 
-  console.log(gameState);
+  console.log(`It is Player ${turnState.playerTurn}'s turn!`);
+  console.log(`It is turn number ${turnState.turnCount}`)
 
   function handleOnDragEnd(result) {
     const { destination, source, draggableId } = result;

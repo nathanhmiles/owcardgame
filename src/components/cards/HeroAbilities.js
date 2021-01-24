@@ -1,10 +1,12 @@
 import React, { useContext } from "react";
 import gameContext from "context/gameContext";
+import turnContext from "context/turnContext";
 import $ from "jquery";
 
 export default function HeroAbilities(props) {
   // Context
   const { gameState, setGameState } = useContext(gameContext);
+  const { turnState, setTurnState } = useContext(turnContext);
 
   // Variables
   const playerNum = props.playerNum;
@@ -49,31 +51,27 @@ export default function HeroAbilities(props) {
               const targetRow = $(e.target).closest(".row").attr("id");
               console.log(targetRow);
 
-              const abilityResult = {
-                type: "row",
-                rowId: targetRow,
-                rowKey: "effects",
-                rowValue: "2widowmaker",
-              };
-
+              const rowKey = "effects";
+              const rowValue = "2widowmaker";
+              
               $(".row").off("click");
               if (targetRow[0] !== "p") {
                 setGameState((prevState) => ({
                   ...prevState,
                   rows: {
                     ...prevState.rows,
-                    [abilityResult.rowId]: {
-                      ...prevState.rows[abilityResult.rowId],
-                      [abilityResult.rowKey]: [
-                        ...prevState.rows[abilityResult.rowId][
-                          abilityResult.rowKey
+                    [targetRow]: {
+                      ...prevState.rows[targetRow],
+                      [rowKey]: [
+                        ...prevState.rows[targetRow][
+                          rowKey
                         ],
-                        abilityResult.rowValue,
+                        rowValue,
                       ],
                     },
                   },
                 }));
-                resolve(abilityResult);
+                resolve();
               } else {
                 reject("Can't target player hand");
               }
@@ -93,13 +91,8 @@ export default function HeroAbilities(props) {
               if (targetRow[0] === "p") {
                 reject("Cant target player's hand");
               }
-              const abilityResult = {
-                type: "card",
-                targetCardId: targetCardId,
-                cardKey: "health",
-                cardValue: 0,
-                targetRow: targetRow,
-              };
+                const cardKey = "health";
+                const cardValue = 0;
 
               $(".card").off("click");
               // Apply abilities that affect a specific card
@@ -116,7 +109,7 @@ export default function HeroAbilities(props) {
                       [targetCardId]: {
                         ...prevState.playerCards[`player${targetPlayer}cards`]
                           .cards[targetCardId],
-                        [abilityResult.cardKey]: abilityResult.cardValue,
+                        [cardKey]: cardValue,
                       },
                     },
                   },
@@ -124,11 +117,60 @@ export default function HeroAbilities(props) {
               }));
 
               
-              resolve(abilityResult);
+              resolve();
             });
           });
         },
       },
+    },
+    zenyatta: {
+      ability1: {
+        run() {
+
+        }
+      },
+      ability2: {
+        synergyCost: 3,
+        run() {
+          return new Promise((resolve, reject) => {
+            $(".card").on("click", (e) => {
+              const targetCardId = $(e.target).closest(".card").attr("id");
+              const targetPlayer = targetCardId[0];
+              const targetRow = $(e.target).closest(".row").attr("id");
+              if (targetRow[0] === "p") {
+                reject("Cant target player's hand");
+              }
+              const cardKey = "health";
+              const cardValue =  0;
+              
+              $(".card").off("click");
+              // Apply abilities that affect a specific card
+
+              setGameState((prevState) => ({
+                ...prevState,
+                playerCards: {
+                  ...prevState.playerCards,
+                  [`player${targetPlayer}cards`]: {
+                    ...prevState.playerCards[`player${targetPlayer}cards`],
+                    cards: {
+                      ...prevState.playerCards[`player${targetPlayer}cards`]
+                        .cards,
+                      [targetCardId]: {
+                        ...prevState.playerCards[`player${targetPlayer}cards`]
+                          .cards[targetCardId],
+                        [cardKey]: cardValue,
+                      },
+                    },
+                  },
+                },
+              }));
+
+              
+              resolve();
+            });
+          });
+        },
+      }
     },
   };
 
