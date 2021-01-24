@@ -20,6 +20,8 @@ function App() {
   const [turnState, setTurnState] = useState(helper.getRandInt(1, 3));
   const [cardFocus, setCardFocus] = useState(null);
 
+  console.log(gameState);
+
   function handleOnDragEnd(result) {
     const { destination, source, draggableId } = result;
     if (!destination) return;

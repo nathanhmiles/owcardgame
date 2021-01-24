@@ -25,6 +25,7 @@ export default function CardDisplay(props) {
                 <Card
                   setCardFocus={props.setCardFocus}
                   playerHeroId={cardId}
+                  key={cardId}
                   playerNum={props.playerNum}
                   rowId={props.rowId}
                   index={index}

@@ -16,21 +16,16 @@ export default function BoardRow(props) {
   // Update synergy and power values anytime a card moves row
   useEffect(() => {
     let playerPower = 0;
-    let rowSynergy = 0;
     const rowPosition = props.rowId[1];
-
-
-    /*
+    
     // For every card in the row, add up the power and synergy values
     for (let cardId of rowCards) {
-      playerPower +=
-        gameState.playerCards[`player${playerNum}cards`].cards[cardId].power[
-          rowPosition
-        ];
-      rowSynergy +=
-        gameState.playerCards[`player${playerNum}cards`].cards[cardId].synergy[
-          rowPosition
-        ];
+      if (gameState.playerCards[`player${playerNum}cards`].cards[cardId].health > 0) {
+        playerPower +=
+          gameState.playerCards[`player${playerNum}cards`].cards[cardId].power[
+            rowPosition
+          ];
+      }
     }
 
     // Set power and synergy state
@@ -38,36 +33,18 @@ export default function BoardRow(props) {
       ...prevState,
       rows: {
         ...prevState.rows,
-        [rowId]: {
-          ...prevState.rows[rowId],
-          synergy: rowSynergy,
-        }
-      }
-    }));
-    */
-
-    /*
-    setGameState(prevState => ({
-      ...prevState,
-      rows: {
-        ...prevState.rows,
         [playerHand]: {
           ...prevState.rows[playerHand],
           power: {
             ...prevState.rows[playerHand].power,
-              [rowPosition]: playerPower,
-          }, 
-        },
-        [rowId]: {
-          ...prevState.rows[rowId],
-          synergy: rowSynergy,
+            [rowPosition]: playerPower,
+          },
         }
-      },
+      }
     }));
-    */
 
     // TODO: Not all dependencies here, check
-  }, [rowCards]);
+  }, [rowCards, gameState.playerCards[`player${playerNum}cards`]]);
 
   return (
     <div id={rowId} className="rowarea row">

@@ -6,13 +6,14 @@ import HealthCounter from "./HealthCounter";
 
 export default function Card(props) {
   // Context
-  const { gameState } = useContext(gameContext);
+  const { gameState, setGameState } = useContext(gameContext);
 
   // Variables
   const playerHeroId = props.playerHeroId;
   const playerNum = props.playerNum;
   const playerCardsId = `player${playerNum}cards`;
   const rowId = props.rowId;
+  const rowPosition = rowId[1];
   const index = props.index;
 
   // Get card attributes from relevant player
@@ -34,7 +35,7 @@ export default function Card(props) {
   }
 
   return (
-    <Draggable key={playerHeroId} draggableId={playerHeroId} index={index} isDragDisabled={isPlayed}> 
+    <Draggable draggableId={playerHeroId} index={index} isDragDisabled={isPlayed}> 
       {(provided) => (
         <li
           {...provided.draggableProps}
