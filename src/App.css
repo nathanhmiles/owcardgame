@@ -89,6 +89,10 @@ ul {
   justify-content: center;
 }
 
+.handlist {
+  min-height: 300px;
+}
+
 .playerhand {
   display: flex;
   justify-content: center;
@@ -215,6 +219,10 @@ button {
   color: white;
 }
 
+button:active {
+  background-color: #fa9c1e;
+}
+
 button:disabled {
   background-color: transparent;
 }
@@ -271,6 +279,12 @@ button:disabled {
 .cardfocus .ability2 {
   bottom: 0%;
   height: 15%;
+}
+
+footer {
+  display: flex;
+  justify-content: center;
+  text-align: center;
 }
 
 .disclaimer {
