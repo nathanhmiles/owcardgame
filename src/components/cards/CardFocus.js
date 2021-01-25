@@ -1,7 +1,8 @@
 import React, { useContext } from "react";
 import HeroAbilities from 'components/cards/HeroAbilities';
 import gameContext from "context/gameContext";
-import HealthCounter from "./HealthCounter";
+import HealthCounter from "components/cards/HealthCounter";
+import ShieldCounter from 'components/cards/ShieldCounter';
 
 export default function CardFocus(props) {
   const { gameState, setGameState } = useContext(gameContext);
@@ -32,7 +33,8 @@ export default function CardFocus(props) {
         className="cardfocus"
         onClick={props.unsetCardFocus}
       >
-        <HealthCounter health={health} />
+        <HealthCounter type="cardfocuscounter" health={health} />
+        {(shieldValue > 0) && <ShieldCounter type="cardfocuscounter" shieldValue={shieldValue} />}
         <img
           src={require(`assets/heroes/${id}.png`).default}
           className="cardimg"

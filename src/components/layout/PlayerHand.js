@@ -33,7 +33,7 @@ export default function PlayerHand(props) {
     } = data.heroes[heroId];
     const maxHealth = health;
     const playerHeroId = `${playerNum}${heroId}`;
-    const shieldValue = 0;
+    const shieldValue = 2;
     const enemyEffects = [];
     const allyEffects = [];
     const isPlayed = false;

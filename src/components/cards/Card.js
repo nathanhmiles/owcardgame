@@ -3,7 +3,8 @@ import { Draggable } from "react-beautiful-dnd";
 import gameContext from "context/gameContext";
 import turnContext from "context/turnContext";
 import CardEffects from "components/cards/CardEffects";
-import HealthCounter from "./HealthCounter";
+import HealthCounter from "components/cards/HealthCounter";
+import ShieldCounter from "components/cards/ShieldCounter";
 
 export default function Card(props) {
   // Context
@@ -59,7 +60,8 @@ export default function Card(props) {
               style={health > 0 ? null : { filter: "grayscale(1)" }}
               className="card"
               onClick={
-                turnState.playerTurn === playerNum || parseInt(rowId[0]) === playerNum
+                turnState.playerTurn === playerNum ||
+                parseInt(rowId[0]) === playerNum
                   ? () => {
                       props.setCardFocus({
                         playerHeroId: playerHeroId,
@@ -69,12 +71,18 @@ export default function Card(props) {
                   : null
               }
             >
-              {turnState.playerTurn === playerNum || parseInt(rowId[0]) === playerNum ? (
-                <HealthCounter health={health} />
+              {turnState.playerTurn === playerNum ||
+              parseInt(rowId[0]) === playerNum ? (
+                <HealthCounter type="cardcounter" health={health} />
               ) : null}
+              {turnState.playerTurn === playerNum ||
+              parseInt(rowId[0]) === playerNum
+                ? shieldValue > 0 && <ShieldCounter type="cardcounter" shieldValue={shieldValue} />
+                : null}
               <img
                 src={
-                  turnState.playerTurn === playerNum || parseInt(rowId[0]) === playerNum
+                  turnState.playerTurn === playerNum ||
+                  parseInt(rowId[0]) === playerNum
                     ? require(`assets/heroes/${id}.png`).default
                     : require("assets/card-back.png").default
                 }
