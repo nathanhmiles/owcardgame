@@ -24,19 +24,31 @@ export default function CardFocus(props) {
     isDiscarded,
   } = gameState.playerCards[`player${playerNum}cards`].cards[playerHeroId];
   
+  function drag_start(event) {
+    const style = window.getComputedStyle(event.target, null);
+    console.log(style);
+    const str = (parseInt(style.getPropertyValue("left")) - event.clientX) + ',' + (parseInt(style.getPropertyValue("top")) - event.clientY) + ',' + event.target.id;
+    console.log(str)
+    event.dataTransfer.setData("text/plain", str);
+}
+
+  
 
   return (
-    <div id="cardfocuscontainer">
+    <div id="cardfocuscontainer" >
       <div
-        id={`${playerHeroId}-cardfocus`}
+        id={'cardfocus'}
         className="cardfocus"
         onClick={props.unsetCardFocus}
+        draggable="true" onDragStart={(e) => drag_start(e)}
+        style={{left: '0', top: '0'}}
       >
         <HealthCounter health={health} />
         <img
           src={require(`assets/heroes/${id}.png`).default}
           className="cardimg"
           alt={"Card Focus"}
+          style={{left: '0', top: '0'}}
         />
         {health > 0 ? (
           <HeroAbilities 
