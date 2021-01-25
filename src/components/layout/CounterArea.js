@@ -19,6 +19,7 @@ export default function CounterArea(props) {
               key={playerHeroId} 
               setCardFocus={props.setCardFocus} 
               playerNum={props.playerNum}
+              rowId={rowId}
             />
           );
       })}
