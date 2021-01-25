@@ -117,8 +117,6 @@ ul {
   position: relative;
   display: flex;
   margin: 36px 12px 36px 12px;
-  height: 200px;
-  width: auto;
   z-index: 20;
   font-size: 9pt;
 }
@@ -126,7 +124,7 @@ ul {
 
 .cardimg {
   max-height: 100%;
-  width: auto;
+  max-width: 100%;
 }
 
 .rowlabel {

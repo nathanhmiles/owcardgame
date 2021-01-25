@@ -1,4 +1,4 @@
-import background from 'assets/healthbackground.png'
+import background from 'assets/healthbackground-hexagon.png'
 
 export default function HealthCounter(props) {
   return (
