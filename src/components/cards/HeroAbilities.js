@@ -19,14 +19,6 @@ export default function HeroAbilities(props) {
   const unsetCardFocus = props.unsetCardFocus;
 
   function setRowSynergy(rowId, synergyCost) {
-    /*
-    // Using immutability helper below breaks health updates
-    const newSynState = update(gameState, {
-      rows: {[rowId]: {synergy: {$apply: (prevSyn) => {return prevSyn - synergyCost}}}}
-    });
-    
-    setGameState((prevState) => (newSynState));
-    */
 
     setGameState((prevState) => ({
       ...prevState,
@@ -48,55 +40,59 @@ export default function HeroAbilities(props) {
         run() {
           return new Promise((resolve, reject) => {
             $(".card").on("click", (e) => {
+              const targetCardId = $(e.target).closest(".card").attr("id");
+              const targetPlayer = targetCardId[0];
+              const targetRow = $(e.target).closest(".row").attr("id");
 
-                const targetCardId = $(e.target).closest(".card").attr("id");
-                const targetPlayer = targetCardId[0];
-                const targetRow = $(e.target).closest(".row").attr("id");
+              $(".card").off("click");
+              // Check target is valid
+              if (targetRow[0] === "p" || targetRow[0] === playerNum) {
+                reject("Incorrect target");
+                return;
+              }
+              const cardKey = "health";
+              const cardValue = -1;
+              // Apply abilities that affect a specific card
 
-                // Check target is valid
-                if (targetRow[0] === "p" || targetRow[0] === playerNum) {
-                  reject("Incorrect target");
-                  return;
-                }
-                const cardKey = "health";
-                const cardValue = -1;
-                $(".card").off("click");
-                // Apply abilities that affect a specific card
-  
-                setGameState((prevState) => ({
-                  ...prevState,
-                  playerCards: {
-                    ...prevState.playerCards,
-                    [`player${targetPlayer}cards`]: {
-                      ...prevState.playerCards[`player${targetPlayer}cards`],
-                      cards: {
+              setGameState((prevState) => ({
+                ...prevState,
+                playerCards: {
+                  ...prevState.playerCards,
+                  [`player${targetPlayer}cards`]: {
+                    ...prevState.playerCards[`player${targetPlayer}cards`],
+                    cards: {
+                      ...prevState.playerCards[`player${targetPlayer}cards`]
+                        .cards,
+                      [targetCardId]: {
                         ...prevState.playerCards[`player${targetPlayer}cards`]
-                          .cards,
-                        [targetCardId]: {
-                          ...prevState.playerCards[`player${targetPlayer}cards`]
-                            .cards[targetCardId],
-                          [cardKey]: (prevState.playerCards[`player${targetPlayer}cards`]
-                          .cards[targetCardId][cardKey] + cardValue),
-                        },
+                          .cards[targetCardId],
+                        [cardKey]:
+                          prevState.playerCards[`player${targetPlayer}cards`]
+                            .cards[targetCardId][cardKey] + cardValue,
                       },
                     },
                   },
-                }));
+                },
+              }));
 
-                
-                resolve();
-              });
+              resolve();
             });
-        }
+          });
+        },
       },
       ability2: {
         synergyCost: 3,
         run() {
           return new Promise((resolve, reject) => {
+            
+            // Execute the following when any card is clicked
             $(".card").on("click", (e) => {
               const targetCardId = $(e.target).closest(".card").attr("id");
               const targetPlayer = targetCardId[0];
               const targetRow = $(e.target).closest(".row").attr("id");
+              
+              // Remove the onclick effect from all cards
+              $(".card").off("click");
               // Check target is valid
               if (
                 targetRow[0] === "p" ||
@@ -114,7 +110,6 @@ export default function HeroAbilities(props) {
               }
               const cardKey = "health";
               const cardValue = 0;
-              $(".card").off("click");
               // Apply abilities that affect a specific card
 
               setGameState((prevState) => ({
@@ -138,7 +133,6 @@ export default function HeroAbilities(props) {
               resolve();
             });
           });
-
         },
       },
     },
@@ -188,13 +182,14 @@ export default function HeroAbilities(props) {
               const targetCardId = $(e.target).closest(".card").attr("id");
               const targetPlayer = targetCardId[0];
               const targetRow = $(e.target).closest(".row").attr("id");
+              
+              $(".card").off("click");
               if (targetRow[0] === "p" || targetRow[0] === playerNum) {
                 reject("Incorrect target row");
                 return;
               }
               const cardKey = "health";
               const cardValue = 0;
-              $(".card").off("click");
               // Apply abilities that affect a specific card
 
               setGameState((prevState) => ({
@@ -227,42 +222,7 @@ export default function HeroAbilities(props) {
       ability1: {
         maxTargets: 1,
         run() {
-          return new Promise((resolve, reject) => {
-            $(".card").on("click", (e) => {
-              const targetCardId = $(e.target).closest(".card").attr("id");
-              const targetPlayer = targetCardId[0];
-              const targetRow = $(e.target).closest(".row").attr("id");
-              if (targetRow[0] === "p") {
-                reject("Cant target player's hand");
-              }
-              const cardKey = "";
-              const cardValue = 0;
-
-              $(".card").off("click");
-              // Apply abilities that affect a specific card
-
-              setGameState((prevState) => ({
-                ...prevState,
-                playerCards: {
-                  ...prevState.playerCards,
-                  [`player${targetPlayer}cards`]: {
-                    ...prevState.playerCards[`player${targetPlayer}cards`],
-                    cards: {
-                      ...prevState.playerCards[`player${targetPlayer}cards`]
-                        .cards,
-                      [targetCardId]: {
-                        ...prevState.playerCards[`player${targetPlayer}cards`]
-                          .cards[targetCardId],
-                        [cardKey]: cardValue,
-                      },
-                    },
-                  },
-                },
-              }));
-
-              resolve();
-            });
-          });
+          
         },
       },
       ability2: {
@@ -276,18 +236,21 @@ export default function HeroAbilities(props) {
   async function activateAbility1(e) {
     e.stopPropagation();
     const maxTargets = abilities[heroId].ability1.maxTargets;
-    console.log(`maxtargets is ${maxTargets}`)
+
     // Check that the card is not in the player's hand
     if (rowId[0] !== "p") {
       // Call the relevant hero's ability
       try {
         unsetCardFocus();
+        
+        // Allow the ability to be triggered more than once if relevant
         let i = 0;
         do {
           await abilities[heroId].ability1.run();
-          console.log(`ability1-${i} done`)
-          i += 1;  
-        } while (i < maxTargets)
+          console.log(`ability1-${i} done`);
+          i += 1;
+        } while (i < maxTargets);
+        
       } catch (err) {
         alert(err);
       }

@@ -18,6 +18,7 @@ export default function Card(props) {
   const rowPosition = rowId[1];
   const index = props.index;
 
+
   // Get card attributes from relevant player
   const {
     id,
@@ -61,11 +62,12 @@ export default function Card(props) {
                 });
               }}
             >
-              <HealthCounter health={health} />
+              {(turnState.playerTurn === playerNum || rowId[0] == playerNum) ? (<HealthCounter health={health} />) : (null)}
               <img
-                src={require(`assets/heroes/${id}.png`).default}
+                src={(turnState.playerTurn === playerNum || rowId[0] == playerNum) ? (require(`assets/heroes/${id}.png`).default) : (require('assets/card-back.png').default)}
                 className="cardimg"
                 alt={`${name} Card`}
+                onClick={() => console.log(`${playerNum} ${rowId}`)}
               />
             </div>
             {playerNum === 1 ? (
