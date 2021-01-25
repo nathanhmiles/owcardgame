@@ -9,7 +9,7 @@ export default function PlayerBoard(props) {
   return (
     <div id={`player${props.playerNum}board`} className="board">
       {Object.keys(rows).map((rowId) => {
-        if (rowId[0] == props.playerNum) {
+        if (parseInt(rowId[0]) === props.playerNum) {
           return (
             <BoardRow
               setCardFocus={props.setCardFocus}

@@ -18,7 +18,6 @@ export default function Card(props) {
   const rowPosition = rowId[1];
   const index = props.index;
 
-
   // Get card attributes from relevant player
   const {
     id,
@@ -38,7 +37,11 @@ export default function Card(props) {
   }
 
   return (
-    <Draggable draggableId={playerHeroId} index={index} isDragDisabled={(isPlayed || turnState.playerTurn !== playerNum)}> 
+    <Draggable
+      draggableId={playerHeroId}
+      index={index}
+      isDragDisabled={isPlayed || turnState.playerTurn !== playerNum}
+    >
       {(provided) => (
         <li
           {...provided.draggableProps}
@@ -55,16 +58,26 @@ export default function Card(props) {
               id={`${playerHeroId}`}
               style={health > 0 ? null : { filter: "grayscale(1)" }}
               className="card"
-              onClick={() => {
-                props.setCardFocus({
-                  playerHeroId: playerHeroId,
-                  rowId: rowId,
-                });
-              }}
+              onClick={
+                turnState.playerTurn === playerNum || parseInt(rowId[0]) === playerNum
+                  ? () => {
+                      props.setCardFocus({
+                        playerHeroId: playerHeroId,
+                        rowId: rowId,
+                      });
+                    }
+                  : null
+              }
             >
-              {(turnState.playerTurn === playerNum || rowId[0] == playerNum) ? (<HealthCounter health={health} />) : (null)}
+              {turnState.playerTurn === playerNum || parseInt(rowId[0]) === playerNum ? (
+                <HealthCounter health={health} />
+              ) : null}
               <img
-                src={(turnState.playerTurn === playerNum || rowId[0] == playerNum) ? (require(`assets/heroes/${id}.png`).default) : (require('assets/card-back.png').default)}
+                src={
+                  turnState.playerTurn === playerNum || parseInt(rowId[0]) === playerNum
+                    ? require(`assets/heroes/${id}.png`).default
+                    : require("assets/card-back.png").default
+                }
                 className="cardimg"
                 alt={`${name} Card`}
                 onClick={() => console.log(`${playerNum} ${rowId}`)}
