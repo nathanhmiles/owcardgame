@@ -116,6 +116,7 @@ function App() {
     <div>
       <turnContext.Provider value={{ turnState, setTurnState }}>
         <gameContext.Provider value={{ gameState, setGameState }}>
+        <Footer />
           <DragDropContext onDragEnd={handleOnDragEnd}>
             <PlayerHalf playerNum={2} setCardFocus={setCardFocus} />
             <TitleCard />

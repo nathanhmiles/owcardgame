@@ -96,7 +96,7 @@ ul {
 }
 
 .playername {
-  font-size: 5vw;
+  font-size: 4vw;
   left: 200px;
 }
 
@@ -212,8 +212,8 @@ button {
 }
 
 .powercounter {
-  color: yellow;
-  border: 2px solid;
+  color: white;
+  background-color: #fa9c1e;
   max-width: 100px;
   max-height: 100px;
   min-width: 60px;
@@ -257,9 +257,9 @@ button {
   height: 15%;
 }
 
-#disclaimer {
-  font-size: 7pt;
-    display: flex;
-    justify-content: center;
-    margin-top: 20px;
+.disclaimer {
+  font-size: 16pt;
+  display: flex;
+  justify-content: center;
+  margin: 20px;
 }
