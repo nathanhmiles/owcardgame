@@ -122,6 +122,7 @@ export default function PlayerHand(props) {
         rowId={playerHandId}
         setCardFocus={props.setCardFocus}
       />
+      <div className="playerbuttons">
       <button
         className="drawbutton"
         disabled={handCards.length >= 6}
@@ -146,6 +147,7 @@ export default function PlayerHand(props) {
       >
         End Turn
       </button>
+      </div>
     </div>
   );
 }

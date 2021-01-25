@@ -198,9 +198,25 @@ ul {
   font-size: x-large;
 }
 
+.playerbuttons {
+  display: flex;
+  flex-direction: column;
+}
+
 button {
-  width: 50px;
-  height: 50px;
+  width: 80px;
+  height: 80px;
+  margin: 10px;
+  font-family: inherit;
+  font-size: 16pt;
+  border: 3px solid #333333;
+  border-radius: 10%;
+  background-color: #333333;
+  color: white;
+}
+
+button:disabled {
+  background-color: transparent;
 }
 
 .drawbutton {
