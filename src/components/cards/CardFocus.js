@@ -41,7 +41,6 @@ export default function CardFocus(props) {
         className="cardfocus"
         onClick={props.unsetCardFocus}
         draggable="true" onDragStart={(e) => drag_start(e)}
-        style={{left: '0', top: '0'}}
       >
         <HealthCounter health={health} />
         <img
