@@ -201,11 +201,7 @@ export default function HeroAbilities(props) {
                 return;
               }
 
-              let cardKey = "health";
-              if (gameState.playerCards[`player${enemyPlayer}cards`].cards[targetCardId].shield > 0) {
-                cardKey = "shield";
-              }
-              const cardValue = -1;
+              const { targetHealth, targetShield } = applyDamage(1, targetCardId);
               // Apply abilities that affect a specific card
 
               setGameState((prevState) => ({
@@ -220,9 +216,8 @@ export default function HeroAbilities(props) {
                       [targetCardId]: {
                         ...prevState.playerCards[`player${enemyPlayer}cards`]
                           .cards[targetCardId],
-                        [cardKey]:
-                          prevState.playerCards[`player${enemyPlayer}cards`]
-                            .cards[targetCardId][cardKey] + cardValue,
+                        health: targetHealth,
+                        shield: targetShield,
                       },
                     },
                   },
@@ -510,11 +505,12 @@ export default function HeroAbilities(props) {
         
         if ('maxTargets' in abilities[heroId].ability1) {
           // Allow the ability to be triggered more than once if relevant
-          let i = 0;
+          let i = 0;  
           do {
             await abilities[heroId].ability1.run();
             i += 1;
           } while (i < maxTargets);
+        
         } else await abilities[heroId].ability1.run();
         
       } catch (err) {
@@ -536,6 +532,7 @@ export default function HeroAbilities(props) {
         try {
           unsetCardFocus();
           
+          // Allow multiple targets if applicable
           if ('maxTargets' in abilities[heroId].ability2) {
             const maxTargets = abilities[heroId].ability2.maxTargets;
             let i = 0;
