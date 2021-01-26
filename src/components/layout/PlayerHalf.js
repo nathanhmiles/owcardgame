@@ -21,6 +21,8 @@ export default function PlayerHalf(props) {
           playerNum={props.playerNum}
           setCardFocus={props.setCardFocus}
           totalPower={totalPower}
+          nextCardDraw={props.nextCardDraw}
+          setNextCardDraw={props.setNextCardDraw}
         />
       </div>
     );
@@ -31,6 +33,8 @@ export default function PlayerHalf(props) {
           playerNum={props.playerNum}
           setCardFocus={props.setCardFocus}
           totalPower={totalPower}
+          nextCardDraw={props.nextCardDraw}
+          setNextCardDraw={props.setNextCardDraw}
         />
         <PlayerBoard
           playerNum={props.playerNum}

@@ -16,7 +16,10 @@ export default function PlayerHand(props) {
   const playerHandId = `player${playerNum}hand`;
   const playerCardsId = `player${playerNum}cards`;
   const handCards = gameState.rows[playerHandId].cardIds;
+  const nextCardDraw = props.nextCardDraw;
+  const setNextCardDraw = props.setNextCardDraw;
 
+  console.log(props.nextCardDraw)
 
   // Calls the create card function and adds to hand
   function addNewCardToHand(playerNum, heroId) {
@@ -38,16 +41,25 @@ export default function PlayerHand(props) {
   }
 
   // Draws one random card and puts the card into the player's hand
-  function drawCards() {
+  function drawCards(nextCardDraw) {
     // TODO: specify number of cards to draw?
-    // Draw a random card id, then check if it was already drawn, if so draw again
-    do {
-      const randInt = helper.getRandInt(0, Object.keys(data.heroes).length);
-      const randKey = Object.keys(data.heroes)[randInt];
-      const newCardId = data.heroes[randKey].id;
-      // Create the player-specific card using the random id and get player-specific id
-      var playerHeroId = addNewCardToHand(props.playerNum, newCardId);
-    } while (playerHeroId in gameState.playerCards[playerCardsId].cards);
+    if (nextCardDraw[`player${playerNum}`] !== null) {
+      // Draw specific card designated by nextCardDraw state
+      var playerHeroId = addNewCardToHand(playerNum, nextCardDraw[`player${playerNum}`]);
+      setNextCardDraw(prevState => ({
+        ...prevState,
+        [`player${playerNum}`]: null,
+      }));
+    } else {
+      // Draw a random card id, then check if it was already drawn, if so draw again
+      do {
+        const randInt = helper.getRandInt(0, Object.keys(data.heroes).length);
+        const randKey = Object.keys(data.heroes)[randInt];
+        const newCardId = data.heroes[randKey].id;
+        // Create the player-specific card using the random id and get player-specific id
+        playerHeroId = addNewCardToHand(props.playerNum, newCardId);
+      } while (playerHeroId in gameState.playerCards[playerCardsId].cards);
+    }
 
     // Create updated array and update state
     const newCardIds = [...gameState.rows[playerHandId].cardIds, playerHeroId];
@@ -75,8 +87,8 @@ export default function PlayerHand(props) {
       <div className="playerbuttons">
       <button
         className="drawbutton"
-        disabled={handCards.length >= 6}
-        onClick={drawCards}
+        disabled={handCards.length >= 8}
+        onClick={() => drawCards(nextCardDraw)}
       >
         Draw
       </button>

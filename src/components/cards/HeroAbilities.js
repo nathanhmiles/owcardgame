@@ -18,7 +18,7 @@ export default function HeroAbilities(props) {
   const cardFocus = props.cardFocus;
   const setCardFocus = props.setCardFocus;
   const unsetCardFocus = props.unsetCardFocus;
-
+  
   function setRowSynergy(rowId, synergyCost) {
 
     setGameState((prevState) => ({
@@ -35,6 +35,22 @@ export default function HeroAbilities(props) {
 
   // Abilities data
   const abilities = {
+    dva: {
+      ability2: {
+        synergyCost: 2,
+        run() {
+          return new Promise((resolve, reject) => {
+          
+            props.setNextCardDraw(prevState => ({
+              ...prevState,
+              [`player${playerNum}`]: 'dvameka'
+            }));
+
+          resolve();
+        })
+        },
+      },
+    },
     dvameka: {
       ability1: {
         maxTargets: 1,
@@ -134,7 +150,11 @@ export default function HeroAbilities(props) {
           }
 
           // After effects
+
+          // Create new dva card 
           const newDva = helper.createPlayerCard(playerNum, 'dva');
+          // Remove dvameka card from row (still exists in playercards)
+          const newRowCards = gameState.rows[rowId].cardIds.filter(cardId => cardId !== `${playerNum}dvameka`);
           
           setGameState((prevState) => ({
             ...prevState,
@@ -156,7 +176,7 @@ export default function HeroAbilities(props) {
               ...prevState.rows,
               [rowId]: {
                 ...prevState.rows[rowId],
-                cardIds: [...prevState.rows[rowId].cardIds, newDva.playerHeroId],
+                cardIds: [...newRowCards, newDva.playerHeroId],
               },
             },
           }));

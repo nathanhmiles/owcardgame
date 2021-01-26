@@ -22,6 +22,10 @@ function App() {
     playerTurn: helper.getRandInt(1, 3),
   });
   const [cardFocus, setCardFocus] = useState(null);
+  const [nextCardDraw, setNextCardDraw] = useState({
+    player1: null,
+    player2: null,
+  });
 
   function handleOnDragEnd(result) {
     const { destination, source, draggableId } = result;
@@ -63,19 +67,18 @@ function App() {
       ...start,
       cardIds: startCardIds,
     };
-    
+
     // Get the synergy value that the dragged card applies to the destination row
     const addSynergy =
-      gameState.playerCards[`player${playerNum}cards`].cards[draggableId].synergy[
-        finishPosition
-      ];
+      gameState.playerCards[`player${playerNum}cards`].cards[draggableId]
+        .synergy[finishPosition];
 
     const finishCardIds = Array.from(finish.cardIds);
     finishCardIds.splice(destination.index, 0, draggableId);
     const newFinish = {
       ...finish,
       cardIds: finishCardIds,
-      synergy: (finish.synergy + addSynergy),
+      synergy: finish.synergy + addSynergy,
     };
 
     // Set the order of the new rows, and set dragged card synergy to 0
@@ -93,7 +96,9 @@ function App() {
           cards: {
             ...gameState.playerCards[`player${playerNum}cards`].cards,
             [draggableId]: {
-              ...gameState.playerCards[`player${playerNum}cards`].cards[draggableId],
+              ...gameState.playerCards[`player${playerNum}cards`].cards[
+                draggableId
+              ],
               isPlayed: true,
               synergy: {
                 f: 0,
@@ -113,11 +118,21 @@ function App() {
     <div>
       <turnContext.Provider value={{ turnState, setTurnState }}>
         <gameContext.Provider value={{ gameState, setGameState }}>
-        <Footer />
+          <Footer />
           <DragDropContext onDragEnd={handleOnDragEnd}>
-            <PlayerHalf playerNum={2} setCardFocus={setCardFocus} />
+            <PlayerHalf
+              playerNum={2}
+              setCardFocus={setCardFocus}
+              nextCardDraw={nextCardDraw}
+              setNextCardDraw={setNextCardDraw}
+            />
             <TitleCard />
-            <PlayerHalf playerNum={1} setCardFocus={setCardFocus} />
+            <PlayerHalf
+              playerNum={1}
+              setCardFocus={setCardFocus}
+              nextCardDraw={nextCardDraw}
+              setNextCardDraw={setNextCardDraw}
+            />
           </DragDropContext>
           {cardFocus && (
             <CardFocus
@@ -126,6 +141,7 @@ function App() {
                 setCardFocus(null);
               }}
               cardFocus={cardFocus}
+              setNextCardDraw={setNextCardDraw}
             />
           )}
           <Footer />

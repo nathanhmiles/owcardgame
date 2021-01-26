@@ -48,6 +48,7 @@ export default function CardFocus(props) {
           cardFocus={cardFocus}
           setCardFocus={setCardFocus}
           unsetCardFocus={unsetCardFocus}
+          setNextCardDraw={props.setNextCardDraw}
         />
         ) :(null)}
       </div>

@@ -19,7 +19,7 @@ const helper = {
       ability1,
       ability2,
       effect,
-    } = data.[heroType][heroId];
+    } = data[heroType][heroId];
     
     const maxHealth = health;
     const playerHeroId = `${playerNum}${heroId}`;
