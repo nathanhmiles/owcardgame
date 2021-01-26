@@ -88,12 +88,13 @@ ul {
   flex-grow: 1;
   min-height: 200px;
   justify-content: center;
+  padding: 0;
 }
 
 .handlist {
   min-height: 300px;
-  padding: 0;
   align-items: center;
+  flex-wrap: wrap;
 }
 
 .playerhand {
@@ -132,7 +133,6 @@ ul {
 .cardimg {
   max-height: 100%;
   max-width: 100%;
-  min-width: 100px;
 }
 
 .rowlabel {
@@ -306,7 +306,7 @@ button:disabled {
   display: flex;
   top: 20vh;
   height: 60vh;
-  font-size: 28pt;
+  font-size: 20pt;
   z-index: 50;
 }
 
