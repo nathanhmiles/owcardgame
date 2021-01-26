@@ -1,3 +1,4 @@
+import background from 'assets/shieldcounter.png';
 
 export default function SynergyCounter(props) {
   const shieldValue = props.shieldValue;

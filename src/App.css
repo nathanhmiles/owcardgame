@@ -129,6 +129,7 @@ ul {
 .cardimg {
   max-height: 100%;
   max-width: 100%;
+  min-width: 100px;
 }
 
 .rowlabel {
@@ -186,26 +187,50 @@ ul {
 .healthcounter {
   font-family: KeepCalm-Medium;
   background-image: url('assets/healthbackground.png');
-  top: 6.5%;
-  left: 86%;
 }
 
 .shieldcounter {
   font-family: KeepCalm-Medium;
-  background-color: steelblue;
-  top: 20%;
-  left: 79%;
+  background-image: url('assets//shieldcounter.png');
+  background-position: center;
+  background-size: contain;
+  background-repeat: no-repeat;
 }
 
 .cardcounter {
-  height: 12px;
-  width: 12px;
-  
+  height: 7%;
+  width: 8%;
+  position: absolute;
+}
+
+.healthcounter.cardcounter {
+  top: 6.5%;
+  left: 83.5%;
+}
+
+.shieldcounter.cardcounter {
+  top: 11%;
+  left: 81%;
+  width: 15%;
+  height: auto;
 }
 
 .cardfocuscounter {
-  height: 2vh;
-  width: 2vh;
+  height: 7%;
+  width: 8%;
+  position: absolute;
+}
+
+.healthcounter.cardfocuscounter {
+  top: 6.5%;
+  left: 83.5%;
+}
+
+.shieldcounter.cardfocuscounter {
+  top: 12%;
+  left: 78%;
+  width: 19%;
+  height: auto;
 }
 
 .synergycounter {
