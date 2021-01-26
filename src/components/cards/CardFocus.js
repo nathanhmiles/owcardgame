@@ -8,7 +8,7 @@ export default function CardFocus(props) {
   const { gameState, setGameState } = useContext(gameContext);
   const cardFocus = props.cardFocus;
   const playerHeroId = cardFocus.playerHeroId;
-  const playerNum = playerHeroId[0];
+  const playerNum = parseInt(playerHeroId[0]);
   const rowId = cardFocus.rowId;
   const setCardFocus = props.setCardFocus;
   const unsetCardFocus = props.unsetCardFocus;
@@ -18,7 +18,7 @@ export default function CardFocus(props) {
     id,
     name,
     health,
-    shieldValue,
+    shield,
     effect,
     enemyEffects,
     allyEffects,
@@ -34,7 +34,7 @@ export default function CardFocus(props) {
         onClick={props.unsetCardFocus}
       >
         <HealthCounter type="cardfocuscounter" health={health} />
-        {(shieldValue > 0) && <ShieldCounter type="cardfocuscounter" shieldValue={shieldValue} />}
+        {(shield > 0) && <ShieldCounter type="cardfocuscounter" shield={shield} />}
         <img
           src={require(`assets/heroes/${id}.png`).default}
           className="cardimg"

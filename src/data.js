@@ -570,12 +570,10 @@ const data = {
         b: 1,
       },
       ability1() {
-        console.log('widow ability1 started')
         return new Promise((resolve, reject) => {
           $('.row').on('click', (e) => {
             
             const targetRow = $(e.target).closest('.row').attr('id');
-            console.log(targetRow);
   
             const abilityResult = {
               type: 'row',
@@ -598,7 +596,6 @@ const data = {
         
       },
       ability2(rowSynergy) {
-        console.log('widow ability2 started');
         const synergyCost = 3;
         return new Promise((resolve, reject) => {
             if (rowSynergy >= synergyCost) {

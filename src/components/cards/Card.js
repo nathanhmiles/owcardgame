@@ -26,79 +26,83 @@ export default function Card(props) {
     health,
     power,
     synergy,
-    shieldValue,
+    shield,
     enemyEffects,
     allyEffects,
     isPlayed,
     isDiscarded,
   } = gameState.playerCards[playerCardsId].cards[playerHeroId];
 
+  console.log(`${id} is discarded ${isDiscarded}`)
+
   function discardCard() {
     // TODO: e.g. clear counters related to card, set isDiscarded
   }
 
   return (
-    <Draggable
-      draggableId={playerHeroId}
-      index={index}
-      isDragDisabled={isPlayed || turnState.playerTurn !== playerNum}
-    >
-      {(provided) => (
-        <li
-          {...provided.draggableProps}
-          {...provided.dragHandleProps}
-          ref={provided.innerRef}
-        >
-          <div className="cardcontainer">
-            {playerNum === 1 ? (
-              <CardEffects type="enemy" effects={enemyEffects} />
-            ) : (
-              <CardEffects type="ally" effects={allyEffects} />
-            )}
-            <div
-              id={`${playerHeroId}`}
-              style={health > 0 ? null : { filter: "grayscale(1)" }}
-              className="card"
-              onClick={
-                turnState.playerTurn === playerNum ||
-                parseInt(rowId[0]) === playerNum
-                  ? () => {
-                      props.setCardFocus({
-                        playerHeroId: playerHeroId,
-                        rowId: rowId,
-                      });
-                    }
-                  : null
-              }
-            >
-              {turnState.playerTurn === playerNum ||
-              parseInt(rowId[0]) === playerNum ? (
-                <HealthCounter type="cardcounter" health={health} />
-              ) : null}
-              {turnState.playerTurn === playerNum ||
-              parseInt(rowId[0]) === playerNum
-                ? shieldValue > 0 && <ShieldCounter type="cardcounter" shieldValue={shieldValue} />
-                : null}
-              <img
-                src={
+    (isDiscarded) ? (null) : (
+      <Draggable
+        draggableId={playerHeroId}
+        index={index}
+        isDragDisabled={isPlayed || turnState.playerTurn !== playerNum}
+      >
+        {(provided) => (
+          <li
+            {...provided.draggableProps}
+            {...provided.dragHandleProps}
+            ref={provided.innerRef}
+          >
+            <div className="cardcontainer">
+              {playerNum === 1 ? (
+                <CardEffects type="enemy" effects={enemyEffects} />
+              ) : (
+                <CardEffects type="ally" effects={allyEffects} />
+              )}
+              <div
+                id={`${playerHeroId}`}
+                style={health > 0 ? null : { filter: "grayscale(1)" }}
+                className="card"
+                onClick={
                   turnState.playerTurn === playerNum ||
                   parseInt(rowId[0]) === playerNum
-                    ? require(`assets/heroes/${id}.png`).default
-                    : require("assets/card-back.png").default
+                    ? () => {
+                        props.setCardFocus({
+                          playerHeroId: playerHeroId,
+                          rowId: rowId,
+                        });
+                      }
+                    : null
                 }
-                className="cardimg"
-                alt={`${name} Card`}
-                onClick={() => console.log(`${playerNum} ${rowId}`)}
-              />
+              >
+                {turnState.playerTurn === playerNum ||
+                parseInt(rowId[0]) === playerNum ? (
+                  <HealthCounter type="cardcounter" health={health} />
+                ) : null}
+                {turnState.playerTurn === playerNum ||
+                parseInt(rowId[0]) === playerNum
+                  ? shield > 0 && <ShieldCounter type="cardcounter" shield={shield} />
+                  : null}
+                <img
+                  src={
+                    turnState.playerTurn === playerNum ||
+                    parseInt(rowId[0]) === playerNum
+                      ? require(`assets/heroes/${id}.png`).default
+                      : require("assets/card-back.png").default
+                  }
+                  className="cardimg"
+                  alt={`${name} Card`}
+                />
+              </div>
+              {playerNum === 1 ? (
+                <CardEffects type="ally" effects={allyEffects} />
+              ) : (
+                <CardEffects type="enemy" effects={enemyEffects} />
+              )}
             </div>
-            {playerNum === 1 ? (
-              <CardEffects type="ally" effects={allyEffects} />
-            ) : (
-              <CardEffects type="enemy" effects={enemyEffects} />
-            )}
-          </div>
-        </li>
-      )}
-    </Draggable>
+          </li>
+        )}
+      </Draggable>
+
+    )
   );
 }

@@ -23,9 +23,6 @@ function App() {
   });
   const [cardFocus, setCardFocus] = useState(null);
 
-  console.log(`It is Player ${turnState.playerTurn}'s turn!`);
-  console.log(`It is turn number ${turnState.turnCount}`)
-
   function handleOnDragEnd(result) {
     const { destination, source, draggableId } = result;
     if (!destination) return;

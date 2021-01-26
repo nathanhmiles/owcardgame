@@ -2,6 +2,7 @@ import React, { useContext } from "react";
 import gameContext from "context/gameContext";
 import turnContext from "context/turnContext";
 import $ from "jquery";
+import helper from 'helper';
 
 export default function HeroAbilities(props) {
   // Context
@@ -34,6 +35,135 @@ export default function HeroAbilities(props) {
 
   // Abilities data
   const abilities = {
+    dvameka: {
+      ability1: {
+        maxTargets: 1,
+        run() {
+          const newShield = 2;
+
+          setGameState((prevState) => ({
+            ...prevState,
+            playerCards: {
+              ...prevState.playerCards,
+              [`player${playerNum}cards`]: {
+                ...prevState.playerCards[`player${playerNum}cards`],
+                cards: {
+                  ...prevState.playerCards[`player${playerNum}cards`].cards,
+                  [`${playerNum}dvameka`]: {
+                    ...prevState.playerCards[`player${playerNum}cards`].cards[`${playerNum}dvameka`],
+                    shield: (prevState.playerCards[`player${playerNum}cards`].cards[`${playerNum}dvameka`].shield + newShield),
+                  },
+                },
+              },
+            },
+          }));
+        },
+      },
+      ability2: {
+        synergyCost: 3,
+        run() {
+          const rowPosition = rowId[1];
+          const enemyPlayer = playerNum === 1 ? 2 : 1;
+          const playerRowCardIds = gameState.rows[rowId].cardIds;
+          const enemyPlayerRowCardIds = gameState.rows[`${enemyPlayer}${rowPosition}`].cardIds;
+          
+          const damageValue = 4;
+          
+          // Damage own player cards
+          for (let cardId of playerRowCardIds) {
+            let targetHealth = gameState.playerCards[`player${playerNum}cards`].cards[cardId].health;
+            let targetShield = gameState.playerCards[`player${playerNum}cards`].cards[cardId].shield;
+            
+            for (let i = 0; i < damageValue; i++) {
+              if (targetShield > 0) {
+                targetShield -= 1;
+              } else {
+                targetHealth -= 1;
+              }
+            }
+
+            setGameState((prevState) => ({
+              ...prevState,
+              playerCards: {
+                ...prevState.playerCards,
+                [`player${playerNum}cards`]: {
+                  ...prevState.playerCards[`player${playerNum}cards`],
+                  cards: {
+                    ...prevState.playerCards[`player${playerNum}cards`].cards,
+                    [cardId]: {
+                      ...prevState.playerCards[`player${playerNum}cards`].cards[cardId],
+                      health: targetHealth,
+                      shield: targetShield,
+                    },
+                  },
+                },
+              },
+            }));
+          }
+
+          // Damage enemy cards
+          for (let cardId of enemyPlayerRowCardIds) {
+            let targetHealth = gameState.playerCards[`player${enemyPlayer}cards`].cards[cardId].health;
+            let targetShield = gameState.playerCards[`player${enemyPlayer}cards`].cards[cardId].shield;
+            
+            for (let i = 0; i < damageValue; i++) {
+              if (targetShield > 0) {
+                targetShield -= 1;
+              } else {
+                targetHealth -= 1;
+              }
+            }
+
+            setGameState((prevState) => ({
+              ...prevState,
+              playerCards: {
+                ...prevState.playerCards,
+                [`player${enemyPlayer}cards`]: {
+                  ...prevState.playerCards[`player${enemyPlayer}cards`],
+                  cards: {
+                    ...prevState.playerCards[`player${enemyPlayer}cards`].cards,
+                    [cardId]: {
+                      ...prevState.playerCards[`player${enemyPlayer}cards`].cards[cardId],
+                      health: targetHealth,
+                      shield: targetShield,
+                    },
+                  },
+                },
+              },
+            }));
+          }
+
+          // After effects
+          const newDva = helper.createPlayerCard(playerNum, 'dva');
+          
+          setGameState((prevState) => ({
+            ...prevState,
+            playerCards: {
+              ...prevState.playerCards,
+              [`player${playerNum}cards`]: {
+                ...prevState.playerCards[`player${playerNum}cards`],
+                cards: {
+                  ...prevState.playerCards[`player${playerNum}cards`].cards,
+                  [`${playerNum}dvameka`]: {
+                    ...prevState.playerCards[`player${playerNum}cards`].cards[`${playerNum}dvameka`],
+                    isDiscarded: true,
+                  },
+                  [newDva.playerHeroId]: newDva,
+                },
+              },
+            },
+            rows: {
+              ...prevState.rows,
+              [rowId]: {
+                ...prevState.rows[rowId],
+                cardIds: [...prevState.rows[rowId].cardIds, newDva.playerHeroId],
+              },
+            },
+          }));
+
+        },
+      },
+    },
     genji: {
       ability1: {
         maxTargets: 3,
@@ -41,7 +171,7 @@ export default function HeroAbilities(props) {
           return new Promise((resolve, reject) => {
             $(".card").on("click", (e) => {
               const targetCardId = $(e.target).closest(".card").attr("id");
-              const targetPlayer = targetCardId[0];
+              const enemyPlayer = targetCardId[0];
               const targetRow = $(e.target).closest(".row").attr("id");
 
               $(".card").off("click");
@@ -50,7 +180,11 @@ export default function HeroAbilities(props) {
                 reject("Incorrect target");
                 return;
               }
-              const cardKey = "health";
+
+              let cardKey = "health";
+              if (gameState.playerCards[`player${enemyPlayer}cards`].cards[targetCardId].shield > 0) {
+                cardKey = "shield";
+              }
               const cardValue = -1;
               // Apply abilities that affect a specific card
 
@@ -58,16 +192,16 @@ export default function HeroAbilities(props) {
                 ...prevState,
                 playerCards: {
                   ...prevState.playerCards,
-                  [`player${targetPlayer}cards`]: {
-                    ...prevState.playerCards[`player${targetPlayer}cards`],
+                  [`player${enemyPlayer}cards`]: {
+                    ...prevState.playerCards[`player${enemyPlayer}cards`],
                     cards: {
-                      ...prevState.playerCards[`player${targetPlayer}cards`]
+                      ...prevState.playerCards[`player${enemyPlayer}cards`]
                         .cards,
                       [targetCardId]: {
-                        ...prevState.playerCards[`player${targetPlayer}cards`]
+                        ...prevState.playerCards[`player${enemyPlayer}cards`]
                           .cards[targetCardId],
                         [cardKey]:
-                          prevState.playerCards[`player${targetPlayer}cards`]
+                          prevState.playerCards[`player${enemyPlayer}cards`]
                             .cards[targetCardId][cardKey] + cardValue,
                       },
                     },
@@ -88,7 +222,7 @@ export default function HeroAbilities(props) {
             // Execute the following when any card is clicked
             $(".card").on("click", (e) => {
               const targetCardId = $(e.target).closest(".card").attr("id");
-              const targetPlayer = targetCardId[0];
+              const enemyPlayer = targetCardId[0];
               const targetRow = $(e.target).closest(".row").attr("id");
               
               // Remove the onclick effect from all cards
@@ -98,10 +232,10 @@ export default function HeroAbilities(props) {
                 targetRow[0] === "p" ||
                 targetRow[0] === playerNum ||
                 // Check target has been damaged
-                gameState.playerCards[`player${targetPlayer}cards`].cards[
+                gameState.playerCards[`player${enemyPlayer}cards`].cards[
                   targetCardId
                 ].health ===
-                  gameState.playerCards[`player${targetPlayer}cards`].cards[
+                  gameState.playerCards[`player${enemyPlayer}cards`].cards[
                     targetCardId
                   ].maxHealth
               ) {
@@ -116,13 +250,13 @@ export default function HeroAbilities(props) {
                 ...prevState,
                 playerCards: {
                   ...prevState.playerCards,
-                  [`player${targetPlayer}cards`]: {
-                    ...prevState.playerCards[`player${targetPlayer}cards`],
+                  [`player${enemyPlayer}cards`]: {
+                    ...prevState.playerCards[`player${enemyPlayer}cards`],
                     cards: {
-                      ...prevState.playerCards[`player${targetPlayer}cards`]
+                      ...prevState.playerCards[`player${enemyPlayer}cards`]
                         .cards,
                       [targetCardId]: {
-                        ...prevState.playerCards[`player${targetPlayer}cards`]
+                        ...prevState.playerCards[`player${enemyPlayer}cards`]
                           .cards[targetCardId],
                         [cardKey]: cardValue,
                       },
@@ -141,12 +275,10 @@ export default function HeroAbilities(props) {
       ability1: {
         maxTargets: 1,
         run() {
-          console.log("widow ability1 started");
           return new Promise((resolve, reject) => {
             $(".row").on("click", (e) => {
               const targetRow = $(e.target).closest(".row").attr("id");
-              console.log(targetRow);
-
+          
               const rowKey = "effects";
               const rowValue = "2widowmaker";
 
@@ -180,7 +312,7 @@ export default function HeroAbilities(props) {
           return new Promise((resolve, reject) => {
             $(".card").on("click", (e) => {
               const targetCardId = $(e.target).closest(".card").attr("id");
-              const targetPlayer = targetCardId[0];
+              const enemyPlayer = targetCardId[0];
               const targetRow = $(e.target).closest(".row").attr("id");
               
               $(".card").off("click");
@@ -196,13 +328,13 @@ export default function HeroAbilities(props) {
                 ...prevState,
                 playerCards: {
                   ...prevState.playerCards,
-                  [`player${targetPlayer}cards`]: {
-                    ...prevState.playerCards[`player${targetPlayer}cards`],
+                  [`player${enemyPlayer}cards`]: {
+                    ...prevState.playerCards[`player${enemyPlayer}cards`],
                     cards: {
-                      ...prevState.playerCards[`player${targetPlayer}cards`]
+                      ...prevState.playerCards[`player${enemyPlayer}cards`]
                         .cards,
                       [targetCardId]: {
-                        ...prevState.playerCards[`player${targetPlayer}cards`]
+                        ...prevState.playerCards[`player${enemyPlayer}cards`]
                           .cards[targetCardId],
                         [cardKey]: cardValue,
                       },
@@ -247,7 +379,6 @@ export default function HeroAbilities(props) {
         let i = 0;
         do {
           await abilities[heroId].ability1.run();
-          console.log(`ability1-${i} done`);
           i += 1;
         } while (i < maxTargets);
         

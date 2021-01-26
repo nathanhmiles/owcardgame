@@ -34,13 +34,11 @@ export default function Widowmaker(props) {
   }
 
   function ability1() {
-    console.log('widow ability1 started')
     return new Promise((resolve, reject) => {
       $('ul').on('click', (e) => {
         
         const targetRow = e.target.id;
-        console.log(targetRow);
-
+    
         const abilityResult = {
           type: 'row',
           rowId: targetRow,
@@ -61,7 +59,6 @@ export default function Widowmaker(props) {
   }
 
   function ability2(rowSynergy) {
-    console.log('widow ability2 started');
     const synergyCost = 3;
     return new Promise((resolve, reject) => {
         if (rowSynergy >= synergyCost) {

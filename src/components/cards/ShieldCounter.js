@@ -1,11 +1,11 @@
 import background from 'assets/shieldcounter.png';
 
 export default function SynergyCounter(props) {
-  const shieldValue = props.shieldValue;
+  const shield = props.shield;
   const type = props.type;
   return (
     <div className={`shieldcounter counter ${type}`}>
-      <span><h4>{shieldValue}</h4></span>
+      <span><h4>{shield}</h4></span>
     </div>
   )
 }
