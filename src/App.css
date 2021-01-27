@@ -15,6 +15,10 @@ body {
   display: flex;
 }
 
+#root {
+  width: 100%;
+}
+
 .board {
   display: flex;
   flex-direction: column;
