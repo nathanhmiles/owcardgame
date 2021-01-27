@@ -99,6 +99,7 @@ ul {
   min-height: 300px;
   align-items: center;
   flex-wrap: wrap;
+  max-width: 80%;
 }
 
 .playerhand {
