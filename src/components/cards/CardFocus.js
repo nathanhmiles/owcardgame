@@ -5,7 +5,7 @@ import HealthCounter from "components/cards/HealthCounter";
 import ShieldCounter from 'components/cards/ShieldCounter';
 
 export default function CardFocus(props) {
-  const { gameState, setGameState } = useContext(gameContext);
+  const { gameState, dispatch } = useContext(gameContext);
   const cardFocus = props.cardFocus;
   const playerHeroId = cardFocus.playerHeroId;
   const playerNum = parseInt(playerHeroId[0]);

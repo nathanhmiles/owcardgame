@@ -1,12 +1,12 @@
 import React, { useContext, useEffect } from "react";
-import update from "immutability-helper";
 import gameContext from "context/gameContext";
 import SynergyCounter from "./SynergyCounter";
 import CounterArea from "components/layout/CounterArea";
 import CardDisplay from "components/layout/CardDisplay";
+import { ACTIONS } from "App";
 
 export default function BoardRow(props) {
-  const { gameState, setGameState } = useContext(gameContext);
+  const { gameState, dispatch } = useContext(gameContext);
   const rowId = props.rowId;
   const rowCards = gameState.rows[rowId].cardIds;
   const playerNum = props.playerNum;
@@ -17,10 +17,13 @@ export default function BoardRow(props) {
   useEffect(() => {
     let playerPower = 0;
     const rowPosition = props.rowId[1];
-    
+
     // For every card in the row, add up the power and synergy values
     for (let cardId of rowCards) {
-      if (gameState.playerCards[`player${playerNum}cards`].cards[cardId].health > 0) {
+      if (
+        gameState.playerCards[`player${playerNum}cards`].cards[cardId].health >
+        0
+      ) {
         playerPower +=
           gameState.playerCards[`player${playerNum}cards`].cards[cardId].power[
             rowPosition
@@ -29,19 +32,15 @@ export default function BoardRow(props) {
     }
 
     // Set power and synergy state
-    setGameState((prevState) => ({
-      ...prevState,
-      rows: {
-        ...prevState.rows,
-        [playerHand]: {
-          ...prevState.rows[playerHand],
-          power: {
-            ...prevState.rows[playerHand].power,
-            [rowPosition]: playerPower,
-          },
-        }
-      }
-    }));
+    dispatch({
+      type: ACTIONS.SET_POWER,
+      payload: {
+        playerNum: playerNum,
+        rowPosition: rowPosition,
+        powerValue: playerPower,
+      },
+    });
+
 
     // TODO: Not all dependencies here, check
   }, [rowCards, gameState.playerCards[`player${playerNum}cards`]]);

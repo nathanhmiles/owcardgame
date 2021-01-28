@@ -8,7 +8,7 @@ import ShieldCounter from "components/cards/ShieldCounter";
 
 export default function Card(props) {
   // Context
-  const { gameState, setGameState } = useContext(gameContext);
+  const { gameState, dispatch } = useContext(gameContext);
   const { turnState, setTurnState } = useContext(turnContext);
 
   // Variables

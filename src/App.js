@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useReducer, useMemo } from "react";
 import gameContext from "context/gameContext";
 import turnContext from "context/turnContext";
 import { DragDropContext } from "react-beautiful-dnd";
@@ -10,8 +10,118 @@ import CardFocus from "components/cards/CardFocus";
 import data from "data";
 import helper from "helper";
 
-function App() {
-  const [gameState, setGameState] = useState(data);
+export const ACTIONS = {
+  EDIT_CARD: "edit-card",
+  ADD_CARD: "add-card",
+  MOVE_CARD: "move-card",
+  SET_POWER: "set-power",
+};
+
+function reducer(gameState, action) {
+  switch (action.type) {
+    case ACTIONS.EDIT_CARD:
+      const cardId = action.payload.cardId;
+      const updateFields = action.payload.updateFields;
+      return {
+        ...gameState,
+        playerCards: {
+          ...gameState.playerCards,
+          [`player${action.payload.playerNum}cards`]: {
+            ...gameState.playerCards[`player${action.payload.playerNum}cards`],
+            cards: {
+              ...gameState.playerCards[`player${action.payload.playerNum}cards`].cards,
+              [cardId]: {
+                ...gameState.playerCards[`player${action.payload.playerNum}cards`].cards[
+                  cardId
+                ],
+                ...updateFields,
+              },
+            },
+          },
+        },
+      };
+
+    case ACTIONS.ADD_CARD:
+      const newCard = helper.createPlayerCard(
+        action.payload.playerNum,
+        action.payload.heroId
+      );
+      return {
+        ...gameState,
+        playerCards: {
+          ...gameState.playerCards,
+          [`player${action.payload.playerNum}cards`]: {
+            ...gameState.playerCards[`player${action.payload.playerNum}cards`],
+            cards: {
+              ...gameState.playerCards[`player${action.payload.playerNum}cards`]
+                .cards,
+              [newCard.playerHeroId]: { $set: newCard },
+            },
+          },
+        },
+      };
+
+    case ACTIONS.MOVE_CARD:
+      // Move card between different rows
+      if ("finishRowId" in action.payload) {
+        const startRowId = action.payload.startRowId;
+        const finishRowId = action.payload.finishRowId;
+        return {
+          ...gameState,
+          rows: {
+            ...gameState.rows,
+            [startRowId]: {
+              ...gameState.rows[startRowId],
+              cardIds: action.payload.startRowCardIds,
+            },
+            [finishRowId]: {
+              ...gameState.rows[finishRowId],
+              cardIds: action.payload.finishRowCardIds,
+            },
+          },
+        };
+      }
+      // Move card within a row
+      else {
+        const rowId = action.payload.rowId;
+        return {
+          ...gameState,
+          rows: {
+            ...gameState.rows,
+            [rowId]: {
+              ...gameState.rows[rowId],
+              cardIds: action.payload.newCardIds,
+            },
+          },
+        };
+      }
+    
+      case ACTIONS.SET_POWER:
+        return {
+          ...gameState,
+          rows: {
+            ...gameState.rows,
+            [`player${action.payload.playerNum}hand`]: {
+              ...gameState.rows[`player${action.payload.playerNum}hand`],
+              power: {
+                ...gameState.rows[`player${action.payload.playerNum}hand`].power,
+                [action.payload.rowPosition]: action.payload.powerValue,
+              },
+            }
+          }
+        };
+
+    default:
+      return gameState;
+  }
+}
+
+export default function App() {
+  const [gameState, dispatch] = useReducer(reducer, data);
+  const gameContextProvider = useMemo(() => {
+    return { gameState, dispatch };
+  }, [gameState, dispatch]);
+
   const [matchState, setMatchState] = useState({
     player1: { wins: 0 },
     player2: { wins: 0 },
@@ -56,7 +166,10 @@ function App() {
         },
       };
 
-      setGameState(newState);
+      dispatch({
+        type: ACTIONS.MOVE_CARD,
+        payload: { rowId: newRow.id, newCardIds: newCardIds },
+      });
       return;
     }
 
@@ -89,35 +202,31 @@ function App() {
         [newStart.id]: newStart,
         [newFinish.id]: newFinish,
       },
-      playerCards: {
-        ...gameState.playerCards,
-        [`player${playerNum}cards`]: {
-          ...gameState.playerCards[`player${playerNum}cards`],
-          cards: {
-            ...gameState.playerCards[`player${playerNum}cards`].cards,
-            [draggableId]: {
-              ...gameState.playerCards[`player${playerNum}cards`].cards[
-                draggableId
-              ],
-              isPlayed: true,
-              synergy: {
-                f: 0,
-                m: 0,
-                b: 0,
-              },
-            },
-          },
-        },
-      },
     };
 
-    setGameState(newState);
+    dispatch({
+      type: ACTIONS.MOVE_CARD,
+      payload: {
+        startRowId: newStart.id,
+        startRowCardIds: newStart.cardIds,
+        finishRowId: newFinish.id,
+        finishRowCardIds: newFinish.cardIds,
+      },
+    });
+
+    dispatch({
+      type: ACTIONS.EDIT_CARD,
+      payload: {
+        cardId: draggableId,
+        updateFields: { isPlayed: true, synergy: { f: 0, m: 0, b: 0 } },
+      },
+    });
   }
 
   return (
     <div>
       <turnContext.Provider value={{ turnState, setTurnState }}>
-        <gameContext.Provider value={{ gameState, setGameState }}>
+        <gameContext.Provider value={gameContextProvider}>
           <Footer />
           <DragDropContext onDragEnd={handleOnDragEnd}>
             <PlayerHalf
@@ -150,5 +259,3 @@ function App() {
     </div>
   );
 }
-
-export default App;
