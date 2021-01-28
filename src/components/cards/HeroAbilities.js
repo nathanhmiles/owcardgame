@@ -308,7 +308,6 @@ export default function HeroAbilities(props) {
               } else if (targetRow[1] !== 'b') {
                 // Move target back a row if not already in last row
                 const newRow = `${enemyPlayer}${targetRow[1] === 'f' ? 'm' : 'b'}`;
-                console.log(newRow);
                 const updatedTargetRowCardIds = gameState.rows[targetRow].cardIds.filter(cardId => cardId !== targetCardId);
                 const newRowCardIds = [...gameState.rows[newRow].cardIds, targetCardId];
                 

@@ -10,8 +10,6 @@ export default function PlayerArea(props) {
   const playerPower = gameState.rows[`player${props.playerNum}hand`].power;
   const totalPower = Object.values(playerPower).reduce((a, b) => a + b, 0);
 
-  console.log(props.nextCardDraw)
-
   return (
     <div id={playerAreaId} className="playerarea row">
       <div className="playername playerarea-section">

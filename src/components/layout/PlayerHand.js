@@ -19,8 +19,6 @@ export default function PlayerHand(props) {
   const nextCardDraw = props.nextCardDraw;
   const setNextCardDraw = props.setNextCardDraw;
 
-  console.log(props.nextCardDraw);
-
   // Draws one random card and puts the card into the player's hand
   function drawCards(nextCardDraw) {
     // Draw specific card designated by nextCardDraw state

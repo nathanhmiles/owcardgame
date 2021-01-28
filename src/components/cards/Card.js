@@ -33,8 +33,6 @@ export default function Card(props) {
     isDiscarded,
   } = gameState.playerCards[playerCardsId].cards[playerHeroId];
 
-  console.log(`${id} is discarded ${isDiscarded}`)
-
   function discardCard() {
     // TODO: e.g. clear counters related to card, set isDiscarded
   }

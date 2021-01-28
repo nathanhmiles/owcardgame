@@ -20,8 +20,6 @@ export const ACTIONS = {
 function reducer(gameState, action) {
   switch (action.type) {
     case ACTIONS.EDIT_CARD:
-      const cardId = action.payload.cardId;
-      const updateFields = action.payload.updateFields;
       return {
         ...gameState,
         playerCards: {
@@ -30,11 +28,11 @@ function reducer(gameState, action) {
             ...gameState.playerCards[`player${action.payload.playerNum}cards`],
             cards: {
               ...gameState.playerCards[`player${action.payload.playerNum}cards`].cards,
-              [cardId]: {
+              [action.payload.cardId]: {
                 ...gameState.playerCards[`player${action.payload.playerNum}cards`].cards[
-                  cardId
+                  action.payload.cardId
                 ],
-                ...updateFields,
+                ...action.payload.updateFields,
               },
             },
           },
@@ -55,7 +53,7 @@ function reducer(gameState, action) {
             cards: {
               ...gameState.playerCards[`player${action.payload.playerNum}cards`]
                 .cards,
-              [newCard.playerHeroId]: { $set: newCard },
+              [newCard.playerHeroId]: newCard,
             },
           },
         },
@@ -70,14 +68,8 @@ function reducer(gameState, action) {
           ...gameState,
           rows: {
             ...gameState.rows,
-            [startRowId]: {
-              ...gameState.rows[startRowId],
-              cardIds: action.payload.startRowCardIds,
-            },
-            [finishRowId]: {
-              ...gameState.rows[finishRowId],
-              cardIds: action.payload.finishRowCardIds,
-            },
+            [startRowId]: action.payload.startRowState,
+            [finishRowId]: action.payload.finishRowState,
           },
         };
       }
@@ -137,13 +129,13 @@ export default function App() {
     player2: null,
   });
 
-  function handleOnDragEnd(result) {
+  async function handleOnDragEnd(result) {
     const { destination, source, draggableId } = result;
     if (!destination) return;
 
     const start = gameState.rows[source.droppableId];
     const finish = gameState.rows[destination.droppableId];
-    const playerNum = finish.id[0];
+    const playerNum = parseInt(finish.id[0]);
     const finishPosition = finish.id[1];
     let finishSynergy = finish.synergy;
 
@@ -204,23 +196,26 @@ export default function App() {
       },
     };
 
-    dispatch({
+    await dispatch({
       type: ACTIONS.MOVE_CARD,
       payload: {
         startRowId: newStart.id,
-        startRowCardIds: newStart.cardIds,
+        startRowState: newStart,
         finishRowId: newFinish.id,
-        finishRowCardIds: newFinish.cardIds,
+        finishRowState: newFinish,
       },
     });
 
-    dispatch({
+    await dispatch({
       type: ACTIONS.EDIT_CARD,
       payload: {
+        playerNum: playerNum,
         cardId: draggableId,
-        updateFields: { isPlayed: true, synergy: { f: 0, m: 0, b: 0 } },
+        updateFields: {isPlayed: true, synergy: {f: 0, m: 0, b: 0,}}
       },
-    });
+      },
+    );
+
   }
 
   return (
