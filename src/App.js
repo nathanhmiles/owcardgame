@@ -9,6 +9,7 @@ import Footer from "components/layout/Footer";
 import CardFocus from "components/cards/CardFocus";
 import data from "data";
 import helper from "helper";
+import produce from "immer";
 
 export const ACTIONS = {
   EDIT_CARD: "edit-card",
@@ -20,88 +21,49 @@ export const ACTIONS = {
 function reducer(gameState, action) {
   switch (action.type) {
     case ACTIONS.EDIT_CARD:
-      return {
-        ...gameState,
-        playerCards: {
-          ...gameState.playerCards,
-          [`player${action.payload.playerNum}cards`]: {
-            ...gameState.playerCards[`player${action.payload.playerNum}cards`],
-            cards: {
-              ...gameState.playerCards[`player${action.payload.playerNum}cards`].cards,
-              [action.payload.cardId]: {
-                ...gameState.playerCards[`player${action.payload.playerNum}cards`].cards[
-                  action.payload.cardId
-                ],
-                ...action.payload.updateFields,
-              },
-            },
-          },
-        },
-      };
+      return produce(gameState, (draft) => {
+        let targetCard =
+          draft.playerCards[`player${action.payload.playerNum}cards`].cards[
+            action.payload.cardId
+          ];
+        for (let i = 0; i < action.payload.updateKeys.length; i++) {
+          targetCard[action.payload.updateKeys[i]] = action.payload.updateValues[i]
+        }
+      });
 
     case ACTIONS.ADD_CARD:
       const newCard = helper.createPlayerCard(
         action.payload.playerNum,
         action.payload.heroId
       );
-      return {
-        ...gameState,
-        playerCards: {
-          ...gameState.playerCards,
-          [`player${action.payload.playerNum}cards`]: {
-            ...gameState.playerCards[`player${action.payload.playerNum}cards`],
-            cards: {
-              ...gameState.playerCards[`player${action.payload.playerNum}cards`]
-                .cards,
-              [newCard.playerHeroId]: newCard,
-            },
-          },
-        },
-      };
+      return produce(gameState, (draft) => {
+        draft.playerCards[`player${action.payload.playerNum}cards`].cards[newCard.playerHeroId] = newCard;
+      });
 
     case ACTIONS.MOVE_CARD:
       // Move card between different rows
       if ("finishRowId" in action.payload) {
         const startRowId = action.payload.startRowId;
         const finishRowId = action.payload.finishRowId;
-        return {
-          ...gameState,
-          rows: {
-            ...gameState.rows,
-            [startRowId]: action.payload.startRowState,
-            [finishRowId]: action.payload.finishRowState,
-          },
-        };
+        return produce(gameState, (draft) => {
+          draft.rows[startRowId] = action.payload.startRowState;
+          draft.rows[finishRowId] = action.payload.finishRowState;
+        });
+        
       }
       // Move card within a row
       else {
         const rowId = action.payload.rowId;
-        return {
-          ...gameState,
-          rows: {
-            ...gameState.rows,
-            [rowId]: {
-              ...gameState.rows[rowId],
-              cardIds: action.payload.newCardIds,
-            },
-          },
-        };
+        return produce(gameState, (draft) => {
+          draft.rows[rowId].cardIds = action.payload.newCardIds;
+        });
+        
       }
-    
-      case ACTIONS.SET_POWER:
-        return {
-          ...gameState,
-          rows: {
-            ...gameState.rows,
-            [`player${action.payload.playerNum}hand`]: {
-              ...gameState.rows[`player${action.payload.playerNum}hand`],
-              power: {
-                ...gameState.rows[`player${action.payload.playerNum}hand`].power,
-                [action.payload.rowPosition]: action.payload.powerValue,
-              },
-            }
-          }
-        };
+
+    case ACTIONS.SET_POWER:
+      return produce(gameState, (draft) => {
+        draft.rows[`player${action.payload.playerNum}hand`].power[action.payload.rowPosition] = action.payload.powerValue;
+      });
 
     default:
       return gameState;
@@ -129,7 +91,7 @@ export default function App() {
     player2: null,
   });
 
-  async function handleOnDragEnd(result) {
+  function handleOnDragEnd(result) {
     const { destination, source, draggableId } = result;
     if (!destination) return;
 
@@ -196,7 +158,7 @@ export default function App() {
       },
     };
 
-    await dispatch({
+    dispatch({
       type: ACTIONS.MOVE_CARD,
       payload: {
         startRowId: newStart.id,
@@ -206,16 +168,15 @@ export default function App() {
       },
     });
 
-    await dispatch({
+    dispatch({
       type: ACTIONS.EDIT_CARD,
       payload: {
         playerNum: playerNum,
         cardId: draggableId,
-        updateFields: {isPlayed: true, synergy: {f: 0, m: 0, b: 0,}}
+        updateKeys: ['isPlayed', 'synergy'],
+        updateValues: [true, { f: 0, m: 0, b: 0 }],
       },
-      },
-    );
-
+    });
   }
 
   return (
