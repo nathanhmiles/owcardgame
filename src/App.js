@@ -13,34 +13,55 @@ import produce from "immer";
 
 export const ACTIONS = {
   EDIT_CARD: "edit-card",
+  UPDATE_CARD: "update-card",
   ADD_CARD: "add-card",
   MOVE_CARD: "move-card",
   SET_POWER: "set-power",
+  SET_SYNERGY: "set-synergy",
 };
 
 function reducer(gameState, action) {
+  const playerNum = action.payload.playerNum;
+  const heroId = action.payload.heroId;
+  const cardId = action.payload.cardId;
+  const rowId = action.payload.rowId;
+  const rowPosition = action.payload.rowPosition;
+  let updateKeys = action.payload.updateKeys;
+  let updateValues = action.payload.updateValues;
+
   switch (action.type) {
+    // Replace a value
     case ACTIONS.EDIT_CARD:
       return produce(gameState, (draft) => {
         let targetCard =
-          draft.playerCards[`player${action.payload.playerNum}cards`].cards[
-            action.payload.cardId
-          ];
-        for (let i = 0; i < action.payload.updateKeys.length; i++) {
-          targetCard[action.payload.updateKeys[i]] = action.payload.updateValues[i]
+          draft.playerCards[`player${playerNum}cards`].cards[cardId];
+        for (let i = 0; i < updateKeys.length; i++) {
+          targetCard[updateKeys[i]] = updateValues[i]
         }
       });
-
-    case ACTIONS.ADD_CARD:
-      const newCard = helper.createPlayerCard(
-        action.payload.playerNum,
-        action.payload.heroId
-      );
+    
+    // Update value based on previous value
+    case ACTIONS.UPDATE_CARD:
       return produce(gameState, (draft) => {
-        draft.playerCards[`player${action.payload.playerNum}cards`].cards[newCard.playerHeroId] = newCard;
+        let targetCard =
+          draft.playerCards[`player${playerNum}cards`].cards[cardId];
+        for (let i = 0; i < updateKeys.length; i++) {
+          targetCard[updateKeys[i]] += updateValues[i]
+        }
       });
-
+    
+    // Adds a card to player's cards (doesn't add to a row)
+    case ACTIONS.ADD_CARD:
+      const newCard = helper.createPlayerCard(playerNum,heroId);
+      return produce(gameState, (draft) => {
+        draft.playerCards[`player${playerNum}cards`].cards[newCard.playerHeroId] = newCard;
+      });
+    
+    // Moves a card within or between rows
     case ACTIONS.MOVE_CARD:
+      const startRowState = action.payload.startRowState;
+      const finishRowState = action.payload.finishRowState;
+
       // Move card between different rows
       if ("finishRowId" in action.payload) {
         const startRowId = action.payload.startRowId;
@@ -53,16 +74,24 @@ function reducer(gameState, action) {
       }
       // Move card within a row
       else {
-        const rowId = action.payload.rowId;
         return produce(gameState, (draft) => {
           draft.rows[rowId].cardIds = action.payload.newCardIds;
         });
         
       }
-
+    
+    // Sets player power
     case ACTIONS.SET_POWER:
+      const powerValue = action.payload.powerValue;
       return produce(gameState, (draft) => {
-        draft.rows[`player${action.payload.playerNum}hand`].power[action.payload.rowPosition] = action.payload.powerValue;
+        draft.rows[`player${playerNum}hand`].power[rowPosition] = powerValue;
+      });
+    
+    // Sets row synergy
+    case ACTIONS.SET_SYNERGY:
+      const synergyCost = action.payload.synergyCost;
+      return produce(gameState, (draft) => {
+        draft.rows[rowId].synergy -= synergyCost;
       });
 
     default:
