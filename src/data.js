@@ -3,47 +3,8 @@ import $ from 'jquery';
 
 // Data for all hero cards
 const data = {
-  specialHeroes: {
-    bob: {
-      id: "bob",
-      name: "Bob",
-      image: "assets/heroes/bob.png",
-      icon: "assets/heroes/bob-icon.png",
-      effect: () => {},
-      health: 3,
-      power: {
-        f: 1,
-        m: 1,
-        b: 1,
-      },
-      synergy: {
-        f: 0,
-        m: 0,
-        b: 0,
-      },
-      ability1: () => {},
-      ability2: () => {},
-    },
-    dva: {
-      id: "dva",
-      name: "D.va",
-      image: "assets/heroes/dva.png",
-      health: 2,
-      power: {
-        f: 1,
-        m: 1,
-        b: 1,
-      },
-      synergy: {
-        f: 0,
-        m: 0,
-        b: 0,
-      },
-      ability1: () => {},
-      ability2: () => {},
-    },
-  },
   heroes: {
+    
     ana: {
       id: "ana",
       name: "Ana",
@@ -61,9 +22,8 @@ const data = {
         m: 2,
         b: 2,
       },
-      ability1: () => {},
-      ability2: () => {},
     },
+
     ashe: {
       id: "ashe",
       name: "Ashe",
@@ -79,9 +39,26 @@ const data = {
         m: 3,
         b: 1,
       },
-      ability1: () => {},
-      ability2: () => {},
+      bob: {
+        id: "bob",
+        name: "Bob",
+        image: "assets/heroes/bob.png",
+        icon: "assets/heroes/bob-icon.png",
+        effect: () => {},
+        health: 3,
+        power: {
+          f: 1,
+          m: 1,
+          b: 1,
+        },
+        synergy: {
+          f: 0,
+          m: 0,
+          b: 0,
+        },
+      },
     },
+
     baptiste: {
       id: "baptiste",
       name: "Baptiste",
@@ -99,9 +76,8 @@ const data = {
         m: 2,
         b: 3,
       },
-      ability1: () => {},
-      ability2: () => {},
     },
+
     bastion: {
       id: "bastion",
       name: "Bastion",
@@ -119,8 +95,6 @@ const data = {
         m: 2,
         b: 1,
       },
-      ability1: () => {},
-      ability2: () => {},
     },
     
     brigitte: {
@@ -138,9 +112,8 @@ const data = {
         m: 2,
         b: 3,
       },
-      ability1: () => {},
-      ability2: () => {},
     },
+
     doomfist: {
       id: "doomfist",
       name: "Doomfist",
@@ -156,10 +129,8 @@ const data = {
         m: 2,
         b: 3,
       },
-      ability1: () => {},
-      ability2: () => {},
     },
-    
+
     dvameka: {
       id: "dvameka",
       name: "D.va + Meka",
@@ -175,8 +146,22 @@ const data = {
         m: 1,
         b: 3,
       },
-      ability1: () => {},
-      ability2: () => {},
+      dva: {
+        id: "dva",
+        name: "D.va",
+        image: "assets/heroes/dva.png",
+        health: 2,
+        power: {
+          f: 1,
+          m: 1,
+          b: 1,
+        },
+        synergy: {
+          f: 0,
+          m: 0,
+          b: 0,
+        },
+      },
     },
     echo: {
       id: "echo",
@@ -193,8 +178,6 @@ const data = {
         m: 1,
         b: 2,
       },
-      ability1: () => {},
-      ability2: () => {},
     },
     genji: {
       id: "genji",
@@ -211,8 +194,6 @@ const data = {
         m: 2,
         b: 3,
       },
-      ability1: () => {},
-      ability2: () => {},
     },
     hanzo: {
       id: "hanzo",
@@ -231,8 +212,6 @@ const data = {
         m: 1,
         b: 2,
       },
-      ability1: () => {},
-      ability2: () => {},
     },
     junkrat: {
       id: "junkrat",
@@ -249,8 +228,6 @@ const data = {
         m: 2,
         b: 3,
       },
-      ability1: () => {},
-      ability2: () => {},
     },
     lucio: {
       id: "lucio",
@@ -269,8 +246,6 @@ const data = {
         m: 3,
         b: 2,
       },
-      ability1: () => {},
-      ability2: () => {},
     },
     mccree: {
       id: "mccree",
@@ -287,8 +262,6 @@ const data = {
         m: 1,
         b: 3,
       },
-      ability1: () => {},
-      ability2: () => {},
     },
     mei: {
       id: "mei",
@@ -307,8 +280,6 @@ const data = {
         m: 1,
         b: 3,
       },
-      ability1: () => {},
-      ability2: () => {},
     },
     mercy: {
       id: "mercy",
@@ -327,8 +298,6 @@ const data = {
         m: 2,
         b: 2,
       },
-      ability1: () => {},
-      ability2: () => {},
     },
     moira: {
       id: "moira",
@@ -345,8 +314,6 @@ const data = {
         m: 3,
         b: 2,
       },
-      ability1: () => {},
-      ability2: () => {},
     },
     orisa: {
       id: "orisa",
@@ -365,8 +332,6 @@ const data = {
         m: 2,
         b: 1,
       },
-      ability1: () => {},
-      ability2: () => {},
     },
     pharah: {
       id: "pharah",
@@ -383,8 +348,6 @@ const data = {
         m: 1,
         b: 2,
       },
-      ability1: () => {},
-      ability2: () => {},
     },
     reaper: {
       id: "reaper",
@@ -401,8 +364,6 @@ const data = {
         m: 3,
         b: 1,
       },
-      ability1: () => {},
-      ability2: () => {},
     },
     reinhardt: {
       id: "reinhardt",
@@ -419,8 +380,6 @@ const data = {
         m: 2,
         b: 3,
       },
-      ability1: () => {},
-      ability2: () => {},
     },
     roadhog: {
       id: "roadhog",
@@ -437,8 +396,6 @@ const data = {
         m: 2,
         b: 3,
       },
-      ability1: () => {},
-      ability2: () => {},
     },
     sigma: {
       id: "sigma",
@@ -457,8 +414,6 @@ const data = {
         m: 1,
         b: 2,
       },
-      ability1: () => {},
-      ability2: () => {},
     },
     soldier: {
       id: "soldier",
@@ -475,8 +430,6 @@ const data = {
         m: 1,
         b: 3,
       },
-      ability1: () => {},
-      ability2: () => {},
     },
     sombra: {
       id: "sombra",
@@ -493,8 +446,6 @@ const data = {
         m: 3,
         b: 2,
       },
-      ability1: () => {},
-      ability2: () => {},
     },
     symmetra: {
       id: "symmetra",
@@ -511,8 +462,6 @@ const data = {
         m: 3,
         b: 2,
       },
-      ability1: () => {},
-      ability2: () => {},
     },
     torbjorn: {
       id: "torbjorn",
@@ -531,8 +480,6 @@ const data = {
         m: 3,
         b: 2,
       },
-      ability1: () => {},
-      ability2: () => {},
     },
     tracer: {
       id: "tracer",
@@ -549,8 +496,6 @@ const data = {
         m: 2,
         b: 3,
       },
-      ability1: () => {},
-      ability2: () => {},
     },
     widowmaker: {
       id: "widowmaker",
@@ -569,58 +514,6 @@ const data = {
         m: 3,
         b: 1,
       },
-      ability1() {
-        return new Promise((resolve, reject) => {
-          $('.row').on('click', (e) => {
-            
-            const targetRow = $(e.target).closest('.row').attr('id');
-  
-            const abilityResult = {
-              type: 'row',
-              rowId: targetRow,
-              rowKey: 'effects',
-              rowValue: '2widowmaker',
-            };
-            
-            $('.row').off('click');
-            if (targetRow[0] !== 'p') {
-              resolve(abilityResult);
-            } else {
-              reject("Can't target player hand");
-            }
-
-        });
-        
-        });
-
-        
-      },
-      ability2(rowSynergy) {
-        const synergyCost = 3;
-        return new Promise((resolve, reject) => {
-            if (rowSynergy >= synergyCost) {
-              $('.card').on('click', (e) => {
-              const targetCardId = $(e.target).closest('.card').attr('id');
-              const targetRow = $(e.target).closest('.row').attr('id');
-              if (targetRow[0] === 'p') {reject("Cant target player's hand")}
-              const abilityResult = {
-                type: 'card',
-                targetCardId: targetCardId,
-                cardKey: 'health',
-                cardValue: 0,
-                synergyCost: synergyCost,
-                targetRow: targetRow,
-              };
-
-              $('.card').off('click');
-
-                resolve(abilityResult);
-              });
-            } else {
-              reject('Not enough synergy');
-            }           
-          }); 
-      }
     },
     winston: {
       id: "winston",
@@ -637,8 +530,6 @@ const data = {
         m: 2,
         b: 3,
       },
-      ability1: () => {},
-      ability2: () => {},
     },
     wreckingball: {
       id: "wreckingball",
@@ -657,8 +548,6 @@ const data = {
         m: 1,
         b: 3,
       },
-      ability1: () => {},
-      ability2: () => {},
     },
     zarya: {
       id: "zarya",
@@ -677,8 +566,6 @@ const data = {
         m: 1,
         b: 3,
       },
-      ability1: () => {},
-      ability2: () => {},
     },
     zenyatta: {
       id: "zenyatta",
@@ -696,12 +583,6 @@ const data = {
         f: 2,
         m: 2,
         b: 3,
-      },
-      ability1: () => {
-        console.log('zen ability1')
-      },
-      ability2: () => {
-        console.log('zen ability2')
       },
     },
   },

@@ -5,29 +5,40 @@ const helper = {
   getRandInt(min, max) {
     return Math.floor(Math.random() * (max - min)) + min;
   },
+
   // Creates a card with its own health and id unique to the playerCard, returns player-specific ID
-  createPlayerCard(playerNum, heroId) {
-    const heroType = (heroId === 'dva' || heroId === 'bob') ? 'specialHeroes' : 'heroes';
+  createPlayerCard(playerNum, heroId) {  
     
-    // Get card values
+    // Assign values not held in data
+    const playerHeroId = `${playerNum}${heroId}`;
+    const shield = 0;
+    const enemyEffects = [];
+    const allyEffects = [];
+    let isPlayed = false;
+    const isDiscarded = false;
+    let heroData;
+    
+    // Get card values from data
+    // Summoned heroes contain special path
+    if (heroId === 'dva') {
+      heroData = data.heroes.dvameka[heroId];
+      isPlayed = true;
+    } else if (heroId === 'bob') {
+      heroData = data.heroes.ashe[heroId];
+    } else {
+      heroData = data.heroes[heroId];
+    }
+
     const {
       id,
       name,
       health,
       power,
       synergy,
-      ability1,
-      ability2,
       effect,
-    } = data[heroType][heroId];
-    
+    } = heroData;
     const maxHealth = health;
-    const playerHeroId = `${playerNum}${heroId}`;
-    const shield = 0;
-    const enemyEffects = [];
-    const allyEffects = [];
-    const isPlayed = false;
-    const isDiscarded = false;
+    
 
     // Combine values into one new hero object and assign to relevant player
     const newCard = {
@@ -39,15 +50,12 @@ const helper = {
       power,
       synergy,
       shield,
-      ability1,
-      ability2,
       effect,
       enemyEffects,
       allyEffects,
       isPlayed,
       isDiscarded,
     };
-
     
     return newCard;
   }

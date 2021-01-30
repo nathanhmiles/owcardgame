@@ -12,7 +12,7 @@ export default function PlayerHand(props) {
   const { turnState, setTurnState } = useContext(turnContext);
 
   // Variables
-  const playerNum = props.playerNum;
+  const playerNum = parseInt(props.playerNum);
   const playerHandId = `player${playerNum}hand`;
   const playerCardsId = `player${playerNum}cards`;
   const handCards = gameState.rows[playerHandId].cardIds;
@@ -24,7 +24,7 @@ export default function PlayerHand(props) {
     // Draw specific card designated by nextCardDraw state
     if (nextCardDraw[`player${playerNum}`] !== null) {
       dispatch({
-        type: ACTIONS.ADD_CARD,
+        type: ACTIONS.CREATE_CARD,
         payload: {
           playerNum: playerNum,
           heroId: nextCardDraw[`player${playerNum}`],
@@ -43,19 +43,19 @@ export default function PlayerHand(props) {
         const randKey = Object.keys(data.heroes)[randInt];
         const newCardId = data.heroes[randKey].id;
         dispatch({
-          type: ACTIONS.ADD_CARD,
+          type: ACTIONS.CREATE_CARD,
           payload: { playerNum: playerNum, heroId: newCardId },
         });
         playerHeroId = `${props.playerNum}${newCardId}`;
       } while (playerHeroId in gameState.playerCards[playerCardsId].cards);
     }
 
-    // Create updated array and update state
-    const newCardIds = [...gameState.rows[playerHandId].cardIds, playerHeroId];
-
+    // Add new card to player hand
     dispatch({
-      type: ACTIONS.MOVE_CARD,
-      payload: { rowId: playerHandId, newCardIds: newCardIds },
+      type: ACTIONS.ADD_CARD_TO_HAND, payload: { 
+        playerNum: playerNum, 
+        playerHeroId: playerHeroId,
+      },
     });
   }
 

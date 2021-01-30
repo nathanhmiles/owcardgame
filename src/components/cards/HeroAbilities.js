@@ -1,8 +1,6 @@
 import React, { useContext } from "react";
 import gameContext from "context/gameContext";
 import turnContext from "context/turnContext";
-import produce from "immer";
-import helper from "helper";
 import $ from "jquery";
 import { ACTIONS } from "App";
 
@@ -10,11 +8,6 @@ export default function HeroAbilities(props) {
   // Context
   const { gameState, dispatch } = useContext(gameContext);
   const { turnState, setTurnState } = useContext(turnContext);
-
-  // TODO: dummy function to allow testing of dispatch - delete when done
-  function setGameState() {
-
-  }
 
   // Variables
   const playerNum = parseInt(props.playerNum);
@@ -25,13 +18,6 @@ export default function HeroAbilities(props) {
   const cardFocus = props.cardFocus;
   const setCardFocus = props.setCardFocus;
   const unsetCardFocus = props.unsetCardFocus;
-
-  function setRowSynergy(rowId, synergyCost) {
-    dispatch({
-      type: ACTIONS.SET_SYNERGY,
-      payload: { rowId: rowId, synergyCost: synergyCost },
-    });
-  }
 
   // Applies damage to either shields or health as needed, returning both the shield and health value
   function applyDamage(damageValue, targetId) {
@@ -57,6 +43,62 @@ export default function HeroAbilities(props) {
 
   // Abilities data
   const abilities = {
+    ana: {
+      ability1: {
+
+      },
+      ability2: {
+
+      },
+    },
+    ashe: {
+      ability1: {
+
+      },
+      ability2: {
+
+      },
+    },
+    baptiste: {
+      ability1: {
+
+      },
+      ability2: {
+
+      },
+    },
+    bastion: {
+      ability1: {
+
+      },
+      ability2: {
+
+      },
+    },
+    bob: {
+      ability1: {
+
+      },
+      ability2: {
+
+      },
+    },
+    brigitte: {
+      ability1: {
+
+      },
+      ability2: {
+
+      },
+    },
+    doomfist: {
+      ability1: {
+
+      },
+      ability2: {
+
+      },
+    },
     dva: {
       ability2: {
         synergyCost: 2,
@@ -74,9 +116,10 @@ export default function HeroAbilities(props) {
     },
     dvameka: {
       ability1: {
+        audioFile: 'dvameka-apm',
         run() {
+          // Add shield to dvameka card
           const newShield = 2;
-
           dispatch({type: ACTIONS.UPDATE_CARD, payload: {
             playerNum: playerNum,
             cardId: `${playerNum}dvameka`,
@@ -88,6 +131,7 @@ export default function HeroAbilities(props) {
       },
       ability2: {
         synergyCost: 3,
+        audioFile: 'dvameka-nerfthis',
         run() {
           const rowPosition = rowId[1];
           const enemyPlayer = playerNum === 1 ? 2 : 1;
@@ -104,13 +148,16 @@ export default function HeroAbilities(props) {
               cardId
             );
 
+            console.log('ally damage calculated')
+
             dispatch({type: ACTIONS.EDIT_CARD, payload: {
               playerNum: playerNum,
-              cardId: cardId,
-              updateKeys: ['health', 'shield'],
-              updateValue: [targetHealth, targetShield],
+              targetCardId: cardId,
+              editKeys: ['health', 'shield'],
+              editValues: [targetHealth, targetShield],
             }});
 
+            console.log('allies damage applied')
           }
 
           // Damage enemy cards
@@ -120,109 +167,98 @@ export default function HeroAbilities(props) {
               cardId
             );
 
+              console.log('enemy damage calculated');
+
             dispatch({type: ACTIONS.EDIT_CARD, payload: {
               playerNum: enemyPlayer,
-              cardId: cardId,
-              updateKeys: ['health', 'shield'],
-              updateValue: [targetHealth, targetShield],
+              targetCardId: cardId,
+              editKeys: ['health', 'shield'],
+              editValues: [targetHealth, targetShield],
             }});
           }
 
           // After effects
-          // Create new dva card
-          const newDva = helper.createPlayerCard(playerNum, "dva");
+          
+          // Discard dvameka card
+          dispatch({type: ACTIONS.EDIT_CARD, payload: {
+            playerNum: playerNum,
+            targetCardId: `${playerNum}dvameka`,
+            editKeys: ['isDiscarded'],
+            editValues: [true],
+          }});
+
           // Remove dvameka card from row (still exists in playercards)
           const newRowCards = gameState.rows[rowId].cardIds.filter(
             (cardId) => cardId !== `${playerNum}dvameka`
           );
           
-          
+          // Create baby dva card
+          dispatch({type: ACTIONS.CREATE_CARD, payload: {
+            playerNum: playerNum,
+            heroId: 'dva',
+          }});
 
-          setGameState((prevState) => ({
-            ...prevState,
-            playerCards: {
-              ...prevState.playerCards,
-              [`player${playerNum}cards`]: {
-                ...prevState.playerCards[`player${playerNum}cards`],
-                cards: {
-                  ...prevState.playerCards[`player${playerNum}cards`].cards,
-                  [`${playerNum}dvameka`]: {
-                    ...prevState.playerCards[`player${playerNum}cards`].cards[
-                      `${playerNum}dvameka`
-                    ],
-                    isDiscarded: true,
-                  },
-                  [newDva.playerHeroId]: newDva,
-                },
-              },
-            },
-            rows: {
-              ...prevState.rows,
-              [rowId]: {
-                ...prevState.rows[rowId],
-                cardIds: [...newRowCards, newDva.playerHeroId],
-              },
-            },
-          }));
+          // Add baby dva to row dvameka was in
+          dispatch({type: ACTIONS.MOVE_CARD, payload: {
+            rowId: rowId,
+            newCardIds: [...newRowCards, `${playerNum}dva`]
+          }});
+
+          
         },
+      },
+    },
+    echo: {
+      ability1: {
+
+      },
+      ability2: {
+
       },
     },
     genji: {
       ability1: {
         maxTargets: 3,
+        audioFile: 'genji-cutting',
         run() {
           return new Promise((resolve, reject) => {
             $(".card").on("click", (e) => {
               const targetCardId = $(e.target).closest(".card").attr("id");
-              const enemyPlayer = targetCardId[0];
+              const enemyPlayer = parseInt(targetCardId[0]);
               const targetRow = $(e.target).closest(".row").attr("id");
 
+              console.log(targetRow);
               $(".card").off("click");
               // Check target is valid
-              if (targetRow[0] === "p" || targetRow[0] === playerNum) {
+              if (targetRow[0] === "p" || parseInt(targetRow[0]) === playerNum) {
                 reject("Incorrect target");
                 return;
               }
 
-              const { targetHealth, targetShield } = applyDamage(
-                1,
-                targetCardId
-              );
+              const { targetHealth, targetShield } = applyDamage(1, targetCardId);
+              
               // Apply abilities that affect a specific card
+              dispatch({type: ACTIONS.EDIT_CARD, payload: {
+                playerNum: enemyPlayer,
+                targetCardId: targetCardId,
+                editKeys: ['health', 'shield'],
+                editValues: [targetHealth, targetShield],
+              }});
 
-              setGameState((prevState) => ({
-                ...prevState,
-                playerCards: {
-                  ...prevState.playerCards,
-                  [`player${enemyPlayer}cards`]: {
-                    ...prevState.playerCards[`player${enemyPlayer}cards`],
-                    cards: {
-                      ...prevState.playerCards[`player${enemyPlayer}cards`]
-                        .cards,
-                      [targetCardId]: {
-                        ...prevState.playerCards[`player${enemyPlayer}cards`]
-                          .cards[targetCardId],
-                        health: targetHealth,
-                        shield: targetShield,
-                      },
-                    },
-                  },
-                },
-              }));
-
-              resolve();
+              resolve('shuriken thrown!');
             });
           });
         },
       },
       ability2: {
         synergyCost: 3,
+        audioFile: 'genji-ult',
         run() {
           return new Promise((resolve, reject) => {
             // Execute the following when any card is clicked
             $(".card").on("click", (e) => {
               const targetCardId = $(e.target).closest(".card").attr("id");
-              const enemyPlayer = targetCardId[0];
+              const enemyPlayer = parseInt(targetCardId[0]);
               const targetRow = $(e.target).closest(".row").attr("id");
 
               // Remove the onclick effect from all cards
@@ -230,7 +266,7 @@ export default function HeroAbilities(props) {
               // Check target is valid
               if (
                 targetRow[0] === "p" ||
-                targetRow[0] === playerNum ||
+                parseInt(targetRow[0]) === playerNum ||
                 // Check target has been damaged
                 gameState.playerCards[`player${enemyPlayer}cards`].cards[
                   targetCardId
@@ -242,90 +278,126 @@ export default function HeroAbilities(props) {
                 reject("Incorrect target");
                 return;
               }
-              const cardKey = "health";
-              const cardValue = 0;
-              // Apply abilities that affect a specific card
 
-              setGameState((prevState) => ({
-                ...prevState,
-                playerCards: {
-                  ...prevState.playerCards,
-                  [`player${enemyPlayer}cards`]: {
-                    ...prevState.playerCards[`player${enemyPlayer}cards`],
-                    cards: {
-                      ...prevState.playerCards[`player${enemyPlayer}cards`]
-                        .cards,
-                      [targetCardId]: {
-                        ...prevState.playerCards[`player${enemyPlayer}cards`]
-                          .cards[targetCardId],
-                        [cardKey]: cardValue,
-                      },
-                    },
-                  },
-                },
-              }));
+              // Apply abilities that affect a specific card
+              dispatch({type: ACTIONS.EDIT_CARD, payload: {
+                playerNum: enemyPlayer,
+                targetCardId: targetCardId,
+                editKeys: ['health'],
+                editValues: [0],
+              }});
+
               resolve();
             });
           });
         },
       },
     },
+    hanzo: {
+      ability1: {
 
+      },
+      ability2: {
+
+      },
+    },
+    junkrat: {
+      ability1: {
+
+      },
+      ability2: {
+
+      },
+    },
+    lucio: {
+      ability1: {
+
+      },
+      ability2: {
+
+      },
+    },
+    mccree: {
+      ability1: {
+
+      },
+      ability2: {
+
+      },
+    },
+    mei: {
+      ability1: {
+
+      },
+      ability2: {
+
+      },
+    },
+    mercy: {
+      ability1: {
+
+      },
+      ability2: {
+
+      },
+    },
+    moira: {
+      ability1: {
+
+      },
+      ability2: {
+
+      },
+    },
+    orisa: {
+      ability1: {
+
+      },
+      ability2: {
+
+      },
+    },
     pharah: {
       ability1: {
+        audioFile: 'pharah-clear',
         run() {
           return new Promise((resolve, reject) => {
             $(".card").on("click", (e) => {
               const targetCardId = $(e.target).closest(".card").attr("id");
-              const enemyPlayer = targetCardId[0];
-              const targetRow = $(e.target).closest(".row").attr("id");
+              const targetCardIndex = $(e.target).closest("li").index();
+              const enemyPlayer = parseInt(targetCardId[0]);
+              const targetCardRow = $(e.target).closest(".row").attr("id");
 
               $(".card").off("click");
 
-              if (targetRow[0] === "p" || targetRow[0] === playerNum) {
+              if (targetCardRow[0] === "p" || parseInt(targetCardRow[0]) === playerNum) {
+                
                 // Check target is valid
                 reject("Incorrect target row");
                 return;
-              } else if (targetRow[1] !== "b") {
-                // Move target back a row if not already in last row
-                const newRow = `${enemyPlayer}${
-                  targetRow[1] === "f" ? "m" : "b"
-                }`;
-                const updatedTargetRowCardIds = gameState.rows[
-                  targetRow
-                ].cardIds.filter((cardId) => cardId !== targetCardId);
-                const newRowCardIds = [
-                  ...gameState.rows[newRow].cardIds,
-                  targetCardId,
-                ];
 
-                setGameState((prevState) => ({
-                  ...prevState,
-                  rows: {
-                    ...prevState.rows,
-                    [targetRow]: {
-                      ...prevState.rows[targetRow],
-                      cardIds: updatedTargetRowCardIds,
-                    },
-                    [newRow]: {
-                      ...prevState.rows[newRow],
-                      cardIds: newRowCardIds,
-                    },
-                  },
-                }));
+              } else if (targetCardRow[1] !== "b") {
+                
+                // Move target back a row if not already in last row
+                const newRowId = `${enemyPlayer}${
+                  targetCardRow[1] === "f" ? "m" : "b"
+                }`;
+
+                dispatch({type: ACTIONS.MOVE_CARD, payload: {
+                  targetCardId: targetCardId,
+                  startRowId: targetCardRow,
+                  finishRowId: newRowId,
+                  startRowIndex: targetCardIndex,
+                  finishRowIndex: 0,
+                }});
+
               }
 
               // Reduce synergy of target row
-              setGameState((prevState) => ({
-                ...prevState,
-                rows: {
-                  ...prevState.rows,
-                  [targetRow]: {
-                    ...prevState.rows[targetRow],
-                    synergy: prevState.rows[targetRow].synergy - 2,
-                  },
-                },
-              }));
+              dispatch({type: ACTIONS.UPDATE_SYNERGY, payload: {
+                  rowId: targetCardRow,
+                  synergyCost: -2,
+              }});
 
               resolve();
             });
@@ -335,16 +407,17 @@ export default function HeroAbilities(props) {
       ability2: {
         maxTargets: 3,
         synergyCost: 3,
+        audioFile: 'pharah-ult',
         run() {
           return new Promise((resolve, reject) => {
             $(".card").on("click", (e) => {
               const targetCardId = $(e.target).closest(".card").attr("id");
-              const enemyPlayer = targetCardId[0];
+              const enemyPlayer = parseInt(targetCardId[0]);
               const targetRow = $(e.target).closest(".row").attr("id");
 
               $(".card").off("click");
               // Check target is valid
-              if (targetRow[0] === "p" || targetRow[0] === playerNum) {
+              if (targetRow[0] === "p" || parseInt(targetRow[0]) === playerNum) {
                 reject("Incorrect target");
                 return;
               }
@@ -357,26 +430,12 @@ export default function HeroAbilities(props) {
               );
 
               // Apply abilities that affect a specific card
-
-              setGameState((prevState) => ({
-                ...prevState,
-                playerCards: {
-                  ...prevState.playerCards,
-                  [`player${enemyPlayer}cards`]: {
-                    ...prevState.playerCards[`player${enemyPlayer}cards`],
-                    cards: {
-                      ...prevState.playerCards[`player${enemyPlayer}cards`]
-                        .cards,
-                      [targetCardId]: {
-                        ...prevState.playerCards[`player${enemyPlayer}cards`]
-                          .cards[targetCardId],
-                        health: targetHealth,
-                        shield: targetShield,
-                      },
-                    },
-                  },
-                },
-              }));
+              dispatch({type: ACTIONS.EDIT_CARD, payload: {
+                playerNum: enemyPlayer,
+                targetCardId: targetCardId,
+                editKeys: ['health', 'shield'],
+                editValues: [targetHealth, targetShield],
+              }});
 
               resolve();
             });
@@ -384,77 +443,128 @@ export default function HeroAbilities(props) {
         },
       },
     },
+    reaper: {
+      ability1: {
 
+      },
+      ability2: {
+
+      },
+    },
+    reinhardt: {
+      ability1: {
+
+      },
+      ability2: {
+
+      },
+    },
+    roadhog: {
+      ability1: {
+
+      },
+      ability2: {
+
+      },
+    },
+    sigma: {
+      ability1: {
+
+      },
+      ability2: {
+
+      },
+    },
+    soldier: {
+      ability1: {
+
+      },
+      ability2: {
+
+      },
+    },
+    sombra: {
+      ability1: {
+
+      },
+      ability2: {
+
+      },
+    },
+    symmetra: {
+      ability1: {
+
+      },
+      ability2: {
+
+      },
+    },
+    torbjorn: {
+      ability1: {
+
+      },
+      ability2: {
+
+      },
+    },
+    tracer: {
+      ability1: {
+
+      },
+      ability2: {
+
+      },
+    },
     widowmaker: {
       ability1: {
+        audio: 'widowmaker-noonecanhide-fr',
         run() {
           return new Promise((resolve, reject) => {
             $(".row").on("click", (e) => {
               const targetRow = $(e.target).closest(".row").attr("id");
 
-              const rowKey = "effects";
-              const rowValue = "2widowmaker";
-
               $(".row").off("click");
-              if (targetRow[0] === "p" || targetRow[0] === playerNum) {
+              // Check target is valid
+              if (targetRow[0] === "p" || parseInt(targetRow[0]) === playerNum) {
                 reject("Incorrect target");
-              } else {
-                setGameState((prevState) => ({
-                  ...prevState,
-                  rows: {
-                    ...prevState.rows,
-                    [targetRow]: {
-                      ...prevState.rows[targetRow],
-                      [rowKey]: [
-                        ...prevState.rows[targetRow][rowKey],
-                        rowValue,
-                      ],
-                    },
-                  },
-                }));
-                resolve();
+                return;
               }
+
+              // Apply effect
+              dispatch({type: ACTIONS.ADD_ROW_EFFECT, payload: {
+                targetRow: targetRow,
+                rowEffect: `${playerNum}widowmaker`
+              }});
+              
+              resolve();
             });
           });
         },
       },
       ability2: {
         synergyCost: 3,
+        audioFile: 'widowmaker-oneshot',
         run() {
           console.log("widow ability2 started");
           return new Promise((resolve, reject) => {
             $(".card").on("click", (e) => {
               const targetCardId = $(e.target).closest(".card").attr("id");
-              const enemyPlayer = targetCardId[0];
+              const enemyPlayer = parseInt(targetCardId[0]);
               const targetRow = $(e.target).closest(".row").attr("id");
 
               $(".card").off("click");
-              if (targetRow[0] === "p" || targetRow[0] === playerNum) {
+              if (targetRow[0] === "p" || parseInt(targetRow[0]) === playerNum) {
                 reject("Incorrect target row");
                 return;
               }
-              const cardKey = "health";
-              const cardValue = 0;
+              
               // Apply abilities that affect a specific card
-
-              setGameState((prevState) => ({
-                ...prevState,
-                playerCards: {
-                  ...prevState.playerCards,
-                  [`player${enemyPlayer}cards`]: {
-                    ...prevState.playerCards[`player${enemyPlayer}cards`],
-                    cards: {
-                      ...prevState.playerCards[`player${enemyPlayer}cards`]
-                        .cards,
-                      [targetCardId]: {
-                        ...prevState.playerCards[`player${enemyPlayer}cards`]
-                          .cards[targetCardId],
-                        [cardKey]: cardValue,
-                      },
-                    },
-                  },
-                },
-              }));
+              dispatch({type: ACTIONS.EDIT_CARD, payload: {
+                playerNum: enemyPlayer,
+                targetCardId: targetCardId,
+                editKeys: ['health'],
+                editValues: [0],
+              }});
 
               resolve();
             });
@@ -462,7 +572,30 @@ export default function HeroAbilities(props) {
         },
       },
     },
+    winston: {
+      ability1: {
 
+      },
+      ability2: {
+
+      },
+    },
+    wreckingball: {
+      ability1: {
+
+      },
+      ability2: {
+
+      },
+    },
+    zarya: {
+      ability1: {
+
+      },
+      ability2: {
+
+      },
+    },
     zenyatta: {
       ability1: {
         maxTargets: 1,
@@ -486,14 +619,24 @@ export default function HeroAbilities(props) {
       try {
         unsetCardFocus();
 
+        // Play ability audio if exists
+        if ('audioFile' in abilities[heroId].ability1) {
+          const audioFile = abilities[heroId].ability1.audioFile;
+          const ability1audio = new Audio(require(`assets/audio/${audioFile}.mp3`).default)
+          ability1audio.play();
+        }
+
+        // Allow the ability to be triggered more than once if relevant
         if ("maxTargets" in abilities[heroId].ability1) {
-          // Allow the ability to be triggered more than once if relevant
           let i = 0;
           do {
-            await abilities[heroId].ability1.run();
+            const ability1Result = await abilities[heroId].ability1.run();
+            console.log(ability1Result);
             i += 1;
           } while (i < maxTargets);
         } else await abilities[heroId].ability1.run();
+
+
       } catch (err) {
         alert(err);
       }
@@ -502,9 +645,10 @@ export default function HeroAbilities(props) {
 
   async function activateAbility2(e) {
     e.stopPropagation();
+    // Get synergy values
     const synergyCost = abilities[heroId].ability2.synergyCost;
     const rowSynergy = gameState.rows[rowId].synergy;
-
+    
     // Check that the card is not in the player's hand
     if (rowId[0] !== "p") {
       // Check there is sufficient synergy to use the ability
@@ -512,6 +656,14 @@ export default function HeroAbilities(props) {
         // Call the relevant hero's ability and deduct synergy
         try {
           unsetCardFocus();
+          
+          // Play ability audio if exists
+          if ('audioFile' in abilities[heroId].ability2) {
+            const audioFile = abilities[heroId].ability2.audioFile;
+            const ability2audio = new Audio(require(`assets/audio/${audioFile}.mp3`).default);
+            console.log(ability2audio)
+            ability2audio.play();
+          }
 
           // Allow multiple targets if applicable
           if ("maxTargets" in abilities[heroId].ability2) {
@@ -522,8 +674,16 @@ export default function HeroAbilities(props) {
               i += 1;
             } while (i < maxTargets);
           } else await abilities[heroId].ability2.run();
+          
+          // Subtract ability synergy cost from row synergy 
+          // Make synergy negative so that the cost is subtracted, not added
+          dispatch({
+            type: ACTIONS.UPDATE_SYNERGY, payload: { 
+              rowId: rowId, 
+              synergyCost: (Math.abs(synergyCost) * -1) 
+            },
+          });
 
-          setRowSynergy(rowId, synergyCost);
         } catch (err) {
           alert(err);
         }
@@ -533,11 +693,13 @@ export default function HeroAbilities(props) {
 
   return (
     <div id="abilitiescontainer">
-      <div
-        id="ability1"
-        className="ability ability1"
-        onClick={activateAbility1}
-      ></div>
+      {('ability1' in abilities[heroId]) && 
+        <div
+          id="ability1"
+          className="ability ability1"
+          onClick={activateAbility1}
+        ></div>
+      }
       <div
         id="ability2"
         className="ability ability2"
