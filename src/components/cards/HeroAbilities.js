@@ -368,6 +368,7 @@ export default function HeroAbilities(props) {
               const enemyPlayer = parseInt(targetCardId[0]);
               const targetCardRow = $(e.target).closest(".row").attr("id");
 
+              console.log(targetCardIndex)
               $(".card").off("click");
 
               if (targetCardRow[0] === "p" || parseInt(targetCardRow[0]) === playerNum) {
@@ -387,8 +388,8 @@ export default function HeroAbilities(props) {
                   targetCardId: targetCardId,
                   startRowId: targetCardRow,
                   finishRowId: newRowId,
-                  startRowIndex: targetCardIndex,
-                  finishRowIndex: 0,
+                  startIndex: targetCardIndex,
+                  finishIndex: 0,
                 }});
 
               }
@@ -517,7 +518,7 @@ export default function HeroAbilities(props) {
     },
     widowmaker: {
       ability1: {
-        audio: 'widowmaker-noonecanhide-fr',
+        audioFile: 'widowmaker-noonecanhide-fr',
         run() {
           return new Promise((resolve, reject) => {
             $(".row").on("click", (e) => {

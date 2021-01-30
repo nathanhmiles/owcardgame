@@ -224,9 +224,6 @@ export default function App() {
         finishIndex: destination.index, 
       },
     });
-
-    // Get the synergy value that the dragged card applies to the destination row
-    
     
     // If not moving card within player's hand (i.e. moving into a row),
     // Set new row synergy and set card to played 
@@ -236,6 +233,7 @@ export default function App() {
       const addSynergy =
       gameState.playerCards[`player${playerNum}cards`].cards[draggableId]
         .synergy[finishPosition];
+        
       dispatch({type: ACTIONS.UPDATE_SYNERGY, payload: {
         rowId: finishRowId,
         synergyCost: addSynergy,
