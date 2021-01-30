@@ -48,7 +48,7 @@ export default function HeroAbilities(props) {
 
       },
       ability2: {
-
+        synergyCost: 3,
       },
     },
     ashe: {
@@ -56,7 +56,7 @@ export default function HeroAbilities(props) {
 
       },
       ability2: {
-
+        synergyCost: 3,
       },
     },
     baptiste: {
@@ -64,7 +64,7 @@ export default function HeroAbilities(props) {
 
       },
       ability2: {
-
+        synergyCost: 3,
       },
     },
     bastion: {
@@ -72,7 +72,7 @@ export default function HeroAbilities(props) {
 
       },
       ability2: {
-
+        synergyCost: 3,
       },
     },
     bob: {
@@ -80,7 +80,7 @@ export default function HeroAbilities(props) {
 
       },
       ability2: {
-
+        synergyCost: 1,
       },
     },
     brigitte: {
@@ -88,7 +88,7 @@ export default function HeroAbilities(props) {
 
       },
       ability2: {
-
+        synergyCost: 3,
       },
     },
     doomfist: {
@@ -96,7 +96,7 @@ export default function HeroAbilities(props) {
 
       },
       ability2: {
-
+        synergyCost: 3,
       },
     },
     dva: {
@@ -213,7 +213,7 @@ export default function HeroAbilities(props) {
 
       },
       ability2: {
-
+        synergyCost: 2,
       },
     },
     genji: {
@@ -295,50 +295,56 @@ export default function HeroAbilities(props) {
     },
     hanzo: {
       ability1: {
-
+        audioFile: 'hanzo-marked',
       },
       ability2: {
-
+        audioFile: 'hanzo-ult',
+        synergyCost: 3,
       },
     },
     junkrat: {
       ability1: {
-
+        audioFile: 'junkrat-laugh',
       },
       ability2: {
-
+        audioFile: 'junkrat-ult',
+        synergyCost: 3,
       },
     },
     lucio: {
       ability1: {
-
+        audioFile: 'lucio-ampitup',
       },
       ability2: {
-
+        audioFile: 'lucio-ult',
+        synergyCost: 3,
       },
     },
     mccree: {
       ability1: {
-
+        audioFile: 'mccree-fishinabarrel',
       },
       ability2: {
-
+        audioFile: 'mccree-ult',
+        synergyCost: 3,
       },
     },
     mei: {
       ability1: {
-
+        audioFile: 'mei-goticed',
       },
       ability2: {
-
+        audioFile: 'mei-ult',
+        synergyCost: 2,
       },
     },
     mercy: {
       ability1: {
-
+        audioFile: 'mercy-medicalemergency',
       },
       ability2: {
-
+        audioFile: 'mercy-ult',
+        synergyCost: 3,
       },
     },
     moira: {
@@ -346,7 +352,7 @@ export default function HeroAbilities(props) {
 
       },
       ability2: {
-
+        synergyCost: 3,
       },
     },
     orisa: {
@@ -354,7 +360,7 @@ export default function HeroAbilities(props) {
 
       },
       ability2: {
-
+        synergyCost: 3,
       },
     },
     pharah: {
@@ -449,23 +455,24 @@ export default function HeroAbilities(props) {
 
       },
       ability2: {
-
+        synergyCost: 3,
       },
     },
     reinhardt: {
       ability1: {
-
+        audioFile: 'reinhardt-barrier',
       },
       ability2: {
-
+        synergyCost: 3,
       },
     },
     roadhog: {
       ability1: {
-
+        audioFile: 'roadhog-hook',
       },
       ability2: {
-
+        audioFile: 'roadhog-hogwild',
+        synergyCost: 3,
       },
     },
     sigma: {
@@ -473,15 +480,16 @@ export default function HeroAbilities(props) {
 
       },
       ability2: {
-
+        synergyCost: 3,
       },
     },
     soldier: {
       ability1: {
-
+        audioFile: 'soldier-teamheal'
       },
       ability2: {
-
+        audioFile: 'soldier-ult',
+        synergyCost: 3,
       },
     },
     sombra: {
@@ -489,31 +497,34 @@ export default function HeroAbilities(props) {
 
       },
       ability2: {
-
+        synergyCost: 3,
       },
     },
     symmetra: {
       ability1: {
-
+        audioFile: 'symmetra-teleporter',
       },
       ability2: {
-
+        audioFile: 'symmetra-shield',
+        synergyCost: 3,
       },
     },
     torbjorn: {
       ability1: {
-
+        audioFile: 'torbjorn-turret',
       },
       ability2: {
-
+        audioFile: 'torbjorn-ult',
+        synergyCost: 3,
       },
     },
     tracer: {
       ability1: {
-
+        audioFile: 'tracer-smarts',
       },
       ability2: {
-
+        audioFile: 'tracer-imback',
+        synergyCost: 2,
       },
     },
     widowmaker: {
@@ -575,10 +586,11 @@ export default function HeroAbilities(props) {
     },
     winston: {
       ability1: {
-
+        audioFile: 'winston-barrier',
       },
       ability2: {
-
+        audioFile: 'winston-angry',
+        synergyCost: 3,
       },
     },
     wreckingball: {
@@ -591,19 +603,22 @@ export default function HeroAbilities(props) {
     },
     zarya: {
       ability1: {
-
+        audioFile: 'zarya-barrier',
       },
       ability2: {
-
+        audioFile: 'zarya-ult',
+        synergyCost: 3,
       },
     },
     zenyatta: {
       ability1: {
         maxTargets: 1,
+        audioFile: 'zenyatta-harmony',
         run() {},
       },
       ability2: {
         synergyCost: 3,
+        audioFile: 'zenyatta-ult',
         run() {},
       },
     },
