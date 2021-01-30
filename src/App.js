@@ -212,7 +212,9 @@ export default function App() {
     const finishRowId = destination.droppableId;
     const playerNum = parseInt(finishRowId[0]);
     const finishPosition = finishRowId[1];
+    const heroId = draggableId.slice(1, draggableId.length);
     let finishSynergy = gameState.rows[finishRowId].synergy;
+
 
     // Apply card movement
     dispatch({
@@ -229,11 +231,19 @@ export default function App() {
     // Set new row synergy and set card to played 
     if (finishRowId[0] !== 'p') {
       
+      // Play intro audio
+      try{
+        const introAudio = new Audio(require(`assets/audio/${heroId}-intro.mp3`).default);
+        introAudio.play();
+      } catch(err) {
+        console.log('No intro audio available')
+      }
+
       // Set new row synergy
       const addSynergy =
       gameState.playerCards[`player${playerNum}cards`].cards[draggableId]
         .synergy[finishPosition];
-        
+
       dispatch({type: ACTIONS.UPDATE_SYNERGY, payload: {
         rowId: finishRowId,
         synergyCost: addSynergy,
