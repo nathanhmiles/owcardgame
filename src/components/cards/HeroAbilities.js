@@ -45,26 +45,29 @@ export default function HeroAbilities(props) {
   const abilities = {
     ana: {
       ability1: {
-
+        audioFile: 'ana-grenade',
       },
       ability2: {
         synergyCost: 3,
+        audioFile: 'ana-ult',
       },
     },
     ashe: {
       ability1: {
-
+        audioFile: 'ashe-deadlockgang',
       },
       ability2: {
         synergyCost: 3,
+        audioFile: 'ashe-bob',
       },
     },
     baptiste: {
       ability1: {
-
+        audioFile: 'baptiste-notover',
       },
       ability2: {
         synergyCost: 3,
+        audioFile: 'baptiste-immortality',
       },
     },
     bastion: {
@@ -73,6 +76,7 @@ export default function HeroAbilities(props) {
       },
       ability2: {
         synergyCost: 3,
+        audioFile: 'bastion-ult',
       },
     },
     bob: {
@@ -85,23 +89,26 @@ export default function HeroAbilities(props) {
     },
     brigitte: {
       ability1: {
-
+        audioFile: 'brigitte-armour',
       },
       ability2: {
         synergyCost: 3,
+        audioFile: 'brigitte-ult',
       },
     },
     doomfist: {
       ability1: {
-
+        audioFile: 'doomfist-punch',
       },
       ability2: {
         synergyCost: 3,
+        audioFile: 'doomfist-ult',
       },
     },
     dva: {
       ability2: {
         synergyCost: 2,
+        audioFile: 'dva-ult',
         run() {
           return new Promise((resolve, reject) => {
             props.setNextCardDraw((prevState) => ({
@@ -349,18 +356,20 @@ export default function HeroAbilities(props) {
     },
     moira: {
       ability1: {
-
+        audioFile: 'moira-grasp',
       },
       ability2: {
         synergyCost: 3,
+        audioFile: 'moira-ult',
       },
     },
     orisa: {
       ability1: {
-
+        audioFile: 'orisa-barrier',
       },
       ability2: {
         synergyCost: 3,
+        audioFile: 'orisa-ult',
       },
     },
     pharah: {
@@ -452,10 +461,11 @@ export default function HeroAbilities(props) {
     },
     reaper: {
       ability1: {
-
+        audioFile: 'reaper-lastwords',
       },
       ability2: {
         synergyCost: 3,
+        audioFile: 'reaper-ult',
       },
     },
     reinhardt: {
@@ -464,6 +474,7 @@ export default function HeroAbilities(props) {
       },
       ability2: {
         synergyCost: 3,
+        audioFile: 'reinhardt-ult',
       },
     },
     roadhog: {
@@ -477,10 +488,11 @@ export default function HeroAbilities(props) {
     },
     sigma: {
       ability1: {
-
+        audioFile: 'sigma-barrier',
       },
       ability2: {
         synergyCost: 3,
+        audioFile: 'sigma-ult',
       },
     },
     soldier: {
@@ -494,10 +506,11 @@ export default function HeroAbilities(props) {
     },
     sombra: {
       ability1: {
-
+        audioFile: 'sombra-hack'
       },
       ability2: {
         synergyCost: 3,
+        audioFile: 'sombra-ult',
       },
     },
     symmetra: {
@@ -595,10 +608,10 @@ export default function HeroAbilities(props) {
     },
     wreckingball: {
       ability1: {
-
+        audioFile: 'wreckingball-shields',
       },
       ability2: {
-
+        audioFile: 'wreckingball-ult',
       },
     },
     zarya: {
