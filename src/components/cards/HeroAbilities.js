@@ -398,12 +398,11 @@ export default function HeroAbilities(props) {
               const enemyPlayer = parseInt(targetCardId[0]);
               const targetCardRow = $(e.target).closest(".row").attr("id");
 
-              console.log(targetCardIndex)
               $(".card").off("click");
 
+              // Check target is valid
               if (targetCardRow[0] === "p" || parseInt(targetCardRow[0]) === playerNum) {
                 
-                // Check target is valid
                 reject("Incorrect target row");
                 return;
 

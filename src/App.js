@@ -172,10 +172,13 @@ function reducer(gameState, action) {
           // Required variables
           const rowId = action.payload.rowId;
           const synergyCost = action.payload.synergyCost;
-
-          // Subtract synergy cost from current row synergy
+          
+          // Update synergy and set value, minimum of 0 synergy
           return produce(gameState, (draft) => {
-            draft.rows[rowId].synergy += synergyCost;
+            let rowSynergy = draft.rows[rowId].synergy;
+            rowSynergy += synergyCost;
+            const newSynergy = Math.max(0, rowSynergy);
+            draft.rows[rowId].synergy = newSynergy;
           });
         }
   
@@ -270,8 +273,8 @@ export default function App() {
     <div>
       <turnContext.Provider value={{ turnState, setTurnState }}>
         <gameContext.Provider value={gameContextProvider}>
-          <AudioPlayer />
           <Footer />
+          <AudioPlayer />
           <DragDropContext onDragEnd={handleOnDragEnd}>
             <PlayerHalf
               playerNum={2}
