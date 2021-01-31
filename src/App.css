@@ -20,6 +20,17 @@ body {
   width: 100%;
 }
 
+#audioplayer {
+  position: absolute;
+  top: 2vh;
+  left: 2vw;
+}
+
+#audioicon {
+  width: 30px;
+  height: 30px;
+}
+
 .board {
   display: flex;
   flex-direction: column;
