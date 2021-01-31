@@ -38,6 +38,8 @@ export default function HeroAbilities(props) {
       }
     }
 
+    targetHealth = Math.max(0, targetHealth);
+
     return { targetHealth, targetShield };
   }
 
@@ -145,6 +147,7 @@ export default function HeroAbilities(props) {
           const playerRowCardIds = gameState.rows[rowId].cardIds;
           const enemyPlayerRowCardIds =
             gameState.rows[`${enemyPlayer}${rowPosition}`].cardIds;
+          const dvamekaIndex = $(`#${playerNum}dvameka`).closest("li").index();
 
           const damageValue = 4;
 
@@ -206,10 +209,22 @@ export default function HeroAbilities(props) {
           }});
 
           // Add baby dva to row dvameka was in
-          dispatch({type: ACTIONS.MOVE_CARD, payload: {
-            rowId: rowId,
-            newCardIds: [...newRowCards, `${playerNum}dva`]
+          dispatch({type: ACTIONS.ADD_CARD_TO_HAND, payload: {
+            playerNum: playerNum,
+            playerHeroId: `${playerNum}dva`,
           }});
+
+          // Get Dva's index in player hand
+          const dvaIndex = $(`#${playerNum}dva`).closest('li').index();
+
+          // Move dva from player hand to dvameka's former position
+          dispatch({type: ACTIONS.MOVE_CARD, payload: {
+            targetCardId: `${playerNum}dva`,
+            startRowId: `player${playerNum}hand`,
+            finishRowId: rowId,
+            startIndex: dvaIndex,
+            finishIndex: dvamekaIndex,
+          }})
 
           
         },
