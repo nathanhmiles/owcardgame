@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 
 export default function AudioPlayer() {
-  const [isPlaying, setIsPlaying] = useState(true);
+  const [isPlaying, setIsPlaying] = useState(false);
   
   useEffect(() => {
     const audio = document.getElementById("backgroundaudio");
@@ -21,7 +21,7 @@ export default function AudioPlayer() {
       <audio 
         src={require(`assets/audio/overwatch-theme.mp3`).default} 
         type="audio/mpeg"
-        loop="true"
+        loop={true}
         id="backgroundaudio"
       />
     </div>

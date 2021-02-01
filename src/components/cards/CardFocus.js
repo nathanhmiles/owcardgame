@@ -13,6 +13,7 @@ export default function CardFocus(props) {
   const setCardFocus = props.setCardFocus;
   const unsetCardFocus = props.unsetCardFocus;
 
+
   // Get card attributes from relevant player
   const {
     id,

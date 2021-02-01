@@ -18,6 +18,7 @@ const helper = {
     const isDiscarded = false;
     let heroData;
     
+    
     // Get card values from data
     // Summoned heroes contain special path
     if (heroId === 'dva') {

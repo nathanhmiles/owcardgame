@@ -22,6 +22,7 @@ export const ACTIONS = {
   ADD_ROW_EFFECT: "add-row-effect",
   ADD_CARD_EFFECT: "add-card-effect",
   SET_POWER: "set-power",
+  SET_SYNERGY: "set-synergy",
   UPDATE_SYNERGY: "update-synergy",
 };
 
@@ -65,7 +66,7 @@ function reducer(gameState, action) {
         return produce(gameState, (draft) => {
           let targetCard =
             draft.playerCards[`player${playerNum}cards`].cards[targetCardId];
-          console.log(targetCard)
+
           for (let i = 0; i < editKeys.length; i++) {
             targetCard[editKeys[i]] = editValues[i];
           }
@@ -167,6 +168,18 @@ function reducer(gameState, action) {
         }
       
       // Sets row synergy
+      case ACTIONS.SET_SYNERGY:
+        {
+          // Required variables
+          const rowId = action.payload.rowId;
+          const newSynergyVal = action.payload.newSynergyVal;
+          
+          return produce(gameState, (draft) => {
+            draft.rows[rowId].synergy = newSynergyVal;
+          });
+        }
+      
+      // Sets row synergy
       case ACTIONS.UPDATE_SYNERGY:
         {
           // Required variables
@@ -189,9 +202,6 @@ function reducer(gameState, action) {
 
 export default function App() {
   const [gameState, dispatch] = useReducer(reducer, data);
-  const gameContextProvider = useMemo(() => {
-    return { gameState, dispatch };
-  }, [gameState, dispatch]);
 
   const [matchState, setMatchState] = useState({
     player1: { wins: 0 },
@@ -272,7 +282,7 @@ export default function App() {
   return (
     <div>
       <turnContext.Provider value={{ turnState, setTurnState }}>
-        <gameContext.Provider value={gameContextProvider}>
+        <gameContext.Provider value={{gameState, dispatch}}>
           <Footer />
           <AudioPlayer />
           <DragDropContext onDragEnd={handleOnDragEnd}>
