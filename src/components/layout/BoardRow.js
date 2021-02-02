@@ -1,6 +1,7 @@
 import React, { useContext, useEffect } from "react";
 import gameContext from "context/gameContext";
-import SynergyCounter from "./SynergyCounter";
+import SynergyCounter from "components/layout/SynergyCounter";
+import ShieldCounter from "components/cards/ShieldCounter";
 import CounterArea from "components/layout/CounterArea";
 import CardDisplay from "components/layout/CardDisplay";
 import { ACTIONS } from "App";
@@ -12,6 +13,7 @@ export default function BoardRow(props) {
   const playerNum = props.playerNum;
   const playerHand = `player${playerNum}hand`;
   const synergyValue = gameState.rows[rowId].synergy;
+  const rowShield = gameState.rows[rowId].shield;
 
   // Update synergy and power values anytime a card moves row
   useEffect(() => {
@@ -63,7 +65,10 @@ export default function BoardRow(props) {
           setCardFocus={props.setCardFocus}
         />
       </div>
-      <SynergyCounter synergy={synergyValue} />
+      <div className="rowcountercontainer">
+        <SynergyCounter synergy={synergyValue} />
+        {rowShield > 0 ? (<ShieldCounter type="rowcounter" shield={rowShield} />) : (null)}
+      </div>
     </div>
   );
 }

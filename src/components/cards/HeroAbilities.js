@@ -673,6 +673,38 @@ export default function HeroAbilities(props) {
     sigma: {
       ability1: {
         audioFile: "sigma-barrier",
+        run() {
+          // Wait for user click
+          return new Promise((resolve, reject) => {
+            // When a row is clicked
+            $(".row").on("click", (e) => {
+              // Get target information
+              const targetRow = $(e.target).closest(".row").attr("id");
+
+              // Remove the onclick
+              $(".row").off("click");
+
+              // Check target is valid
+              if (targetRow[0] === "p" || parseInt(targetRow[0]) !== playerNum) {
+                reject("Incorrect target");
+                return;
+              }
+
+              
+              // Apply effect
+              const shieldValue = 3;
+              dispatch({
+                type: ACTIONS.ADD_ROW_EFFECT,
+                payload: {
+                  targetRow: targetRow,
+                  rowShield: shieldValue,
+                },
+              });
+
+              resolve();
+            });
+          });
+        },
       },
       ability2: {
         synergyCost: 3,

@@ -206,12 +206,10 @@ ul {
 }
 
 .healthcounter {
-  font-family: KeepCalm-Medium;
   background-image: url('assets/healthbackground.png');
 }
 
 .shieldcounter {
-  font-family: KeepCalm-Medium;
   background-image: url('assets//shieldcounter.png');
   background-position: center;
   background-size: contain;
@@ -219,6 +217,7 @@ ul {
 }
 
 .cardcounter {
+  font-family: KeepCalm-Medium;
   height: 7%;
   width: 8%;
   position: absolute;
@@ -234,6 +233,21 @@ ul {
   left: 81%;
   width: 15%;
   height: auto;
+}
+
+.rowcountercontainer {
+  display: flex;
+  flex-direction: column;
+  font-size: 20pt;
+}
+
+.rowcounter {
+  margin: 10px 0 10px 0;
+}
+
+.shieldcounter.rowcounter {
+  width: 75px;
+  height: 75px; 
 }
 
 .cardfocuscounter {

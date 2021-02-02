@@ -7,7 +7,6 @@ import PlayerHalf from "components/layout/PlayerHalf";
 import TitleCard from "components/layout/TitleCard";
 import Footer from "components/layout/Footer";
 import CardFocus from "components/cards/CardFocus";
-import Aud from "components/layout/AudioPlayer";
 import data from "data";
 import helper from "helper";
 import produce from "immer";
@@ -140,9 +139,14 @@ function reducer(gameState, action) {
         {
           const targetRow = action.payload.targetRow;
           const rowEffect = action.payload.rowEffect;
+          const rowShield = action.payload.rowShield;
           
           return produce(gameState, (draft) => {
-            draft.rows[targetRow].effects.push(rowEffect);
+            if (rowEffect) {
+              draft.rows[targetRow].effects.push(rowEffect);
+            } if (rowShield) {
+              draft.rows[targetRow].shield += rowShield;
+            }
           });
         }
       
