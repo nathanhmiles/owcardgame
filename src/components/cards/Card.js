@@ -62,7 +62,7 @@ export default function Card(props) {
                 className="card"
                 onClick={
                   turnState.playerTurn === playerNum ||
-                  parseInt(rowId[0]) === playerNum
+                  isPlayed
                     ? () => {
                         props.setCardFocus({
                           playerHeroId: playerHeroId,
@@ -73,17 +73,17 @@ export default function Card(props) {
                 }
               >
                 {turnState.playerTurn === playerNum ||
-                parseInt(rowId[0]) === playerNum ? (
+                isPlayed ? (
                   <HealthCounter type="cardcounter" health={health} />
                 ) : null}
                 {turnState.playerTurn === playerNum ||
-                parseInt(rowId[0]) === playerNum
+                isPlayed
                   ? shield > 0 && <ShieldCounter type="cardcounter" shield={shield} />
                   : null}
                 <img
                   src={
                     turnState.playerTurn === playerNum ||
-                    parseInt(rowId[0]) === playerNum
+                    isPlayed
                       ? require(`assets/heroes/${id}.png`).default
                       : require("assets/card-back.png").default
                   }

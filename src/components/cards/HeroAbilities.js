@@ -34,9 +34,11 @@ export default function HeroAbilities(props) {
   // Applies damage to either shields or health as needed, returning both the shield and health value
   // TODO: currently only damage has its own function that sets state, all other state
   // TODO: is set within the hero's ability
-  function applyDamage(damageValue, targetCardId) {
+  function applyDamage(damageValue, targetCardId, targetRow) {
     // Identify enemy player
     const targetPlayerNum = targetCardId[0];
+
+    console.log(`targeting ${targetCardId}`)
 
     // Get hero health and shield values
     let targetHealth =
@@ -45,7 +47,9 @@ export default function HeroAbilities(props) {
     let targetShield =
       gameState.playerCards[`player${targetPlayerNum}cards`].cards[targetCardId]
         .shield;
+    let targetRowShield = gameState.rows[targetRow].shield;
 
+    
     // If the target has already been targeted during this ability, update with current values
     // Needed because gameState is only updated once the entire ability is finished, so
     // we need useRef in order to keep track of the damaged hero's new changing value
@@ -53,23 +57,33 @@ export default function HeroAbilities(props) {
       targetHealth = targetRef.current[targetCardId].health;
       targetShield = targetRef.current[targetCardId].shield;
     }
-
-    // Decrement the target's health/shield as needed
+    if (targetRow in targetRef.current) {
+      targetRowShield = targetRef.current[targetRow].shield;
+    }
+    console.log(`initial shield is ${targetRowShield}`)
+    
+    // Decrement the target's health/shield/rowshield as needed
     for (let i = 0; i < damageValue; i++) {
-      if (targetShield > 0) {
+      if (targetRowShield > 0) {
+        targetRowShield -= 1;
+      } else if (targetShield > 0) {
         targetShield -= 1;
       } else {
         targetHealth -= 1;
       }
     }
 
+    console.log(`new shield is ${targetRowShield}`)
+
     // Dont allow health to be a negative number
     targetHealth = Math.max(0, targetHealth);
 
     // Assign new health values to the ref
     targetRef.current[targetCardId] = {};
+    targetRef.current[targetRow] = {};
     targetRef.current[targetCardId]["health"] = targetHealth;
     targetRef.current[targetCardId]["shield"] = targetShield;
+    targetRef.current[targetRow]["shield"] = targetRowShield;
 
     // Set the new state (will be done in batch at the end of the ability)
     dispatch({
@@ -80,6 +94,14 @@ export default function HeroAbilities(props) {
         editKeys: ["health", "shield"],
         editValues: [targetHealth, targetShield],
       },
+    });
+
+    dispatch({
+      type: ACTIONS.EDIT_ROW,
+      payload: {
+        targetRow: targetRow,
+        rowShield: targetRowShield,
+      }
     });
 
     return;
@@ -183,7 +205,7 @@ export default function HeroAbilities(props) {
 
               // Apply damage to target
               const damageValue = 2;
-              applyDamage(damageValue, targetCardId);
+              applyDamage(damageValue, targetCardId, targetCardRow);
 
               resolve();
             });
@@ -241,44 +263,19 @@ export default function HeroAbilities(props) {
 
           const damageValue = 4;
 
-          // Damage own player cards
+          // Damage own player cards, except for dvameka using the ability
           for (let cardId of playerRowCardIds) {
-            const { targetHealth, targetShield } = applyDamage(
-              damageValue,
-              cardId
-            );
-
-            dispatch({
-              type: ACTIONS.EDIT_CARD,
-              payload: {
-                playerNum: playerNum,
-                targetCardId: cardId,
-                editKeys: ["health", "shield"],
-                editValues: [targetHealth, targetShield],
-              },
-            });
+            if (cardId !== `${playerNum}dvameka`) {
+              applyDamage(damageValue, cardId, rowId);
+            }
           }
 
           // Damage enemy cards
           for (let cardId of enemyPlayerRowCardIds) {
-            const { targetHealth, targetShield } = applyDamage(
-              damageValue,
-              cardId
-            );
-
-            dispatch({
-              type: ACTIONS.EDIT_CARD,
-              payload: {
-                playerNum: enemyPlayer,
-                targetCardId: cardId,
-                editKeys: ["health", "shield"],
-                editValues: [targetHealth, targetShield],
-              },
-            });
+            applyDamage(damageValue, cardId, `${enemyPlayer}${rowPosition}`);
           }
 
           // After effects
-
           // Discard dvameka card
           dispatch({
             type: ACTIONS.EDIT_CARD,
@@ -362,7 +359,7 @@ export default function HeroAbilities(props) {
 
               // Apply damage to the target card (includes setting state)
               const damageValue = 1;
-              applyDamage(damageValue, targetCardId);
+              applyDamage(damageValue, targetCardId, targetRow);
 
               // Apply abilities that affect a specific card
 
@@ -484,7 +481,7 @@ export default function HeroAbilities(props) {
 
               // Apply damage to the target card (includes setting state)
               const damageValue = 3;
-              applyDamage(damageValue, targetCardId);
+              applyDamage(damageValue, targetCardId, targetRow);
 
               resolve();
             });
@@ -635,7 +632,7 @@ export default function HeroAbilities(props) {
 
               // Apply damage to the target card (includes setting state)
               const damageValue = 2;
-              applyDamage(damageValue, targetCardId);
+              applyDamage(damageValue, targetCardId, targetRow);
 
               resolve();
             });
@@ -655,6 +652,18 @@ export default function HeroAbilities(props) {
     reinhardt: {
       ability1: {
         audioFile: "reinhardt-barrier",
+        run() {
+          // Apply shield to row
+          const shieldValue = 3;
+          dispatch({
+            type: ACTIONS.ADD_ROW_EFFECT,
+            payload: {
+              targetRow: rowId,
+              rowShield: shieldValue,
+            },
+          });
+            
+        },
       },
       ability2: {
         synergyCost: 3,
@@ -736,8 +745,10 @@ export default function HeroAbilities(props) {
                 return card.id;
               })
 
+              // Apply damange
+              const damageValue = 1;
               targetRowCardIds.forEach((cardId) => {
-                applyDamage(1, cardId)
+                applyDamage(damageValue, cardId, targetRow)
               });
               
 
@@ -809,7 +820,7 @@ export default function HeroAbilities(props) {
 
               // Apply damage to the target card (includes setting state)
               const damageValue = 1;
-              applyDamage(damageValue, targetCardId);
+              applyDamage(damageValue, targetCardId, targetRow);
 
               resolve();
             });
@@ -903,6 +914,18 @@ export default function HeroAbilities(props) {
     winston: {
       ability1: {
         audioFile: "winston-barrier",
+        run() {
+          // Apply shield to row
+          const shieldValue = 3;
+          dispatch({
+            type: ACTIONS.ADD_ROW_EFFECT,
+            payload: {
+              targetRow: rowId,
+              rowShield: shieldValue,
+            },
+          });
+            
+        },
       },
       ability2: {
         audioFile: "winston-angry",
@@ -920,6 +943,40 @@ export default function HeroAbilities(props) {
     zarya: {
       ability1: {
         audioFile: "zarya-barrier",
+        run() {
+          // Wait for user click
+          return new Promise((resolve, reject) => {
+            // When a row is clicked
+            $(".card").on("click", (e) => {
+              // Get target information
+              const targetCard = $(e.target).closest(".card").attr("id");
+              const targetRow = $(e.target).closest(".row").attr("id");
+
+              // Remove the onclick
+              $(".card").off("click");
+
+              // Check target is valid
+              if (targetRow[0] === "p" || parseInt(targetRow[0]) !== playerNum) {
+                reject("Incorrect target");
+                return;
+              }
+              
+              // Apply effect
+              const shieldValue = 3;
+              dispatch({
+                type: ACTIONS.UPDATE_CARD,
+                payload: {
+                  playerNum: playerNum,
+                  cardId: targetCard,
+                  updateKeys: ["shield"],
+                  updateValues: [shieldValue],
+                },
+              });
+
+              resolve();
+            });
+          });
+        },
       },
       ability2: {
         audioFile: "zarya-ult",

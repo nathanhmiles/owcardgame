@@ -13,15 +13,16 @@ import produce from "immer";
 import AudioPlayer from "components/layout/AudioPlayer";
 
 export const ACTIONS = {
-  CREATE_CARD: "create-card",
-  ADD_CARD_TO_HAND: "add-card-to-hand",
-  EDIT_CARD: "edit-card",
-  UPDATE_CARD: "update-card",
-  MOVE_CARD: "move-card",
-  ADD_ROW_EFFECT: "add-row-effect",
   ADD_CARD_EFFECT: "add-card-effect",
+  ADD_CARD_TO_HAND: "add-card-to-hand",
+  ADD_ROW_EFFECT: "add-row-effect",
+  CREATE_CARD: "create-card",
+  EDIT_CARD: "edit-card",
+  EDIT_ROW: "edit-row",
+  MOVE_CARD: "move-card",
   SET_POWER: "set-power",
   SET_SYNERGY: "set-synergy",
+  UPDATE_CARD: "update-card",
   UPDATE_SYNERGY: "update-synergy",
 };
 
@@ -146,6 +147,22 @@ function reducer(gameState, action) {
               draft.rows[targetRow].effects.push(rowEffect);
             } if (rowShield) {
               draft.rows[targetRow].shield += rowShield;
+            }
+          });
+        }
+      
+      // Replaces existing values with new values
+      case ACTIONS.EDIT_ROW:
+        {
+          const targetRow = action.payload.targetRow;
+          const rowEffect = action.payload.rowEffect;
+          const rowShield = action.payload.rowShield;
+          
+          return produce(gameState, (draft) => {
+            if (rowEffect) {
+              draft.rows[targetRow].effects = rowEffect;
+            } if (rowShield) {
+              draft.rows[targetRow].shield = rowShield;
             }
           });
         }
