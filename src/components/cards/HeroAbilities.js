@@ -3,6 +3,7 @@ import gameContext from "context/gameContext";
 import turnContext from "context/turnContext";
 import $ from "jquery";
 import { ACTIONS } from "App";
+import helper from "helper";
 
 export default function HeroAbilities(props) {
   // Context
@@ -80,12 +81,16 @@ export default function HeroAbilities(props) {
         targetShield -= 1;
         targetRef.current[targetCardId]["shield"] = targetShield;
       // Damage hero health
-      } else {
+      } else if (targetHealth > 0){
         targetHealth -= 1;
         targetRef.current[targetCardId]["health"] = targetHealth;
-        targetHealth = Math.max(0, targetHealth);   // Dont allow health to be a negative number
+        targetHealth = Math.max(0, targetHealth);
+      } else {
+        console.log('target at 0 health');
+        return;
       }
     }
+
 
     // Set the new state (will be done in batch at the end of the ability)
     dispatch({
@@ -97,8 +102,6 @@ export default function HeroAbilities(props) {
         editValues: [targetHealth, targetShield],
       },
     });
-
-
     return;
   }
 
@@ -802,6 +805,80 @@ export default function HeroAbilities(props) {
       ability2: {
         audioFile: "roadhog-hogwild",
         synergyCost: 3,
+        run() {
+          // TODO
+          // Get target info
+          const enemyPlayer = playerNum === 1 ? 2 : 1;
+          
+          // Copy arrays of cards from state, assign id to the row for later reference
+          // We will manipulate the array, so we dont want a reference to the original array
+          const enemyBackRowCards = Array.from(gameState.rows[`${enemyPlayer}b`].cardIds);
+          enemyBackRowCards['id'] = `${enemyPlayer}b`;
+          const enemyMiddleRowCards = Array.from(gameState.rows[`${enemyPlayer}m`].cardIds);
+          enemyMiddleRowCards['id'] = `${enemyPlayer}m`;
+          const enemyFrontRowCards = Array.from(gameState.rows[`${enemyPlayer}f`].cardIds);
+          enemyFrontRowCards['id'] = `${enemyPlayer}f`;
+
+          const enemyRows = [enemyBackRowCards, enemyMiddleRowCards, enemyFrontRowCards];
+
+          // Filter out heros at 0 health
+          for (let row of enemyRows) {
+            row.filter((cardId) => {
+              if (gameState.playerCards[`player${enemyPlayer}cards`].cards[cardId].health > 0) {
+                return cardId;
+              }
+              return null;
+            })
+          }
+          console.log(enemyRows);
+
+          // Get total damage amount (2d6 = between 2 - 12)
+          const totalDamage = helper.getRandInt(2, 13);
+          alert(`Wholehog rolled ${totalDamage} damage!`);
+          
+          // Calculate damage per hero and apply
+          const totalEnemyCards = (enemyBackRowCards.length) + (enemyMiddleRowCards.length) + (enemyFrontRowCards.length);
+          const damageValue = Math.floor(totalDamage / totalEnemyCards);
+          let damageDone = 0;          
+          for (let row of enemyRows) {
+            for (let cardId of row) {
+              console.log(`targeting ${cardId} in row ${row.id} for ${damageValue} damage`)
+              applyDamage(damageValue, cardId, row.id)
+              damageDone += damageValue;
+            }
+          }
+
+          // Calculate damage that cant be evenly spread among all enemy heroes
+          let remainingDamage = totalDamage - damageDone;
+
+
+          // Allow user to spread remaining damage
+          if (remainingDamage > 0) {
+            alert(`${remainingDamage} left over. Choose who should receive it! (1 damage per click)`);
+
+            return new Promise((resolve, reject) => {
+              $('.card').on('click', (e) => {
+                const targetCard = $(e.target).closest('.card').attr('id');
+                const targetRow = $(e.target).closest('.row').attr('id');
+
+                $('.card').off('click');
+
+                // Check target is valid
+                if (targetRow[0] === "p" || parseInt(targetRow[0]) === playerNum) {
+                  reject("Incorrect target row");
+                  return;
+                }
+
+                while(remainingDamage > 0) {
+                  applyDamage(1, targetCard, targetRow);
+                  remainingDamage--;
+                }
+
+                resolve();
+              })
+            })
+          }
+        },
       },
     },
     sigma: {

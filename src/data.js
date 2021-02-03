@@ -1,7 +1,15 @@
-import helper from 'helper';
-import $ from 'jquery';
-
 // Data for all hero cards
+
+/* hero effects API is as follows:
+
+player: ally, enemy
+  target: card, row
+  type: damage, healing, synergy, power
+  value: integer, double (how much more damage/healing etc to be added)
+  on: turnstart, movein, moveout, attack, heal, ultimate (when does the effect take place)
+
+*/
+
 const data = {
   heroes: {
     
@@ -10,7 +18,18 @@ const data = {
       name: "Ana",
       image: "assets/heroes/ana.png",
       icon: "assets/heroes/ana-icon.png",
-      effect: () => {},
+      effect: {
+        ally: {
+          type: 'healing',
+          target: 'row',
+          value: 1,
+        },
+        enemy: {
+          type: 'damage',
+          target: 'row',
+          value: 1,
+        },
+      },
       health: 4,
       power: {
         f: 1,
@@ -44,7 +63,14 @@ const data = {
         name: "Bob",
         image: "assets/heroes/bob.png",
         icon: "assets/heroes/bob-icon.png",
-        effect: () => {},
+        effect: {
+          enemy: {
+            target: 'row',
+            type: 'synergy',
+            on: 'ultimate',
+            value: 2,
+          },
+        },
         health: 3,
         power: {
           f: 1,
@@ -64,7 +90,13 @@ const data = {
       name: "Baptiste",
       image: "assets/heroes/baptiste.png",
       icon: "assets/heroes/baptiste-icon.png",
-      effect: () => {},
+      effect: {
+        ally: {
+          target: 'row',
+          health: 3,
+          type: 'immortality',
+        },
+      },
       health: 4,
       power: {
         f: 3,
@@ -83,7 +115,14 @@ const data = {
       name: "Bastion",
       image: "assets/heroes/bastion.png",
       icon: "assets/heroes/bastion-icon.png",
-      effect: () => {},
+      effect: {
+        enemy: {
+          target: 'row',
+          type: 'damage',
+          value: 2,
+          on: 'movein'
+        },
+      },
       health: 5,
       power: {
         f: 1,
@@ -200,7 +239,14 @@ const data = {
       name: "Hanzo",
       image: "assets/heroes/hanzo.png",
       icon: "assets/heroes/hanzo-icon.png",
-      effect: () => {},
+      effect: {
+        enemy: {
+          target: 'row',
+          type: 'damage',
+          on: 'attack',
+          value: 1,
+        },
+      },
       health: 4,
       power: {
         f: 1,
@@ -234,7 +280,14 @@ const data = {
       name: "Lucio",
       image: "assets/heroes/lucio.png",
       icon: "assets/heroes/lucio-icon.png",
-      effect: () => {},
+      effect: {
+        ally: {
+          target: 'row',
+          type: 'healing',
+          on: 'turnstart',
+          value: 1,
+        },
+      },
       health: 3,
       power: {
         f: 2,
@@ -268,7 +321,14 @@ const data = {
       name: "Mei",
       image: "assets/heroes/mei.png",
       icon: "assets/heroes/mei-icon.png",
-      effect: () => {},
+      effect: {
+        enemy: {
+          target: 'row',
+          type: 'synergy',
+          value: 'double',
+          on: 'ultimate',
+        },
+      },
       health: 4,
       power: {
         f: 2,
@@ -286,7 +346,20 @@ const data = {
       name: "Mercy",
       image: "assets/heroes/mercy.png",
       icon: "assets/heroes/mercy-icon.png",
-      effect: () => {},
+      effect: {
+        ally1: {
+          target: 'card',
+          type: 'healing',
+          on: 'turnstart',
+          value: 1,
+        },
+        ally2: {
+          target: 'card',
+          type: 'damage',
+          value: 1,
+          on: 'attack',
+        },
+      },
       health: 3,
       power: {
         f: 1,
@@ -402,7 +475,6 @@ const data = {
       name: "Sigma",
       image: "assets/heroes/sigma.png",
       icon: "assets/heroes/sigma-icon.png",
-      effect: () => {},
       health: 4,
       power: {
         f: 1,
@@ -502,7 +574,14 @@ const data = {
       name: "Widowmaker",
       image: "assets/heroes/widowmaker.png",
       icon: "assets/heroes/widowmaker-icon.png",
-      effect: () => {},
+      effect: {
+        enemy: {
+          target: 'row',
+          type: 'damage',
+          on: 'attack',
+          value: 1,
+        },
+      },
       health: 4,
       power: {
         f: 2,
@@ -572,7 +651,20 @@ const data = {
       name: "Zenyatta",
       image: "assets/heroes/zenyatta.png",
       icon: "assets/heroes/zenyatta-icon.png",
-      effect: () => {},
+      effect: {
+        ally: {
+          target: 'card',
+          type: 'healing',
+          on: 'turnstart',
+          value: 1,
+        },
+        enemy: {
+          target: 'card',
+          type: 'damage',
+          on: 'attack',
+          value: 1,
+        },
+      },
       health: 4,
       power: {
         f: 2,
