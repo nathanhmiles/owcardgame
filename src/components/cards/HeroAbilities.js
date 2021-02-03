@@ -13,10 +13,7 @@ export default function HeroAbilities(props) {
   const playerNum = parseInt(props.playerNum);
   const playerHeroId = props.playerHeroId;
   const heroId = playerHeroId.slice(1, playerHeroId.length);
-  const playerCardsId = `player${playerNum}cards`;
   const rowId = props.rowId;
-  const cardFocus = props.cardFocus;
-  const setCardFocus = props.setCardFocus;
   const unsetCardFocus = props.unsetCardFocus;
 
   // Need useRef to keep track of card health during async ability usages
@@ -339,7 +336,6 @@ export default function HeroAbilities(props) {
             $(".card").on("click", (e) => {
               // Get target info
               const targetCardId = $(e.target).closest(".card").attr("id");
-              const targetPlayerNum = parseInt(targetCardId[0]);
               const targetRow = $(e.target).closest(".row").attr("id");
 
               // Remove onclick
@@ -505,6 +501,38 @@ export default function HeroAbilities(props) {
     mccree: {
       ability1: {
         audioFile: "mccree-fishinabarrel",
+        run() {
+          return new Promise((resolve, reject) => {
+            // When any card is clicked
+            $(".row").on("click", (e) => {
+              
+              // Get target info
+              const targetCardRow = $(e.target).closest(".row").attr("id");
+              const enemyPlayer = parseInt(targetCardRow[0]);
+              const rowEnemies = gameState.rows[targetCardRow].cardIds.length;
+
+              // Remove onclick from all cards
+              $(".row").off("click");
+
+              // Check target is valid
+              if (targetCardRow[0] === "p" || parseInt(targetCardRow[0]) === playerNum) {
+                reject("Incorrect target row");
+                return;
+              } 
+
+              // Reduce synergy of target row
+              dispatch({
+                type: ACTIONS.UPDATE_SYNERGY,
+                payload: {
+                  rowId: targetCardRow,
+                  synergyCost: (Math.abs(rowEnemies) * -1),
+                },
+              });
+
+              resolve();
+            });
+          });
+        },
       },
       ability2: {
         audioFile: "mccree-ult",
@@ -1107,12 +1135,12 @@ export default function HeroAbilities(props) {
   async function activateAbility1(e) {
     e.stopPropagation();
     const maxTargets = abilities[heroId].ability1.maxTargets;
+    unsetCardFocus();
 
     // Check that the card is not in the player's hand
     if (rowId[0] !== "p") {
       // Call the relevant hero's ability
       try {
-        unsetCardFocus();
 
         // Play ability audio if exists
         if ("audioFile" in abilities[heroId].ability1) {
@@ -1127,6 +1155,7 @@ export default function HeroAbilities(props) {
         let i = 0;
         do {
           await abilities[heroId].ability1.run();
+          unsetCardFocus();
           i++;
         } while ("maxTargets" in abilities[heroId].ability1 && i < maxTargets);
       } catch (err) {
@@ -1140,6 +1169,7 @@ export default function HeroAbilities(props) {
     // Get synergy values
     const synergyCost = abilities[heroId].ability2.synergyCost;
     const rowSynergy = gameState.rows[rowId].synergy;
+    unsetCardFocus();
 
     // Check that the card is not in the player's hand
     if (rowId[0] !== "p") {
@@ -1147,8 +1177,6 @@ export default function HeroAbilities(props) {
       if (rowSynergy >= synergyCost) {
         // Call the relevant hero's ability and deduct synergy
         try {
-          unsetCardFocus();
-
           // Play ability audio if exists
           if ("audioFile" in abilities[heroId].ability2) {
             const audioFile = abilities[heroId].ability2.audioFile;

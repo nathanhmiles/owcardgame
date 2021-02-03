@@ -1,4 +1,4 @@
-import React, { useState, useReducer, useMemo } from "react";
+import React, { useState, useReducer } from "react";
 import gameContext from "context/gameContext";
 import turnContext from "context/turnContext";
 import { DragDropContext } from "react-beautiful-dnd";
