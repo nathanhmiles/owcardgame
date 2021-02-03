@@ -1299,7 +1299,7 @@ export default function HeroAbilities(props) {
           dispatch({
             type: ACTIONS.EDIT_CARD, payload: {
               playerNum: playerNum,
-              cardId: playerHeroId,
+              targetCardId: playerHeroId,
               editKeys: ['ability2Used'],
               editValues: [true],
             },

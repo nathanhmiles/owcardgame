@@ -55,6 +55,8 @@ const helper = {
       effect,
       enemyEffects,
       allyEffects,
+      ability1Used,
+      ability2Used,
       isPlayed,
       isDiscarded,
     };
