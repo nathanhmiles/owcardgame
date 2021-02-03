@@ -284,6 +284,7 @@ export default function HeroAbilities(props) {
           });
 
           // Remove dvameka card from row (still exists in playercards)
+          // TODO: not actually implemented yet - need to set new row state using the below
           const newRowCards = gameState.rows[rowId].cardIds.filter(
             (cardId) => cardId !== `${playerNum}dvameka`
           );
@@ -551,23 +552,25 @@ export default function HeroAbilities(props) {
         audioFile: "pharah-clear",
         run() {
           return new Promise((resolve, reject) => {
+            // When any card is clicked
             $(".card").on("click", (e) => {
+              
+              // Get target info
               const targetCardId = $(e.target).closest(".card").attr("id");
               const targetCardIndex = $(e.target).closest("li").index();
               const enemyPlayer = parseInt(targetCardId[0]);
               const targetCardRow = $(e.target).closest(".row").attr("id");
 
+              // Remove onclick from all cards
               $(".card").off("click");
 
               // Check target is valid
-              if (
-                targetCardRow[0] === "p" ||
-                parseInt(targetCardRow[0]) === playerNum
-              ) {
+              if (targetCardRow[0] === "p" || parseInt(targetCardRow[0]) === playerNum) {
                 reject("Incorrect target row");
                 return;
+
+              // Move target back a row if not already in last row
               } else if (targetCardRow[1] !== "b") {
-                // Move target back a row if not already in last row
                 const newRowId = `${enemyPlayer}${
                   targetCardRow[1] === "f" ? "m" : "b"
                 }`;
@@ -669,6 +672,39 @@ export default function HeroAbilities(props) {
       ability2: {
         synergyCost: 3,
         audioFile: "reaper-ult",
+        run() {
+          // Get target info
+          const rowPosition = rowId[1];
+          const enemyPlayer = playerNum === 1 ? 2 : 1;
+          const enemyPlayerRowCardIds =
+            gameState.rows[`${enemyPlayer}${rowPosition}`].cardIds;
+          
+            
+          // Damage enemy cards
+          const damageValue = 3;
+          for (let cardId of enemyPlayerRowCardIds) {
+            applyDamage(damageValue, cardId, `${enemyPlayer}${rowPosition}`);
+          }
+
+          // After effects
+          // Discard dvameka card
+          dispatch({
+            type: ACTIONS.EDIT_CARD,
+            payload: {
+              playerNum: playerNum,
+              targetCardId: `${playerNum}reaper`,
+              editKeys: ["isDiscarded"],
+              editValues: [true],
+            },
+          });
+
+          // Remove dvameka card from row (still exists in playercards)
+          // TODO: not actually implemented yet - need to set new row state using the below
+          const newRowCards = gameState.rows[rowId].cardIds.filter(
+            (cardId) => cardId !== `${playerNum}reaper`
+          );
+
+        },
       },
     },
     reinhardt: {
@@ -697,11 +733,14 @@ export default function HeroAbilities(props) {
         run() {
           return new Promise((resolve, reject) => {
             $(".card").on("click", (e) => {
+              
+              // Get target info
               const targetCardId = $(e.target).closest(".card").attr("id");
               const targetCardIndex = $(e.target).closest("li").index();
-              const enemyPlayer = parseInt(targetCardId[0]);
               const targetCardRow = $(e.target).closest(".row").attr("id");
+              const enemyPlayer = parseInt(targetCardId[0]);
 
+              // Remove onclick from all cards
               $(".card").off("click");
 
               // Check target is valid

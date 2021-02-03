@@ -23,7 +23,7 @@ body {
 #audioplayer {
   position: absolute;
   top: 10vh;
-  left: 2vw;
+  right: 2vw;
 }
 
 #audioicon {
