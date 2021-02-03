@@ -49,11 +49,6 @@ export default function BoardRow(props) {
       // TODO: Not all dependencies here, check
     }, [gameState.rows, gameState.playerCards, dispatch, playerNum, rowId, rowPosition]);
     
-  if (rowId[1] === 'b') {
-
-    console.log(`${rowId} shield is ${rowShield}`)
-  }
-    
   return (
     <div id={rowId} className="rowarea row">
       <CounterArea

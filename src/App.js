@@ -153,9 +153,7 @@ function reducer(gameState, action) {
       
       // Replaces existing values with new values
       case ACTIONS.EDIT_ROW:
-        {
-          console.log('editing row')
-          
+        { 
           const targetRow = action.payload.targetRow;
           const rowEffect = action.payload.rowEffect;
           const rowShield = action.payload.rowShield;
@@ -165,7 +163,6 @@ function reducer(gameState, action) {
               draft.rows[targetRow].effects = rowEffect;
             } if (rowShield !== null) {
               draft.rows[targetRow].shield = rowShield;
-              console.log(`${targetRow} shield set to ${rowShield}`)
             }
           });
         }

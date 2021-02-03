@@ -38,8 +38,6 @@ export default function HeroAbilities(props) {
     // Identify enemy player
     const targetPlayerNum = targetCardId[0];
 
-    console.log(`targeting ${targetCardId}`);
-
     // Get hero health and shield values
     let targetHealth =
       gameState.playerCards[`player${targetPlayerNum}cards`].cards[targetCardId]
@@ -59,7 +57,6 @@ export default function HeroAbilities(props) {
     if (targetRow in targetRef.current) {
       targetRowShield = targetRef.current[targetRow].shield;
     }
-    console.log(`initial shield is ${targetRowShield}`);
     
     // Initialise ref
     targetRef.current[targetCardId] = {};
@@ -697,6 +694,43 @@ export default function HeroAbilities(props) {
     roadhog: {
       ability1: {
         audioFile: "roadhog-hook",
+        run() {
+          return new Promise((resolve, reject) => {
+            $(".card").on("click", (e) => {
+              const targetCardId = $(e.target).closest(".card").attr("id");
+              const targetCardIndex = $(e.target).closest("li").index();
+              const enemyPlayer = parseInt(targetCardId[0]);
+              const targetCardRow = $(e.target).closest(".row").attr("id");
+
+              $(".card").off("click");
+
+              // Check target is valid
+              if (targetCardRow[0] === "p" || parseInt(targetCardRow[0]) === playerNum) {
+                reject("Incorrect target row");
+                return;
+              }
+
+              // Move target to front row
+              const newRowId = `${enemyPlayer}f`
+              dispatch({
+                type: ACTIONS.MOVE_CARD,
+                payload: {
+                  targetCardId: targetCardId,
+                  startRowId: targetCardRow,
+                  finishRowId: newRowId,
+                  startIndex: targetCardIndex,
+                  finishIndex: 0,
+                },
+              });
+
+              // Apply damage to the target card (includes setting state)
+              const damageValue = 2;
+              applyDamage(damageValue, targetCardId, targetCardRow);
+
+              resolve();
+            });
+          });
+        },
       },
       ability2: {
         audioFile: "roadhog-hogwild",
