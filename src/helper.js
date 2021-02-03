@@ -15,7 +15,9 @@ const helper = {
     const enemyEffects = [];
     const allyEffects = [];
     let isPlayed = false;
-    const isDiscarded = false;
+    let isDiscarded = false;
+    let ability1Used = false;
+    let ability2Used = false;
     let heroData;
     
     // Get card values from data

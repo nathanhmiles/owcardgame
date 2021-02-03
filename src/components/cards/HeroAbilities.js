@@ -13,6 +13,7 @@ export default function HeroAbilities(props) {
   // Variables
   const playerNum = parseInt(props.playerNum);
   const playerHeroId = props.playerHeroId;
+  const currentCard = gameState.playerCards[`player${playerNum}cards`].cards[playerHeroId];
   const heroId = playerHeroId.slice(1, playerHeroId.length);
   const rowId = props.rowId;
   const unsetCardFocus = props.unsetCardFocus;
@@ -1235,6 +1236,16 @@ export default function HeroAbilities(props) {
           unsetCardFocus();
           i++;
         } while ("maxTargets" in abilities[heroId].ability1 && i < maxTargets);
+
+        // Set ability as used
+        dispatch({
+          type: ACTIONS.EDIT_CARD, payload: {
+            playerNum: playerNum,
+            targetCardId: playerHeroId,
+            editKeys: ['ability1Used'],
+            editValues: [true],
+          },
+        });
       } catch (err) {
         alert(err);
       }
@@ -1283,6 +1294,16 @@ export default function HeroAbilities(props) {
               synergyCost: Math.abs(synergyCost) * -1,
             },
           });
+
+          // Set ability as used
+          dispatch({
+            type: ACTIONS.EDIT_CARD, payload: {
+              playerNum: playerNum,
+              cardId: playerHeroId,
+              editKeys: ['ability2Used'],
+              editValues: [true],
+            },
+          });
         } catch (err) {
           alert(err);
         }
@@ -1292,18 +1313,20 @@ export default function HeroAbilities(props) {
 
   return (
     <div id="abilitiescontainer">
-      {"ability1" in abilities[heroId] && (
+      {("ability1" in abilities[heroId] && currentCard.ability1Used === false) && (
         <div
           id="ability1"
           className="ability ability1"
           onClick={activateAbility1}
         ></div>
       )}
-      <div
-        id="ability2"
-        className="ability ability2"
-        onClick={activateAbility2}
-      ></div>
+      {("ability2" in abilities[heroId] && currentCard.ability2Used === false) && (
+        <div
+          id="ability2"
+          className="ability ability2"
+          onClick={activateAbility2}
+        ></div>
+      )}
     </div>
   );
 }
