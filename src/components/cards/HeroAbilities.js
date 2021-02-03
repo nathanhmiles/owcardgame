@@ -20,8 +20,8 @@ export default function HeroAbilities(props) {
   const unsetCardFocus = props.unsetCardFocus;
 
   // Need useRef to keep track of card health during async ability usages
-  // TODO: later if implementing more built in controls, such as only allowing 
-  // TODO: user to affect cards in a specific row, create another ref to track 
+  // TODO: later if implementing more built in controls, such as only allowing
+  // TODO: user to affect cards in a specific row, create another ref to track
   // TODO: row target info and reference it during the hero's ability call
   let targetRef = useRef(null);
 
@@ -38,7 +38,7 @@ export default function HeroAbilities(props) {
     // Identify enemy player
     const targetPlayerNum = targetCardId[0];
 
-    console.log(`targeting ${targetCardId}`)
+    console.log(`targeting ${targetCardId}`);
 
     // Get hero health and shield values
     let targetHealth =
@@ -49,7 +49,6 @@ export default function HeroAbilities(props) {
         .shield;
     let targetRowShield = gameState.rows[targetRow].shield;
 
-    
     // If the target has already been targeted during this ability, update with current values
     // Needed because gameState is only updated once the entire ability is finished, so
     // we need useRef in order to keep track of the damaged hero's new changing value
@@ -60,30 +59,39 @@ export default function HeroAbilities(props) {
     if (targetRow in targetRef.current) {
       targetRowShield = targetRef.current[targetRow].shield;
     }
-    console.log(`initial shield is ${targetRowShield}`)
+    console.log(`initial shield is ${targetRowShield}`);
     
+    // Initialise ref
+    targetRef.current[targetCardId] = {};
+
     // Decrement the target's health/shield/rowshield as needed
     for (let i = 0; i < damageValue; i++) {
+      // Damage row shield before all else
       if (targetRowShield > 0) {
         targetRowShield -= 1;
+        
+        targetRef.current[targetRow] = {};
+        targetRef.current[targetRow]["shield"] = targetRowShield;
+        
+        dispatch({
+          type: ACTIONS.EDIT_ROW,
+          payload: {
+            targetRow: targetRow,
+            rowShield: targetRowShield,
+          },
+        });
+        return;
+        // Damage hero shield before health
       } else if (targetShield > 0) {
         targetShield -= 1;
+        targetRef.current[targetCardId]["shield"] = targetShield;
+      // Damage hero health
       } else {
         targetHealth -= 1;
+        targetRef.current[targetCardId]["health"] = targetHealth;
+        targetHealth = Math.max(0, targetHealth);   // Dont allow health to be a negative number
       }
     }
-
-    console.log(`new shield is ${targetRowShield}`)
-
-    // Dont allow health to be a negative number
-    targetHealth = Math.max(0, targetHealth);
-
-    // Assign new health values to the ref
-    targetRef.current[targetCardId] = {};
-    targetRef.current[targetRow] = {};
-    targetRef.current[targetCardId]["health"] = targetHealth;
-    targetRef.current[targetCardId]["shield"] = targetShield;
-    targetRef.current[targetRow]["shield"] = targetRowShield;
 
     // Set the new state (will be done in batch at the end of the ability)
     dispatch({
@@ -96,17 +104,9 @@ export default function HeroAbilities(props) {
       },
     });
 
-    dispatch({
-      type: ACTIONS.EDIT_ROW,
-      payload: {
-        targetRow: targetRow,
-        rowShield: targetRowShield,
-      }
-    });
 
     return;
   }
-
 
   function applyHealing() {
     // TODO
@@ -184,7 +184,6 @@ export default function HeroAbilities(props) {
                 reject("Incorrect target row");
                 return;
               } else if (targetCardRow[1] !== "b") {
-                
                 // Move target back a row if not already in last row
                 const newRowId = `${enemyPlayer}${
                   targetCardRow[1] === "f" ? "m" : "b"
@@ -420,10 +419,8 @@ export default function HeroAbilities(props) {
         run() {
           // Wait for user click
           return new Promise((resolve, reject) => {
-            
             // When a row is clicked
             $(".row").on("click", (e) => {
-              
               // Get target information & remove onclick
               const targetRow = $(e.target).closest(".row").attr("id");
               $(".row").off("click");
@@ -643,6 +640,34 @@ export default function HeroAbilities(props) {
     reaper: {
       ability1: {
         audioFile: "reaper-lastwords",
+        maxTargets: 2,
+        run() {
+          return new Promise((resolve, reject) => {
+            $(".card").on("click", (e) => {
+              // Get target info
+              const targetCardId = $(e.target).closest(".card").attr("id");
+              const targetRow = $(e.target).closest(".row").attr("id");
+
+              // Remove onclick
+              $(".card").off("click");
+
+              // Check target is valid
+              if (
+                targetRow[0] === "p" ||
+                parseInt(targetRow[0]) === playerNum
+              ) {
+                reject("Incorrect target");
+                return;
+              }
+
+              // Apply damage to the target card (includes setting state)
+              const damageValue = 1;
+              applyDamage(damageValue, targetCardId, targetRow);
+
+              resolve();
+            });
+          });
+        },
       },
       ability2: {
         synergyCost: 3,
@@ -662,7 +687,6 @@ export default function HeroAbilities(props) {
               rowShield: shieldValue,
             },
           });
-            
         },
       },
       ability2: {
@@ -694,12 +718,14 @@ export default function HeroAbilities(props) {
               $(".row").off("click");
 
               // Check target is valid
-              if (targetRow[0] === "p" || parseInt(targetRow[0]) !== playerNum) {
+              if (
+                targetRow[0] === "p" ||
+                parseInt(targetRow[0]) !== playerNum
+              ) {
                 reject("Incorrect target");
                 return;
               }
 
-              
               // Apply effect
               const shieldValue = 3;
               dispatch({
@@ -722,16 +748,19 @@ export default function HeroAbilities(props) {
           return new Promise((resolve, reject) => {
             $(".card").on("click", (e) => {
               const targetRow = $(e.target).closest(".row").attr("id");
-              
+
               $(".card").off("click");
-              
+
               // Check target is valid
-              if (targetRow[0] === "p" || parseInt(targetRow[0]) === playerNum) {
+              if (
+                targetRow[0] === "p" ||
+                parseInt(targetRow[0]) === playerNum
+              ) {
                 reject("Incorrect target row");
                 return;
-              } 
-              
-              // Reduce synergy of target row
+              }
+
+              // Reduce synergy of target row to 0
               dispatch({
                 type: ACTIONS.SET_SYNERGY,
                 payload: {
@@ -741,16 +770,18 @@ export default function HeroAbilities(props) {
               });
 
               // Find all cards in the target row
-              const targetRowCardIds = $.map($(`#${targetRow} .card`), function(card) {
-                return card.id;
-              })
+              const targetRowCardIds = $.map(
+                $(`#${targetRow} .card`),
+                function (card) {
+                  return card.id;
+                }
+              );
 
               // Apply damange
               const damageValue = 1;
               targetRowCardIds.forEach((cardId) => {
-                applyDamage(damageValue, cardId, targetRow)
+                applyDamage(damageValue, cardId, targetRow);
               });
-              
 
               resolve();
             });
@@ -924,7 +955,6 @@ export default function HeroAbilities(props) {
               rowShield: shieldValue,
             },
           });
-            
         },
       },
       ability2: {
@@ -956,11 +986,14 @@ export default function HeroAbilities(props) {
               $(".card").off("click");
 
               // Check target is valid
-              if (targetRow[0] === "p" || parseInt(targetRow[0]) !== playerNum) {
+              if (
+                targetRow[0] === "p" ||
+                parseInt(targetRow[0]) !== playerNum
+              ) {
                 reject("Incorrect target");
                 return;
               }
-              
+
               // Apply effect
               const shieldValue = 3;
               dispatch({

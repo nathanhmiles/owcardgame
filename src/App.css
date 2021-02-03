@@ -256,6 +256,10 @@ ul {
   position: absolute;
 }
 
+.cardfocuscounter {
+  font-family: KeepCalm-Medium;
+}
+
 .healthcounter.cardfocuscounter {
   top: 6.5%;
   left: 83.5%;
