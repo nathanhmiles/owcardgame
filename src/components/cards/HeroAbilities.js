@@ -48,29 +48,45 @@ export default function HeroAbilities(props) {
     // TODO: check effects that alter damage
     // Check ally and enemy row effects that apply to damage
     const targetRowAllyEffects = gameState.rows[targetRow].allyEffects.filter(
-      (effectId) => targetPlayerCards[playerHeroId].effects[effectId].type === "damage"
+      (effect) => effect.type === "damage"
     );
     const targetRowEnemyEffects = gameState.rows[targetRow].enemyEffects.filter(
-      (effectId) =>
-        gameState.playerCards[`player${targetPlayerNum === 1 ? 2 : 1}cards`]
-          .cards[playerHeroId].effects[effectId].type === "damage"
+      (effect) => effect.type === "damage"
     );
     // Calculate net total of effects on the row
-    const totalRowEffect = 0;
-    for (let effectId of targetRowAllyEffects) {
-      totalRowEffect += targetPlayerCards[playerHeroId].effects[effectId].value;
+    let totalRowEffect = 0;
+    for (let effect of targetRowAllyEffects) {
+      totalRowEffect += effect.value;
     }
+    for (let effect of targetRowEnemyEffects) {
+      totalRowEffect += effect.value;
+    }
+
+    console.log(`total damage modifier from row effects is ${totalRowEffect}`)
 
     // Check ally and enemy card effects
     const targetCardAllyEffects = targetPlayerCards[targetCardId].allyEffects.filter(
-      (effectId) => targetPlayerCards[playerHeroId].effects[effectId].type === "damage"
+      (effect) => effect.type === "damage"
     );
     const targetCardEnemyEffects = targetPlayerCards[targetCardId].enemyEffects.filter(
-      (effectId) => gameState.playerCards[`player${targetPlayerNum === 1 ? 2 : 1}cards`]
-      .cards[playerHeroId].effects[effectId].type === "damage"
+      (effect) => effect.type === "damage"
     );
+    // Calculate net total of card effects
+    let totalCardEffect = 0;
+    for (let effect of targetCardAllyEffects) {
+      totalCardEffect += effect.value;
+    }
+    for (let effect of targetCardEnemyEffects) {
+      totalCardEffect += effect.value;
+    }
 
+    // Net total of all damage effects on both row and card
+    const totalEffect = totalRowEffect + totalCardEffect;
 
+    // If the enemy hasn't been targeted during the current ability, apply the damage effect
+    if (!(targetCardId in targetRef.current)) {
+      damageValue += totalEffect;
+    }
 
     // If the target has already been targeted during this ability, update with current values
     // Needed because gameState is only updated once the entire ability is finished, so
@@ -460,12 +476,13 @@ export default function HeroAbilities(props) {
               }
 
               // Apply effect
+              const effectId = 'hanzoEnemyEffect';
               dispatch({
                 type: ACTIONS.ADD_ROW_EFFECT,
                 payload: {
                   targetRow: targetRow,
                   playerHeroId: `${playerNum}hanzo`,
-                  effectId: '',
+                  effectId: effectId,
                 },
               });
 
@@ -1104,26 +1121,26 @@ export default function HeroAbilities(props) {
           return new Promise((resolve, reject) => {
             // When a row is clicked
             $(".row").on("click", (e) => {
-              // Effect id
-              const effectId = 'widowmakerEnemyEffect';
               
               // Get target information
               const targetRow = $(e.target).closest(".row").attr("id");
-
+              
               // Remove the onclick
               $(".row").off("click");
-
+              
               // Check target is valid
               if (
                 targetRow[0] === "p" ||
                 parseInt(targetRow[0]) === playerNum
-              ) {
-                reject("Incorrect target");
-                return;
-              }
-
-              // Apply effect
-              dispatch({
+                ) {
+                  reject("Incorrect target");
+                  return;
+                }
+                
+                // Effect id
+                const effectId = 'widowmakerEnemyEffect';
+                // Apply effect
+                dispatch({
                 type: ACTIONS.ADD_ROW_EFFECT,
                 payload: {
                   targetRow: targetRow,

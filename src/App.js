@@ -27,206 +27,221 @@ export const ACTIONS = {
 };
 
 function reducer(gameState, action) {
-
   switch (action.type) {
-
     // Add hero effect to a card
-    case ACTIONS.ADD_CARD_EFFECT:
-      {
-        return produce(gameState, (draft) => {
-          // TODO
-        });
-      }
-
-    // Add hero effect to a row
-    case ACTIONS.ADD_ROW_EFFECT:
-      {
+    case ACTIONS.ADD_CARD_EFFECT: {
+      return produce(gameState, (draft) => {
         // Payload info
-        const targetRow = action.payload.targetRow;
+        const targetCardId = action.payload.targetCardId;
+        const targetPlayer = targetCardId[0];
         const playerHeroId = action.payload.playerHeroId;
         const effectId = action.payload.effectId;
-        const rowShield = action.payload.rowShield;
 
         // Get effect object from state
         const playerNum = parseInt(playerHeroId[0]);
-        const rowEffect = gameState.playerCards[`player${playerNum}cards`].cards[playerHeroId].effects[effectId];
-        
+        const cardEffect =
+          gameState.playerCards[`player${playerNum}cards`].cards[playerHeroId]
+            .effects[effectId];
+
         return produce(gameState, (draft) => {
-          if (playerHeroId !== undefined) {
-            draft.rows[targetRow].effects.push(rowEffect);
-          } if (rowShield !== undefined) {
-            draft.rows[targetRow].shield += rowShield;
+          if (cardEffect.player === 'ally') {
+            draft.playerCards[`player${targetPlayer}cards`].cards[
+              targetCardId
+            ].allyEffects.push(cardEffect);
+          } else if (cardEffect.player === 'enemy') {
+            draft.playerCards[`player${targetPlayer}cards`].cards[
+              targetCardId
+            ].enemyEffects.push(cardEffect);
           }
         });
-      }
+      });
+    }
+
+    // Add hero effect to a row
+    case ACTIONS.ADD_ROW_EFFECT: {
+      // Payload info
+      const targetRow = action.payload.targetRow;
+      const playerHeroId = action.payload.playerHeroId;
+      const effectId = action.payload.effectId;
+      const rowShield = action.payload.rowShield;
+
+      // Get effect object from state
+      const playerNum = parseInt(playerHeroId[0]);
       
-    case ACTIONS.ADD_CARD_TO_HAND:
-      {
-        const playerNum = action.payload.playerNum;
-        const playerHeroId = action.payload.playerHeroId;
-        return produce(gameState, (draft) => {
-          draft.rows[`player${playerNum}hand`].cardIds.push(playerHeroId);
-        });
-      }
+      return produce(gameState, (draft) => {
+        if (effectId !== undefined) {
+          const rowEffect =
+            gameState.playerCards[`player${playerNum}cards`].cards[playerHeroId]
+              .effects[effectId];
+          if (rowEffect.player === 'ally') {
+            draft.rows[targetRow].allyEffects.push(rowEffect);
+          } else if (rowEffect.player === 'enemy') {
+            draft.rows[targetRow].enemyEffects.push(rowEffect);
+          }
+        }
+        if (rowShield !== undefined) {
+          draft.rows[targetRow].shield += rowShield;
+        }
+      });
+    }
+
+    case ACTIONS.ADD_CARD_TO_HAND: {
+      const playerNum = action.payload.playerNum;
+      const playerHeroId = action.payload.playerHeroId;
+      return produce(gameState, (draft) => {
+        draft.rows[`player${playerNum}hand`].cardIds.push(playerHeroId);
+      });
+    }
 
     // Adds a card to player's cards (doesn't add to a row)
-    case ACTIONS.CREATE_CARD:
-      {
-        // Required variables
-        const playerNum = action.payload.playerNum;
-        const heroId = action.payload.heroId;
-        const newCard = helper.createPlayerCard(playerNum,heroId);
+    case ACTIONS.CREATE_CARD: {
+      // Required variables
+      const playerNum = action.payload.playerNum;
+      const heroId = action.payload.heroId;
+      const newCard = helper.createPlayerCard(playerNum, heroId);
 
-        // Add new card to playercards data (does not add the card to any row)
-        // Call Move_Card to make card visible
-        return produce(gameState, (draft) => {
-          draft.playerCards[`player${playerNum}cards`].cards[newCard.playerHeroId] = newCard;
-        });
-      }
-    
+      // Add new card to playercards data (does not add the card to any row)
+      // Call Move_Card to make card visible
+      return produce(gameState, (draft) => {
+        draft.playerCards[`player${playerNum}cards`].cards[
+          newCard.playerHeroId
+        ] = newCard;
+      });
+    }
 
     // Replace a value
-    case ACTIONS.EDIT_CARD:
-      {
-        // Required variables
-        const playerNum = action.payload.playerNum;
-        const targetCardId = action.payload.targetCardId;
-        const editKeys = action.payload.editKeys;
-        const editValues = action.payload.editValues;
-        
-        // Identify affected card and apply all edits
-        return produce(gameState, (draft) => {
-          let targetCard =
-            draft.playerCards[`player${playerNum}cards`].cards[targetCardId];
+    case ACTIONS.EDIT_CARD: {
+      // Required variables
+      const playerNum = action.payload.playerNum;
+      const targetCardId = action.payload.targetCardId;
+      const editKeys = action.payload.editKeys;
+      const editValues = action.payload.editValues;
 
-          for (let i = 0; i < editKeys.length; i++) {
-            targetCard[editKeys[i]] = editValues[i];
-          }
-        });
-      }
-    
-     // Replaces existing values with new values
-     case ACTIONS.EDIT_ROW:
-      { 
-        const targetRow = action.payload.targetRow;
-        const rowEffect = action.payload.rowEffect;
-        const rowShield = action.payload.rowShield;
-        
-        return produce(gameState, (draft) => {
-          if (rowEffect !== undefined) {
-            draft.rows[targetRow].effects = rowEffect;
-          } if (rowShield !== undefined) {
-            draft.rows[targetRow].shield = rowShield;
-          }
-        });
-      }
-    
-    
+      // Identify affected card and apply all edits
+      return produce(gameState, (draft) => {
+        let targetCard =
+          draft.playerCards[`player${playerNum}cards`].cards[targetCardId];
+
+        for (let i = 0; i < editKeys.length; i++) {
+          targetCard[editKeys[i]] = editValues[i];
+        }
+      });
+    }
+
+    // Replaces existing values with new values
+    case ACTIONS.EDIT_ROW: {
+      const targetRow = action.payload.targetRow;
+      const rowEffect = action.payload.rowEffect;
+      const rowShield = action.payload.rowShield;
+
+      return produce(gameState, (draft) => {
+        if (rowEffect !== undefined) {
+          draft.rows[targetRow].effects = rowEffect;
+        }
+        if (rowShield !== undefined) {
+          draft.rows[targetRow].shield = rowShield;
+        }
+      });
+    }
+
     // Moves a card within or between rows
-    case ACTIONS.MOVE_CARD:
-      {
-        // Variables from payload
-        const targetCardId = action.payload.targetCardId;
-        const startRowId = action.payload.startRowId;
-        const startIndex = action.payload.startIndex;
-        const finishRowId = action.payload.finishRowId;
-        const finishIndex = action.payload.finishIndex;
+    case ACTIONS.MOVE_CARD: {
+      // Variables from payload
+      const targetCardId = action.payload.targetCardId;
+      const startRowId = action.payload.startRowId;
+      const startIndex = action.payload.startIndex;
+      const finishRowId = action.payload.finishRowId;
+      const finishIndex = action.payload.finishIndex;
 
-        // Variables from game state
-        const startRow = gameState.rows[startRowId];
-        const finishRow = gameState.rows[finishRowId];
-        
-        // Move card within same row
-        if (startRowId === finishRowId) {
-          const rowId = startRowId;
-          const row = startRow;
-          const newCardIds = Array.from(row.cardIds);
-          newCardIds.splice(startIndex, 1);
-          newCardIds.splice(finishIndex, 0, targetCardId);
-          
-          return produce(gameState, (draft) => {
-            draft.rows[rowId].cardIds = newCardIds;
-          });
-        } 
-        
-        // Moving from one row to another
-        const newStartRowCardIds = Array.from(startRow.cardIds);
-        newStartRowCardIds.splice(startIndex, 1);
+      // Variables from game state
+      const startRow = gameState.rows[startRowId];
+      const finishRow = gameState.rows[finishRowId];
 
-        const newFinishRowCardIds = Array.from(finishRow.cardIds);
-        newFinishRowCardIds.splice(finishIndex, 0, targetCardId);
-        
+      // Move card within same row
+      if (startRowId === finishRowId) {
+        const rowId = startRowId;
+        const row = startRow;
+        const newCardIds = Array.from(row.cardIds);
+        newCardIds.splice(startIndex, 1);
+        newCardIds.splice(finishIndex, 0, targetCardId);
+
         return produce(gameState, (draft) => {
-          draft.rows[startRowId].cardIds = newStartRowCardIds;
-          draft.rows[finishRowId].cardIds = newFinishRowCardIds;
+          draft.rows[rowId].cardIds = newCardIds;
         });
-        
       }
-      
 
-      // Sets player power
-      case ACTIONS.SET_POWER:
-        {
-          // Required variables
-          const playerNum = action.payload.playerNum;
-          const rowPosition = action.payload.rowPosition;
-          const powerValue = action.payload.powerValue;
-          
-          return produce(gameState, (draft) => {
-            draft.rows[`player${playerNum}hand`].power[rowPosition] = powerValue;
-          });
-        }
-      
-      // Sets row synergy
-      case ACTIONS.SET_SYNERGY:
-        {
-          // Required variables
-          const rowId = action.payload.rowId;
-          const newSynergyVal = action.payload.newSynergyVal;
-          
-          return produce(gameState, (draft) => {
-            draft.rows[rowId].synergy = newSynergyVal;
-          });
-        }
+      // Moving from one row to another
+      const newStartRowCardIds = Array.from(startRow.cardIds);
+      newStartRowCardIds.splice(startIndex, 1);
+
+      const newFinishRowCardIds = Array.from(finishRow.cardIds);
+      newFinishRowCardIds.splice(finishIndex, 0, targetCardId);
+
+      return produce(gameState, (draft) => {
+        draft.rows[startRowId].cardIds = newStartRowCardIds;
+        draft.rows[finishRowId].cardIds = newFinishRowCardIds;
+      });
+    }
+
+    // Sets player power
+    case ACTIONS.SET_POWER: {
+      // Required variables
+      const playerNum = action.payload.playerNum;
+      const rowPosition = action.payload.rowPosition;
+      const powerValue = action.payload.powerValue;
+
+      return produce(gameState, (draft) => {
+        draft.rows[`player${playerNum}hand`].power[rowPosition] = powerValue;
+      });
+    }
+
+    // Sets row synergy
+    case ACTIONS.SET_SYNERGY: {
+      // Required variables
+      const rowId = action.payload.rowId;
+      const newSynergyVal = action.payload.newSynergyVal;
+
+      return produce(gameState, (draft) => {
+        draft.rows[rowId].synergy = newSynergyVal;
+      });
+    }
 
     // Update value based on previous value
-    case ACTIONS.UPDATE_CARD:
-      {
-        // Required variables
-        const playerNum = action.payload.playerNum;
-        const cardId = action.payload.cardId;
-        const updateKeys = action.payload.updateKeys;
-        const updateValues = action.payload.updateValues;
+    case ACTIONS.UPDATE_CARD: {
+      // Required variables
+      const playerNum = action.payload.playerNum;
+      const cardId = action.payload.cardId;
+      const updateKeys = action.payload.updateKeys;
+      const updateValues = action.payload.updateValues;
 
-        // Identify affected card and apply all updates
-        return produce(gameState, (draft) => {
-          let targetCard =
-            draft.playerCards[`player${playerNum}cards`].cards[cardId];
+      // Identify affected card and apply all updates
+      return produce(gameState, (draft) => {
+        let targetCard =
+          draft.playerCards[`player${playerNum}cards`].cards[cardId];
 
-          for (let i = 0; i < updateKeys.length; i++) {
-            targetCard[updateKeys[i]] += updateValues[i]
-          }
-        });
-      }
-      
-      // Sets row synergy
-      case ACTIONS.UPDATE_SYNERGY:
-        {
-          // Required variables
-          const rowId = action.payload.rowId;
-          const synergyCost = action.payload.synergyCost;
-          
-          // Update synergy and set value, minimum of 0 synergy
-          return produce(gameState, (draft) => {
-            let rowSynergy = draft.rows[rowId].synergy;
-            rowSynergy += synergyCost;
-            const newSynergy = Math.max(0, rowSynergy);
-            draft.rows[rowId].synergy = newSynergy;
-          });
+        for (let i = 0; i < updateKeys.length; i++) {
+          targetCard[updateKeys[i]] += updateValues[i];
         }
-  
-      default:
-        return gameState;
+      });
+    }
+
+    // Sets row synergy
+    case ACTIONS.UPDATE_SYNERGY: {
+      // Required variables
+      const rowId = action.payload.rowId;
+      const synergyCost = action.payload.synergyCost;
+
+      // Update synergy and set value, minimum of 0 synergy
+      return produce(gameState, (draft) => {
+        let rowSynergy = draft.rows[rowId].synergy;
+        rowSynergy += synergyCost;
+        const newSynergy = Math.max(0, rowSynergy);
+        draft.rows[rowId].synergy = newSynergy;
+      });
+    }
+
+    default:
+      return gameState;
   }
 }
 
@@ -260,39 +275,43 @@ export default function App() {
     const heroId = draggableId.slice(1, draggableId.length);
     let finishSynergy = gameState.rows[finishRowId].synergy;
 
-
     // Apply card movement
     dispatch({
-      type: ACTIONS.MOVE_CARD, payload: { 
+      type: ACTIONS.MOVE_CARD,
+      payload: {
         targetCardId: draggableId,
-        startRowId: startRowId, 
+        startRowId: startRowId,
         finishRowId: finishRowId,
         startIndex: source.index,
-        finishIndex: destination.index, 
+        finishIndex: destination.index,
       },
     });
-    
+
     // If not moving card within player's hand (i.e. moving into a row),
-    // Set new row synergy and set card to played 
-    if (finishRowId[0] !== 'p') {
-      
+    // Set new row synergy and set card to played
+    if (finishRowId[0] !== "p") {
       // Play intro audio
-      try{
-        const introAudio = new Audio(require(`assets/audio/${heroId}-intro.mp3`).default);
+      try {
+        const introAudio = new Audio(
+          require(`assets/audio/${heroId}-intro.mp3`).default
+        );
         introAudio.play();
-      } catch(err) {
-        console.log('No intro audio available')
+      } catch (err) {
+        console.log("No intro audio available");
       }
 
       // Set new row synergy
       const addSynergy =
-      gameState.playerCards[`player${playerNum}cards`].cards[draggableId]
-        .synergy[finishPosition];
+        gameState.playerCards[`player${playerNum}cards`].cards[draggableId]
+          .synergy[finishPosition];
 
-      dispatch({type: ACTIONS.UPDATE_SYNERGY, payload: {
-        rowId: finishRowId,
-        synergyCost: addSynergy,
-      }});
+      dispatch({
+        type: ACTIONS.UPDATE_SYNERGY,
+        payload: {
+          rowId: finishRowId,
+          synergyCost: addSynergy,
+        },
+      });
 
       // Set card to played
       dispatch({
@@ -300,19 +319,18 @@ export default function App() {
         payload: {
           playerNum: playerNum,
           targetCardId: draggableId,
-          editKeys: ['isPlayed', 'synergy'],
+          editKeys: ["isPlayed", "synergy"],
           editValues: [true, { f: 0, m: 0, b: 0 }],
         },
       });
     }
     return;
-    
   }
 
   return (
     <div>
       <turnContext.Provider value={{ turnState, setTurnState }}>
-        <gameContext.Provider value={{gameState, dispatch}}>
+        <gameContext.Provider value={{ gameState, dispatch }}>
           <Footer />
           <AudioPlayer />
           <DragDropContext onDragEnd={handleOnDragEnd}>

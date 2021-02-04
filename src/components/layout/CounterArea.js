@@ -8,7 +8,10 @@ export default function CounterArea(props) {
   const rowId = props.rowId;
   
   // Create icons array and store ids of hero with icons inside
-  const effects = gameState.rows[rowId].effects;
+  const effects = [
+    ...gameState.rows[rowId].allyEffects,
+    ...gameState.rows[rowId].enemyEffects,
+  ];
   
   return(
     <div className={`${type}-counterarea counterarea`}>

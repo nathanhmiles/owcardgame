@@ -40,6 +40,7 @@ const data = {
         anaAllyEffect: {
           id: 'anaAllyEffect',
           hero: 'ana',
+          player: 'ally',
           type: 'healing',
           target: 'row',
           on: 'heal',
@@ -48,6 +49,7 @@ const data = {
         anaEnemy: {
           id: 'anaEnemyEffect',
           hero: 'ana',
+          player: 'enemy',
           type: 'damage',
           target: 'row',
           on: 'attack',
@@ -56,6 +58,7 @@ const data = {
         anaUltimateEffect: {
           id: 'anaUltimateEffect',
           hero: 'ana',
+          player: 'ally',
           target: 'row',
           type: 'power',
           on: 'activate',
@@ -99,6 +102,7 @@ const data = {
           bobEnemyEffect: {
             id: 'bobEnemyEffect',
             hero: 'bob',
+            player: 'enemy',
             target: 'row',
             type: 'synergy',
             on: 'ultimate',
@@ -128,6 +132,7 @@ const data = {
         baptisteAllyEffect: {
           id: 'baptisteAllyEffect',
           hero: 'baptiste',
+          player: 'ally',
           target: 'row',
           health: 3,
           type: 'immortality',
@@ -156,6 +161,7 @@ const data = {
         bastionEnemyEffect: {
           id: 'bastionEnemyEffect',
           hero: 'bastion',
+          player: 'enemy',
           target: 'row',
           type: 'attack',
           value: 2,
@@ -282,6 +288,7 @@ const data = {
         hanzoEnemyEffect: {
           id: 'hanzoEnemyEffect',
           hero: 'hanzo',
+          player: 'enemy',
           target: 'row',
           type: 'damage',
           on: 'attack',
@@ -325,6 +332,7 @@ const data = {
         lucioAllyEffect: {
           id: 'lucioAllyEffect',
           hero: 'lucio',
+          player: 'ally',
           target: 'row',
           type: 'healing',
           on: 'turnstart',
@@ -368,6 +376,7 @@ const data = {
         meiEnemyEffect: {
           id: 'meiEnemyEffect',
           hero: 'mei',
+          player: 'enemy',
           target: 'row',
           type: 'synergy',
           value: 'double',
@@ -395,6 +404,7 @@ const data = {
         mercyAllyEffect1: {
           id: 'mercyAllyEffect1',
           hero: 'mercy',
+          player: 'ally',
           target: 'card',
           type: 'healing',
           on: 'turnstart',
@@ -403,6 +413,7 @@ const data = {
         mercyAllyEffect2: {
           id: 'mercyAllyEffect2',
           hero: 'mercy',
+          player: 'ally',
           target: 'card',
           type: 'damage',
           value: 1,
@@ -446,6 +457,7 @@ const data = {
         orisaAllyEffect: {
           id: 'orisaAllyEffect',
           hero: 'orisa',
+          player: 'ally',
           target: 'row',
           type: 'damage',
           on: 'attack',
@@ -454,6 +466,7 @@ const data = {
         orisaUltimateEffect: {
           id: 'orisaUltimateEffect',
           hero: 'orisa',
+          player: 'ally',
           target: 'row',
           type: 'power',
           on: 'activate',
@@ -610,6 +623,7 @@ const data = {
         torbjornEnemyEffect: {
           id: 'torbjornEnemyEffect',
           hero: 'torbjorn',
+          player: 'enemy',
           target: 'row',
           type: 'attack',
           on: 'turnstart',
@@ -653,6 +667,7 @@ const data = {
         widowmakerEnemyEffect: {
           id: 'widowmakerEnemyEffect',
           hero: 'widowmaker',
+          player: 'enemy',
           target: 'row',
           type: 'damage',
           on: 'attack',
@@ -696,6 +711,7 @@ const data = {
         wreckingballEnemyEffect: {
           id: 'wreckingballEnemyEffect',
           hero: 'wreckingball',
+          player: 'enemy',
           target: 'row',
           type: 'attack',
           value: 2,
@@ -741,6 +757,7 @@ const data = {
         zenyattaAllyEffect: {
           id: 'zenyattaAllyEffect',
           hero: 'zenyatta',
+          player: 'ally',
           target: 'card',
           type: 'healing',
           on: 'turnstart',
@@ -749,6 +766,7 @@ const data = {
         zenyattaEnemyEffect: {
           id: 'zenyattaEnemyEffect',
           hero: 'zenyatta',
+          player: 'enemy',
           target: 'card',
           type: 'damage',
           on: 'attack',

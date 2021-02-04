@@ -38,14 +38,18 @@ const helper = {
       health,
       power,
       synergy,
-      
     } = heroData;
     // Independently store the card's current health (health) and max health (maxHealth)
     const maxHealth = health;
-    // Add the playerHeroId into the card's effect so it can be referenced easily later
-    let effects = {...heroData.effects};
-    for (let key in effects) {
-      effects[key]['playerHeroId'] = playerHeroId;
+
+    // Add hero effects to card, and inset playerHeroId for future use
+    let effects;
+    if ('effects' in heroData) {
+      // Deep copy of effects object is needed in order to not alter the original object later on
+      effects = JSON.parse(JSON.stringify(heroData.effects));
+      for (let key in effects) {
+        effects[key]['playerHeroId'] = playerHeroId;
+      }
     }
     
 
