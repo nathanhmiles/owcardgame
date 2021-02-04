@@ -62,8 +62,6 @@ export default function HeroAbilities(props) {
       totalRowEffect += effect.value;
     }
 
-    console.log(`total damage modifier from row effects is ${totalRowEffect}`)
-
     // Check ally and enemy card effects
     const targetCardAllyEffects = targetPlayerCards[targetCardId].allyEffects.filter(
       (effect) => effect.type === "damage"
@@ -1274,7 +1272,42 @@ export default function HeroAbilities(props) {
       ability1: {
         maxTargets: 1,
         audioFile: "zenyatta-harmony",
-        run() {},
+        run() {
+          // Wait for user click
+          return new Promise((resolve, reject) => {
+            // When a row is clicked
+            $(".card").on("click", (e) => {
+              // Get target information & remove onclick
+              const targetCardId = $(e.target).closest(".card").attr("id");
+              $(".card").off("click");
+              const targetRow = $(e.target).closest(".row").attr("id");
+              const targetPlayer = parseInt(targetCardId[0]);
+
+              // Check target is valid
+              if (targetRow[0] === "p" || parseInt(targetRow[0]) === playerNum) {
+                reject("Incorrect target");
+                return;
+              }
+
+              // Apply ally/enemy effect depending on which card was clicked
+              let effectId;
+              targetPlayer === playerNum ? effectId = 'zenyattaAllyEffect' :
+              effectId = 'zenyattaEnemyEffect';
+
+              // Set state
+              dispatch({
+                type: ACTIONS.ADD_CARD_EFFECT,
+                payload: {
+                  targetCardId: targetCardId,
+                  playerHeroId: `${playerNum}zenyatta`,
+                  effectId: effectId,
+                },
+              });
+
+              resolve();
+            });
+          });
+        },
       },
       ability2: {
         synergyCost: 3,

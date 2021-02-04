@@ -8,8 +8,15 @@ export default function CardEffects(props) {
     <div className="effectscontainer">
     {effects.length > 0 ? (
       <div className={`effects ${type}effects counterarea`}>
-      {effects && effects.map((heroId) => {
-        return(<HeroCounter heroId={heroId} key={heroId} />);
+      {effects && effects.map((effect) => {
+        return(
+          <HeroCounter 
+            heroId={effect.hero} 
+            key={effect.hero} 
+            playerHeroId={effect.playerHeroId}
+            health={effect.health}
+          />
+        );
       })}
       </div>
     ) : (null)}

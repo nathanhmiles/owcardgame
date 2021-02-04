@@ -37,24 +37,6 @@ const data = {
       image: "assets/heroes/ana.png",
       icon: "assets/heroes/ana-icon.png",
       effects: {
-        anaAllyEffect: {
-          id: 'anaAllyEffect',
-          hero: 'ana',
-          player: 'ally',
-          type: 'healing',
-          target: 'row',
-          on: 'heal',
-          value: 1,
-        },
-        anaEnemy: {
-          id: 'anaEnemyEffect',
-          hero: 'ana',
-          player: 'enemy',
-          type: 'damage',
-          target: 'row',
-          on: 'attack',
-          value: 1,
-        },
         anaUltimateEffect: {
           id: 'anaUltimateEffect',
           hero: 'ana',
