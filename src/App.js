@@ -29,6 +29,46 @@ export const ACTIONS = {
 function reducer(gameState, action) {
 
   switch (action.type) {
+
+    // Add hero effect to a card
+    case ACTIONS.ADD_CARD_EFFECT:
+      {
+        return produce(gameState, (draft) => {
+          // TODO
+        });
+      }
+
+    // Add hero effect to a row
+    case ACTIONS.ADD_ROW_EFFECT:
+      {
+        // Payload info
+        const targetRow = action.payload.targetRow;
+        const playerHeroId = action.payload.playerHeroId;
+        const effectId = action.payload.effectId;
+        const rowShield = action.payload.rowShield;
+
+        // Get effect object from state
+        const playerNum = parseInt(playerHeroId[0]);
+        const rowEffect = gameState.playerCards[`player${playerNum}cards`].cards[playerHeroId].effects[effectId];
+        
+        return produce(gameState, (draft) => {
+          if (playerHeroId !== undefined) {
+            draft.rows[targetRow].effects.push(rowEffect);
+          } if (rowShield !== undefined) {
+            draft.rows[targetRow].shield += rowShield;
+          }
+        });
+      }
+      
+    case ACTIONS.ADD_CARD_TO_HAND:
+      {
+        const playerNum = action.payload.playerNum;
+        const playerHeroId = action.payload.playerHeroId;
+        return produce(gameState, (draft) => {
+          draft.rows[`player${playerNum}hand`].cardIds.push(playerHeroId);
+        });
+      }
+
     // Adds a card to player's cards (doesn't add to a row)
     case ACTIONS.CREATE_CARD:
       {
@@ -44,14 +84,6 @@ function reducer(gameState, action) {
         });
       }
     
-    case ACTIONS.ADD_CARD_TO_HAND:
-      {
-        const playerNum = action.payload.playerNum;
-        const playerHeroId = action.payload.playerHeroId;
-        return produce(gameState, (draft) => {
-          draft.rows[`player${playerNum}hand`].cardIds.push(playerHeroId);
-        });
-      }
 
     // Replace a value
     case ACTIONS.EDIT_CARD:
@@ -72,23 +104,19 @@ function reducer(gameState, action) {
           }
         });
       }
-
-    // Update value based on previous value
-    case ACTIONS.UPDATE_CARD:
-      {
-        // Required variables
-        const playerNum = action.payload.playerNum;
-        const cardId = action.payload.cardId;
-        const updateKeys = action.payload.updateKeys;
-        const updateValues = action.payload.updateValues;
-
-        // Identify affected card and apply all updates
+    
+     // Replaces existing values with new values
+     case ACTIONS.EDIT_ROW:
+      { 
+        const targetRow = action.payload.targetRow;
+        const rowEffect = action.payload.rowEffect;
+        const rowShield = action.payload.rowShield;
+        
         return produce(gameState, (draft) => {
-          let targetCard =
-            draft.playerCards[`player${playerNum}cards`].cards[cardId];
-
-          for (let i = 0; i < updateKeys.length; i++) {
-            targetCard[updateKeys[i]] += updateValues[i]
+          if (rowEffect !== undefined) {
+            draft.rows[targetRow].effects = rowEffect;
+          } if (rowShield !== undefined) {
+            draft.rows[targetRow].shield = rowShield;
           }
         });
       }
@@ -134,46 +162,7 @@ function reducer(gameState, action) {
         });
         
       }
-
-      // Add hero effect to a row
-      case ACTIONS.ADD_ROW_EFFECT:
-        {
-          const targetRow = action.payload.targetRow;
-          const rowEffect = action.payload.rowEffect;
-          const rowShield = action.payload.rowShield;
-          
-          return produce(gameState, (draft) => {
-            if (rowEffect) {
-              draft.rows[targetRow].effects.push(rowEffect);
-            } if (rowShield) {
-              draft.rows[targetRow].shield += rowShield;
-            }
-          });
-        }
       
-      // Replaces existing values with new values
-      case ACTIONS.EDIT_ROW:
-        { 
-          const targetRow = action.payload.targetRow;
-          const rowEffect = action.payload.rowEffect;
-          const rowShield = action.payload.rowShield;
-          
-          return produce(gameState, (draft) => {
-            if (rowEffect !== null) {
-              draft.rows[targetRow].effects = rowEffect;
-            } if (rowShield !== null) {
-              draft.rows[targetRow].shield = rowShield;
-            }
-          });
-        }
-      
-      // Add hero effect to a card
-      case ACTIONS.ADD_CARD_EFFECT:
-        {
-          return produce(gameState, (draft) => {
-
-          });
-        }
 
       // Sets player power
       case ACTIONS.SET_POWER:
@@ -199,6 +188,26 @@ function reducer(gameState, action) {
             draft.rows[rowId].synergy = newSynergyVal;
           });
         }
+
+    // Update value based on previous value
+    case ACTIONS.UPDATE_CARD:
+      {
+        // Required variables
+        const playerNum = action.payload.playerNum;
+        const cardId = action.payload.cardId;
+        const updateKeys = action.payload.updateKeys;
+        const updateValues = action.payload.updateValues;
+
+        // Identify affected card and apply all updates
+        return produce(gameState, (draft) => {
+          let targetCard =
+            draft.playerCards[`player${playerNum}cards`].cards[cardId];
+
+          for (let i = 0; i < updateKeys.length; i++) {
+            targetCard[updateKeys[i]] += updateValues[i]
+          }
+        });
+      }
       
       // Sets row synergy
       case ACTIONS.UPDATE_SYNERGY:

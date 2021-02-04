@@ -3,10 +3,28 @@
 /* hero effects API is as follows:
 
 player: ally, enemy
-  target: card, row
-  type: damage, healing, synergy, power
-  value: integer, double (how much more damage/healing etc to be added)
-  on: turnstart, movein, moveout, attack, heal, ultimate (when does the effect take place)
+  target: 
+    card, 
+    row
+  type: 
+    damage,  //affects hero damage
+    attack,  // attacks enemy when triggered 
+    healing, 
+    synergy, 
+    power
+  value:      // how much more damage/healing etc to be added
+    integer, 
+    double, 
+    allies,   // proportionate to the number of allies, usually in a given row
+  on:         // when does the effect take place
+    turnstart, 
+    movein, 
+    moveout, 
+    attack, 
+    heal, 
+    activate, // effect triggers once when ability is activated, never again 
+    ability,  // usage of any of a card's abilities
+    ultimate,  // usage of a card's ultimate ability
 
 */
 
@@ -18,16 +36,30 @@ const data = {
       name: "Ana",
       image: "assets/heroes/ana.png",
       icon: "assets/heroes/ana-icon.png",
-      effect: {
-        ally: {
+      effects: {
+        anaAllyEffect: {
+          id: 'anaAllyEffect',
+          hero: 'ana',
           type: 'healing',
           target: 'row',
+          on: 'heal',
           value: 1,
         },
-        enemy: {
+        anaEnemy: {
+          id: 'anaEnemyEffect',
+          hero: 'ana',
           type: 'damage',
           target: 'row',
+          on: 'attack',
           value: 1,
+        },
+        anaUltimateEffect: {
+          id: 'anaUltimateEffect',
+          hero: 'ana',
+          target: 'row',
+          type: 'power',
+          on: 'activate',
+          value: 'allies',
         },
       },
       health: 4,
@@ -63,8 +95,10 @@ const data = {
         name: "Bob",
         image: "assets/heroes/bob.png",
         icon: "assets/heroes/bob-icon.png",
-        effect: {
-          enemy: {
+        effects: {
+          bobEnemyEffect: {
+            id: 'bobEnemyEffect',
+            hero: 'bob',
             target: 'row',
             type: 'synergy',
             on: 'ultimate',
@@ -90,11 +124,14 @@ const data = {
       name: "Baptiste",
       image: "assets/heroes/baptiste.png",
       icon: "assets/heroes/baptiste-icon.png",
-      effect: {
-        ally: {
+      effects: {
+        baptisteAllyEffect: {
+          id: 'baptisteAllyEffect',
+          hero: 'baptiste',
           target: 'row',
           health: 3,
           type: 'immortality',
+          on: 'activate',
         },
       },
       health: 4,
@@ -115,10 +152,12 @@ const data = {
       name: "Bastion",
       image: "assets/heroes/bastion.png",
       icon: "assets/heroes/bastion-icon.png",
-      effect: {
-        enemy: {
+      effects: {
+        bastionEnemyEffect: {
+          id: 'bastionEnemyEffect',
+          hero: 'bastion',
           target: 'row',
-          type: 'damage',
+          type: 'attack',
           value: 2,
           on: 'movein'
         },
@@ -239,8 +278,10 @@ const data = {
       name: "Hanzo",
       image: "assets/heroes/hanzo.png",
       icon: "assets/heroes/hanzo-icon.png",
-      effect: {
-        enemy: {
+      effects: {
+        hanzoEnemyEffect: {
+          id: 'hanzoEnemyEffect',
+          hero: 'hanzo',
           target: 'row',
           type: 'damage',
           on: 'attack',
@@ -280,8 +321,10 @@ const data = {
       name: "Lucio",
       image: "assets/heroes/lucio.png",
       icon: "assets/heroes/lucio-icon.png",
-      effect: {
-        ally: {
+      effects: {
+        lucioAllyEffect: {
+          id: 'lucioAllyEffect',
+          hero: 'lucio',
           target: 'row',
           type: 'healing',
           on: 'turnstart',
@@ -321,8 +364,10 @@ const data = {
       name: "Mei",
       image: "assets/heroes/mei.png",
       icon: "assets/heroes/mei-icon.png",
-      effect: {
-        enemy: {
+      effects: {
+        meiEnemyEffect: {
+          id: 'meiEnemyEffect',
+          hero: 'mei',
           target: 'row',
           type: 'synergy',
           value: 'double',
@@ -346,14 +391,18 @@ const data = {
       name: "Mercy",
       image: "assets/heroes/mercy.png",
       icon: "assets/heroes/mercy-icon.png",
-      effect: {
-        ally1: {
+      effects: {
+        mercyAllyEffect1: {
+          id: 'mercyAllyEffect1',
+          hero: 'mercy',
           target: 'card',
           type: 'healing',
           on: 'turnstart',
           value: 1,
         },
-        ally2: {
+        mercyAllyEffect2: {
+          id: 'mercyAllyEffect2',
+          hero: 'mercy',
           target: 'card',
           type: 'damage',
           value: 1,
@@ -393,7 +442,24 @@ const data = {
       name: "Orisa",
       image: "assets/heroes/orisa.png",
       icon: "assets/heroes/orisa-icon.png",
-      effect: () => {},
+      effects: {
+        orisaAllyEffect: {
+          id: 'orisaAllyEffect',
+          hero: 'orisa',
+          target: 'row',
+          type: 'damage',
+          on: 'attack',
+          value: -1,
+        },
+        orisaUltimateEffect: {
+          id: 'orisaUltimateEffect',
+          hero: 'orisa',
+          target: 'row',
+          type: 'power',
+          on: 'activate',
+          value: 'allies',
+        },
+      },
       health: 5,
       power: {
         f: 1,
@@ -540,7 +606,16 @@ const data = {
       name: "Torbjorn",
       image: "assets/heroes/torbjorn.png",
       icon: "assets/heroes/torbjorn-icon.png",
-      effect: () => {},
+      effects: {
+        torbjornEnemyEffect: {
+          id: 'torbjornEnemyEffect',
+          hero: 'torbjorn',
+          target: 'row',
+          type: 'attack',
+          on: 'turnstart',
+          value: 1,
+        },
+      },
       health: 4,
       power: {
         f: 3,
@@ -574,8 +649,10 @@ const data = {
       name: "Widowmaker",
       image: "assets/heroes/widowmaker.png",
       icon: "assets/heroes/widowmaker-icon.png",
-      effect: {
-        enemy: {
+      effects: {
+        widowmakerEnemyEffect: {
+          id: 'widowmakerEnemyEffect',
+          hero: 'widowmaker',
           target: 'row',
           type: 'damage',
           on: 'attack',
@@ -615,7 +692,17 @@ const data = {
       name: "Wrecking Ball",
       image: "assets/heroes/wreckingball.png",
       icon: "assets/heroes/wreckingball-icon.png",
-      effect: () => {},
+      effects: {
+        wreckingballEnemyEffect: {
+          id: 'wreckingballEnemyEffect',
+          hero: 'wreckingball',
+          target: 'row',
+          type: 'attack',
+          value: 2,
+          on: 'ability',
+          health: 'synergy',
+        },
+      },
       health: 3,
       power: {
         f: 2,
@@ -633,7 +720,6 @@ const data = {
       name: "Zarya",
       image: "assets/heroes/zarya.png",
       icon: "assets/heroes/zarya-icon.png",
-      effect: () => {},
       health: 4,
       power: {
         f: 2,
@@ -651,14 +737,18 @@ const data = {
       name: "Zenyatta",
       image: "assets/heroes/zenyatta.png",
       icon: "assets/heroes/zenyatta-icon.png",
-      effect: {
-        ally: {
+      effects: {
+        zenyattaAllyEffect: {
+          id: 'zenyattaAllyEffect',
+          hero: 'zenyatta',
           target: 'card',
           type: 'healing',
           on: 'turnstart',
           value: 1,
         },
-        enemy: {
+        zenyattaEnemyEffect: {
+          id: 'zenyattaEnemyEffect',
+          hero: 'zenyatta',
           target: 'card',
           type: 'damage',
           on: 'attack',
@@ -712,7 +802,8 @@ const data = {
       label: 'Front Row',
       cardIds: [],
       synergy: 0,
-      effects: [],
+      allyEffects: [],
+      enemyEffects: [],
       shield: 0,
     },
     '1m': {
@@ -720,7 +811,8 @@ const data = {
       label: 'Middle Row',
       cardIds: [],
       synergy: 0,
-      effects: [],
+      allyEffects: [],
+      enemyEffects: [],
       shield: 0,
     },
     '1b': {
@@ -728,7 +820,8 @@ const data = {
       label: 'Back Row',
       cardIds: [],
       synergy: 0,
-      effects: [],
+      allyEffects: [],
+      enemyEffects: [],
       shield: 0,
     },
     '2b': {
@@ -736,7 +829,8 @@ const data = {
       label: 'Back Row',
       cardIds: [],
       synergy: 0,
-      effects: [],
+      allyEffects: [],
+      enemyEffects: [],
       shield: 0,
     },
     '2m': {
@@ -744,7 +838,8 @@ const data = {
       label: 'Middle Row',
       cardIds: [],
       synergy: 0,
-      effects: [],
+      allyEffects: [],
+      enemyEffects: [],
       shield: 0,
     },
     '2f': {
@@ -752,7 +847,8 @@ const data = {
       label: 'Front Row',
       cardIds: [],
       synergy: 0,
-      effects: [],
+      allyEffects: [],
+      enemyEffects: [],
       shield: 0,
     },
   }

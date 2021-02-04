@@ -13,7 +13,8 @@ export default function HeroAbilities(props) {
   // Variables
   const playerNum = parseInt(props.playerNum);
   const playerHeroId = props.playerHeroId;
-  const currentCard = gameState.playerCards[`player${playerNum}cards`].cards[playerHeroId];
+  const currentCard =
+    gameState.playerCards[`player${playerNum}cards`].cards[playerHeroId];
   const heroId = playerHeroId.slice(1, playerHeroId.length);
   const rowId = props.rowId;
   const unsetCardFocus = props.unsetCardFocus;
@@ -34,21 +35,46 @@ export default function HeroAbilities(props) {
   // TODO: currently only damage has its own function that sets state, all other state
   // TODO: is set within the hero's ability
   function applyDamage(damageValue, targetCardId, targetRow) {
-    // Identify enemy player
+    // Identify target player
     const targetPlayerNum = targetCardId[0];
+    const targetPlayerCards =
+      gameState.playerCards[`player${targetPlayerNum}cards`].cards;
 
     // Get hero health and shield values
-    let targetHealth =
-      gameState.playerCards[`player${targetPlayerNum}cards`].cards[targetCardId]
-        .health;
-    let targetShield =
-      gameState.playerCards[`player${targetPlayerNum}cards`].cards[targetCardId]
-        .shield;
+    let targetHealth = targetPlayerCards[targetCardId].health;
+    let targetShield = targetPlayerCards[targetCardId].shield;
     let targetRowShield = gameState.rows[targetRow].shield;
+
+    // TODO: check effects that alter damage
+    // Check ally and enemy row effects that apply to damage
+    const targetRowAllyEffects = gameState.rows[targetRow].allyEffects.filter(
+      (effectId) => targetPlayerCards[playerHeroId].effects[effectId].type === "damage"
+    );
+    const targetRowEnemyEffects = gameState.rows[targetRow].enemyEffects.filter(
+      (effectId) =>
+        gameState.playerCards[`player${targetPlayerNum === 1 ? 2 : 1}cards`]
+          .cards[playerHeroId].effects[effectId].type === "damage"
+    );
+    // Calculate net total of effects on the row
+    const totalRowEffect = 0;
+    for (let effectId of targetRowAllyEffects) {
+      totalRowEffect += targetPlayerCards[playerHeroId].effects[effectId].value;
+    }
+
+    // Check ally and enemy card effects
+    const targetCardAllyEffects = targetPlayerCards[targetCardId].allyEffects.filter(
+      (effectId) => targetPlayerCards[playerHeroId].effects[effectId].type === "damage"
+    );
+    const targetCardEnemyEffects = targetPlayerCards[targetCardId].enemyEffects.filter(
+      (effectId) => gameState.playerCards[`player${targetPlayerNum === 1 ? 2 : 1}cards`]
+      .cards[playerHeroId].effects[effectId].type === "damage"
+    );
+
+
 
     // If the target has already been targeted during this ability, update with current values
     // Needed because gameState is only updated once the entire ability is finished, so
-    // we need useRef in order to keep track of the damaged hero's new changing value
+    // we need useRef in order to keep track of the damaged hero's changing health/shield value
     if (targetCardId in targetRef.current) {
       targetHealth = targetRef.current[targetCardId].health;
       targetShield = targetRef.current[targetCardId].shield;
@@ -56,19 +82,19 @@ export default function HeroAbilities(props) {
     if (targetRow in targetRef.current) {
       targetRowShield = targetRef.current[targetRow].shield;
     }
-    
-    // Initialise ref
+
+    // Initialise ref if not been used yet during this ability
     targetRef.current[targetCardId] = {};
 
     // Decrement the target's health/shield/rowshield as needed
     for (let i = 0; i < damageValue; i++) {
-      // Damage row shield before all else
+      // Damage row shield before all else, and update ref
       if (targetRowShield > 0) {
         targetRowShield -= 1;
-        
+
         targetRef.current[targetRow] = {};
         targetRef.current[targetRow]["shield"] = targetRowShield;
-        
+
         dispatch({
           type: ACTIONS.EDIT_ROW,
           payload: {
@@ -77,21 +103,22 @@ export default function HeroAbilities(props) {
           },
         });
         return;
-        // Damage hero shield before health
+
+        // Damage hero shield before health, and update ref
       } else if (targetShield > 0) {
         targetShield -= 1;
         targetRef.current[targetCardId]["shield"] = targetShield;
-      // Damage hero health
-      } else if (targetHealth > 0){
+
+        // Damage hero health and update ref
+      } else if (targetHealth > 0) {
         targetHealth -= 1;
         targetRef.current[targetCardId]["health"] = targetHealth;
         targetHealth = Math.max(0, targetHealth);
       } else {
-        console.log('target at 0 health');
+        console.log("target at 0 health");
         return;
       }
     }
-
 
     // Set the new state (will be done in batch at the end of the ability)
     dispatch({
@@ -437,7 +464,8 @@ export default function HeroAbilities(props) {
                 type: ACTIONS.ADD_ROW_EFFECT,
                 payload: {
                   targetRow: targetRow,
-                  rowEffect: `${playerNum}hanzo`,
+                  playerHeroId: `${playerNum}hanzo`,
+                  effectId: '',
                 },
               });
 
@@ -509,7 +537,6 @@ export default function HeroAbilities(props) {
           return new Promise((resolve, reject) => {
             // When any card is clicked
             $(".row").on("click", (e) => {
-              
               // Get target info
               const targetCardRow = $(e.target).closest(".row").attr("id");
               const enemyPlayer = parseInt(targetCardRow[0]);
@@ -519,17 +546,20 @@ export default function HeroAbilities(props) {
               $(".row").off("click");
 
               // Check target is valid
-              if (targetCardRow[0] === "p" || parseInt(targetCardRow[0]) === playerNum) {
+              if (
+                targetCardRow[0] === "p" ||
+                parseInt(targetCardRow[0]) === playerNum
+              ) {
                 reject("Incorrect target row");
                 return;
-              } 
+              }
 
               // Reduce synergy of target row
               dispatch({
                 type: ACTIONS.UPDATE_SYNERGY,
                 payload: {
                   rowId: targetCardRow,
-                  synergyCost: (Math.abs(rowEnemies) * -1),
+                  synergyCost: Math.abs(rowEnemies) * -1,
                 },
               });
 
@@ -586,7 +616,6 @@ export default function HeroAbilities(props) {
           return new Promise((resolve, reject) => {
             // When any card is clicked
             $(".card").on("click", (e) => {
-              
               // Get target info
               const targetCardId = $(e.target).closest(".card").attr("id");
               const targetCardIndex = $(e.target).closest("li").index();
@@ -597,11 +626,14 @@ export default function HeroAbilities(props) {
               $(".card").off("click");
 
               // Check target is valid
-              if (targetCardRow[0] === "p" || parseInt(targetCardRow[0]) === playerNum) {
+              if (
+                targetCardRow[0] === "p" ||
+                parseInt(targetCardRow[0]) === playerNum
+              ) {
                 reject("Incorrect target row");
                 return;
 
-              // Move target back a row if not already in last row
+                // Move target back a row if not already in last row
               } else if (targetCardRow[1] !== "b") {
                 const newRowId = `${enemyPlayer}${
                   targetCardRow[1] === "f" ? "m" : "b"
@@ -710,8 +742,7 @@ export default function HeroAbilities(props) {
           const enemyPlayer = playerNum === 1 ? 2 : 1;
           const enemyPlayerRowCardIds =
             gameState.rows[`${enemyPlayer}${rowPosition}`].cardIds;
-          
-            
+
           // Damage enemy cards
           const damageValue = 3;
           for (let cardId of enemyPlayerRowCardIds) {
@@ -735,7 +766,6 @@ export default function HeroAbilities(props) {
           const newRowCards = gameState.rows[rowId].cardIds.filter(
             (cardId) => cardId !== `${playerNum}reaper`
           );
-
         },
       },
     },
@@ -765,7 +795,6 @@ export default function HeroAbilities(props) {
         run() {
           return new Promise((resolve, reject) => {
             $(".card").on("click", (e) => {
-              
               // Get target info
               const targetCardId = $(e.target).closest(".card").attr("id");
               const targetCardIndex = $(e.target).closest("li").index();
@@ -776,13 +805,16 @@ export default function HeroAbilities(props) {
               $(".card").off("click");
 
               // Check target is valid
-              if (targetCardRow[0] === "p" || parseInt(targetCardRow[0]) === playerNum) {
+              if (
+                targetCardRow[0] === "p" ||
+                parseInt(targetCardRow[0]) === playerNum
+              ) {
                 reject("Incorrect target row");
                 return;
               }
 
               // Move target to front row
-              const newRowId = `${enemyPlayer}f`
+              const newRowId = `${enemyPlayer}f`;
               dispatch({
                 type: ACTIONS.MOVE_CARD,
                 payload: {
@@ -810,41 +842,59 @@ export default function HeroAbilities(props) {
           // TODO
           // Get target info
           const enemyPlayer = playerNum === 1 ? 2 : 1;
-          
+
           // Copy arrays of cards from state, assign id to the row for later reference
           // We will manipulate the array, so we dont want a reference to the original array
-          const enemyBackRowCards = Array.from(gameState.rows[`${enemyPlayer}b`].cardIds);
-          enemyBackRowCards['id'] = `${enemyPlayer}b`;
-          const enemyMiddleRowCards = Array.from(gameState.rows[`${enemyPlayer}m`].cardIds);
-          enemyMiddleRowCards['id'] = `${enemyPlayer}m`;
-          const enemyFrontRowCards = Array.from(gameState.rows[`${enemyPlayer}f`].cardIds);
-          enemyFrontRowCards['id'] = `${enemyPlayer}f`;
+          const enemyBackRowCards = Array.from(
+            gameState.rows[`${enemyPlayer}b`].cardIds
+          );
+          enemyBackRowCards["id"] = `${enemyPlayer}b`;
+          const enemyMiddleRowCards = Array.from(
+            gameState.rows[`${enemyPlayer}m`].cardIds
+          );
+          enemyMiddleRowCards["id"] = `${enemyPlayer}m`;
+          const enemyFrontRowCards = Array.from(
+            gameState.rows[`${enemyPlayer}f`].cardIds
+          );
+          enemyFrontRowCards["id"] = `${enemyPlayer}f`;
 
-          const enemyRows = [enemyBackRowCards, enemyMiddleRowCards, enemyFrontRowCards];
+          const enemyRows = [
+            enemyBackRowCards,
+            enemyMiddleRowCards,
+            enemyFrontRowCards,
+          ];
 
           // Filter out heros at 0 health
           for (let row of enemyRows) {
             row.filter((cardId) => {
-              if (gameState.playerCards[`player${enemyPlayer}cards`].cards[cardId].health > 0) {
+              if (
+                gameState.playerCards[`player${enemyPlayer}cards`].cards[cardId]
+                  .health > 0
+              ) {
                 return cardId;
               }
               return null;
-            })
+            });
           }
           console.log(enemyRows);
 
           // Get total damage amount (2d6 = between 2 - 12)
           const totalDamage = helper.getRandInt(2, 13);
           alert(`Wholehog rolled ${totalDamage} damage!`);
-          
+
           // Calculate damage per hero and apply
-          const totalEnemyCards = (enemyBackRowCards.length) + (enemyMiddleRowCards.length) + (enemyFrontRowCards.length);
+          const totalEnemyCards =
+            enemyBackRowCards.length +
+            enemyMiddleRowCards.length +
+            enemyFrontRowCards.length;
           const damageValue = Math.floor(totalDamage / totalEnemyCards);
-          let damageDone = 0;          
+          let damageDone = 0;
           for (let row of enemyRows) {
             for (let cardId of row) {
-              console.log(`targeting ${cardId} in row ${row.id} for ${damageValue} damage`)
-              applyDamage(damageValue, cardId, row.id)
+              console.log(
+                `targeting ${cardId} in row ${row.id} for ${damageValue} damage`
+              );
+              applyDamage(damageValue, cardId, row.id);
               damageDone += damageValue;
             }
           }
@@ -852,32 +902,36 @@ export default function HeroAbilities(props) {
           // Calculate damage that cant be evenly spread among all enemy heroes
           let remainingDamage = totalDamage - damageDone;
 
-
           // Allow user to spread remaining damage
           if (remainingDamage > 0) {
-            alert(`${remainingDamage} left over. Choose who should receive it! (1 damage per click)`);
+            alert(
+              `${remainingDamage} left over. Choose who should receive it! (1 damage per click)`
+            );
 
             return new Promise((resolve, reject) => {
-              $('.card').on('click', (e) => {
-                const targetCard = $(e.target).closest('.card').attr('id');
-                const targetRow = $(e.target).closest('.row').attr('id');
+              $(".card").on("click", (e) => {
+                const targetCard = $(e.target).closest(".card").attr("id");
+                const targetRow = $(e.target).closest(".row").attr("id");
 
-                $('.card').off('click');
+                $(".card").off("click");
 
                 // Check target is valid
-                if (targetRow[0] === "p" || parseInt(targetRow[0]) === playerNum) {
+                if (
+                  targetRow[0] === "p" ||
+                  parseInt(targetRow[0]) === playerNum
+                ) {
                   reject("Incorrect target row");
                   return;
                 }
 
-                while(remainingDamage > 0) {
+                while (remainingDamage > 0) {
                   applyDamage(1, targetCard, targetRow);
                   remainingDamage--;
                 }
 
                 resolve();
-              })
-            })
+              });
+            });
           }
         },
       },
@@ -948,7 +1002,7 @@ export default function HeroAbilities(props) {
                 },
               });
 
-              // Find all cards in the target row
+              // Get all cards in the target row
               const targetRowCardIds = $.map(
                 $(`#${targetRow} .card`),
                 function (card) {
@@ -1050,6 +1104,9 @@ export default function HeroAbilities(props) {
           return new Promise((resolve, reject) => {
             // When a row is clicked
             $(".row").on("click", (e) => {
+              // Effect id
+              const effectId = 'widowmakerEnemyEffect';
+              
               // Get target information
               const targetRow = $(e.target).closest(".row").attr("id");
 
@@ -1070,7 +1127,8 @@ export default function HeroAbilities(props) {
                 type: ACTIONS.ADD_ROW_EFFECT,
                 payload: {
                   targetRow: targetRow,
-                  rowEffect: `${playerNum}widowmaker`,
+                  playerHeroId: `${playerNum}widowmaker`,
+                  effectId: effectId,
                 },
               });
 
@@ -1215,11 +1273,12 @@ export default function HeroAbilities(props) {
     const maxTargets = abilities[heroId].ability1.maxTargets;
     unsetCardFocus();
 
+    // TODO: Check any effects that trigger on ability usage
+
     // Check that the card is not in the player's hand
     if (rowId[0] !== "p") {
       // Call the relevant hero's ability
       try {
-
         // Play ability audio if exists
         if ("audioFile" in abilities[heroId].ability1) {
           const audioFile = abilities[heroId].ability1.audioFile;
@@ -1239,10 +1298,11 @@ export default function HeroAbilities(props) {
 
         // Set ability as used
         dispatch({
-          type: ACTIONS.EDIT_CARD, payload: {
+          type: ACTIONS.EDIT_CARD,
+          payload: {
             playerNum: playerNum,
             targetCardId: playerHeroId,
-            editKeys: ['ability1Used'],
+            editKeys: ["ability1Used"],
             editValues: [true],
           },
         });
@@ -1258,6 +1318,8 @@ export default function HeroAbilities(props) {
     const synergyCost = abilities[heroId].ability2.synergyCost;
     const rowSynergy = gameState.rows[rowId].synergy;
     unsetCardFocus();
+
+    // TODO: Check any effects that trigger on ability usage
 
     // Check that the card is not in the player's hand
     if (rowId[0] !== "p") {
@@ -1297,10 +1359,11 @@ export default function HeroAbilities(props) {
 
           // Set ability as used
           dispatch({
-            type: ACTIONS.EDIT_CARD, payload: {
+            type: ACTIONS.EDIT_CARD,
+            payload: {
               playerNum: playerNum,
               targetCardId: playerHeroId,
-              editKeys: ['ability2Used'],
+              editKeys: ["ability2Used"],
               editValues: [true],
             },
           });
@@ -1313,20 +1376,22 @@ export default function HeroAbilities(props) {
 
   return (
     <div id="abilitiescontainer">
-      {("ability1" in abilities[heroId] && currentCard.ability1Used === false) && (
-        <div
-          id="ability1"
-          className="ability ability1"
-          onClick={activateAbility1}
-        ></div>
-      )}
-      {("ability2" in abilities[heroId] && currentCard.ability2Used === false) && (
-        <div
-          id="ability2"
-          className="ability ability2"
-          onClick={activateAbility2}
-        ></div>
-      )}
+      {"ability1" in abilities[heroId] &&
+        currentCard.ability1Used === false && (
+          <div
+            id="ability1"
+            className="ability ability1"
+            onClick={activateAbility1}
+          ></div>
+        )}
+      {"ability2" in abilities[heroId] &&
+        currentCard.ability2Used === false && (
+          <div
+            id="ability2"
+            className="ability ability2"
+            onClick={activateAbility2}
+          ></div>
+        )}
     </div>
   );
 }

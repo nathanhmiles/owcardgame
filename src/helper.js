@@ -31,15 +31,22 @@ const helper = {
       heroData = data.heroes[heroId];
     }
 
+    // Get info from heroData
     const {
       id,
       name,
       health,
       power,
       synergy,
-      effect,
+      
     } = heroData;
+    // Independently store the card's current health (health) and max health (maxHealth)
     const maxHealth = health;
+    // Add the playerHeroId into the card's effect so it can be referenced easily later
+    let effects = {...heroData.effects};
+    for (let key in effects) {
+      effects[key]['playerHeroId'] = playerHeroId;
+    }
     
 
     // Combine values into one new hero object and assign to relevant player
@@ -52,7 +59,7 @@ const helper = {
       power,
       synergy,
       shield,
-      effect,
+      effects,
       enemyEffects,
       allyEffects,
       ability1Used,
