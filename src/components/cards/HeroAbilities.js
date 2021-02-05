@@ -1058,10 +1058,97 @@ export default function HeroAbilities(props) {
     symmetra: {
       ability1: {
         audioFile: "symmetra-teleporter",
+        run() {
+          return new Promise((resolve, reject) => {
+            $(".card").on("click", (e) => {
+              // Get target info
+              const targetCardId = $(e.target).closest(".card").attr("id");
+              const targetCardIndex = $(e.target).closest("li").index();
+              const targetCardRow = $(e.target).closest(".row").attr("id");
+
+              // Remove onclick from all cards
+              $(".card").off("click");
+
+              // Check target is valid
+              if (targetCardRow[0] === "p" || parseInt(targetCardRow[0]) !== playerNum) {
+                reject("Incorrect target row");
+                return;
+              }
+
+              // Move target to playerhand
+              const newRowId = `player${playerNum}hand`;
+              dispatch({
+                type: ACTIONS.MOVE_CARD,
+                payload: {
+                  targetCardId: targetCardId,
+                  startRowId: targetCardRow,
+                  finishRowId: newRowId,
+                  startIndex: targetCardIndex,
+                  finishIndex: 0,
+                },
+              });
+
+              // TODO: Remove all counter related to the hero
+
+              // Set card to not played
+              /* 
+              Do not reset the card's synergy, despite what it says on the card
+              Symmetra's teleporter ability as written on the card is very simple
+              Keeping the teleported card's synergy in the row, and not resetting the card's synergy,
+              adds a bit more complexity and strategy to how this ability is used
+              */
+              dispatch({
+                type: ACTIONS.EDIT_CARD,
+                payload: {
+                  playerNum: playerNum,
+                  targetCardId: targetCardId,
+                  editKeys: ["isPlayed"],
+                  editValues: [false],
+                },
+              });
+
+              // Reduce number of cards played by player
+              dispatch({
+                type: ACTIONS.UPDATE_ROW,
+                payload: {
+                  targetRow: `player${playerNum}hand`,
+                  updateKeys: ['cardsPlayed'],
+                  updateValues: [-1],
+                }
+              })
+
+              resolve();
+            });
+          });
+        },
       },
       ability2: {
         audioFile: "symmetra-shield",
         synergyCost: 3,
+        run() {
+          const playerBackRowCardIds = gameState.rows[`${playerNum}b`].cardIds;
+          const playerMiddleRowCardIds = gameState.rows[`${playerNum}m`].cardIds;
+          const playerFrontRowCardIds = gameState.rows[`${playerNum}f`].cardIds;
+
+          const playerCards = [playerBackRowCardIds, playerMiddleRowCardIds, playerFrontRowCardIds];
+
+          // Add shield to all ally cards
+          for (let row of playerCards) {
+            for (let cardId of row) {
+              const newShield = 1;
+              dispatch({
+                type: ACTIONS.UPDATE_CARD,
+                payload: {
+                  playerNum: playerNum,
+                  cardId: cardId,
+                  updateKeys: ["shield"],
+                  updateValues: [newShield],
+                },
+              });
+            }
+          }
+
+        },
       },
     },
     torbjorn: {

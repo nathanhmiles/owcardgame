@@ -347,7 +347,7 @@ export default function App() {
         payload: {
           targetRow: `player${playerNum}hand`,
           updateKeys: ['cardsPlayed'],
-          updateValues: [1]
+          updateValues: [1],
         }
       })
 
