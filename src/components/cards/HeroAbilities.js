@@ -169,6 +169,25 @@ export default function HeroAbilities(props) {
       ability2: {
         synergyCost: 3,
         audioFile: "ashe-bob",
+        run() {
+          // Create bob card
+          dispatch({
+            type: ACTIONS.CREATE_CARD,
+            payload: {
+              playerNum: playerNum,
+              heroId: "bob",
+            },
+          });
+
+          // Add baby dva to row dvameka was in
+          dispatch({
+            type: ACTIONS.ADD_CARD_TO_HAND,
+            payload: {
+              playerNum: playerNum,
+              playerHeroId: `${playerNum}bob`,
+            },
+          });
+        }
       },
     },
     baptiste: {
