@@ -24,6 +24,7 @@ export const ACTIONS = {
   SET_POWER: "set-power",
   SET_SYNERGY: "set-synergy",
   UPDATE_CARD: "update-card",
+  UPDATE_ROW: "update-row",
   UPDATE_SYNERGY: "update-synergy",
 };
 
@@ -132,15 +133,13 @@ function reducer(gameState, action) {
     // Replaces existing values with new values
     case ACTIONS.EDIT_ROW: {
       const targetRow = action.payload.targetRow;
-      const rowEffect = action.payload.rowEffect;
-      const rowShield = action.payload.rowShield;
+      const editKeys = action.payload.editKeys;
+      const editValues = action.payload.editValues;
 
+      // Identify affected card and apply all edits
       return produce(gameState, (draft) => {
-        if (rowEffect !== undefined) {
-          draft.rows[targetRow].effects = rowEffect;
-        }
-        if (rowShield !== undefined) {
-          draft.rows[targetRow].shield = rowShield;
+        for (let i = 0; i < editKeys.length; i++) {
+          draft.rows[targetRow][editKeys[i]] = editValues[i];
         }
       });
     }
@@ -226,6 +225,22 @@ function reducer(gameState, action) {
       });
     }
 
+    // Update value based on previous value
+    case ACTIONS.UPDATE_ROW: {
+      // Required variables
+      const playerNum = action.payload.playerNum;
+      const targetRow = action.payload.targetRow;
+      const updateKeys = action.payload.updateKeys;
+      const updateValues = action.payload.updateValues;
+
+      // Identify affected card and apply all updates
+      return produce(gameState, (draft) => {
+        for (let i = 0; i < updateKeys.length; i++) {
+          draft.rows[targetRow][updateKeys[i]] += updateValues[i];
+        }
+      });
+    }
+
     // Sets row synergy
     case ACTIONS.UPDATE_SYNERGY: {
       // Required variables
@@ -257,6 +272,8 @@ export default function App() {
   const [turnState, setTurnState] = useState({
     turnCount: 1,
     playerTurn: helper.getRandInt(1, 3),
+    player1Passed: false,
+    player2Passed: false,
   });
   const [cardFocus, setCardFocus] = useState(null);
   const [nextCardDraw, setNextCardDraw] = useState({
@@ -324,6 +341,16 @@ export default function App() {
           editValues: [true, { f: 0, m: 0, b: 0 }],
         },
       });
+
+      dispatch({
+        type: ACTIONS.UPDATE_ROW,
+        payload: {
+          targetRow: `player${playerNum}hand`,
+          updateKeys: ['cardsPlayed'],
+          updateValues: [1]
+        }
+      })
+
     }
     return;
   }

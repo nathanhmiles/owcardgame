@@ -59,6 +59,8 @@ export default function PlayerHand(props) {
     });
   }
 
+  console.log(gameState.rows[`player${playerNum}hand`].cardsPlayed)
+
   return (
     <div className="playerhand cardRow">
       <CardDisplay
@@ -96,6 +98,17 @@ export default function PlayerHand(props) {
           End Turn
         </button>
       </div>
+        <button
+          disabled={(!(gameState.rows[`player${playerNum}hand`].cardsPlayed >= 6) || 
+            turnState[`player${playerNum}Passed`] === true)}
+          className="passbutton"
+          onClick={() => {setTurnState(prevState => ({
+            ...prevState,
+            [`player${playerNum}Passed`]: true,
+          }))}}
+        >
+          Pass
+        </button>
     </div>
   );
 }

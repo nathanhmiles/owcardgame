@@ -782,6 +782,7 @@ const data = {
     'player1hand': {
       id: 'player1hand',
       cardIds: [],
+      cardsPlayed: 0,
       power: {
         f: 0,
         m: 0,
@@ -791,6 +792,7 @@ const data = {
     'player2hand': {
       id: 'player2hand',
       cardIds: [],
+      cardsPlayed: 0,
       power: {
         f: 0,
         m: 0,

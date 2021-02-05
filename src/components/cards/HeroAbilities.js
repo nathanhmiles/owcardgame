@@ -110,7 +110,7 @@ export default function HeroAbilities(props) {
         targetRef.current[targetRow]["shield"] = targetRowShield;
 
         dispatch({
-          type: ACTIONS.EDIT_ROW,
+          type: ACTIONS.ADD_ROW_EFFECT,
           payload: {
             targetRow: targetRow,
             rowShield: targetRowShield,
