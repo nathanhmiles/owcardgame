@@ -1284,7 +1284,7 @@ export default function HeroAbilities(props) {
               const targetPlayer = parseInt(targetCardId[0]);
 
               // Check target is valid
-              if (targetRow[0] === "p" || parseInt(targetRow[0]) === playerNum) {
+              if (targetRow[0] === "p") {
                 reject("Incorrect target");
                 return;
               }

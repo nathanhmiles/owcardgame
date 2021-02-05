@@ -15,6 +15,7 @@ export default function CardEffects(props) {
             key={effect.hero} 
             playerHeroId={effect.playerHeroId}
             health={effect.health}
+            setCardFocus={props.setCardFocus} 
           />
         );
       })}

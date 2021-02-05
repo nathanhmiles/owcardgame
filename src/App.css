@@ -65,6 +65,29 @@ body {
   text-align: center;
 }
 
+.matchcountercontainer {
+  width: 100%;
+  display: flex;
+  justify-content: flex-start;
+}
+
+.matchcounter {
+  width: 75px;
+  height: 75px;
+  margin: 10px 0px 10px 75px;
+  color: #333333 !important;
+  font-weight: bolder;
+  font-size: 20pt;
+}
+
+#player1matchcounter {
+  background-color: #10fcff;
+}
+
+#player2matchcounter {
+  background-color: #ff111f;
+}
+
 .title {
   width: 20vw;
 }

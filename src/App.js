@@ -7,10 +7,11 @@ import PlayerHalf from "components/layout/PlayerHalf";
 import TitleCard from "components/layout/TitleCard";
 import Footer from "components/layout/Footer";
 import CardFocus from "components/cards/CardFocus";
+import AudioPlayer from "components/layout/AudioPlayer";
+import MatchCounter from "components/layout/MatchCounter";
 import data from "data";
 import helper from "helper";
 import produce from "immer";
-import AudioPlayer from "components/layout/AudioPlayer";
 
 export const ACTIONS = {
   ADD_CARD_EFFECT: "add-card-effect",
@@ -340,7 +341,9 @@ export default function App() {
               nextCardDraw={nextCardDraw}
               setNextCardDraw={setNextCardDraw}
             />
+            <MatchCounter playerNum={2} matchState={matchState} />
             <TitleCard />
+            <MatchCounter playerNum={1} matchState={matchState} />
             <PlayerHalf
               playerNum={1}
               setCardFocus={setCardFocus}

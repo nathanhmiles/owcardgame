@@ -52,9 +52,9 @@ export default function Card(props) {
           >
             <div className="cardcontainer">
               {playerNum === 1 ? (
-                <CardEffects type="enemy" effects={enemyEffects} />
+                <CardEffects type="enemy" effects={enemyEffects} setCardFocus={props.setCardFocus} />
               ) : (
-                <CardEffects type="ally" effects={allyEffects} />
+                <CardEffects type="ally" effects={allyEffects} setCardFocus={props.setCardFocus} />
               )}
               <div
                 id={`${playerHeroId}`}
@@ -92,9 +92,9 @@ export default function Card(props) {
                 />
               </div>
               {playerNum === 1 ? (
-                <CardEffects type="ally" effects={allyEffects} />
+                <CardEffects type="ally" effects={allyEffects} setCardFocus={props.setCardFocus} />
               ) : (
-                <CardEffects type="enemy" effects={enemyEffects} />
+                <CardEffects type="enemy" effects={enemyEffects} setCardFocus={props.setCardFocus} />
               )}
             </div>
           </li>
