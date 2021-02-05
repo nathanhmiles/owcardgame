@@ -59,8 +59,6 @@ export default function PlayerHand(props) {
     });
   }
 
-  console.log(gameState.rows[`player${playerNum}hand`].cardsPlayed)
-
   return (
     <div className="playerhand cardRow">
       <CardDisplay
@@ -85,11 +83,13 @@ export default function PlayerHand(props) {
             turnState.playerTurn === 1
               ? () =>
                   setTurnState((prevState) => ({
+                    ...prevState,
                     turnCount: prevState.turnCount + 1,
                     playerTurn: 2,
                   }))
               : () =>
                   setTurnState((prevState) => ({
+                    ...prevState,
                     turnCount: prevState.turnCount + 1,
                     playerTurn: 1,
                   }))

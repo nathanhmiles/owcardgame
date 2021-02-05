@@ -788,6 +788,10 @@ const data = {
         m: 0,
         b: 0,
       },
+      totalPower() {
+        const totalPower = Object.values(this.power).reduce((a, b) => a + b, 0);
+        return totalPower;
+      },
     },
     'player2hand': {
       id: 'player2hand',
@@ -797,6 +801,10 @@ const data = {
         f: 0,
         m: 0,
         b: 0,
+      },
+      totalPower() {
+        const totalPower = Object.values(this.power).reduce((a, b) => a + b, 0);
+        return totalPower;
       },
     },
     '1f': {

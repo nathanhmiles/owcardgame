@@ -335,20 +335,13 @@ export default function HeroAbilities(props) {
           // After effects
           // Discard dvameka card
           dispatch({
-            type: ACTIONS.EDIT_CARD,
+            type: ACTIONS.DISCARD_CARD,
             payload: {
               playerNum: playerNum,
               targetCardId: `${playerNum}dvameka`,
-              editKeys: ["isDiscarded"],
-              editValues: [true],
+              targetCardRow: rowId,
             },
           });
-
-          // Remove dvameka card from row (still exists in playercards)
-          // TODO: not actually implemented yet - need to set new row state using the below
-          const newRowCards = gameState.rows[rowId].cardIds.filter(
-            (cardId) => cardId !== `${playerNum}dvameka`
-          );
 
           // Create baby dva card
           dispatch({
@@ -786,20 +779,14 @@ export default function HeroAbilities(props) {
           // After effects
           // Discard dvameka card
           dispatch({
-            type: ACTIONS.EDIT_CARD,
+            type: ACTIONS.DISCARD_CARD,
             payload: {
               playerNum: playerNum,
               targetCardId: `${playerNum}reaper`,
-              editKeys: ["isDiscarded"],
-              editValues: [true],
+              targetCardRow: rowId,
             },
           });
 
-          // Remove dvameka card from row (still exists in playercards)
-          // TODO: not actually implemented yet - need to set new row state using the below
-          const newRowCards = gameState.rows[rowId].cardIds.filter(
-            (cardId) => cardId !== `${playerNum}reaper`
-          );
         },
       },
     },
@@ -910,7 +897,6 @@ export default function HeroAbilities(props) {
               return null;
             });
           }
-          console.log(enemyRows);
 
           // Get total damage amount (2d6 = between 2 - 12)
           const totalDamage = helper.getRandInt(2, 13);

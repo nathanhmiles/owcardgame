@@ -7,8 +7,7 @@ export default function PlayerArea(props) {
   const { gameState } = useContext(gameContext);
 
   const playerAreaId = `player${props.playerNum}area`;
-  const playerPower = gameState.rows[`player${props.playerNum}hand`].power;
-  const totalPower = Object.values(playerPower).reduce((a, b) => a + b, 0);
+  const totalPower = props.totalPower;
 
   return (
     <div id={playerAreaId} className="playerarea row">
