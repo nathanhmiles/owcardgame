@@ -42,7 +42,7 @@ const helper = {
     // Independently store the card's current health (health) and max health (maxHealth)
     const maxHealth = health;
 
-    // Add hero effects to card, and inset playerHeroId for future use
+    // Add hero effects to card, and insert playerHeroId for future use
     let effects;
     if ('effects' in heroData) {
       // Deep copy of effects object is needed in order to not alter the original object later on

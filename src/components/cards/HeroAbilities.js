@@ -24,6 +24,7 @@ export default function HeroAbilities(props) {
   // TODO: user to affect cards in a specific row, create another ref to track
   // TODO: row target info and reference it during the hero's ability call
   let targetRef = useRef(null);
+  let turnRef = useRef();
 
   // Ensures targetRef only contains values during ability usage,
   // Reset to empty object when rerendering (i.e. when ability is finished)
@@ -147,8 +148,42 @@ export default function HeroAbilities(props) {
     return;
   }
 
-  function applyHealing() {
-    // TODO
+  function applyHealing(healingValue, targetCardId, targetRow) {
+    const targetPlayerNum = targetCardId[0];
+    const targetPlayerCards =
+      gameState.playerCards[`player${targetPlayerNum}cards`].cards;
+
+    // Get hero health
+    let targetHealth = targetPlayerCards[targetCardId].health;
+    const targetMaxHealth = targetPlayerCards[targetCardId].maxHealth;
+    
+    if (targetCardId in targetRef.current) {
+      targetHealth = targetRef.current[targetCardId].health;
+    }
+
+    // Initialise ref if not been used yet during this ability
+    targetRef.current[targetCardId] = {};
+
+    // Increment health value
+    if (targetHealth !== 0) {
+      for (let i = 0; i < healingValue; i++) {
+        if (targetHealth < targetMaxHealth) {
+          targetHealth += 1;
+          targetRef.current[targetCardId]["health"] = targetHealth;
+        }      
+      }
+      // Set the new state (will be done in batch at the end of the ability)
+      dispatch({
+        type: ACTIONS.EDIT_CARD,
+        payload: {
+          playerNum: targetPlayerNum,
+          targetCardId: targetCardId,
+          editKeys: ["health"],
+          editValues: [targetHealth],
+        },
+      });
+    }
+    return;
   }
 
   // Abilities data
@@ -551,10 +586,56 @@ export default function HeroAbilities(props) {
     lucio: {
       ability1: {
         audioFile: "lucio-ampitup",
+        run() {
+          // Wait for user click
+          return new Promise((resolve, reject) => {
+            // When a row is clicked
+            $(".row").on("click", (e) => {
+              
+              // Get target information
+              const targetRow = $(e.target).closest(".row").attr("id");
+              
+              // Remove the onclick
+              $(".row").off("click");
+              
+              // Check target is valid
+              if (targetRow[0] === "p" ||parseInt(targetRow[0]) !== playerNum) {
+                reject("Incorrect target");
+                return;
+              }
+                
+              // Effect id
+              const effectId = 'lucioAllyEffect';
+              // Apply effect
+              dispatch({
+                type: ACTIONS.ADD_ROW_EFFECT,
+                payload: {
+                  targetRow: targetRow,
+                  playerHeroId: `${playerNum}lucio`,
+                  effectId: effectId,
+                },
+              });
+
+              resolve();
+            });
+          });
+        }
       },
       ability2: {
         audioFile: "lucio-ult",
         synergyCost: 3,
+      },
+      lucioAllyEffect: {
+        run(rowId) {
+          const targetRowCardIds = gameState.rows[rowId].cardIds;
+          const healingValue = 1;
+
+          for (let cardId of targetRowCardIds) {
+            applyHealing(healingValue, cardId, rowId);
+          }
+
+          return;
+        },
       },
     },
     mccree: {
@@ -1161,6 +1242,11 @@ export default function HeroAbilities(props) {
         audioFile: "torbjorn-ult",
         synergyCost: 3,
       },
+      torbjornEnemyEffect: {
+        run() {
+
+        },
+      },
     },
     tracer: {
       ability1: {
@@ -1512,6 +1598,42 @@ export default function HeroAbilities(props) {
       } else alert("Insufficient synergy!");
     } else alert("Play cards before using abilities!");
   }
+
+  
+  // Apply card effects every turn
+  useEffect(() => {
+    console.log(`turn is ${turnState.playerTurn}`)
+    // Apply player 1 effects on their turn
+    if (turnState.playerTurn === 1) {
+      // Get all effects currently applied to rows and cards
+      const player1RowIds = ["1b", "1m", "1f"];
+
+      // Run each 'turnstart' effect on each row
+      for (let rowId of player1RowIds) {
+        const rowEffects = gameState.rows[rowId].allyEffects;
+        for (let effect of rowEffects) {
+          if (effect.on === 'turnstart') {
+            abilities[effect.hero][effect.id].run(rowId);
+            console.log(`running ${effect.id} on ${rowId}`)
+          }
+        }
+
+        // Run each 'turnstart' effect on each card in each row
+        for (let cardId of gameState.rows[rowId].cardIds) {
+          const cardEffects = gameState.playerCards['player1cards'].cards[cardId].allyEffects;
+          for (let effect of cardEffects) {
+            if (effect.on === 'turnstart') {
+              abilities[effect.hero][effect.id].run(cardId);
+            }
+          }
+        }
+      }
+      
+    // Apply player 2 effect on their turn
+    } else if (turnState.playerTurn === 2) {
+      
+    }
+  },[turnState]);
 
   return (
     <div id="abilitiescontainer">

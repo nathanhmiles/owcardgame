@@ -298,8 +298,9 @@ export default function App() {
     player2: null,
   });
 
-  // Need ref to correctly track and set match stats when calling endRound()
+  // References for setting state inside useEffects
   let matchRef = useRef(null);
+ 
 
   // Handle card dragging 
   function handleOnDragEnd(result) {
@@ -375,6 +376,8 @@ export default function App() {
     return;
   }
 
+
+  // End the round and update match scores when both players have passed their turn
   useEffect(() => {
     // Set ref to current match state, alter ref within endRound(), then call setMatchState once using ref as new state
     matchRef.current = matchState;
@@ -459,13 +462,13 @@ export default function App() {
       const player1RowIds = ["1b", "1m", "1f"];
       const player2RowIds = ["2b", "2m", "2f"];
 
-      // Get player 1 card ids, and set each row's id
+      // Get card ids from every player 1 row
       let player1Cards = [];
       for (let id of player1RowIds) {
         player1Cards.push(gameState.rows[id].cardIds);
       }
 
-      // Get player 2 card ids, and set each row's id
+      // Get card ids from every player 2 row
       let player2Cards = [];
       for (let id of player2RowIds) {
         player2Cards.push(gameState.rows[id].cardIds);
@@ -550,8 +553,7 @@ export default function App() {
     }
   }, [turnState, gameState.rows, matchState]);
 
-  console.log(matchState)
-
+  
   return (
     <div>
       <turnContext.Provider value={{ turnState, setTurnState }}>
