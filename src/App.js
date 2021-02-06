@@ -1,4 +1,4 @@
-import React, { useState, useReducer, useEffect } from "react";
+import React, { useState, useReducer, useEffect, useRef } from "react";
 import gameContext from "context/gameContext";
 import turnContext from "context/turnContext";
 import { DragDropContext } from "react-beautiful-dnd";
@@ -298,186 +298,10 @@ export default function App() {
     player2: null,
   });
 
-  // End the round, calculate who won, update score and move to next round
-  function endRound() {
-    // Get power data
-    const totalPower1 = gameState.rows.player1hand.totalPower();
-    const totalPower2 = gameState.rows.player2hand.totalPower();
+  // Need ref to correctly track and set match stats when calling endRound()
+  let matchRef = useRef(null);
 
-    // Get player rows info
-    const player1Rows = [
-      gameState.rows["1b"],
-      gameState.rows["1m"],
-      gameState.rows["1f"],
-    ];
-    const player2Rows = [
-      gameState.rows["2b"],
-      gameState.rows["2m"],
-      gameState.rows["2f"],
-    ];
-
-    // Calculate winning player, and update state
-    let winningPlayer = 0;
-
-    if (totalPower1 > totalPower2) winningPlayer = 1;
-    else if (totalPower2 > totalPower1) winningPlayer = 2;
-    // If power is tied, remaining synergy decides the winner
-    else if (totalPower1 === totalPower2) {
-      let player1Synergy = 0;
-      let player2Synergy = 0;
-
-      for (let row of player1Rows) {
-        player1Synergy += row.synergy;
-      }
-      for (let row of player2Rows) {
-        player2Synergy += row.synergy;
-      }
-
-      if (player1Synergy > player2Synergy) winningPlayer = 1;
-      else if (player2Synergy > player1Synergy) winningPlayer = 2;
-      // If remaining synergy is also tied, it is a draw, denoted by setting player 3 as the winner
-      else winningPlayer = 3;
-    }
-
-    // Update state for a draw
-    if (winningPlayer === 3) {
-      alert("Match is a draw! Both players receive a win.");
-      setMatchState((prevState) => ({
-        ...prevState,
-        [`player1`]: {
-          wins: (prevState[`player1`].wins += 1),
-        },
-        [`player2`]: {
-          wins: (prevState[`player2`].wins += 1),
-        },
-      }));
-
-      // Reset turn state, but keep the random decision on who goes first next round
-      setTurnState((prevState) => ({
-        ...prevState,
-        turnCount: 1,
-        player1Passed: false,
-        player2Passed: false,
-      }));
-
-      // If players have drawn both rounds and so both have two wins, match is a draw
-      if (matchState.player1.wins === 2 && matchState.player2.wins === 2) {
-        alert("The match is a draw!");
-      }
-
-      // Update state for whichever player won and reset for next round
-    } else {
-      alert(`Player ${winningPlayer} wins!`);
-      setMatchState((prevState) => ({
-        ...prevState,
-        [`player${winningPlayer}`]: {
-          wins: (prevState[`player${winningPlayer}`].wins += 1),
-        },
-        wonLastRound: winningPlayer,
-      }));
-
-      // Reset turn state, but allow the loser to go second next round
-      setTurnState((prevState) => ({
-        turnCount: 1,
-        playerTurn: matchState.wonLastRound === 1 ? 1 : 2,
-        player1Passed: false,
-        player2Passed: false,
-      }));
-    }
-
-    // Discard all cards
-    // Set ids of player rows
-    const player1RowIds = ["1b", "1m", "1f"];
-    const player2RowIds = ["2b", "2m", "2f"];
-
-    // Get player 1 card ids, and set each row's id
-    let player1Cards = [];
-    for (let id of player1RowIds) {
-      player1Cards.push(gameState.rows[id].cardIds);
-    }
-
-    // Get player 2 card ids, and set each row's id
-    let player2Cards = [];
-    for (let id of player2RowIds) {
-      player2Cards.push(gameState.rows[id].cardIds);
-    }
-
-    // Reset power, synergy, effects and discard player 1 cards
-    for (let i = 0; i < player1Cards.length; i++) {
-      dispatch({
-        type: ACTIONS.EDIT_ROW,
-        payload: {
-          targetRow: player1RowIds[i],
-          editKeys: ["synergy", "shield", "allyEffects", "enemyEffects"],
-          editValues: [0, 0, [], []],
-        },
-      });
-      for (let x = 0; x < player1Cards[i].length; x++) {
-        dispatch({
-          type: ACTIONS.DISCARD_CARD,
-          payload: {
-            playerNum: 1,
-            targetCardId: player1Cards[i][x],
-            targetCardRow: player1RowIds[i],
-          },
-        });
-      }
-    }
-
-    dispatch({
-      type: ACTIONS.EDIT_ROW,
-      payload: {
-        targetRow: "player1hand",
-        editKeys: ["power"],
-        editValues: [{ f: 0, m: 0, b: 0 }],
-      },
-    });
-
-    // Reset power, synergy, effects and discard player 2 cards
-    for (let i = 0; i < player2Cards.length; i++) {
-      dispatch({
-        type: ACTIONS.EDIT_ROW,
-        payload: {
-          targetRow: player2RowIds[i],
-          editKeys: ["synergy", "shield", "allyEffects", "enemyEffects"],
-          editValues: [0, 0, [], []],
-        },
-      });
-      for (let x = 0; x < player2Cards[i].length; x++) {
-        dispatch({
-          type: ACTIONS.DISCARD_CARD,
-          payload: {
-            playerNum: 2,
-            targetCardId: player2Cards[i][x],
-            targetCardRow: player2RowIds[i],
-          },
-        });
-        console.log(
-          `discarding ${player2Cards[i][x]} from row ${player2RowIds[i]}`
-        );
-      }
-    }
-
-    dispatch({
-      type: ACTIONS.EDIT_ROW,
-      payload: {
-        targetRow: "player2hand",
-        editKeys: ["power"],
-        editValues: [{ f: 0, m: 0, b: 0 }],
-      },
-    });
-
-    // TODO: create a play again button
-    // If a player has reached two wins, end the match
-    if (matchState["player1"].wins === 2) {
-      alert("Player 1 wins the match!");
-    } else if (matchState["player2"].wins === 2) {
-      alert("Player 2 wins the match!");
-    }
-
-    return;
-  }
-
+  // Handle card dragging 
   function handleOnDragEnd(result) {
     const { destination, source, draggableId } = result;
     if (!destination) return;
@@ -551,14 +375,182 @@ export default function App() {
     return;
   }
 
-  // When both players pass, end the round and move to the next round
   useEffect(() => {
+    // Set ref to current match state, alter ref within endRound(), then call setMatchState once using ref as new state
+    matchRef.current = matchState;
+    
+    // End the round, calculate who won, update score and move to next round
+    const endRound = () => {
+      // Get power data
+      const totalPower1 = gameState.rows.player1hand.totalPower();
+      const totalPower2 = gameState.rows.player2hand.totalPower();
+
+      // Get player rows info
+      const player1Rows = [
+        gameState.rows["1b"],
+        gameState.rows["1m"],
+        gameState.rows["1f"],
+      ];
+      const player2Rows = [
+        gameState.rows["2b"],
+        gameState.rows["2m"],
+        gameState.rows["2f"],
+      ];
+
+      // Calculate winning player
+      let winningPlayer = 0;
+
+      if (totalPower1 > totalPower2) winningPlayer = 1;
+      else if (totalPower2 > totalPower1) winningPlayer = 2;
+      // If power is tied, remaining synergy decides the winner
+      else if (totalPower1 === totalPower2) {
+        let player1Synergy = 0;
+        let player2Synergy = 0;
+
+        for (let row of player1Rows) {
+          player1Synergy += row.synergy;
+        }
+        for (let row of player2Rows) {
+          player2Synergy += row.synergy;
+        }
+
+        if (player1Synergy > player2Synergy) winningPlayer = 1;
+        else if (player2Synergy > player1Synergy) winningPlayer = 2;
+        // If remaining synergy is also tied, it is a draw, denoted by setting player 3 as the winner
+        else winningPlayer = 3;
+      }
+
+      // Reset turn state
+      // Winner of last round goes first next round. If round was a draw, random player goes first
+      setTurnState((prevState) => ({
+        turnCount: 1,
+        playerTurn: winningPlayer === 3 ? prevState.playerTurn : matchRef.wonLastRound === 1 ? 1 : 2,
+        player1Passed: false,
+        player2Passed: false,
+      }));
+
+      // Update match state
+      // Update state if round is a draw
+      if (winningPlayer === 3) {
+        alert("Match is a draw! Both players receive a win.");
+
+        // Add a win to both players' record for a draw
+        matchRef.current.player1.wins += 1;
+        matchRef.current.player2.wins += 1;
+
+        // If players have drawn both rounds and so both have two wins, match is a draw
+        if (matchState.player1.wins === 2 && matchState.player2.wins === 2) {
+          alert("The match is a draw!");
+        }
+
+      // Update state for whichever player won
+      } else {
+        alert(`Player ${winningPlayer} wins!`);
+        
+        // Add a win to winner's record
+        matchRef.current[`player${winningPlayer}`].wins += 1;
+        matchRef.current.wonLastRound = winningPlayer;
+
+      }
+
+        
+      // Discard all cards
+      // Set ids of rows to be reset
+      const player1RowIds = ["1b", "1m", "1f"];
+      const player2RowIds = ["2b", "2m", "2f"];
+
+      // Get player 1 card ids, and set each row's id
+      let player1Cards = [];
+      for (let id of player1RowIds) {
+        player1Cards.push(gameState.rows[id].cardIds);
+      }
+
+      // Get player 2 card ids, and set each row's id
+      let player2Cards = [];
+      for (let id of player2RowIds) {
+        player2Cards.push(gameState.rows[id].cardIds);
+      }
+
+      // Reset power, synergy, effects and discard player 1 cards
+      for (let i = 0; i < player1Cards.length; i++) {
+        dispatch({
+          type: ACTIONS.EDIT_ROW,
+          payload: {
+            targetRow: player1RowIds[i],
+            editKeys: ["synergy", "shield", "allyEffects", "enemyEffects"],
+            editValues: [0, 0, [], []],
+          },
+        });
+        for (let x = 0; x < player1Cards[i].length; x++) {
+          dispatch({
+            type: ACTIONS.DISCARD_CARD,
+            payload: {
+              playerNum: 1,
+              targetCardId: player1Cards[i][x],
+              targetCardRow: player1RowIds[i],
+            },
+          });
+        }
+      }
+      dispatch({
+        type: ACTIONS.EDIT_ROW,
+        payload: {
+          targetRow: "player1hand",
+          editKeys: ["cardsPlayed", "power"],
+          editValues: [0, { f: 0, m: 0, b: 0 }],
+        },
+      });
+
+      // Reset power, synergy, effects and discard player 2 cards
+      for (let i = 0; i < player2Cards.length; i++) {
+        dispatch({
+          type: ACTIONS.EDIT_ROW,
+          payload: {
+            targetRow: player2RowIds[i],
+            editKeys: ["synergy", "shield", "allyEffects", "enemyEffects"],
+            editValues: [0, 0, [], []],
+          },
+        });
+        for (let x = 0; x < player2Cards[i].length; x++) {
+          dispatch({
+            type: ACTIONS.DISCARD_CARD,
+            payload: {
+              playerNum: 2,
+              targetCardId: player2Cards[i][x],
+              targetCardRow: player2RowIds[i],
+            },
+          });
+        }
+      }
+
+      dispatch({
+        type: ACTIONS.EDIT_ROW,
+        payload: {
+          targetRow: "player2hand",
+          editKeys: ["cardsPlayed", "power"],
+          editValues: [0, { f: 0, m: 0, b: 0 }],
+        },
+      });
+
+      // Set new match state using the ref that was mutated
+      setMatchState(matchRef.current);
+
+      // TODO: create a play again button
+      // If a player has reached two wins, end the match
+      if (matchState["player1"].wins === 2) {
+        alert("Player 1 wins the match!");
+      } else if (matchState["player2"].wins === 2) {
+        alert("Player 2 wins the match!");
+      }
+
+    }
+    // When both players pass, end the round and move to the next round
     if (turnState.player1Passed === true && turnState.player2Passed === true) {
       endRound();
     }
-  });
+  }, [turnState, gameState.rows, matchState]);
 
-  console.log(gameState);
+  console.log(matchState)
 
   return (
     <div>

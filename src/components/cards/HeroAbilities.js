@@ -911,9 +911,6 @@ export default function HeroAbilities(props) {
           let damageDone = 0;
           for (let row of enemyRows) {
             for (let cardId of row) {
-              console.log(
-                `targeting ${cardId} in row ${row.id} for ${damageValue} damage`
-              );
               applyDamage(damageValue, cardId, row.id);
               damageDone += damageValue;
             }

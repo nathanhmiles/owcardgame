@@ -332,6 +332,17 @@ button:active {
 
 button:disabled {
   background-color: transparent;
+  color: #333333;
+}
+
+.passbutton {
+  background-color: #fa9c1e;
+  color: #333333;
+}
+
+.passbutton:active {
+  background-color: #333333;
+  color: white;
 }
 
 .drawbutton {
