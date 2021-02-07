@@ -68,13 +68,13 @@ body {
 .matchcountercontainer {
   width: 100%;
   display: flex;
-  justify-content: flex-start;
+  justify-content: center;
 }
 
 .matchcounter {
   width: 75px;
   height: 75px;
-  margin: 10px 0px 10px 75px;
+  margin: 16px 0px 16px 0px;
   color: #333333 !important;
   font-weight: bolder;
   font-size: 20pt;
@@ -164,7 +164,7 @@ ul {
 .card {
   position: relative;
   display: flex;
-  margin: 36px 12px 36px 12px;
+  margin: 6px;
   z-index: 20;
   font-size: 9pt;
 }
@@ -198,7 +198,6 @@ ul {
 }
 
 .effects {
-  height: 100px;
   justify-content: center;
   display: flex;
   justify-content: center;
