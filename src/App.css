@@ -386,7 +386,7 @@ button:disabled {
   width: 80%;
   z-index: 60;
   cursor: pointer;
-  border: 1px solid black;
+  /*border: 1px solid black;*/
 }
 
 .cardfocus .ability1 {

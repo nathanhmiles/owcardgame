@@ -1,4 +1,4 @@
-import React, { useContext, useEffect, useRef } from "react";
+import React, { useContext, useEffect, useRef, useMemo } from "react";
 import gameContext from "context/gameContext";
 import turnContext from "context/turnContext";
 import $ from "jquery";
@@ -693,10 +693,61 @@ export default function HeroAbilities(props) {
     mercy: {
       ability1: {
         audioFile: "mercy-medicalemergency",
+        run() {
+          // Wait for user click
+          return new Promise((resolve, reject) => {
+            // When a row is clicked
+            $(".card").on("click", (e) => {
+              // Get target information & remove onclick
+              const targetCardId = $(e.target).closest(".card").attr("id");
+              const targetRow = $(e.target).closest(".row").attr("id");
+
+              console.log(targetRow)
+
+              // Remove click event from all cards
+              $(".card").off("click");
+
+              // Check target is valid
+              if (targetRow[0] === "p" || parseInt(targetRow[0]) !== playerNum) {
+                reject("Incorrect target");
+                return;
+              }
+
+              // Apply effect 
+              // TODO: find way to decide between the two mercy ally effects - currently only healing effect is implemented
+              let effectId = 'mercyAllyEffect1';
+
+              // Harmony orb applies healing immediately, as well as over time
+              if (effectId === 'mercyAllyEffect1') {
+                const healingValue = 2;
+                applyHealing(healingValue, targetCardId);
+              }
+
+              // Set state
+              dispatch({
+                type: ACTIONS.ADD_CARD_EFFECT,
+                payload: {
+                  targetCardId: targetCardId,
+                  playerHeroId: `${playerNum}mercy`,
+                  effectId: effectId,
+                },
+              });
+
+              resolve();
+            });
+          });
+        },
       },
       ability2: {
         audioFile: "mercy-ult",
         synergyCost: 3,
+      },
+      mercyAllyEffect1: {
+        run(cardId) {
+          const healingValue = 1;
+          applyHealing(healingValue, cardId);
+          return;
+        },
       },
     },
     moira: {
@@ -1469,6 +1520,12 @@ export default function HeroAbilities(props) {
               targetPlayer === playerNum ? effectId = 'zenyattaAllyEffect' :
               effectId = 'zenyattaEnemyEffect';
 
+              // Harmony orb applies healing immediately, as well as over time
+              if (effectId === 'zenyattaAllyEffect') {
+                const healingValue = 1;
+                applyHealing(healingValue, targetCardId);
+              }
+
               // Set state
               dispatch({
                 type: ACTIONS.ADD_CARD_EFFECT,
@@ -1668,7 +1725,7 @@ export default function HeroAbilities(props) {
 
     // Update ref to current turn
     turnRef.current.turnCount = turnState.turnCount;
-  },[turnState, abilities, gameState.playerCards, gameState.rows]);
+  },[turnState, gameState.playerCards, gameState.rows]);
 
   return (
     <div id="abilitiescontainer">
