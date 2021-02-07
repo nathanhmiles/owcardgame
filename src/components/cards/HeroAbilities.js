@@ -24,7 +24,7 @@ export default function HeroAbilities(props) {
   // TODO: user to affect cards in a specific row, create another ref to track
   // TODO: row target info and reference it during the hero's ability call
   let targetRef = useRef(null);
-  let turnRef = useRef();
+  let turnRef = useRef(turnState);
 
   // Ensures targetRef only contains values during ability usage,
   // Reset to empty object when rerendering (i.e. when ability is finished)
@@ -148,7 +148,7 @@ export default function HeroAbilities(props) {
     return;
   }
 
-  function applyHealing(healingValue, targetCardId, targetRow) {
+  function applyHealing(healingValue, targetCardId) {
     const targetPlayerNum = targetCardId[0];
     const targetPlayerCards =
       gameState.playerCards[`player${targetPlayerNum}cards`].cards;
@@ -631,7 +631,7 @@ export default function HeroAbilities(props) {
           const healingValue = 1;
 
           for (let cardId of targetRowCardIds) {
-            applyHealing(healingValue, cardId, rowId);
+            applyHealing(healingValue, cardId);
           }
 
           return;
@@ -1489,6 +1489,15 @@ export default function HeroAbilities(props) {
         audioFile: "zenyatta-ult",
         run() {},
       },
+      zenyattaAllyEffect: {
+        run(cardId) {
+          const healingValue = 1;
+
+          applyHealing(healingValue, cardId);
+
+          return;
+        },
+      },
     },
   };
 
@@ -1603,36 +1612,68 @@ export default function HeroAbilities(props) {
   // Apply card effects every turn
   useEffect(() => {
     console.log(`turn is ${turnState.playerTurn}`)
-    // Apply player 1 effects on their turn
-    if (turnState.playerTurn === 1) {
-      // Get all effects currently applied to rows and cards
-      const player1RowIds = ["1b", "1m", "1f"];
-
-      // Run each 'turnstart' effect on each row
-      for (let rowId of player1RowIds) {
-        const rowEffects = gameState.rows[rowId].allyEffects;
-        for (let effect of rowEffects) {
-          if (effect.on === 'turnstart') {
-            abilities[effect.hero][effect.id].run(rowId);
-            console.log(`running ${effect.id} on ${rowId}`)
+    
+    if (turnState.turnCount > turnRef.current.turnCount) {
+      // Apply player 1 effects on their turn
+      if (turnState.playerTurn === 1) {
+        // Get all effects currently applied to rows and cards
+        const player1RowIds = ["1b", "1m", "1f"];
+  
+        // Run each 'turnstart' effect on each row
+        for (let rowId of player1RowIds) {
+          const rowEffects = gameState.rows[rowId].allyEffects;
+          for (let effect of rowEffects) {
+            if (effect.on === 'turnstart') {
+              abilities[effect.hero][effect.id].run(rowId);
+              console.log(`running ${effect.id} on ${rowId}`)
+            }
+          }
+  
+          // Run each 'turnstart' effect on each card in each row
+          for (let cardId of gameState.rows[rowId].cardIds) {
+            let cardIndex = 0;
+            const cardEffects = gameState.playerCards['player1cards'].cards[cardId].allyEffects;
+            for (let effect of cardEffects) {
+              if (effect.on === 'turnstart') {
+                console.log(`running ${JSON.stringify(effect)} on ${rowId}`)
+                abilities[effect.hero][effect.id].run(cardId);
+              }
+            }
+        
           }
         }
-
-        // Run each 'turnstart' effect on each card in each row
-        for (let cardId of gameState.rows[rowId].cardIds) {
-          const cardEffects = gameState.playerCards['player1cards'].cards[cardId].allyEffects;
-          for (let effect of cardEffects) {
+        
+      // Apply player 2 effect on their turn
+      } else if (turnState.playerTurn === 2) {
+        // Get all effects currently applied to rows and cards
+        const player2RowIds = ["2b", "2m", "2f"];
+  
+        // Run each 'turnstart' effect on each row
+        for (let rowId of player2RowIds) {
+          const rowEffects = gameState.rows[rowId].allyEffects;
+          for (let effect of rowEffects) {
             if (effect.on === 'turnstart') {
-              abilities[effect.hero][effect.id].run(cardId);
+              abilities[effect.hero][effect.id].run(rowId);
+              console.log(`running ${effect.id} on ${rowId}`)
+            }
+          }
+  
+          // Run each 'turnstart' effect on each card in each row
+          for (let cardId of gameState.rows[rowId].cardIds) {
+            const cardEffects = gameState.playerCards['player2cards'].cards[cardId].allyEffects;
+            for (let effect of cardEffects) {
+              if (effect.on === 'turnstart') {
+                console.log(`running ${JSON.stringify(effect)} on ${rowId}`)
+                abilities[effect.hero][effect.id].run(cardId);
+              }
             }
           }
         }
       }
-      
-    // Apply player 2 effect on their turn
-    } else if (turnState.playerTurn === 2) {
-      
+
     }
+
+    turnRef.current.turnCount = turnState.turnCount;
   },[turnState]);
 
   return (

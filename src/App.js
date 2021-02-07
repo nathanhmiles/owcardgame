@@ -577,16 +577,17 @@ export default function App() {
               setNextCardDraw={setNextCardDraw}
             />
           </DragDropContext>
-          {cardFocus && (
+          {cardFocus !== null && 
             <CardFocus
               setCardFocus={setCardFocus}
               unsetCardFocus={() => {
-                setCardFocus(null);
+                setCardFocus('invisible');
               }}
               cardFocus={cardFocus}
               setNextCardDraw={setNextCardDraw}
             />
-          )}
+          }
+          
           <Footer />
         </gameContext.Provider>
       </turnContext.Provider>
