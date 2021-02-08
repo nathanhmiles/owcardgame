@@ -909,7 +909,7 @@ export default function HeroAbilities(props) {
           }
 
           // After effects
-          // Discard dvameka card
+          // Discard card
           dispatch({
             type: ACTIONS.DISCARD_CARD,
             payload: {
@@ -1174,10 +1174,24 @@ export default function HeroAbilities(props) {
     soldier: {
       ability1: {
         audioFile: "soldier-teamheal",
+        run() {
+          // Get target info
+          const playerRowCardIds =
+            gameState.rows[rowId].cardIds;
+
+          // Damage enemy cards
+          const healValue = 1;
+          for (let cardId of playerRowCardIds) {
+            applyHealing(healValue, cardId);
+          }
+
+        },
       },
       ability2: {
         audioFile: "soldier-ult",
+        maxTargets: 3,
         synergyCost: 3,
+        run() {},
       },
     },
     sombra: {
