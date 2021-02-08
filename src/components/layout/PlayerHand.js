@@ -38,16 +38,17 @@ export default function PlayerHand(props) {
 
       // Draw a random card id, then check if it was already drawn, if so draw again
     } else {
+      let newCardId;
       do {
         const randInt = helper.getRandInt(0, Object.keys(data.heroes).length);
         const randKey = Object.keys(data.heroes)[randInt];
-        const newCardId = data.heroes[randKey].id;
-        dispatch({
-          type: ACTIONS.CREATE_CARD,
-          payload: { playerNum: playerNum, heroId: newCardId },
-        });
+        newCardId = data.heroes[randKey].id;
         playerHeroId = `${props.playerNum}${newCardId}`;
       } while (playerHeroId in gameState.playerCards[playerCardsId].cards);
+      dispatch({
+        type: ACTIONS.CREATE_CARD,
+        payload: { playerNum: playerNum, heroId: newCardId },
+      });
     }
 
     // Add new card to player hand

@@ -39,6 +39,7 @@ const helper = {
       power,
       synergy,
     } = heroData;
+    
     // Independently store the card's current health (health) and max health (maxHealth)
     const maxHealth = health;
 

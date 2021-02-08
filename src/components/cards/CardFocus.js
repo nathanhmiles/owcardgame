@@ -32,7 +32,6 @@ export default function CardFocus(props) {
           className="cardfocus"
         >
             <HeroAbilities 
-            playerNum={playerNum}
             playerHeroId={playerHeroId}
             rowId={rowId}
             cardFocus={cardFocus}
@@ -77,7 +76,6 @@ export default function CardFocus(props) {
           />
           {health > 0 ? (
             <HeroAbilities 
-            playerNum={playerNum}
             playerHeroId={playerHeroId}
             rowId={rowId}
             cardFocus={cardFocus}

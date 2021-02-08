@@ -11,10 +11,12 @@ export default function HeroAbilities(props) {
   const { turnState, setTurnState } = useContext(turnContext);
 
   // Variables
-  const playerNum = parseInt(props.playerNum);
+  const playerNum = turnState.playerTurn;
+  const enemyPlayerNum = playerNum === 1 ? 2 : 1;
+
   const playerHeroId = props.playerHeroId;
   const currentCard =
-    gameState.playerCards[`player${playerNum}cards`].cards[playerHeroId];
+    gameState.playerCards[`player${playerHeroId[0]}cards`].cards[playerHeroId];
   const heroId = playerHeroId.slice(1, playerHeroId.length);
   const rowId = props.rowId;
   const unsetCardFocus = props.unsetCardFocus;
@@ -37,7 +39,7 @@ export default function HeroAbilities(props) {
   // TODO: is set within the hero's ability
   function applyDamage(damageValue, targetCardId, targetRow) {
     // Identify target player
-    const targetPlayerNum = targetCardId[0];
+    const targetPlayerNum = parseInt(targetCardId[0]);
     const targetPlayerCards =
       gameState.playerCards[`player${targetPlayerNum}cards`].cards;
 
@@ -191,10 +193,62 @@ export default function HeroAbilities(props) {
     ana: {
       ability1: {
         audioFile: "ana-grenade",
+        run() {
+          return new Promise((resolve, reject) => {
+            // When a row is clicked
+            $(".row").on("click", (e) => {
+              
+              // Get target information
+              const targetRow = $(e.target).closest(".row").attr("id");
+              const rowPosition = targetRow[1];
+              
+              // Remove the onclick
+              $(".row").off("click");
+              
+              // Check target is valid
+              if (targetRow[0] === "p") {
+                reject("Incorrect target");
+                return;
+              }
+              
+              const enemyPlayer = playerNum === 1 ? 2 : 1;
+              const playerRowCardIds = gameState.rows[`${playerNum}${rowPosition}`].cardIds;
+              const enemyPlayerRowCardIds =
+                gameState.rows[`${enemyPlayer}${rowPosition}`].cardIds;
+    
+              const damageValue = 1;
+              const healValue = 1;
+    
+              // Heal own player cards
+              for (let cardId of playerRowCardIds) {
+                applyHealing(healValue, cardId);
+              }
+    
+              // Damage enemy cards
+              for (let cardId of enemyPlayerRowCardIds) {
+                applyDamage(damageValue, cardId, `${enemyPlayer}${rowPosition}`);
+              }
+              
+              resolve();
+            });
+
+          });
+
+        },
       },
       ability2: {
         synergyCost: 3,
         audioFile: "ana-ult",
+        run() {
+          const currentRowAllyNumber = gameState.rows[rowId].cardIds.length;
+          const effectId = 'anaUltimateEffect';
+
+          // TODO: ensure ana's ultimate can be removed by hack/EMP
+
+        }
+      },
+      anaUltimateEffect: {
+
       },
     },
     ashe: {
@@ -214,7 +268,7 @@ export default function HeroAbilities(props) {
             },
           });
 
-          // Add baby dva to row dvameka was in
+          // Add summoned hero to hand
           dispatch({
             type: ACTIONS.ADD_CARD_TO_HAND,
             payload: {
@@ -1302,14 +1356,96 @@ export default function HeroAbilities(props) {
     torbjorn: {
       ability1: {
         audioFile: "torbjorn-turret",
+        run() {
+          // Wait for user click
+          return new Promise((resolve, reject) => {
+            // When a row is clicked
+            $(".row").on("click", (e) => {
+              // Get target information & remove onclick
+              const targetRow = $(e.target).closest(".row").attr("id");
+              $(".row").off("click");
+
+              // Check target is valid
+              if (targetRow[0] === "p" || parseInt(targetRow[0]) === playerNum) {
+                reject("Incorrect target");
+                return;
+              }
+
+              // Apply effect
+              const effectId = 'torbjornEnemyEffect';
+              const heroId = 'torbjorn';
+              dispatch({
+                type: ACTIONS.ADD_ROW_EFFECT,
+                payload: {
+                  targetRow: targetRow,
+                  playerHeroId: `${playerNum}${heroId}`,
+                  effectId: effectId,
+                },
+              });
+
+              resolve();
+            });
+          });
+        },
       },
       ability2: {
         audioFile: "torbjorn-ult",
         synergyCost: 3,
+        run() {
+          const newTurretDamage = 2;
+          const heroId = `${playerNum}torbjorn`;
+
+          dispatch({
+            type: ACTIONS.EDIT_CARD,
+            payload: {
+              playerNum: playerNum,
+              targetCardId: heroId,
+              editKeys: ['effects.torbjornEnemyEffect.value'],
+              editValues: [newTurretDamage],
+            }
+          });
+        }
       },
       torbjornEnemyEffect: {
-        run() {
+        run(rowId) {
+          console.log(`enemyplayer is ${enemyPlayerNum}`)
+          console.log(gameState.playerCards[`player${enemyPlayerNum}cards`].cards)
+          // Get enemies in target row
+          const targetPlayer = parseInt(rowId[0]);
+          const torbPlayer = targetPlayer === 1 ? 2 : 1;
+          const rowEnemies = gameState.rows[rowId].cardIds.filter(cardId => {
+            if (gameState.playerCards[`player${targetPlayer}cards`].cards[cardId].health > 0) {
+              return cardId;
+            } else return null;
+          });
+          console.log(rowEnemies)
 
+          const turretDamage = gameState.playerCards[`player${torbPlayer}cards`].cards[
+            `${torbPlayer}torbjorn`].effects.torbjornEnemyEffect.value;
+          const maxTargets = 2;
+
+          // If there are no enemies in the target row, do nothing
+          if (rowEnemies.length === 0) {
+            return;
+          
+            // If there is just one enemy, attach that enemy once
+          } else if (rowEnemies.length === 1) {
+            applyDamage(turretDamage, rowEnemies[0], rowId);
+
+          // If there are several enemies, attack two at random
+          } else if (rowEnemies.length >= 2) {
+            const attackedEnemies = [];
+            
+            for (let i = 0; i < maxTargets; i++) {
+              let target;
+              do {
+                target = helper.getRandInt(0, rowEnemies.length);
+              } while (attackedEnemies.includes(target))
+              console.log(`target is ${target}`)
+              applyDamage(turretDamage, rowEnemies[target], rowId)
+              attackedEnemies.push(target);
+            }
+          }
         },
       },
     },

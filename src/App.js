@@ -12,6 +12,7 @@ import MatchCounter from "components/layout/MatchCounter";
 import data from "data";
 import helper from "helper";
 import produce from "immer";
+import _ from "lodash";
 
 export const ACTIONS = {
   ADD_CARD_EFFECT: "add-card-effect",
@@ -25,6 +26,7 @@ export const ACTIONS = {
   SET_POWER: "set-power",
   SET_SYNERGY: "set-synergy",
   UPDATE_CARD: "update-card",
+  UPDATE_POWER: "update-power",
   UPDATE_ROW: "update-row",
   UPDATE_SYNERGY: "update-synergy",
 };
@@ -141,8 +143,9 @@ function reducer(gameState, action) {
         let targetCard =
           draft.playerCards[`player${playerNum}cards`].cards[targetCardId];
 
+          // Use lodash to set object properties (allows a string to be used for a nested object path)
         for (let i = 0; i < editKeys.length; i++) {
-          targetCard[editKeys[i]] = editValues[i];
+          _.set(targetCard, editKeys[i], editValues[i]);
         }
       });
     }
@@ -242,6 +245,22 @@ function reducer(gameState, action) {
       });
     }
 
+    // Updatesrow synergy
+    case ACTIONS.UPDATE_POWER: {
+      // Required variables
+      const targetPlayer = action.payload.targetPlayer;
+      const targetRow = action.payload.targetRow;
+      const powerValue = action.payload.powerValue;
+
+      // Update synergy and set value, minimum of 0 synergy
+      return produce(gameState, (draft) => {
+        let rowPower = draft.rows[`player${targetPlayer}hand`].power[targetRow];
+        rowPower += powerValue;
+        const newPower = Math.max(0, rowPower);
+        draft.rows[`player${targetPlayer}hand`].power[targetRow] = newPower;
+      });
+    }
+
     // Update value based on previous value
     case ACTIONS.UPDATE_ROW: {
       // Required variables
@@ -301,82 +320,6 @@ export default function App() {
   // References for setting state inside useEffects
   let matchRef = useRef(null);
  
-
-  // Handle card dragging 
-  function handleOnDragEnd(result) {
-    const { destination, source, draggableId } = result;
-    if (!destination) return;
-
-    // Get card movement data
-    const startRowId = source.droppableId;
-    const finishRowId = destination.droppableId;
-    const playerNum = parseInt(finishRowId[0]);
-    const finishPosition = finishRowId[1];
-    const heroId = draggableId.slice(1, draggableId.length);
-    let finishSynergy = gameState.rows[finishRowId].synergy;
-
-    // Apply card movement
-    dispatch({
-      type: ACTIONS.MOVE_CARD,
-      payload: {
-        targetCardId: draggableId,
-        startRowId: startRowId,
-        finishRowId: finishRowId,
-        startIndex: source.index,
-        finishIndex: destination.index,
-      },
-    });
-
-    // If not moving card within player's hand (i.e. moving into a row),
-    // Set new row synergy and set card to played
-    if (finishRowId[0] !== "p") {
-      // Play intro audio
-      try {
-        const introAudio = new Audio(
-          require(`assets/audio/${heroId}-intro.mp3`).default
-        );
-        introAudio.play();
-      } catch (err) {
-        console.log("No intro audio available");
-      }
-
-      // Set new row synergy
-      const addSynergy =
-        gameState.playerCards[`player${playerNum}cards`].cards[draggableId]
-          .synergy[finishPosition];
-
-      dispatch({
-        type: ACTIONS.UPDATE_SYNERGY,
-        payload: {
-          rowId: finishRowId,
-          synergyCost: addSynergy,
-        },
-      });
-
-      // Set card to played
-      dispatch({
-        type: ACTIONS.EDIT_CARD,
-        payload: {
-          playerNum: playerNum,
-          targetCardId: draggableId,
-          editKeys: ["isPlayed", "synergy"],
-          editValues: [true, { f: 0, m: 0, b: 0 }],
-        },
-      });
-
-      dispatch({
-        type: ACTIONS.UPDATE_ROW,
-        payload: {
-          targetRow: `player${playerNum}hand`,
-          updateKeys: ["cardsPlayed"],
-          updateValues: [1],
-        },
-      });
-    }
-    return;
-  }
-
-
   // End the round and update match scores when both players have passed their turn
   useEffect(() => {
     // Set ref to current match state, alter ref within endRound(), then call setMatchState once using ref as new state
@@ -553,6 +496,88 @@ export default function App() {
     }
   }, [turnState, gameState.rows, matchState]);
 
+  /*
+  // Display a message to signify the round starting
+  useEffect(() => {
+    alert(`Round ${matchState.player1.wins + matchState.player2.wins + 1} begins!`)
+  }, [matchState.player1, matchState.player2]);
+  */
+
+  // Handle card dragging 
+  function handleOnDragEnd(result) {
+    const { destination, source, draggableId } = result;
+    if (!destination) return;
+
+    // Get card movement data
+    const startRowId = source.droppableId;
+    const finishRowId = destination.droppableId;
+    const playerNum = parseInt(finishRowId[0]);
+    const finishPosition = finishRowId[1];
+    const heroId = draggableId.slice(1, draggableId.length);
+    let finishSynergy = gameState.rows[finishRowId].synergy;
+
+    // Apply card movement
+    dispatch({
+      type: ACTIONS.MOVE_CARD,
+      payload: {
+        targetCardId: draggableId,
+        startRowId: startRowId,
+        finishRowId: finishRowId,
+        startIndex: source.index,
+        finishIndex: destination.index,
+      },
+    });
+
+    // If not moving card within player's hand (i.e. moving into a row),
+    // Set new row synergy and set card to played
+    if (finishRowId[0] !== "p") {
+      // Play intro audio
+      try {
+        const introAudio = new Audio(
+          require(`assets/audio/${heroId}-intro.mp3`).default
+        );
+        introAudio.play();
+      } catch (err) {
+        console.log("No intro audio available");
+      }
+
+      // Set new row synergy
+      const addSynergy =
+        gameState.playerCards[`player${playerNum}cards`].cards[draggableId]
+          .synergy[finishPosition];
+
+      dispatch({
+        type: ACTIONS.UPDATE_SYNERGY,
+        payload: {
+          rowId: finishRowId,
+          synergyCost: addSynergy,
+        },
+      });
+
+      // Set card as played and reduce synergy to 0 (so future moves dont also add synergy)
+      dispatch({
+        type: ACTIONS.EDIT_CARD,
+        payload: {
+          playerNum: playerNum,
+          targetCardId: draggableId,
+          editKeys: ["isPlayed", "synergy"],
+          editValues: [true, { f: 0, m: 0, b: 0 }],
+        },
+      });
+
+      // Keep track of how many cards have been played
+      dispatch({
+        type: ACTIONS.UPDATE_ROW,
+        payload: {
+          targetRow: `player${playerNum}hand`,
+          updateKeys: ["cardsPlayed"],
+          updateValues: [1],
+        },
+      });
+    }
+    return;
+  }
+  
   
   return (
     <div>
