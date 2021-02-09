@@ -1045,7 +1045,7 @@ export default function HeroAbilities(props) {
       ability2: {
         audioFile: "roadhog-hogwild",
         synergyCost: 3,
-        run() {
+        async run() {
           // TODO
           // Get target info
           const enemyPlayer = playerNum === 1 ? 2 : 1;
@@ -1110,31 +1110,33 @@ export default function HeroAbilities(props) {
             alert(
               `${remainingDamage} left over. Choose who should receive it! (1 damage per click)`
             );
-
-            return new Promise((resolve, reject) => {
-              $(".card").on("click", (e) => {
-                const targetCard = $(e.target).closest(".card").attr("id");
-                const targetRow = $(e.target).closest(".row").attr("id");
-
-                $(".card").off("click");
-
-                // Check target is valid
-                if (
-                  targetRow[0] === "p" ||
-                  parseInt(targetRow[0]) === playerNum
-                ) {
-                  reject("Incorrect target row");
-                  return;
-                }
-
-                while (remainingDamage > 0) {
-                  applyDamage(1, targetCard, targetRow);
-                  remainingDamage--;
-                }
-
-                resolve();
+            
+            // Define the function that will apply remaining damage
+            const applyRemainingDamage = () => {
+              return new Promise((resolve, reject) => {
+                $(".card").on("click", (e) => {
+                  const targetCard = $(e.target).closest(".card").attr("id");
+                  const targetRow = $(e.target).closest(".row").attr("id");
+  
+                  $(".card").off("click");
+  
+                  // Check target is valid
+                  if (targetRow[0] === "p" || parseInt(targetRow[0]) === playerNum) {
+                    reject("Incorrect target row");
+                    return;
+                  }
+  
+                  applyDamage(1, targetCard, targetRow);                
+                  resolve();
+                });
               });
-            });
+            }
+
+            do {
+              await applyRemainingDamage();
+              remainingDamage--;
+            } while (remainingDamage > 0)
+
           }
         },
       },
