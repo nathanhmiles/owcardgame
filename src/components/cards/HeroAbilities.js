@@ -37,20 +37,18 @@ export default function HeroAbilities(props) {
   // Applies damage to either shields or health as needed, returning both the shield and health value
   // TODO: currently only damage has its own function that sets state, all other state
   // TODO: is set within the hero's ability
-  function applyDamage(damageValue, targetCardId, targetRow) {
+  function applyDamage(damageValue, targetCardId, targetRow, ignoreShields=false) {
     // Identify target player
     const targetPlayerNum = parseInt(targetCardId[0]);
     const targetPlayerCards =
       gameState.playerCards[`player${targetPlayerNum}cards`].cards;
-
-      console.log(targetPlayerCards)
 
     // Get hero health and shield values
     let targetHealth = targetPlayerCards[targetCardId].health;
     let targetShield = targetPlayerCards[targetCardId].shield;
     let targetRowShield = gameState.rows[targetRow].shield;
 
-    // TODO: check effects that alter damage
+    // *** EFFECTS ***
     // Check ally and enemy row effects that apply to damage
     const targetRowAllyEffects = gameState.rows[targetRow].allyEffects.filter(
       (effect) => effect.type === "damage"
@@ -91,6 +89,7 @@ export default function HeroAbilities(props) {
       damageValue += totalEffect;
     }
 
+    // *** UPDATE REF ****
     // If the target has already been targeted during this ability, update with current values
     // Needed because gameState is only updated once the entire ability is finished, so
     // we need useRef in order to keep track of the damaged hero's changing health/shield value
@@ -105,11 +104,12 @@ export default function HeroAbilities(props) {
     // Initialise ref if not been used yet during this ability
     targetRef.current[targetCardId] = {};
 
+    // *** APPLY DAMAGE ***
     try {
       // Decrement the target's health/shield/rowshield as needed
       for (let i = 0; i < damageValue; i++) {
         // Damage row shield before all else, and update ref
-        if (targetRowShield > 0) {
+        if (targetRowShield > 0 && ignoreShields === false) {
           targetRowShield -= 1;
   
           targetRef.current[targetRow] = {};
@@ -125,7 +125,7 @@ export default function HeroAbilities(props) {
           return;
   
           // Damage hero shield before health, and update ref
-        } else if (targetShield > 0) {
+        } else if (targetShield > 0 && ignoreShields === false) {
           targetShield -= 1;
           targetRef.current[targetCardId]["shield"] = targetShield;
   
@@ -206,43 +206,45 @@ export default function HeroAbilities(props) {
           return new Promise((resolve, reject) => {
             // When a row is clicked
             $(".row").on("click", (e) => {
-              
               // Get target information
               const targetRow = $(e.target).closest(".row").attr("id");
               const rowPosition = targetRow[1];
-              
+
               // Remove the onclick
               $(".row").off("click");
-              
+
               // Check target is valid
               if (targetRow[0] === "p") {
                 reject("Incorrect target");
                 return;
               }
-              
+
               const enemyPlayer = playerNum === 1 ? 2 : 1;
-              const playerRowCardIds = gameState.rows[`${playerNum}${rowPosition}`].cardIds;
+              const playerRowCardIds =
+                gameState.rows[`${playerNum}${rowPosition}`].cardIds;
               const enemyPlayerRowCardIds =
                 gameState.rows[`${enemyPlayer}${rowPosition}`].cardIds;
-    
+
               const damageValue = 1;
               const healValue = 1;
-    
+
               // Heal own player cards
               for (let cardId of playerRowCardIds) {
                 applyHealing(healValue, cardId);
               }
-    
+
               // Damage enemy cards
               for (let cardId of enemyPlayerRowCardIds) {
-                applyDamage(damageValue, cardId, `${enemyPlayer}${rowPosition}`);
+                applyDamage(
+                  damageValue,
+                  cardId,
+                  `${enemyPlayer}${rowPosition}`
+                );
               }
-              
+
               resolve();
             });
-
           });
-
         },
       },
       ability2: {
@@ -250,15 +252,12 @@ export default function HeroAbilities(props) {
         audioFile: "ana-ult",
         run() {
           const currentRowAllyNumber = gameState.rows[rowId].cardIds.length;
-          const effectId = 'anaUltimateEffect';
+          const effectId = "anaUltimateEffect";
 
           // TODO: ensure ana's ultimate can be removed by hack/EMP
-
-        }
+        },
       },
-      anaUltimateEffect: {
-
-      },
+      anaUltimateEffect: {},
     },
     ashe: {
       ability1: {
@@ -285,7 +284,7 @@ export default function HeroAbilities(props) {
               playerHeroId: `${playerNum}bob`,
             },
           });
-        }
+        },
       },
     },
     baptiste: {
@@ -302,6 +301,44 @@ export default function HeroAbilities(props) {
       ability2: {
         synergyCost: 3,
         audioFile: "bastion-ult",
+        run() {
+          return new Promise((resolve, reject) => {
+            $(".card").on("click", (e) => {
+              const targetCardId = $(e.target).closest(".card").attr("id");
+              const targetCardIndex = $(e.target).closest("li").index();
+              const enemyPlayer = parseInt(targetCardId[0]);
+              const targetCardRow = $(e.target).closest(".row").attr("id");
+
+              $(".card").off("click");
+
+              // Check target is valid
+              if (
+                targetCardRow[0] === "p" ||
+                parseInt(targetCardRow[0]) === playerNum
+              ) {
+                reject("Incorrect target row");
+                return;
+              }
+
+              // Get adjacent enemy target info
+              const adjacentEnemy1 =
+                gameState.rows[targetCardRow].cardIds[targetCardIndex - 1];
+              const adjacentEnemy2 =
+                gameState.rows[targetCardRow].cardIds[targetCardIndex + 1];
+
+              // Apply 3 damage to target, and 1 damage to enemies adjacent to target
+              applyDamage(3, targetCardId, targetCardRow);
+              if (adjacentEnemy1 !== undefined) {
+                applyDamage(1, adjacentEnemy1, targetCardRow);
+              }
+              if (adjacentEnemy2 !== undefined) {
+                applyDamage(1, adjacentEnemy2, targetCardRow);
+              }
+
+              resolve();
+            });
+          });
+        },
       },
     },
     bob: {
@@ -368,8 +405,57 @@ export default function HeroAbilities(props) {
         },
       },
       ability2: {
+        // TODO:
+        /*
+        Doomfist's ability2 is exactly the same as bastion's. To differntiate them, and add a little
+        more flavour to doomfist's card, ability2 could move doomfist to the opposite row that
+        he targeted (i.e. click on an enemy in the middle row, damage the target and adjacent enemies,
+        and also move doomfist to your middle row). This would be a double edge sword, as sometimes
+        you may not want to move doomfist into the row that you want to target.
+        The ability could also give doomfist a certain amount of shield for himself. 
+        To balance this, the damage should probably be nerfed, probably 2 damage
+        to the target, and keep 1 to the adjacent enemies
+        */
         synergyCost: 3,
         audioFile: "doomfist-ult",
+        run() {
+          return new Promise((resolve, reject) => {
+            $(".card").on("click", (e) => {
+              const targetCardId = $(e.target).closest(".card").attr("id");
+              const targetCardIndex = $(e.target).closest("li").index();
+              const enemyPlayer = parseInt(targetCardId[0]);
+              const targetCardRow = $(e.target).closest(".row").attr("id");
+
+              $(".card").off("click");
+
+              // Check target is valid
+              if (
+                targetCardRow[0] === "p" ||
+                parseInt(targetCardRow[0]) === playerNum
+              ) {
+                reject("Incorrect target row");
+                return;
+              }
+
+              // Get adjacent enemy target info
+              const adjacentEnemy1 =
+                gameState.rows[targetCardRow].cardIds[targetCardIndex - 1];
+              const adjacentEnemy2 =
+                gameState.rows[targetCardRow].cardIds[targetCardIndex + 1];
+
+              // Apply 3 damage to target, and 1 damage to enemies adjacent to target
+              applyDamage(3, targetCardId, targetCardRow);
+              if (adjacentEnemy1 !== undefined) {
+                applyDamage(1, adjacentEnemy1, targetCardRow);
+              }
+              if (adjacentEnemy2 !== undefined) {
+                applyDamage(1, adjacentEnemy2, targetCardRow);
+              }
+
+              resolve();
+            });
+          });
+        },
       },
     },
     dva: {
@@ -584,7 +670,7 @@ export default function HeroAbilities(props) {
               }
 
               // Apply effect
-              const effectId = 'hanzoEnemyEffect';
+              const effectId = "hanzoEnemyEffect";
               dispatch({
                 type: ACTIONS.ADD_ROW_EFFECT,
                 payload: {
@@ -654,21 +740,23 @@ export default function HeroAbilities(props) {
           return new Promise((resolve, reject) => {
             // When a row is clicked
             $(".row").on("click", (e) => {
-              
               // Get target information
               const targetRow = $(e.target).closest(".row").attr("id");
-              
+
               // Remove the onclick
               $(".row").off("click");
-              
+
               // Check target is valid
-              if (targetRow[0] === "p" ||parseInt(targetRow[0]) !== playerNum) {
+              if (
+                targetRow[0] === "p" ||
+                parseInt(targetRow[0]) !== playerNum
+              ) {
                 reject("Incorrect target");
                 return;
               }
-                
+
               // Effect id
-              const effectId = 'lucioAllyEffect';
+              const effectId = "lucioAllyEffect";
               // Apply effect
               dispatch({
                 type: ACTIONS.ADD_ROW_EFFECT,
@@ -682,7 +770,7 @@ export default function HeroAbilities(props) {
               resolve();
             });
           });
-        }
+        },
       },
       ability2: {
         audioFile: "lucio-ult",
@@ -750,7 +838,10 @@ export default function HeroAbilities(props) {
               $(".row").off("click");
 
               // Check target is valid
-              if (targetRow[0] === "p" || parseInt(targetRow[0]) === playerNum) {
+              if (
+                targetRow[0] === "p" ||
+                parseInt(targetRow[0]) === playerNum
+              ) {
                 reject("Incorrect target row");
                 return;
               }
@@ -765,7 +856,9 @@ export default function HeroAbilities(props) {
 
               // Apply damange
               const totalDamage = 6;
-              const damagePerEnemy = Math.floor(totalDamage / targetRowCardIds.length);
+              const damagePerEnemy = Math.floor(
+                totalDamage / targetRowCardIds.length
+              );
               let damageDone = 0;
               targetRowCardIds.forEach((cardId) => {
                 applyDamage(damagePerEnemy, cardId, targetRow);
@@ -778,32 +871,37 @@ export default function HeroAbilities(props) {
                 alert(
                   `${remainingDamage} left over. Choose who should receive it! (1 damage per click)`
                 );
-                
+
                 // Define the function that will apply remaining damage
                 const applyRemainingDamage = () => {
                   return new Promise((resolve, reject) => {
                     $(".card").on("click", (e) => {
-                      const targetCard = $(e.target).closest(".card").attr("id");
+                      const targetCard = $(e.target)
+                        .closest(".card")
+                        .attr("id");
                       const targetRow = $(e.target).closest(".row").attr("id");
-      
+
                       $(".card").off("click");
-      
+
                       // Check target is valid
-                      if (targetRow[0] === "p" || parseInt(targetRow[0]) === playerNum) {
+                      if (
+                        targetRow[0] === "p" ||
+                        parseInt(targetRow[0]) === playerNum
+                      ) {
                         reject("Incorrect target row");
                         return;
                       }
-      
-                      applyDamage(1, targetCard, targetRow);                
+
+                      applyDamage(1, targetCard, targetRow);
                       resolve();
                     });
                   });
-                }
-    
+                };
+
                 do {
                   await applyRemainingDamage();
                   remainingDamage--;
-                } while (remainingDamage > 0)
+                } while (remainingDamage > 0);
               }
 
               resolve();
@@ -833,23 +931,26 @@ export default function HeroAbilities(props) {
               const targetCardId = $(e.target).closest(".card").attr("id");
               const targetRow = $(e.target).closest(".row").attr("id");
 
-              console.log(targetRow)
+              console.log(targetRow);
 
               // Remove click event from all cards
               $(".card").off("click");
 
               // Check target is valid
-              if (targetRow[0] === "p" || parseInt(targetRow[0]) !== playerNum) {
+              if (
+                targetRow[0] === "p" ||
+                parseInt(targetRow[0]) !== playerNum
+              ) {
                 reject("Incorrect target");
                 return;
               }
 
-              // Apply effect 
+              // Apply effect
               // TODO: find way to decide between the two mercy ally effects - currently only healing effect is implemented
-              let effectId = 'mercyAllyEffect1';
+              let effectId = "mercyAllyEffect1";
 
               // Harmony orb applies healing immediately, as well as over time
-              if (effectId === 'mercyAllyEffect1') {
+              if (effectId === "mercyAllyEffect1") {
                 const healingValue = 2;
                 applyHealing(healingValue, targetCardId);
               }
@@ -884,6 +985,75 @@ export default function HeroAbilities(props) {
     moira: {
       ability1: {
         audioFile: "moira-grasp",
+        run() {
+          // Carry out first stage of ability1 - i.e. damage or heal
+          return new Promise((resolve, reject) => {
+            $(".card").on("click", async (e) => {
+              const targetCardId = $(e.target).closest(".card").attr("id");
+              const targetCardIndex = $(e.target).closest("li").index();
+              const enemyPlayer = parseInt(targetCardId[0]);
+              const targetCardRow = $(e.target).closest(".row").attr("id");
+
+              $(".card").off("click");
+
+              // Check target is valid
+              if (targetCardRow[0] === "p") {
+                reject("Incorrect target row");
+                return;
+              }
+
+              let targetedPlayer;
+              // If targeting an ally apply heal, else apply damage
+              if (parseInt(targetCardRow[0]) === playerNum) {
+                applyHealing(2, targetCardId);
+                targetedPlayer = "ally";
+              } else {
+                const damageValue = 2;
+                applyDamage(damageValue, targetCardId, targetCardRow, true);
+                targetedPlayer = "enemy";
+              }
+
+              // Carry out the second stage - i.e. damage or healing, whichever wasnt already done
+              function moiraAbility1Stage2() {
+                return new Promise((resolve, reject) => {
+                  $(".card").on("click", (e) => {
+                    const targetCardId = $(e.target)
+                      .closest(".card")
+                      .attr("id");
+                    const targetCardRow = $(e.target)
+                      .closest(".row")
+                      .attr("id");
+
+                    $(".card").off("click");
+
+                    // Check target is valid
+                    if (targetCardRow[0] === "p") {
+                      reject("Incorrect target row");
+                      return;
+                    }
+
+                    if (targetedPlayer === "ally") {
+                      const damageValue = 2;
+                      applyDamage(
+                        damageValue,
+                        targetCardId,
+                        targetCardRow,
+                        true
+                      );
+                    } else {
+                      applyHealing(2, targetCardId);
+                    }
+
+                    resolve();
+                  });
+                });
+              }
+              await moiraAbility1Stage2();
+
+              resolve();
+            });
+          });
+        },
       },
       ability2: {
         synergyCost: 3,
@@ -1049,7 +1219,6 @@ export default function HeroAbilities(props) {
               targetCardRow: rowId,
             },
           });
-
         },
       },
     },
@@ -1189,33 +1358,35 @@ export default function HeroAbilities(props) {
             alert(
               `${remainingDamage} left over. Choose who should receive it! (1 damage per click)`
             );
-            
+
             // Define the function that will apply remaining damage
             const applyRemainingDamage = () => {
               return new Promise((resolve, reject) => {
                 $(".card").on("click", (e) => {
                   const targetCard = $(e.target).closest(".card").attr("id");
                   const targetRow = $(e.target).closest(".row").attr("id");
-  
+
                   $(".card").off("click");
-  
+
                   // Check target is valid
-                  if (targetRow[0] === "p" || parseInt(targetRow[0]) === playerNum) {
+                  if (
+                    targetRow[0] === "p" ||
+                    parseInt(targetRow[0]) === playerNum
+                  ) {
                     reject("Incorrect target row");
                     return;
                   }
-  
-                  applyDamage(1, targetCard, targetRow);                
+
+                  applyDamage(1, targetCard, targetRow);
                   resolve();
                 });
               });
-            }
+            };
 
             do {
               await applyRemainingDamage();
               remainingDamage--;
-            } while (remainingDamage > 0)
-
+            } while (remainingDamage > 0);
           }
         },
       },
@@ -1269,7 +1440,10 @@ export default function HeroAbilities(props) {
               $(".row").off("click");
 
               // Check target is valid
-              if (targetRow[0] === "p" || parseInt(targetRow[0]) === playerNum) {
+              if (
+                targetRow[0] === "p" ||
+                parseInt(targetRow[0]) === playerNum
+              ) {
                 reject("Incorrect target row");
                 return;
               }
@@ -1308,15 +1482,13 @@ export default function HeroAbilities(props) {
         audioFile: "soldier-teamheal",
         run() {
           // Get target info
-          const playerRowCardIds =
-            gameState.rows[rowId].cardIds;
+          const playerRowCardIds = gameState.rows[rowId].cardIds;
 
           // Damage enemy cards
           const healValue = 1;
           for (let cardId of playerRowCardIds) {
             applyHealing(healValue, cardId);
           }
-
         },
       },
       ability2: {
@@ -1350,7 +1522,10 @@ export default function HeroAbilities(props) {
               $(".card").off("click");
 
               // Check target is valid
-              if (targetCardRow[0] === "p" || parseInt(targetCardRow[0]) !== playerNum) {
+              if (
+                targetCardRow[0] === "p" ||
+                parseInt(targetCardRow[0]) !== playerNum
+              ) {
                 reject("Incorrect target row");
                 return;
               }
@@ -1392,10 +1567,10 @@ export default function HeroAbilities(props) {
                 type: ACTIONS.UPDATE_ROW,
                 payload: {
                   targetRow: `player${playerNum}hand`,
-                  updateKeys: ['cardsPlayed'],
+                  updateKeys: ["cardsPlayed"],
                   updateValues: [-1],
-                }
-              })
+                },
+              });
 
               resolve();
             });
@@ -1407,10 +1582,15 @@ export default function HeroAbilities(props) {
         synergyCost: 3,
         run() {
           const playerBackRowCardIds = gameState.rows[`${playerNum}b`].cardIds;
-          const playerMiddleRowCardIds = gameState.rows[`${playerNum}m`].cardIds;
+          const playerMiddleRowCardIds =
+            gameState.rows[`${playerNum}m`].cardIds;
           const playerFrontRowCardIds = gameState.rows[`${playerNum}f`].cardIds;
 
-          const playerCards = [playerBackRowCardIds, playerMiddleRowCardIds, playerFrontRowCardIds];
+          const playerCards = [
+            playerBackRowCardIds,
+            playerMiddleRowCardIds,
+            playerFrontRowCardIds,
+          ];
 
           // Add shield to all ally cards
           for (let row of playerCards) {
@@ -1427,7 +1607,6 @@ export default function HeroAbilities(props) {
               });
             }
           }
-
         },
       },
     },
@@ -1444,14 +1623,17 @@ export default function HeroAbilities(props) {
               $(".row").off("click");
 
               // Check target is valid
-              if (targetRow[0] === "p" || parseInt(targetRow[0]) === playerNum) {
+              if (
+                targetRow[0] === "p" ||
+                parseInt(targetRow[0]) === playerNum
+              ) {
                 reject("Incorrect target");
                 return;
               }
 
               // Apply effect
-              const effectId = 'torbjornEnemyEffect';
-              const heroId = 'torbjorn';
+              const effectId = "torbjornEnemyEffect";
+              const heroId = "torbjorn";
               dispatch({
                 type: ACTIONS.ADD_ROW_EFFECT,
                 payload: {
@@ -1478,49 +1660,55 @@ export default function HeroAbilities(props) {
             payload: {
               playerNum: playerNum,
               targetCardId: heroId,
-              editKeys: ['effects.torbjornEnemyEffect.value'],
+              editKeys: ["effects.torbjornEnemyEffect.value"],
               editValues: [newTurretDamage],
-            }
+            },
           });
-        }
+        },
       },
       torbjornEnemyEffect: {
         run(rowId) {
-          console.log(`enemyplayer is ${enemyPlayerNum}`)
-          console.log(gameState.playerCards[`player${enemyPlayerNum}cards`].cards)
+          console.log(`enemyplayer is ${enemyPlayerNum}`);
+          console.log(
+            gameState.playerCards[`player${enemyPlayerNum}cards`].cards
+          );
           // Get enemies in target row
           const targetPlayer = parseInt(rowId[0]);
           const torbPlayer = targetPlayer === 1 ? 2 : 1;
-          const rowEnemies = gameState.rows[rowId].cardIds.filter(cardId => {
-            if (gameState.playerCards[`player${targetPlayer}cards`].cards[cardId].health > 0) {
+          const rowEnemies = gameState.rows[rowId].cardIds.filter((cardId) => {
+            if (
+              gameState.playerCards[`player${targetPlayer}cards`].cards[cardId]
+                .health > 0
+            ) {
               return cardId;
             } else return null;
           });
-          console.log(rowEnemies)
 
-          const turretDamage = gameState.playerCards[`player${torbPlayer}cards`].cards[
-            `${torbPlayer}torbjorn`].effects.torbjornEnemyEffect.value;
+          const turretDamage =
+            gameState.playerCards[`player${torbPlayer}cards`].cards[
+              `${torbPlayer}torbjorn`
+            ].effects.torbjornEnemyEffect.value;
           const maxTargets = 2;
 
           // If there are no enemies in the target row, do nothing
           if (rowEnemies.length === 0) {
             return;
-          
+
             // If there is just one enemy, attach that enemy once
           } else if (rowEnemies.length === 1) {
             applyDamage(turretDamage, rowEnemies[0], rowId);
 
-          // If there are several enemies, attack two at random
+            // If there are several enemies, attack two at random
           } else if (rowEnemies.length >= 2) {
             const attackedEnemies = [];
-            
+
             for (let i = 0; i < maxTargets; i++) {
               let target;
               do {
                 target = helper.getRandInt(0, rowEnemies.length);
-              } while (attackedEnemies.includes(target))
-              console.log(`target is ${target}`)
-              applyDamage(turretDamage, rowEnemies[target], rowId)
+              } while (attackedEnemies.includes(target));
+              console.log(`target is ${target}`);
+              applyDamage(turretDamage, rowEnemies[target], rowId);
               attackedEnemies.push(target);
             }
           }
@@ -1573,26 +1761,25 @@ export default function HeroAbilities(props) {
           return new Promise((resolve, reject) => {
             // When a row is clicked
             $(".row").on("click", (e) => {
-              
               // Get target information
               const targetRow = $(e.target).closest(".row").attr("id");
-              
+
               // Remove the onclick
               $(".row").off("click");
-              
+
               // Check target is valid
               if (
                 targetRow[0] === "p" ||
                 parseInt(targetRow[0]) === playerNum
-                ) {
-                  reject("Incorrect target");
-                  return;
-                }
-                
-                // Effect id
-                const effectId = 'widowmakerEnemyEffect';
-                // Apply effect
-                dispatch({
+              ) {
+                reject("Incorrect target");
+                return;
+              }
+
+              // Effect id
+              const effectId = "widowmakerEnemyEffect";
+              // Apply effect
+              dispatch({
                 type: ACTIONS.ADD_ROW_EFFECT,
                 payload: {
                   targetRow: targetRow,
@@ -1745,11 +1932,12 @@ export default function HeroAbilities(props) {
 
               // Apply ally/enemy effect depending on which card was clicked
               let effectId;
-              targetPlayer === playerNum ? effectId = 'zenyattaAllyEffect' :
-              effectId = 'zenyattaEnemyEffect';
+              targetPlayer === playerNum
+                ? (effectId = "zenyattaAllyEffect")
+                : (effectId = "zenyattaEnemyEffect");
 
               // Harmony orb applies healing immediately, as well as over time
-              if (effectId === 'zenyattaAllyEffect') {
+              if (effectId === "zenyattaAllyEffect") {
                 const healingValue = 1;
                 applyHealing(healingValue, targetCardId);
               }
