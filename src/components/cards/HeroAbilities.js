@@ -1973,6 +1973,20 @@ export default function HeroAbilities(props) {
     wreckingball: {
       ability1: {
         audioFile: "wreckingball-shields",
+        run() {
+          // Get number of enemies in opposite row
+          const oppositeRowEnemies = gameState.rows[`${enemyPlayerNum}${rowId[1]}`].cardIds;
+          const newShield = (1 + oppositeRowEnemies.length);
+          dispatch({
+            type: ACTIONS.UPDATE_CARD,
+            payload: {
+              playerNum: playerNum,
+              cardId: `${playerNum}wreckingball`,
+              updateKeys: ["shield"],
+              updateValues: [newShield],
+            },
+          });
+        },
       },
       ability2: {
         audioFile: "wreckingball-ult",
