@@ -297,6 +297,48 @@ export default function HeroAbilities(props) {
     baptiste: {
       ability1: {
         audioFile: "baptiste-notover",
+        run() {
+          return new Promise((resolve, reject) => {
+            $(".card").on("click", (e) => {
+              
+              // Get target info
+              const targetCardId = $(e.target).closest(".card").attr("id");
+              const targetCardIndex = $(e.target).closest("li").index();
+              const targetCardRow = $(e.target).closest(".row").attr("id");
+
+              // Remove onclick from all cards
+              $(".card").off("click");
+
+              // Check target is valid
+              if (targetCardRow[0] === "p") {
+                reject("Incorrect target row");
+                return;
+              }
+
+              // Get adjacent enemy target info
+              const adjacentTarget1 =
+                gameState.rows[targetCardRow].cardIds[targetCardIndex - 1];
+              const adjacentTarget2 =
+                gameState.rows[targetCardRow].cardIds[targetCardIndex + 1];
+              
+              const targets = [targetCardId, adjacentTarget1, adjacentTarget2];
+
+              // If target is enemy apply damage, if ally apply healing
+              if (parseInt(targetCardId[0]) === playerNum) {
+                targets.forEach(target => {
+                  if (target !== undefined) applyHealing(1, target, targetCardRow);
+                });
+              } else {
+                targets.forEach(target => {
+                  console.log(`attacking ${target}`)
+                  if (target !==undefined ) applyDamage(1, target, targetCardRow);
+                });
+              }
+
+              resolve();
+            });
+          });
+        },
       },
       ability2: {
         synergyCost: 3,
