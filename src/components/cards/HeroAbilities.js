@@ -1057,7 +1057,33 @@ export default function HeroAbilities(props) {
       },
       ability2: {
         synergyCost: 3,
+        maxTargets: 6,
         audioFile: "moira-ult",
+        run() {
+          return new Promise((resolve, reject) => {
+            $(".card").on("click", async (e) => {
+              const targetCardId = $(e.target).closest(".card").attr("id");
+              const targetCardRow = $(e.target).closest(".row").attr("id");
+
+              $(".card").off("click");
+
+              // Check target is valid
+              if (targetCardRow[0] === "p") {
+                reject("Incorrect target row");
+                return;
+              }
+
+              // If targeting an ally apply heal, else apply damage
+              if (parseInt(targetCardRow[0]) === playerNum) {
+                applyHealing(2, targetCardId);
+              } else {
+                applyDamage(2, targetCardId, targetCardRow, true);
+              }
+
+              resolve();
+            });
+          });
+        },
       },
     },
     orisa: {

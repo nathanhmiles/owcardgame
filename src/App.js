@@ -70,11 +70,10 @@ function reducer(gameState, action) {
       const effectId = action.payload.effectId;
       const rowShield = action.payload.rowShield;
 
-      // Get effect object from state
-      const playerNum = parseInt(playerHeroId[0]);
-
       return produce(gameState, (draft) => {
         if (effectId !== undefined) {
+          // Get effect object from state
+          const playerNum = parseInt(playerHeroId[0]);
           const rowEffect =
             gameState.playerCards[`player${playerNum}cards`].cards[playerHeroId]
               .effects[effectId];
