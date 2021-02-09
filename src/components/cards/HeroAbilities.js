@@ -43,6 +43,8 @@ export default function HeroAbilities(props) {
     const targetPlayerCards =
       gameState.playerCards[`player${targetPlayerNum}cards`].cards;
 
+      console.log(targetPlayerCards)
+
     // Get hero health and shield values
     let targetHealth = targetPlayerCards[targetCardId].health;
     let targetShield = targetPlayerCards[targetCardId].shield;
@@ -103,38 +105,45 @@ export default function HeroAbilities(props) {
     // Initialise ref if not been used yet during this ability
     targetRef.current[targetCardId] = {};
 
-    // Decrement the target's health/shield/rowshield as needed
-    for (let i = 0; i < damageValue; i++) {
-      // Damage row shield before all else, and update ref
-      if (targetRowShield > 0) {
-        targetRowShield -= 1;
-
-        targetRef.current[targetRow] = {};
-        targetRef.current[targetRow]["shield"] = targetRowShield;
-
-        dispatch({
-          type: ACTIONS.ADD_ROW_EFFECT,
-          payload: {
-            targetRow: targetRow,
-            rowShield: targetRowShield,
-          },
-        });
-        return;
-
-        // Damage hero shield before health, and update ref
-      } else if (targetShield > 0) {
-        targetShield -= 1;
-        targetRef.current[targetCardId]["shield"] = targetShield;
-
-        // Damage hero health and update ref
-      } else if (targetHealth > 0) {
-        targetHealth -= 1;
-        targetRef.current[targetCardId]["health"] = targetHealth;
-        targetHealth = Math.max(0, targetHealth);
-      } else {
-        console.log("target at 0 health");
-        return;
+    try {
+      // Decrement the target's health/shield/rowshield as needed
+      for (let i = 0; i < damageValue; i++) {
+        // Damage row shield before all else, and update ref
+        if (targetRowShield > 0) {
+          targetRowShield -= 1;
+  
+          targetRef.current[targetRow] = {};
+          targetRef.current[targetRow]["shield"] = targetRowShield;
+  
+          dispatch({
+            type: ACTIONS.ADD_ROW_EFFECT,
+            payload: {
+              targetRow: targetRow,
+              rowShield: targetRowShield,
+            },
+          });
+          return;
+  
+          // Damage hero shield before health, and update ref
+        } else if (targetShield > 0) {
+          targetShield -= 1;
+          targetRef.current[targetCardId]["shield"] = targetShield;
+  
+          // Damage hero health and update ref
+        } else if (targetHealth > 0) {
+          targetHealth -= 1;
+          targetRef.current[targetCardId]["health"] = targetHealth;
+          targetHealth = Math.max(0, targetHealth);
+        } else if (targetHealth === 0) {
+          console.log('target health is 0')
+          return;
+        } else {
+          throw new Error(`${targetCardId} is at ${targetHealth} health`);
+        }
       }
+
+    } catch(err) {
+      console.log(err);
     }
 
     // Set the new state (will be done in batch at the end of the ability)
@@ -1095,10 +1104,12 @@ export default function HeroAbilities(props) {
             enemyFrontRowCards.length;
           const damageValue = Math.floor(totalDamage / totalEnemyCards);
           let damageDone = 0;
-          for (let row of enemyRows) {
-            for (let cardId of row) {
-              applyDamage(damageValue, cardId, row.id);
-              damageDone += damageValue;
+          if (damageValue > 0) {
+            for (let row of enemyRows) {
+              for (let cardId of row) {
+                applyDamage(damageValue, cardId, row.id);
+                damageDone += damageValue;
+              }
             }
           }
 
