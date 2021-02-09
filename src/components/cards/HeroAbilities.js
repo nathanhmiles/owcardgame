@@ -742,6 +742,74 @@ export default function HeroAbilities(props) {
       ability2: {
         audioFile: "mccree-ult",
         synergyCost: 3,
+        run() {
+          return new Promise((resolve, reject) => {
+            $(".row").on("click", async (e) => {
+              const targetRow = $(e.target).closest(".row").attr("id");
+
+              $(".row").off("click");
+
+              // Check target is valid
+              if (targetRow[0] === "p" || parseInt(targetRow[0]) === playerNum) {
+                reject("Incorrect target row");
+                return;
+              }
+
+              // Get all cards in the target row
+              const targetRowCardIds = $.map(
+                $(`#${targetRow} .card`),
+                function (card) {
+                  return card.id;
+                }
+              );
+
+              // Apply damange
+              const totalDamage = 6;
+              const damagePerEnemy = Math.floor(totalDamage / targetRowCardIds.length);
+              let damageDone = 0;
+              targetRowCardIds.forEach((cardId) => {
+                applyDamage(damagePerEnemy, cardId, targetRow);
+                damageDone += damagePerEnemy;
+              });
+
+              if (damageDone < totalDamage) {
+                let remainingDamage = totalDamage - damageDone;
+
+                alert(
+                  `${remainingDamage} left over. Choose who should receive it! (1 damage per click)`
+                );
+                
+                // Define the function that will apply remaining damage
+                const applyRemainingDamage = () => {
+                  return new Promise((resolve, reject) => {
+                    $(".card").on("click", (e) => {
+                      const targetCard = $(e.target).closest(".card").attr("id");
+                      const targetRow = $(e.target).closest(".row").attr("id");
+      
+                      $(".card").off("click");
+      
+                      // Check target is valid
+                      if (targetRow[0] === "p" || parseInt(targetRow[0]) === playerNum) {
+                        reject("Incorrect target row");
+                        return;
+                      }
+      
+                      applyDamage(1, targetCard, targetRow);                
+                      resolve();
+                    });
+                  });
+                }
+    
+                do {
+                  await applyRemainingDamage();
+                  remainingDamage--;
+                } while (remainingDamage > 0)
+              }
+
+              resolve();
+            });
+          });
+        },
       },
     },
     mei: {
@@ -1195,16 +1263,13 @@ export default function HeroAbilities(props) {
         audioFile: "sigma-ult",
         run() {
           return new Promise((resolve, reject) => {
-            $(".card").on("click", (e) => {
+            $(".row").on("click", (e) => {
               const targetRow = $(e.target).closest(".row").attr("id");
 
-              $(".card").off("click");
+              $(".row").off("click");
 
               // Check target is valid
-              if (
-                targetRow[0] === "p" ||
-                parseInt(targetRow[0]) === playerNum
-              ) {
+              if (targetRow[0] === "p" || parseInt(targetRow[0]) === playerNum) {
                 reject("Incorrect target row");
                 return;
               }
