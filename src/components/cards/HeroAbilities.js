@@ -175,11 +175,15 @@ export default function HeroAbilities(props) {
     // Initialise ref if not been used yet during this ability
     targetRef.current[targetCardId] = {};
 
+    // Track amount of healing done
+    let healingDone = 0;
+
     // Increment health value
     if (targetHealth !== 0) {
       for (let i = 0; i < healingValue; i++) {
         if (targetHealth < targetMaxHealth) {
           targetHealth += 1;
+          healingDone += 1;
           targetRef.current[targetCardId]["health"] = targetHealth;
         }      
       }
@@ -194,7 +198,10 @@ export default function HeroAbilities(props) {
         },
       });
     }
-    return;
+
+    // Return remaining healing left over for possible later use
+    const remainingHealing = healingValue - healingDone;
+    return remainingHealing;
   }
 
   // Abilities data
@@ -350,6 +357,44 @@ export default function HeroAbilities(props) {
     brigitte: {
       ability1: {
         audioFile: "brigitte-armour",
+        run() {
+          return new Promise((resolve, reject) => {
+            $(".card").on("click", (e) => {
+              // Get target info
+              const targetCardId = $(e.target).closest(".card").attr("id");
+              const targetRow = $(e.target).closest(".row").attr("id");
+
+              // Remove onclick
+              $(".card").off("click");
+
+              // Check target is valid
+              if (targetRow[0] === "p" || parseInt(targetRow[0]) !== playerNum) {
+                reject("Incorrect target");
+                return;
+              }
+
+              // Apply heal to the target card
+              const healValue = 3;
+              const remainingHealing = applyHealing(healValue, targetCardId);
+
+              // Apply remaining healing as shield
+              if (remainingHealing > 0) {
+                const shieldValue = remainingHealing;
+                dispatch({
+                  type: ACTIONS.UPDATE_CARD,
+                  payload: {
+                    playerNum: playerNum,
+                    cardId: targetCardId,
+                    updateKeys: ["shield"],
+                    updateValues: [shieldValue],
+                  },
+                });
+              }
+
+              resolve();
+            });
+          });
+        },
       },
       ability2: {
         synergyCost: 3,
@@ -1949,10 +1994,7 @@ export default function HeroAbilities(props) {
               $(".card").off("click");
 
               // Check target is valid
-              if (
-                targetRow[0] === "p" ||
-                parseInt(targetRow[0]) !== playerNum
-              ) {
+              if (targetRow[0] === "p" || parseInt(targetRow[0]) !== playerNum) {
                 reject("Incorrect target");
                 return;
               }
