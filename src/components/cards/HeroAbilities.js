@@ -1879,6 +1879,50 @@ export default function HeroAbilities(props) {
       ability2: {
         audioFile: "winston-angry",
         synergyCost: 3,
+        run() {
+          return new Promise((resolve, reject) => {
+            $(".row").on("click", (e) => {
+              const targetRowId = $(e.target).closest(".row").attr("id");
+              const winstonStartIndex = $(`#${playerNum}winston`).closest("li").index();
+              const newRowPosition = targetRowId[1];
+
+              $(".row").off("click");
+
+              // Check target is valid
+              if (targetRowId[0] === "p") {
+                reject("Incorrect target row");
+                return;
+              }
+
+                // Set state
+                dispatch({
+                  type: ACTIONS.MOVE_CARD,
+                  payload: {
+                    targetCardId: `${playerNum}winston`,
+                    startRowId: rowId,
+                    finishRowId: targetRowId,
+                    startIndex: winstonStartIndex,
+                    finishIndex: 0,
+                  },
+                });
+
+                // Get all cards in the target row
+              const targetRowCardIds = $.map(
+                $(`#${enemyPlayerNum}${newRowPosition} .card`), (card) => {
+                  return card.id;
+                }
+              );
+
+              // Apply damange
+              const damageValue = 2;
+              targetRowCardIds.forEach((cardId) => {
+                applyDamage(damageValue, cardId, targetRowId);
+              });
+
+              resolve();
+              });
+          });
+        },
       },
     },
     wreckingball: {
