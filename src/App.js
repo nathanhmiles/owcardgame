@@ -23,6 +23,7 @@ export const ACTIONS = {
   EDIT_CARD: "edit-card",
   EDIT_ROW: "edit-row",
   MOVE_CARD: "move-card",
+  REMOVE_EFFECTS: "remove-effects",
   SET_POWER: "set-power",
   SET_SYNERGY: "set-synergy",
   UPDATE_CARD: "update-card",
@@ -204,7 +205,6 @@ function reducer(gameState, action) {
 
     // Sets player power
     case ACTIONS.SET_POWER: {
-      // Required variables
       const playerNum = action.payload.playerNum;
       const rowPosition = action.payload.rowPosition;
       const powerValue = action.payload.powerValue;
@@ -216,7 +216,6 @@ function reducer(gameState, action) {
 
     // Sets row synergy
     case ACTIONS.SET_SYNERGY: {
-      // Required variables
       const rowId = action.payload.rowId;
       const newSynergyVal = action.payload.newSynergyVal;
 

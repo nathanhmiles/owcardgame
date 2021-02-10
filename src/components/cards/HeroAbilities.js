@@ -1627,20 +1627,89 @@ export default function HeroAbilities(props) {
           return new Promise((resolve, reject) => {
             $(".card").on("click", (e) => {
               // Get target info
-              const targetCardId = $(e.target).closest(".card").attr("id");
-              const targetCardIndex = $(e.target).closest("li").index();
-              const targetCardRow = $(e.target).closest(".row").attr("id");
+              const teleportCardId = $(e.target).closest(".card").attr("id");
+              const teleportCardIndex = $(e.target).closest("li").index();
+              const teleportCardRow = $(e.target).closest(".row").attr("id");
 
               // Remove onclick from all cards
               $(".card").off("click");
 
               // Check target is valid
-              if (
-                targetCardRow[0] === "p" ||
-                parseInt(targetCardRow[0]) !== playerNum
-              ) {
+              if (teleportCardRow[0] === "p" || parseInt(teleportCardRow[0]) !== playerNum) {
                 reject("Incorrect target row");
                 return;
+              }
+
+              // Check if target effect is applied to any row, if so remove effect
+              for (let key in gameState.rows) {
+                if (key[0] !== 'p') {
+                  const targetPlayer = parseInt(key[0]);
+
+                  console.log(`key is ${key}`)
+                  console.log(JSON.stringify(gameState.rows[key]))
+
+                  for (let effect of gameState.rows[key].allyEffects) {
+                    if (effect.playerHeroId === teleportCardId) {
+                      const newRow = gameState.rows[key].allyEffects.filter(effect => effect.playerHeroId !== teleportCardId);
+                      dispatch({
+                        type: ACTIONS.EDIT_ROW,
+                        payload: {
+                          targetRow: key,
+                          editKeys: ['allyEffects'],
+                          editValues: [newRow],
+                        },
+                      });
+                    }
+                  }
+
+                  for (let effect of gameState.rows[key].enemyEffects) {
+                    if (effect.playerHeroId === teleportCardId) {
+                      const newRow = gameState.rows[key].enemyEffects.filter(effect => effect.playerHeroId !== teleportCardId);
+                      dispatch({
+                        type: ACTIONS.EDIT_ROW,
+                        payload: {
+                          targetRow: key,
+                          editKeys: ['enemyEffects'],
+                          editValues: [newRow],
+                        },
+                      });
+                    }
+                  }
+
+                  
+                  // Check if target's effect is applied to any card, if so remove
+                  for (let cardId of gameState.rows[key].cardIds) {
+                    for (let effect of gameState.playerCards[`player${targetPlayer}cards`].cards[cardId].allyEffects) {
+                      if (effect.playerHeroId === teleportCardId) {
+                        const newEffects = gameState.playerCards[`player${targetPlayer}cards`].cards[cardId].allyEffects.filter(effect => effect.playerHeroId !== teleportCardId)
+                        dispatch({
+                          type:   ACTIONS.EDIT_CARD,
+                          payload: {
+                            playerNum: targetPlayer,
+                            targetCardId: cardId,
+                            editKeys: ['allyEffects'],
+                            editValues: [newEffects],
+                          },
+                        });
+                      }
+                    }
+
+                    for (let effect of gameState.playerCards[`player${targetPlayer}cards`].cards[cardId].enemyEffects) {
+                      if (effect.playerHeroId === teleportCardId) {
+                        const newEffects = gameState.playerCards[`player${targetPlayer}cards`].cards[cardId].enemyEffects.filter(effect => effect.playerHeroId !== teleportCardId)
+                        dispatch({
+                          type:   ACTIONS.EDIT_CARD,
+                          payload: {
+                            playerNum: targetPlayer,
+                            targetCardId: cardId,
+                            editKeys: ['enemyEffects'],
+                            editValues: [newEffects],
+                          },
+                        });
+                      }
+                    }
+                  }
+                }
               }
 
               // Move target to playerhand
@@ -1648,10 +1717,10 @@ export default function HeroAbilities(props) {
               dispatch({
                 type: ACTIONS.MOVE_CARD,
                 payload: {
-                  targetCardId: targetCardId,
-                  startRowId: targetCardRow,
+                  targetCardId: teleportCardId,
+                  startRowId: teleportCardRow,
                   finishRowId: newRowId,
-                  startIndex: targetCardIndex,
+                  startIndex: teleportCardIndex,
                   finishIndex: 0,
                 },
               });
@@ -1669,11 +1738,12 @@ export default function HeroAbilities(props) {
                 type: ACTIONS.EDIT_CARD,
                 payload: {
                   playerNum: playerNum,
-                  targetCardId: targetCardId,
-                  editKeys: ["isPlayed"],
-                  editValues: [false],
+                  targetCardId: teleportCardId,
+                  editKeys: ['isPlayed', 'allyEffects', 'enemyEffects', 'shield'],
+                  editValues: [false, [], [], 0],
                 },
               });
+
 
               // Reduce number of cards played by player
               dispatch({
@@ -1837,17 +1907,13 @@ export default function HeroAbilities(props) {
             $(".card").on("click", (e) => {
               // Get target info
               const targetCardId = $(e.target).closest(".card").attr("id");
-              const targetPlayerNum = parseInt(targetCardId[0]);
               const targetRow = $(e.target).closest(".row").attr("id");
 
               // Remove onclick
               $(".card").off("click");
 
               // Check target is valid
-              if (
-                targetRow[0] === "p" ||
-                parseInt(targetRow[0]) === playerNum
-              ) {
+              if (targetRow[0] === "p" || parseInt(targetRow[0]) === playerNum) {
                 reject("Incorrect target");
                 return;
               }
@@ -1888,6 +1954,16 @@ export default function HeroAbilities(props) {
               startIndex: targetCardIndex,
               finishRowId: `player${playerNum}hand`,
               finishIndex: 0,
+            },
+          });
+
+          // Reduce number of cards played by player
+          dispatch({
+            type: ACTIONS.UPDATE_ROW,
+            payload: {
+              targetRow: `player${playerNum}hand`,
+              updateKeys: ["cardsPlayed"],
+              updateValues: [-1],
             },
           });
 
