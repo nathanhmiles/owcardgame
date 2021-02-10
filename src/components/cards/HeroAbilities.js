@@ -1822,6 +1822,34 @@ export default function HeroAbilities(props) {
       ability2: {
         audioFile: "tracer-imback",
         synergyCost: 2,
+        run() {
+          const targetCardId = `${playerNum}tracer`;
+          const targetCardIndex = $(`#${targetCardId}`).closest('li').index();
+
+          // Remove all counters from tracer
+          dispatch({
+            type: ACTIONS.EDIT_CARD,
+            payload: {
+              playerNum: playerNum,
+              targetCardId: targetCardId,
+              editKeys: ['allyEffects', 'enemyEffects', 'shield', 'isPlayed'],
+              editValues: [[], [], 0, false],
+            },
+          });
+
+          // Return tracer to player hand
+          dispatch({
+            type: ACTIONS.MOVE_CARD,
+            payload: {
+              targetCardId: targetCardId,
+              startRowId: rowId,
+              startIndex: targetCardIndex,
+              finishRowId: `player${playerNum}hand`,
+              finishIndex: 0,
+            },
+          });
+
+        },
       },
     },
     widowmaker: {

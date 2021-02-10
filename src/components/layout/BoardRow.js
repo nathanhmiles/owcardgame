@@ -17,12 +17,11 @@ export default function BoardRow(props) {
   const synergyValue = gameState.rows[rowId].synergy;
   const rowShield = gameState.rows[rowId].shield;
   
-  
   // Update synergy and power values anytime a card moves row
   useEffect(() => {
     let playerPower = 0;
     
-    // For every card in the row, add up the power and synergy values
+    // For every card in the row, add up the power values
     for (let cardId of gameState.rows[rowId].cardIds) {
       if (
         gameState.playerCards[`player${playerNum}cards`].cards[cardId].health >
@@ -35,7 +34,7 @@ export default function BoardRow(props) {
         }
       }
       
-      // Set power and synergy state
+      // Set power state
       dispatch({
         type: ACTIONS.SET_POWER,
         payload: {
