@@ -2367,17 +2367,6 @@ export default function HeroAbilities(props) {
 
   };
 
-  // Junkrat ondeath effect
-  useEffect(() => {
-    if (gameState.playerCards[`player1cards`].cards[`1junkrat`].health === 0) {
-      applyDamage()
-    }
-
-    if (gameState.playerCards[`player2cards`].cards[`2junkrat`].health === 0) {
-
-    }
-  }, [gameState.playerCards]);
-
   // Handle the calling of hero abilites, including checking the ability call is valid
   async function activateAbility1(e) {
     e.stopPropagation();
