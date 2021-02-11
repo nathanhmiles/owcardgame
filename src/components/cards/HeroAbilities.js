@@ -852,6 +852,50 @@ export default function HeroAbilities(props) {
       ability2: {
         audioFile: "junkrat-ult",
         synergyCost: 3,
+        run() {
+          return new Promise((resolve, reject) => {
+            $(".row").on("click", (e) => {
+              const targetRowId = $(e.target).closest(".row").attr("id");
+              const junkratStartIndex = $(`#${playerHeroId}`).closest("li").index();
+              const newRowPosition = targetRowId[1];
+
+              $(".row").off("click");
+
+              // Check target is valid
+              if (targetRowId[0] === "p") {
+                reject("Incorrect target row");
+                return;
+              }
+
+                // Set state
+                dispatch({
+                  type: ACTIONS.MOVE_CARD,
+                  payload: {
+                    targetCardId: `${playerHeroId}`,
+                    startRowId: rowId,
+                    finishRowId: targetRowId,
+                    startIndex: junkratStartIndex,
+                    finishIndex: 0,
+                  },
+                });
+
+                // Get all cards in the target row
+              const targetRowCardIds = $.map(
+                $(`#${enemyPlayerNum}${newRowPosition} .card`), (card) => {
+                  return card.id;
+                }
+              );
+
+              // Apply damange
+              const damageValue = 2;
+              targetRowCardIds.forEach((cardId) => {
+                applyDamage(damageValue, cardId, targetRowId);
+              });
+
+              resolve();
+              });
+          });
+        },
       },
     },
     lucio: {
@@ -2123,6 +2167,12 @@ export default function HeroAbilities(props) {
         },
       },
       ability2: {
+        /*
+        Winston's ult is the same as junkrat - to differentiate and
+        add more flavor, winston could jump twice instead of once, 
+        doing 1 damage each time. Perhaps prevent jumping in the same row
+        so Winston cant do two damage to one row?
+        */
         audioFile: "winston-angry",
         synergyCost: 3,
         run() {
@@ -2301,6 +2351,7 @@ export default function HeroAbilities(props) {
     },
   };
 
+  // Echo's ultimate triggers other heroes abilities, and so must be defined here
   echoUltimateAbility = async () => {
     const echoUltHeroId = localStorage.getItem('echoUltHeroId');
 
