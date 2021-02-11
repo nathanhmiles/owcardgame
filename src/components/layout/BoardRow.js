@@ -15,7 +15,7 @@ export default function BoardRow(props) {
   const rowPosition = props.rowId[1];
   const playerNum = props.playerNum;
   const synergyValue = gameState.rows[rowId].synergy;
-  const rowShield = gameState.rows[rowId].shield;
+  const rowShield = gameState.rows[rowId].totalShield();
   
   // Update synergy and power values anytime a card moves row
   useEffect(() => {

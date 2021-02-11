@@ -1,4 +1,4 @@
-export default function SynergyCounter(props) {
+export default function ShieldCounter(props) {
   const shield = props.shield;
   const type = props.type;
 

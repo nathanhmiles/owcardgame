@@ -814,7 +814,14 @@ const data = {
       synergy: 0,
       allyEffects: [],
       enemyEffects: [],
-      shield: 0,
+      shield: [],
+      totalShield() {
+        let totalShield = 0;
+        for (let shieldEntry of this.shield) {
+          totalShield += shieldEntry.shieldValue;
+        }
+        return totalShield;
+      },
     },
     '1m': {
       id: '1m',
@@ -823,7 +830,14 @@ const data = {
       synergy: 0,
       allyEffects: [],
       enemyEffects: [],
-      shield: 0,
+      shield: [],
+      totalShield() {
+        let totalShield = 0;
+        for (let shieldEntry of this.shield) {
+          totalShield += shieldEntry.shieldValue;
+        }
+        return totalShield;
+      },
     },
     '1b': {
       id: '1b',
@@ -832,7 +846,14 @@ const data = {
       synergy: 0,
       allyEffects: [],
       enemyEffects: [],
-      shield: 0,
+      shield: [],
+      totalShield() {
+        let totalShield = 0;
+        for (let shieldEntry of this.shield) {
+          totalShield += shieldEntry.shieldValue;
+        }
+        return totalShield;
+      },
     },
     '2b': {
       id: '2b',
@@ -841,7 +862,14 @@ const data = {
       synergy: 0,
       allyEffects: [],
       enemyEffects: [],
-      shield: 0,
+      shield: [],
+      totalShield() {
+        let totalShield = 0;
+        for (let shieldEntry of this.shield) {
+          totalShield += shieldEntry.shieldValue;
+        }
+        return totalShield;
+      },
     },
     '2m': {
       id: '2m',
@@ -850,7 +878,14 @@ const data = {
       synergy: 0,
       allyEffects: [],
       enemyEffects: [],
-      shield: 0,
+      shield: [],
+      totalShield() {
+        let totalShield = 0;
+        for (let shieldEntry of this.shield) {
+          totalShield += shieldEntry.shieldValue;
+        }
+        return totalShield;
+      },
     },
     '2f': {
       id: '2f',
@@ -859,7 +894,14 @@ const data = {
       synergy: 0,
       allyEffects: [],
       enemyEffects: [],
-      shield: 0,
+      shield: [],
+      totalShield() {
+        let totalShield = 0;
+        for (let shieldEntry of this.shield) {
+          totalShield += shieldEntry.shieldValue;
+        }
+        return totalShield;
+      },
     },
   }
 };

@@ -18,7 +18,9 @@ export const ACTIONS = {
   ADD_CARD_EFFECT: "add-card-effect",
   ADD_CARD_TO_HAND: "add-card-to-hand",
   ADD_ROW_EFFECT: "add-row-effect",
+  ADD_ROW_SHIELD: "add-row-shield",
   CREATE_CARD: "create-card",
+  DAMAGE_ROW_SHIELD: "damage-row-shield",
   DISCARD_CARD: "discard-card",
   EDIT_CARD: "edit-card",
   EDIT_ROW: "edit-row",
@@ -69,30 +71,40 @@ function reducer(gameState, action) {
       const targetRow = action.payload.targetRow;
       const playerHeroId = action.payload.playerHeroId;
       const effectId = action.payload.effectId;
-      const rowShield = action.payload.rowShield;
+      const playerNum = parseInt(playerHeroId[0]);
+      // Get effect object from state
+      const rowEffect =
+        gameState.playerCards[`player${playerNum}cards`].cards[playerHeroId]
+          .effects[effectId];
 
       return produce(gameState, (draft) => {
-        if (effectId !== undefined) {
-          // Get effect object from state
-          const playerNum = parseInt(playerHeroId[0]);
-          const rowEffect =
-            gameState.playerCards[`player${playerNum}cards`].cards[playerHeroId]
-              .effects[effectId];
-          if (rowEffect.player === "ally") {
-            draft.rows[targetRow].allyEffects.push(rowEffect);
-          } else if (rowEffect.player === "enemy") {
-            draft.rows[targetRow].enemyEffects.push(rowEffect);
-          }
-        }
-        if (rowShield !== undefined) {
-          draft.rows[targetRow].shield += rowShield;
+        if (rowEffect.player === "ally") {
+          draft.rows[targetRow].allyEffects.push(rowEffect);
+        } else if (rowEffect.player === "enemy") {
+          draft.rows[targetRow].enemyEffects.push(rowEffect);
         }
       });
     }
 
+    // Add shield value to row
+    case ACTIONS.ADD_ROW_SHIELD: {
+      const playerHeroId = action.payload.playerHeroId;
+      const targetRow = action.payload.targetRow;
+      const rowShield = action.payload.rowShield;
+      
+      // If hero already added shield to row, increase shield, else set shield
+      return produce(gameState, draft => {
+        draft.rows[targetRow].shield.push(
+          {playerHeroId: playerHeroId, shieldValue: rowShield}
+        );
+      });
+    }
+
+    // Add a created card in to the player's hand
     case ACTIONS.ADD_CARD_TO_HAND: {
       const playerNum = action.payload.playerNum;
       const playerHeroId = action.payload.playerHeroId;
+
       return produce(gameState, (draft) => {
         draft.rows[`player${playerNum}hand`].cardIds.push(playerHeroId);
       });
@@ -100,7 +112,6 @@ function reducer(gameState, action) {
 
     // Adds a card to player's cards (doesn't add to a row)
     case ACTIONS.CREATE_CARD: {
-      // Required variables
       const playerNum = action.payload.playerNum;
       const heroId = action.payload.heroId;
       const newCard = helper.createPlayerCard(playerNum, heroId);
@@ -114,9 +125,41 @@ function reducer(gameState, action) {
       });
     }
 
+    // Damage a row's shields
+    case ACTIONS.DAMAGE_ROW_SHIELD: {
+      const targetRow = action.payload.targetRow;
+      const rowShieldDamage = action.payload.rowShieldDamage;
+
+      console.log(`applying ${rowShieldDamage} damage to row ${targetRow}`)
+
+      return produce(gameState, draft => {
+        const targetRowShieldArr = draft.rows[targetRow].shield;
+        let damageDone = 0;
+
+        // Reduce shield of each shieldEntry in the array until 0, then move on to the next until full damage is done
+        outer:    // Use labeled break to break out of both loops if full damage has been done
+        for (let x = 0; x < targetRowShieldArr.length; x++) {
+          for (let i = 0; i < rowShieldDamage; i++) {
+            if (damageDone === rowShieldDamage) break outer;
+            
+            targetRowShieldArr[x].shieldValue -= 1;
+            damageDone += 1;
+
+            console.log(`${targetRowShieldArr[x].playerHeroId}'s shield is now ${targetRowShieldArr[x].shieldValue}`)
+          }
+        }
+        
+        // Delete entries in shield array if their shieldValue has been reduced to 0
+        for (let x = 0; x < targetRowShieldArr.length; x++) {
+          if (targetRowShieldArr[x].shieldValue === 0) {
+            targetRowShieldArr.splice(x, 1);
+          } 
+        }
+      });
+    }
+
     // Discard a card
     case ACTIONS.DISCARD_CARD: {
-      // Required variables
       const targetCardId = action.payload.targetCardId;
       const targetCardRow = action.payload.targetCardRow;
       const playerNum = parseInt(targetCardId[0]);
