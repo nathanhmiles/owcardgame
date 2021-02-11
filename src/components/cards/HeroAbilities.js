@@ -779,7 +779,7 @@ export default function HeroAbilities(props) {
               $(".row").off("click");
 
               // Check target is valid
-              if (targetRow[0] === "p" || parseInt(targetRow[0]) === playerNum) {
+              if (targetRow[0] === "p" || parseInt(targetRow[0]) === playerTurn) {
                 reject("Incorrect target");
                 return;
               }
