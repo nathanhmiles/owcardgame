@@ -1,4 +1,4 @@
-import React, { useContext, useEffect, useRef, useMemo } from "react";
+import React, { useContext, useEffect, useRef, useState } from "react";
 import gameContext from "context/gameContext";
 import turnContext from "context/turnContext";
 import $ from "jquery";
@@ -9,31 +9,32 @@ export default function HeroAbilities(props) {
   // Context
   const { gameState, dispatch } = useContext(gameContext);
   const { turnState, setTurnState } = useContext(turnContext);
-
+  
   // Variables
   const playerNum = turnState.playerTurn;
   const enemyPlayerNum = playerNum === 1 ? 2 : 1;
-
+  
   const playerHeroId = props.playerHeroId;
   const currentCard =
-    gameState.playerCards[`player${playerHeroId[0]}cards`].cards[playerHeroId];
+  gameState.playerCards[`player${playerHeroId[0]}cards`].cards[playerHeroId];
   const heroId = playerHeroId.slice(1, playerHeroId.length);
   const rowId = props.rowId;
   const unsetCardFocus = props.unsetCardFocus;
-
+  
+  
   // Need useRef to keep track of card health during async ability usages
   // TODO: later if implementing more built in controls, such as only allowing
   // TODO: user to affect cards in a specific row, create another ref to track
   // TODO: row target info and reference it during the hero's ability call
   let targetRef = useRef(null);
   let turnRef = useRef(turnState);
-
+  
   // Ensures targetRef only contains values during ability usage,
   // Reset to empty object when rerendering (i.e. when ability is finished)
   useEffect(() => {
     targetRef.current = {};
   });
-
+  
   // Applies damage to either shields or health as needed, returning both the shield and health value
   // TODO: currently only damage has its own function that sets state, all other state
   // TODO: is set within the hero's ability
@@ -41,8 +42,9 @@ export default function HeroAbilities(props) {
     // Identify target player
     const targetPlayerNum = parseInt(targetCardId[0]);
     const targetPlayerCards =
-      gameState.playerCards[`player${targetPlayerNum}cards`].cards;
-
+    gameState.playerCards[`player${targetPlayerNum}cards`].cards;
+    
+    
     // Get hero health and shield values
     let targetHealth = targetPlayerCards[targetCardId].health;
     let targetShield = targetPlayerCards[targetCardId].shield;
@@ -217,6 +219,8 @@ export default function HeroAbilities(props) {
     const remainingHealing = healingValue - healingDone;
     return remainingHealing;
   }
+  
+  let echoUltimateAbility;
 
   // Abilities data
   const abilities = {
@@ -664,9 +668,41 @@ export default function HeroAbilities(props) {
       },
     },
     echo: {
-      ability1: {},
+      ability1: {
+        run() {
+          return new Promise((resolve, reject) => {
+            $(".card").on("click", (e) => {
+              // Get target info
+              const targetCardId = $(e.target).closest(".card").attr("id");
+              const targetRow = $(e.target).closest(".row").attr("id");
+
+              // Remove onclick
+              $(".card").off("click");
+
+              // Check target is in valid row
+              if (targetRow[0] === "p" || parseInt(targetRow[0]) === playerNum) {
+                reject("Incorrect target");
+                return;
+              }
+
+              // Apply damage to the target card (includes setting state)
+              const targetPlayer = parseInt(targetCardId[0]);
+              const targetCard = gameState.playerCards[`player${targetPlayer}cards`].cards[targetCardId];
+              const damageValue = targetCard.maxHealth - targetCard.health;
+              applyDamage(damageValue, targetCardId, targetRow);
+
+              // Apply abilities that affect a specific card
+
+              resolve("resolved!");
+            });
+          });
+        },
+      },
       ability2: {
         synergyCost: 2,
+        run() {
+          echoUltimateAbility();
+        },
       },
     },
     genji: {
@@ -684,10 +720,7 @@ export default function HeroAbilities(props) {
               $(".card").off("click");
 
               // Check target is valid
-              if (
-                targetRow[0] === "p" ||
-                parseInt(targetRow[0]) === playerNum
-              ) {
+              if (targetRow[0] === "p" || parseInt(targetRow[0]) === playerNum) {
                 reject("Incorrect target");
                 return;
               }
@@ -1741,8 +1774,6 @@ export default function HeroAbilities(props) {
                 },
               });
 
-              // TODO: Remove all counters related to the hero
-
               // Set card to not played
               /* 
               Do not reset the card's synergy, despite what it says on the card
@@ -1852,13 +1883,13 @@ export default function HeroAbilities(props) {
         synergyCost: 3,
         run() {
           const newTurretDamage = 2;
-          const heroId = `${playerNum}torbjorn`;
+          const playerHeroId = `${playerNum}torbjorn`;
 
           dispatch({
             type: ACTIONS.EDIT_CARD,
             payload: {
               playerNum: playerNum,
-              targetCardId: heroId,
+              targetCardId: playerHeroId,
               editKeys: ["effects.torbjornEnemyEffect.value"],
               editValues: [newTurretDamage],
             },
@@ -1947,7 +1978,7 @@ export default function HeroAbilities(props) {
         audioFile: "tracer-imback",
         synergyCost: 2,
         run() {
-          const targetCardId = `${playerNum}tracer`;
+          const targetCardId = playerHeroId;
           const targetCardIndex = $(`#${targetCardId}`).closest('li').index();
 
           // Remove all counters from tracer
@@ -2263,6 +2294,24 @@ export default function HeroAbilities(props) {
     },
   };
 
+  echoUltimateAbility = async () => {
+    const echoUltHeroId = localStorage.getItem('echoUltHeroId');
+
+    console.log(`echoultheroid is ${echoUltHeroId}`)
+  
+    // Allow multiple targets if applicable
+    const maxTargets = abilities[echoUltHeroId].ability2.maxTargets;
+    let i = 0;
+    do {
+      await abilities[echoUltHeroId].ability2.run();
+      i++;
+    } while (
+      "maxTargets" in abilities[echoUltHeroId].ability2 &&
+      i < maxTargets
+    );
+
+  };
+
   // Handle the calling of hero abilites, including checking the ability call is valid
   async function activateAbility1(e) {
     e.stopPropagation();
@@ -2342,6 +2391,9 @@ export default function HeroAbilities(props) {
             "maxTargets" in abilities[heroId].ability2 &&
             i < maxTargets
           );
+          
+          // Record which ult was used for Echo's ability2
+          if (heroId !== 'echo') localStorage.setItem('echoUltHeroId', heroId);
 
           // Subtract ability synergy cost from row synergy
           // Make synergy negative so that the cost is subtracted, not added

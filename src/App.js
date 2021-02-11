@@ -619,7 +619,6 @@ export default function App() {
     return;
   }
   
-  
   return (
     <div>
       <turnContext.Provider value={{ turnState, setTurnState }}>
@@ -648,6 +647,7 @@ export default function App() {
               setCardFocus={setCardFocus}
               unsetCardFocus={() => {
                 setCardFocus('invisible');
+                console.log(`cardfocus is ${JSON.stringify(cardFocus)}`)
               }}
               cardFocus={cardFocus}
               setNextCardDraw={setNextCardDraw}
