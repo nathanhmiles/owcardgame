@@ -21,7 +21,6 @@ export default function HeroAbilities(props) {
   const rowId = props.rowId;
   const unsetCardFocus = props.unsetCardFocus;
   
-  
   // Need useRef to keep track of card health during async ability usages
   // TODO: later if implementing more built in controls, such as only allowing
   // TODO: user to affect cards in a specific row, create another ref to track
@@ -42,8 +41,7 @@ export default function HeroAbilities(props) {
     // Identify target player
     const targetPlayerNum = parseInt(targetCardId[0]);
     const targetPlayerCards =
-    gameState.playerCards[`player${targetPlayerNum}cards`].cards;
-    
+      gameState.playerCards[`player${targetPlayerNum}cards`].cards;
     
     // Get hero health and shield values
     let targetHealth = targetPlayerCards[targetCardId].health;
@@ -379,10 +377,7 @@ export default function HeroAbilities(props) {
               $(".card").off("click");
 
               // Check target is valid
-              if (
-                targetCardRow[0] === "p" ||
-                parseInt(targetCardRow[0]) === playerNum
-              ) {
+              if (targetCardRow[0] === "p" || parseInt(targetCardRow[0]) === playerNum) {
                 reject("Incorrect target row");
                 return;
               }
@@ -534,10 +529,7 @@ export default function HeroAbilities(props) {
               $(".card").off("click");
 
               // Check target is valid
-              if (
-                targetCardRow[0] === "p" ||
-                parseInt(targetCardRow[0]) === playerNum
-              ) {
+              if (targetCardRow[0] === "p" || parseInt(targetCardRow[0]) === playerNum) {
                 reject("Incorrect target row");
                 return;
               }
@@ -830,7 +822,6 @@ export default function HeroAbilities(props) {
             $(".card").on("click", (e) => {
               // Get target info
               const targetCardId = $(e.target).closest(".card").attr("id");
-              const targetPlayerNum = parseInt(targetCardId[0]);
               const targetRow = $(e.target).closest(".row").attr("id");
 
               // Remove onclick
@@ -839,10 +830,7 @@ export default function HeroAbilities(props) {
               // Check target is valid
               // TODO: check that target cards are actually in the same column
               // TODO: currently just relying on user to choose correctly
-              if (
-                targetRow[0] === "p" ||
-                parseInt(targetRow[0]) === playerNum
-              ) {
+              if (targetRow[0] === "p" || parseInt(targetRow[0]) === playerNum) {
                 reject("Incorrect target");
                 return;
               }
@@ -909,6 +897,28 @@ export default function HeroAbilities(props) {
       ability2: {
         audioFile: "lucio-ult",
         synergyCost: 3,
+        run() {
+          // Get target information
+          const heroRowCardIds = gameState.rows[rowId].cardIds;
+
+          // Remove the onclick
+          $(".card").off("click");
+
+          // Apply effect
+          const shieldValue = 2;
+          for (let cardId of heroRowCardIds) {
+            dispatch({
+              type: ACTIONS.UPDATE_CARD,
+              payload: {
+                playerNum: playerNum,
+                cardId: cardId,
+                updateKeys: ["shield"],
+                updateValues: [shieldValue],
+              },
+            });
+          }
+            
+        },
       },
       lucioAllyEffect: {
         run(rowId) {
@@ -972,10 +982,7 @@ export default function HeroAbilities(props) {
               $(".row").off("click");
 
               // Check target is valid
-              if (
-                targetRow[0] === "p" ||
-                parseInt(targetRow[0]) === playerNum
-              ) {
+              if (targetRow[0] === "p" || parseInt(targetRow[0]) === playerNum) {
                 reject("Incorrect target row");
                 return;
               }
@@ -2122,7 +2129,7 @@ export default function HeroAbilities(props) {
           return new Promise((resolve, reject) => {
             $(".row").on("click", (e) => {
               const targetRowId = $(e.target).closest(".row").attr("id");
-              const winstonStartIndex = $(`#${playerNum}winston`).closest("li").index();
+              const winstonStartIndex = $(`#${playerHeroId}`).closest("li").index();
               const newRowPosition = targetRowId[1];
 
               $(".row").off("click");
@@ -2137,7 +2144,7 @@ export default function HeroAbilities(props) {
                 dispatch({
                   type: ACTIONS.MOVE_CARD,
                   payload: {
-                    targetCardId: `${playerNum}winston`,
+                    targetCardId: `${playerHeroId}`,
                     startRowId: rowId,
                     finishRowId: targetRowId,
                     startIndex: winstonStartIndex,
@@ -2297,7 +2304,57 @@ export default function HeroAbilities(props) {
   echoUltimateAbility = async () => {
     const echoUltHeroId = localStorage.getItem('echoUltHeroId');
 
-    console.log(`echoultheroid is ${echoUltHeroId}`)
+    // Certain ults need to be tailored specifically for echo to use
+    // Ashe - differntiate echo's bob from ashe's by using a different id
+    if (echoUltHeroId === 'ashe') {
+      // Create bob card
+      dispatch({
+        type: ACTIONS.CREATE_CARD,
+        payload: {
+          playerNum: playerNum,
+          heroId: "bob-echo",
+        },
+      });
+
+      // Add summoned hero to hand
+      dispatch({
+        type: ACTIONS.ADD_CARD_TO_HAND,
+        payload: {
+          playerNum: playerNum,
+          playerHeroId: `${playerNum}bob-echo`,
+        },
+      });
+
+      return;
+    }
+    // Dva - cant allow echo to create a second dvameka in player's deck
+    else if (echoUltHeroId === 'dva') {
+      alert("Cannot duplicate D.va's Ultimate");
+      return;
+    }
+    // DvaMeka - Echo causes the damage, but none of the other effects
+    else if (echoUltHeroId === 'dvameka') {
+      const rowPosition = rowId[1];
+      const enemyPlayer = playerNum === 1 ? 2 : 1;
+      const playerRowCardIds = gameState.rows[rowId].cardIds;
+      const enemyPlayerRowCardIds =
+        gameState.rows[`${enemyPlayer}${rowPosition}`].cardIds;
+
+      // Damage own player cards, except for echo using the ability
+      const damageValue = 4;
+      for (let cardId of playerRowCardIds) {
+        if (cardId !== `${playerNum}echo`) {
+          applyDamage(damageValue, cardId, rowId);
+        }
+      }
+
+      // Damage enemy cards
+      for (let cardId of enemyPlayerRowCardIds) {
+        applyDamage(damageValue, cardId, `${enemyPlayer}${rowPosition}`);
+      }
+
+      return;
+    }
   
     // Allow multiple targets if applicable
     const maxTargets = abilities[echoUltHeroId].ability2.maxTargets;

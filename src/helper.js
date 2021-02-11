@@ -23,10 +23,11 @@ const helper = {
     // Get card values from data
     // Summoned heroes contain special path
     if (heroId === 'dva') {
-      heroData = data.heroes.dvameka[heroId];
+      heroData = data.heroes.dvameka['dva'];
       isPlayed = true;
-    } else if (heroId === 'bob') {
-      heroData = data.heroes.ashe[heroId];
+    // Slice used below to allow for echo's ultimate copying ashe
+    } else if (heroId.slice(0, 3) === 'bob') {
+      heroData = data.heroes.ashe['bob'];
     } else {
       heroData = data.heroes[heroId];
     }
