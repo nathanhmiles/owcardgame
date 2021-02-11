@@ -277,6 +277,30 @@ export default function HeroAbilities(props) {
     ashe: {
       ability1: {
         audioFile: "ashe-deadlockgang",
+        run() {
+          // TODO: currently only the first option of ashe's ability 1 is implemented - need to find a way to let the player choose between the two options
+          return new Promise((resolve, reject) => {
+            $(".card").on("click", async (e) => {
+              const targetCardId = $(e.target).closest(".card").attr("id");
+              const targetCardIndex = $(e.target).closest("li").index();
+              const enemyPlayer = parseInt(targetCardId[0]);
+              const targetCardRow = $(e.target).closest(".row").attr("id");
+
+              $(".card").off("click");
+
+              // Check target is valid
+              if (targetCardRow[0] === "p" || parseInt(targetCardRow[0]) === playerTurn) {
+                reject("Incorrect target row");
+                return;
+              }
+              
+              const damageValue = 2;
+              applyDamage(damageValue, targetCardId, targetCardRow, true);
+
+              resolve();
+            });
+          });
+        },
       },
       ability2: {
         synergyCost: 3,
