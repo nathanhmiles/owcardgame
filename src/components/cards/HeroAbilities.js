@@ -1159,6 +1159,56 @@ export default function HeroAbilities(props) {
       ability2: {
         audioFile: "mercy-ult",
         synergyCost: 3,
+        run() {
+          // Wait for user click
+          return new Promise((resolve, reject) => {
+            // When a row is clicked
+            $(".card").on("click", (e) => {
+              // Get target information
+              const targetCardId = $(e.target).closest(".card").attr("id");
+              const targetRowId = $(e.target).closest(".row").attr("id");
+              const mercyStartIndex = $(`#${playerHeroId}`).closest("li").index();
+              const targetCardIndex = $(`#${targetCardId}`).closest("li").index();
+              const newRowPosition = targetRowId[1];
+
+              // Remove the onclick
+              $(".card").off("click");
+
+              // Check target is valid
+              if (targetRowId[0] === "p" || parseInt(targetRowId[0]) !== playerTurn) {
+                reject("Incorrect target");
+                return;
+              }
+
+              // Set state
+              dispatch({
+                type: ACTIONS.MOVE_CARD,
+                payload: {
+                  targetCardId: `${playerHeroId}`,
+                  startRowId: rowId,
+                  finishRowId: targetRowId,
+                  startIndex: mercyStartIndex,
+                  finishIndex: targetCardIndex + 1,
+                },
+              });
+
+              if (gameState.playerCards[`player${playerTurn}cards`].cards[targetCardId].health === 0) {
+                dispatch({
+                  type: ACTIONS.EDIT_CARD,
+                  payload: {
+                    playerNum: playerTurn,
+                    targetCardId: targetCardId,
+                    editKeys: ['health'],
+                    editValues: [gameState.playerCards[`player${playerTurn}cards`].cards[targetCardId].maxHealth],
+                  },
+                });
+              }
+
+
+              resolve();
+            });
+          });
+        },
       },
       mercyAllyEffect1: {
         run(cardId) {
