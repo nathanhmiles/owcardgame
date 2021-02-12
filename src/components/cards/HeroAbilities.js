@@ -1444,6 +1444,35 @@ export default function HeroAbilities(props) {
       ability2: {
         synergyCost: 3,
         audioFile: "reinhardt-ult",
+        maxTargets: 3,
+        run() {
+          // Wait for user input
+          return new Promise((resolve, reject) => {
+            // Specifically, wait for user to click on a card
+            $(".card").on("click", (e) => {
+              // Get target info
+              const targetCardId = $(e.target).closest(".card").attr("id");
+              const targetRow = $(e.target).closest(".row").attr("id");
+
+              // Remove onclick
+              $(".card").off("click");
+
+              // Check target is valid
+              // TODO: check that target cards are actually in the same column
+              // TODO: currently just relying on user to choose correctly
+              if (targetRow[0] === "p" || parseInt(targetRow[0]) === playerNum) {
+                reject("Incorrect target");
+                return;
+              }
+
+              // Apply damage to the target card (includes setting state)
+              const damageValue = 2;
+              applyDamage(damageValue, targetCardId, targetRow);
+
+              resolve();
+            });
+          });
+        },
       },
     },
     roadhog: {
@@ -2324,6 +2353,7 @@ export default function HeroAbilities(props) {
 
   // Echo's ultimate triggers other heroes abilities, and so must be defined here
   echoUltimateAbility = async () => {
+    // Get the id of the last used ultimate
     const echoUltHeroId = localStorage.getItem('echoUltHeroId');
 
     // Certain ults need to be tailored specifically for echo to use
@@ -2378,7 +2408,7 @@ export default function HeroAbilities(props) {
       return;
     }
   
-    // Allow multiple targets if applicable
+    // Run the ultimate in the same way as normal, but without deducting synergy
     const maxTargets = abilities[echoUltHeroId].ability2.maxTargets;
     let i = 0;
     do {
