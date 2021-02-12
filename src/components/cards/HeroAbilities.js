@@ -682,6 +682,7 @@ export default function HeroAbilities(props) {
     },
     echo: {
       ability1: {
+        audioFile: 'echo-burning',
         run() {
           return new Promise((resolve, reject) => {
             $(".card").on("click", (e) => {
@@ -712,6 +713,7 @@ export default function HeroAbilities(props) {
         },
       },
       ability2: {
+        audioFile: 'echo-ult',
         synergyCost: 2,
         async run() {
             // Get the id of the last used ultimate

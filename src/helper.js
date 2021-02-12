@@ -9,6 +9,9 @@ const helper = {
   // Creates a card with its own health and id unique to the playerCard, returns player-specific ID
   createPlayerCard(playerNum, heroId) {  
     
+    // Get card values from data
+    let heroData = data.heroes[heroId];
+    
     // Assign values not held in data
     const playerHeroId = `${playerNum}${heroId}`;
     let shield = 0;
@@ -18,9 +21,8 @@ const helper = {
     let isDiscarded = false;
     let ability1Used = false;
     let ability2Used = false;
-    let heroData;
+    const maxHealth = heroData.health;
     
-    // Get card values from data
     // Summoned heroes contain special path
     if (heroId === 'dva') {
       heroData = data.heroes.dvameka['dva'];
@@ -28,12 +30,8 @@ const helper = {
     // Slice used below to allow for echo's ultimate copying ashe
     } else if (heroId.slice(0, 3) === 'bob') {
       heroData = data.heroes.ashe['bob'];
-    } else {
-      heroData = data.heroes[heroId];
     }
     
-    // Independently store the card's current health (health) and max health (maxHealth)
-    const maxHealth = heroData.health;
 
     // Combine values into one new hero object and assign to relevant player
     const newCard = {
