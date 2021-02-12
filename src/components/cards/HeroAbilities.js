@@ -21,13 +21,19 @@ export default function HeroAbilities(props) {
   const rowId = props.rowId;
   const unsetCardFocus = props.unsetCardFocus;
   
-  // Need useRef to keep track of card health during async ability usages
+  // ref to keep track of card health during async ability usages
+  let targetRef = useRef(null);
+  // ref to check if a user clicked end turn - checks current turnstate against refs state
+  let turnRef = useRef(turnState);
+  // ref to track how many enemies have been hit by a multi-target ability
+  let enemiesHitByAbility = useRef(0);
+  // ref to track which hero's ability is currently in use
+  let currentHeroAbilityRef = useRef(null);
+
+
   // TODO: later if implementing more built in controls, such as only allowing
   // TODO: user to affect cards in a specific row, create another ref to track
   // TODO: row target info and reference it during the hero's ability call
-  let targetRef = useRef(null);
-  let turnRef = useRef(turnState);
-  let enemiesHitByAbility = useRef(0);
   
   // Ensures targetRef only contains values during ability usage,
   // Reset to empty object when rerendering (i.e. when ability is finished)
@@ -210,8 +216,6 @@ export default function HeroAbilities(props) {
     const remainingHealing = healingValue - healingDone;
     return remainingHealing;
   }
-  
-  let echoUltimateAbility;
 
   // Abilities data
   const abilities = {
@@ -228,7 +232,7 @@ export default function HeroAbilities(props) {
 
               // Remove the onclick
               $(".row").off("click");
-
+ 
               // Check target is valid
               if (targetRow[0] === "p") {
                 reject("Incorrect target");
@@ -709,8 +713,74 @@ export default function HeroAbilities(props) {
       },
       ability2: {
         synergyCost: 2,
-        run() {
-          echoUltimateAbility();
+        async run() {
+            // Get the id of the last used ultimate
+            const echoUltHeroId = localStorage.getItem('echoUltHeroId');
+
+            // Certain ults need to be tailored specifically for echo to use
+            // Ashe - differntiate echo's bob from ashe's by using a different id
+            if (echoUltHeroId === 'ashe') {
+              // Create bob card
+              dispatch({
+                type: ACTIONS.CREATE_CARD,
+                payload: {
+                  playerNum: playerTurn,
+                  heroId: "bob-echo",
+                },
+              });
+
+              // Add summoned hero to hand
+              dispatch({
+                type: ACTIONS.ADD_CARD_TO_HAND,
+                payload: {
+                  playerNum: playerTurn,
+                  playerHeroId: `${playerTurn}bob-echo`,
+                },
+              });
+
+              return;
+            }
+            // Dva - cant allow echo to create a second dvameka in player's deck
+            else if (echoUltHeroId === 'dva') {
+              alert("Cannot duplicate D.va's Ultimate");
+              return;
+            }
+            // DvaMeka - Echo causes the damage, but none of the other effects
+            else if (echoUltHeroId === 'dvameka') {
+              const rowPosition = rowId[1];
+              const enemyPlayer = playerTurn === 1 ? 2 : 1;
+              const playerRowCardIds = gameState.rows[rowId].cardIds;
+              const enemyPlayerRowCardIds =
+                gameState.rows[`${enemyPlayer}${rowPosition}`].cardIds;
+
+              // Damage own player cards, except for echo using the ability
+              const damageValue = 4;
+              for (let cardId of playerRowCardIds) {
+                if (cardId !== `${playerTurn}echo`) {
+                  applyDamage(damageValue, cardId, rowId);
+                }
+              }
+
+              // Damage enemy cards
+              for (let cardId of enemyPlayerRowCardIds) {
+                applyDamage(damageValue, cardId, `${enemyPlayer}${rowPosition}`);
+              }
+
+              return;
+            }
+          
+            // Run the ultimate in the same way as normal, but without deducting synergy
+            const maxTargets = abilities[echoUltHeroId].ability2.maxTargets;
+            let i = 0;
+            do {
+              await abilities[echoUltHeroId].ability2.run();
+              i++;
+            } while (
+              "maxTargets" in abilities[echoUltHeroId].ability2 &&
+              i < maxTargets
+            );
+
+          
         },
       },
     },
@@ -728,6 +798,11 @@ export default function HeroAbilities(props) {
               // Remove onclick
               $(".card").off("click");
 
+              // Allow user to end the ability early by clicking on the ability-using-hero's card
+              if (targetCardId === `${currentHeroAbilityRef.current}`) {
+                alert('Ability stopped early');
+                return;
+              } 
               // Check target is valid
               if (targetRow[0] === "p" || parseInt(targetRow[0]) === playerTurn) {
                 reject("Incorrect target");
@@ -841,6 +916,11 @@ export default function HeroAbilities(props) {
               // Remove onclick
               $(".card").off("click");
 
+              // Allow user to end the ability early by clicking on the ability-using-hero's card
+              if (targetCardId === `${currentHeroAbilityRef.current}`) {
+                alert('Ability stopped early');
+                return;
+              } 
               // Check target is valid
               // TODO: check that target cards are actually in the same column
               // TODO: currently just relying on user to choose correctly
@@ -1304,6 +1384,11 @@ export default function HeroAbilities(props) {
 
               $(".card").off("click");
 
+              // Allow user to end the ability early by clicking on the ability-using-hero's card
+              if (targetCardId === `${currentHeroAbilityRef.current}`) {
+                alert('Ability stopped early');
+                return;
+              } 
               // Check target is valid
               if (targetCardRow[0] === "p") {
                 reject("Incorrect target row");
@@ -1402,6 +1487,11 @@ export default function HeroAbilities(props) {
               // Remove onclick
               $(".card").off("click");
 
+              // Allow user to end the ability early by clicking on the ability-using-hero's card
+              if (targetCardId === `${currentHeroAbilityRef.current}`) {
+                alert('Ability stopped early');
+                return;
+              } 
               // Check target is valid
               if (targetRow[0] === "p" || parseInt(targetRow[0]) === playerTurn) {
                 reject("Incorrect target");
@@ -1432,6 +1522,11 @@ export default function HeroAbilities(props) {
               // Remove onclick
               $(".card").off("click");
 
+              // Allow user to end the ability early by clicking on the ability-using-hero's card
+              if (targetCardId === `${currentHeroAbilityRef.current}`) {
+                alert('Ability stopped early');
+                return;
+              } 
               // Check target is valid
               if (targetRow[0] === "p" || parseInt(targetRow[0]) === playerTurn) {
                 reject("Incorrect target");
@@ -1508,6 +1603,11 @@ export default function HeroAbilities(props) {
               // Remove onclick
               $(".card").off("click");
 
+              // Allow user to end the ability early by clicking on the ability-using-hero's card
+              if (targetCardId === `${currentHeroAbilityRef.current}`) {
+                alert('Ability stopped early');
+                return;
+              } 
               // Check target is valid
               // TODO: check that target cards are actually in the same column
               // TODO: currently just relying on user to choose correctly
@@ -1760,6 +1860,7 @@ export default function HeroAbilities(props) {
       },
     },
     soldier: {
+      id: 'soldier',
       ability1: {
         audioFile: "soldier-teamheal",
         run() {
@@ -1789,8 +1890,12 @@ export default function HeroAbilities(props) {
               // Remove onclick
               $(".card").off("click");
 
+              // Allow user to end the ability early by clicking on the ability-using-hero's card
+              if (targetCardId === `${currentHeroAbilityRef.current}`) {
+                alert('Ability stopped early');
+                return;
               // Check target is valid
-              if (targetRow[0] === "p" || parseInt(targetRow[0]) === playerTurn) {
+              } else if (targetRow[0] === "p" || parseInt(targetRow[0]) === playerTurn) {
                 reject("Incorrect target");
                 return;
               }
@@ -2042,10 +2147,7 @@ export default function HeroAbilities(props) {
       },
       torbjornEnemyEffect: {
         run(rowId) {
-          console.log(`enemyplayer is ${enemyPlayerNum}`);
-          console.log(
-            gameState.playerCards[`player${enemyPlayerNum}cards`].cards
-          );
+          
           // Get enemies in target row
           const targetPlayer = parseInt(rowId[0]);
           const torbPlayer = targetPlayer === 1 ? 2 : 1;
@@ -2103,6 +2205,11 @@ export default function HeroAbilities(props) {
               // Remove onclick
               $(".card").off("click");
 
+              // Allow user to end the ability early by clicking on the ability-using-hero's card
+              if (targetCardId === `${currentHeroAbilityRef.current}`) {
+                alert('Ability stopped early');
+                return;
+              } 
               // Check target is valid
               if (targetRow[0] === "p" || parseInt(targetRow[0]) === playerTurn) {
                 reject("Incorrect target");
@@ -2388,7 +2495,6 @@ export default function HeroAbilities(props) {
     },
     zenyatta: {
       ability1: {
-        maxTargets: 1,
         audioFile: "zenyatta-harmony",
         run() {
           // Wait for user click
@@ -2451,82 +2557,17 @@ export default function HeroAbilities(props) {
     },
   };
 
-  // Echo's ultimate triggers other heroes abilities, and so must be defined here
-  echoUltimateAbility = async () => {
-    // Get the id of the last used ultimate
-    const echoUltHeroId = localStorage.getItem('echoUltHeroId');
-
-    // Certain ults need to be tailored specifically for echo to use
-    // Ashe - differntiate echo's bob from ashe's by using a different id
-    if (echoUltHeroId === 'ashe') {
-      // Create bob card
-      dispatch({
-        type: ACTIONS.CREATE_CARD,
-        payload: {
-          playerNum: playerTurn,
-          heroId: "bob-echo",
-        },
-      });
-
-      // Add summoned hero to hand
-      dispatch({
-        type: ACTIONS.ADD_CARD_TO_HAND,
-        payload: {
-          playerNum: playerTurn,
-          playerHeroId: `${playerTurn}bob-echo`,
-        },
-      });
-
-      return;
-    }
-    // Dva - cant allow echo to create a second dvameka in player's deck
-    else if (echoUltHeroId === 'dva') {
-      alert("Cannot duplicate D.va's Ultimate");
-      return;
-    }
-    // DvaMeka - Echo causes the damage, but none of the other effects
-    else if (echoUltHeroId === 'dvameka') {
-      const rowPosition = rowId[1];
-      const enemyPlayer = playerTurn === 1 ? 2 : 1;
-      const playerRowCardIds = gameState.rows[rowId].cardIds;
-      const enemyPlayerRowCardIds =
-        gameState.rows[`${enemyPlayer}${rowPosition}`].cardIds;
-
-      // Damage own player cards, except for echo using the ability
-      const damageValue = 4;
-      for (let cardId of playerRowCardIds) {
-        if (cardId !== `${playerTurn}echo`) {
-          applyDamage(damageValue, cardId, rowId);
-        }
-      }
-
-      // Damage enemy cards
-      for (let cardId of enemyPlayerRowCardIds) {
-        applyDamage(damageValue, cardId, `${enemyPlayer}${rowPosition}`);
-      }
-
-      return;
-    }
   
-    // Run the ultimate in the same way as normal, but without deducting synergy
-    const maxTargets = abilities[echoUltHeroId].ability2.maxTargets;
-    let i = 0;
-    do {
-      await abilities[echoUltHeroId].ability2.run();
-      i++;
-    } while (
-      "maxTargets" in abilities[echoUltHeroId].ability2 &&
-      i < maxTargets
-    );
-
-  };
 
   // Handle the calling of hero abilites, including checking the ability call is valid
   async function activateAbility1(e) {
     e.stopPropagation();
-    const maxTargets = abilities[heroId].ability1.maxTargets;
-    unsetCardFocus();
 
+    // keep track of which hero is currently using their ability
+    currentHeroAbilityRef.current = playerHeroId;
+
+    unsetCardFocus();
+    
     // TODO: Check any effects that trigger on ability usage
 
     // Check that the card is not in the player's hand
@@ -2543,6 +2584,7 @@ export default function HeroAbilities(props) {
         }
 
         // Allow the ability to be triggered more than once if relevant
+        const maxTargets = abilities[heroId].ability1.maxTargets;
         let i = 0;
         do {
           await abilities[heroId].ability1.run();
@@ -2568,6 +2610,10 @@ export default function HeroAbilities(props) {
 
   async function activateAbility2(e) {
     e.stopPropagation();
+
+    // keep track of which hero is currently using their ability
+    currentHeroAbilityRef.current = playerHeroId;
+
     // Get synergy values
     const synergyCost = abilities[heroId].ability2.synergyCost;
     const rowSynergy = gameState.rows[rowId].synergy;
