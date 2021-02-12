@@ -1452,7 +1452,7 @@ export default function HeroAbilities(props) {
             $(".card").on("click", (e) => {
               // Get target info
               const targetCardId = $(e.target).closest(".card").attr("id");
-              const targetRow = $(e.target).closest(".row").attr("id");
+              const targetCardRow = $(e.target).closest(".row").attr("id");
 
               // Remove onclick
               $(".card").off("click");
@@ -1460,14 +1460,23 @@ export default function HeroAbilities(props) {
               // Check target is valid
               // TODO: check that target cards are actually in the same column
               // TODO: currently just relying on user to choose correctly
-              if (targetRow[0] === "p" || parseInt(targetRow[0]) === playerNum) {
+              if (targetCardRow[0] === "p" || parseInt(targetCardRow[0]) === playerTurn) {
                 reject("Incorrect target");
                 return;
               }
 
               // Apply damage to the target card (includes setting state)
               const damageValue = 2;
-              applyDamage(damageValue, targetCardId, targetRow);
+              applyDamage(damageValue, targetCardId, targetCardRow);
+
+              // Reduce synergy of target row
+              dispatch({
+                type: ACTIONS.UPDATE_SYNERGY,
+                payload: {
+                  rowId: targetCardRow,
+                  synergyCost: -1,
+                },
+              });
 
               resolve();
             });
