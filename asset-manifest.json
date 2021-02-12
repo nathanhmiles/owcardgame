@@ -1,15 +1,15 @@
 {
   "files": {
-    "main.css": "/owcardgame/static/css/main.f9166f33.chunk.css",
-    "main.js": "/owcardgame/static/js/main.8d66ab96.chunk.js",
-    "main.js.map": "/owcardgame/static/js/main.8d66ab96.chunk.js.map",
+    "main.css": "/owcardgame/static/css/main.8555892c.chunk.css",
+    "main.js": "/owcardgame/static/js/main.36e74d3c.chunk.js",
+    "main.js.map": "/owcardgame/static/js/main.36e74d3c.chunk.js.map",
     "runtime-main.js": "/owcardgame/static/js/runtime-main.0b345ce8.js",
     "runtime-main.js.map": "/owcardgame/static/js/runtime-main.0b345ce8.js.map",
-    "static/js/2.8935c6e0.chunk.js": "/owcardgame/static/js/2.8935c6e0.chunk.js",
-    "static/js/2.8935c6e0.chunk.js.map": "/owcardgame/static/js/2.8935c6e0.chunk.js.map",
+    "static/js/2.7c558236.chunk.js": "/owcardgame/static/js/2.7c558236.chunk.js",
+    "static/js/2.7c558236.chunk.js.map": "/owcardgame/static/js/2.7c558236.chunk.js.map",
     "index.html": "/owcardgame/index.html",
-    "static/css/main.f9166f33.chunk.css.map": "/owcardgame/static/css/main.f9166f33.chunk.css.map",
-    "static/js/2.8935c6e0.chunk.js.LICENSE.txt": "/owcardgame/static/js/2.8935c6e0.chunk.js.LICENSE.txt",
+    "static/css/main.8555892c.chunk.css.map": "/owcardgame/static/css/main.8555892c.chunk.css.map",
+    "static/js/2.7c558236.chunk.js.LICENSE.txt": "/owcardgame/static/js/2.7c558236.chunk.js.LICENSE.txt",
     "static/media/App.css": "/owcardgame/static/media/shieldcounter.5a1f4f54.png",
     "static/media/ana-grenade.mp3": "/owcardgame/static/media/ana-grenade.f80883bc.mp3",
     "static/media/ana-icon.png": "/owcardgame/static/media/ana-icon.0a9b633a.png",
@@ -64,6 +64,7 @@
     "static/media/hanzo-ult.mp3": "/owcardgame/static/media/hanzo-ult.ae5213fa.mp3",
     "static/media/hanzo.png": "/owcardgame/static/media/hanzo.9793e627.png",
     "static/media/healthbackground-hexagon.26052b95.png": "/owcardgame/static/media/healthbackground-hexagon.26052b95.png",
+    "static/media/how-to-play.pdf": "/owcardgame/static/media/how-to-play.85ac5909.pdf",
     "static/media/junkrat-intro.mp3": "/owcardgame/static/media/junkrat-intro.425041e9.mp3",
     "static/media/junkrat-laugh.mp3": "/owcardgame/static/media/junkrat-laugh.7eaafa68.mp3",
     "static/media/junkrat-ult.mp3": "/owcardgame/static/media/junkrat-ult.2100f67c.mp3",
@@ -96,7 +97,7 @@
     "static/media/mercy.png": "/owcardgame/static/media/mercy.5e2b505b.png",
     "static/media/moira-grasp.mp3": "/owcardgame/static/media/moira-grasp.a7fcffe3.mp3",
     "static/media/moira-intro.mp3": "/owcardgame/static/media/moira-intro.469c3328.mp3",
-    "static/media/moira-ullt.mp3": "/owcardgame/static/media/moira-ullt.a44822fd.mp3",
+    "static/media/moira-ult.mp3": "/owcardgame/static/media/moira-ult.a44822fd.mp3",
     "static/media/moira.png": "/owcardgame/static/media/moira.5a98ab86.png",
     "static/media/orisa-barrier.mp3": "/owcardgame/static/media/orisa-barrier.4a2ea800.mp3",
     "static/media/orisa-icon.png": "/owcardgame/static/media/orisa-icon.db0c11fd.png",
@@ -190,8 +191,8 @@
   },
   "entrypoints": [
     "static/js/runtime-main.0b345ce8.js",
-    "static/js/2.8935c6e0.chunk.js",
-    "static/css/main.f9166f33.chunk.css",
-    "static/js/main.8d66ab96.chunk.js"
+    "static/js/2.7c558236.chunk.js",
+    "static/css/main.8555892c.chunk.css",
+    "static/js/main.36e74d3c.chunk.js"
   ]
 }
