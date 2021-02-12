@@ -27,6 +27,7 @@ export default function HeroAbilities(props) {
   // TODO: row target info and reference it during the hero's ability call
   let targetRef = useRef(null);
   let turnRef = useRef(turnState);
+  let enemiesHitByAbility = useRef(0);
   
   // Ensures targetRef only contains values during ability usage,
   // Reset to empty object when rerendering (i.e. when ability is finished)
@@ -1776,7 +1777,34 @@ export default function HeroAbilities(props) {
         audioFile: "soldier-ult",
         maxTargets: 3,
         synergyCost: 3,
-        run() {},
+        run() {
+          // Wait for user input
+          return new Promise((resolve, reject) => {
+            // Specifically, wait for user to click on a card
+            $(".card").on("click", (e) => {
+              // Get target info
+              const targetCardId = $(e.target).closest(".card").attr("id");
+              const targetRow = $(e.target).closest(".row").attr("id");
+
+              // Remove onclick
+              $(".card").off("click");
+
+              // Check target is valid
+              if (targetRow[0] === "p" || parseInt(targetRow[0]) === playerTurn) {
+                reject("Incorrect target");
+                return;
+              }
+
+              // Apply damage to the target card
+              // Decrease damage with each successive hit by using a ref
+              const damageValue = 3 - enemiesHitByAbility.current;
+              applyDamage(damageValue, targetCardId, targetRow);
+              enemiesHitByAbility.current += 1;
+
+              resolve();
+            });
+          });
+        },
       },
     },
     sombra: {
@@ -2334,6 +2362,19 @@ export default function HeroAbilities(props) {
                   updateValues: [shieldValue],
                 },
               });
+
+              // Keep track of how much shield remaining for Zarya's ultimate
+              // TODO: zarya tracks how much shield is given, but currently doesnt know when her shield has been damaged
+              dispatch({
+                type: ACTIONS.UPDATE_CARD,
+                payload: {
+                  playerNum: playerTurn,
+                  cardId: playerHeroId,
+                  updateKeys: ["zaryaShieldRemaining"],
+                  updateValues: [shieldValue],
+                },
+              });
+              
 
               resolve();
             });

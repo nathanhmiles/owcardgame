@@ -44,7 +44,10 @@ export default function PlayerHand(props) {
         const randKey = Object.keys(data.heroes)[randInt];
         newCardId = data.heroes[randKey].id;
         playerHeroId = `${props.playerNum}${newCardId}`;
-      } while (playerHeroId in gameState.playerCards[playerCardsId].cards);
+      } while (
+        playerHeroId in gameState.playerCards[playerCardsId].cards ||
+        data.heroes[newCardId].isImplemented === false
+      );
       dispatch({
         type: ACTIONS.CREATE_CARD,
         payload: { playerNum: playerNum, heroId: newCardId },

@@ -11,7 +11,7 @@ const helper = {
     
     // Assign values not held in data
     const playerHeroId = `${playerNum}${heroId}`;
-    const shield = 0;
+    let shield = 0;
     const enemyEffects = [];
     const allyEffects = [];
     let isPlayed = false;
@@ -31,48 +31,35 @@ const helper = {
     } else {
       heroData = data.heroes[heroId];
     }
-
-    // Get info from heroData
-    const {
-      id,
-      name,
-      health,
-      power,
-      synergy,
-    } = heroData;
     
     // Independently store the card's current health (health) and max health (maxHealth)
-    const maxHealth = health;
-
-    // Add hero effects to card, and insert playerHeroId for future use
-    let effects;
-    if ('effects' in heroData) {
-      // Deep copy of effects object is needed in order to not alter the original object later on
-      effects = JSON.parse(JSON.stringify(heroData.effects));
-      for (let key in effects) {
-        effects[key]['playerHeroId'] = playerHeroId;
-      }
-    }
-    
+    const maxHealth = heroData.health;
 
     // Combine values into one new hero object and assign to relevant player
     const newCard = {
       playerHeroId,
-      id,
-      name,
-      health,
+      ...heroData,
       maxHealth,
-      power,
-      synergy,
       shield,
-      effects,
       enemyEffects,
       allyEffects,
-      ability1Used,
-      ability2Used,
       isPlayed,
       isDiscarded,
+      ability1Used,
+      ability2Used,
     };
+
+    // Add hero effects to card, and insert playerHeroId for future use
+    if ('effects' in heroData) {
+      // Deep copy of effects object is needed in order to not alter the original object later on
+      let effects = JSON.parse(JSON.stringify(heroData.effects));
+      for (let key in effects) {
+        effects[key]['playerHeroId'] = playerHeroId;
+      }
+      newCard['effects'] = effects;
+    }
+    
+    console.log(newCard)
     
     return newCard;
   }

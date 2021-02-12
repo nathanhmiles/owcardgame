@@ -58,6 +58,7 @@ const data = {
         m: 2,
         b: 2,
       },
+      isImplemented: false,
     },
 
     ashe: {
@@ -75,6 +76,8 @@ const data = {
         m: 3,
         b: 1,
       },
+      isImplemented: false,
+
       bob: {
         id: "bob",
         name: "Bob",
@@ -132,6 +135,7 @@ const data = {
         m: 2,
         b: 3,
       },
+      isImplemented: false,
     },
 
     bastion: {
@@ -161,6 +165,7 @@ const data = {
         m: 2,
         b: 1,
       },
+      isImplemented: false,
     },
     
     brigitte: {
@@ -178,6 +183,7 @@ const data = {
         m: 2,
         b: 3,
       },
+      isImplemented: false,
     },
 
     doomfist: {
@@ -195,6 +201,7 @@ const data = {
         m: 2,
         b: 3,
       },
+      isImplemented: true,
     },
 
     dvameka: {
@@ -212,6 +219,8 @@ const data = {
         m: 1,
         b: 3,
       },
+      isImplemented: true,
+
       dva: {
         id: "dva",
         name: "D.va",
@@ -227,8 +236,10 @@ const data = {
           m: 0,
           b: 0,
         },
+        isImplemented: true,
       },
     },
+
     echo: {
       id: "echo",
       name: "Echo",
@@ -244,7 +255,9 @@ const data = {
         m: 1,
         b: 2,
       },
+      isImplemented: true,
     },
+
     genji: {
       id: "genji",
       name: "Genji",
@@ -260,7 +273,9 @@ const data = {
         m: 2,
         b: 3,
       },
+      isImplemented: true,
     },
+
     hanzo: {
       id: "hanzo",
       name: "Hanzo",
@@ -288,7 +303,9 @@ const data = {
         m: 1,
         b: 2,
       },
+      isImplemented: true,
     },
+
     junkrat: {
       id: "junkrat",
       name: "Junkrat",
@@ -304,7 +321,9 @@ const data = {
         m: 2,
         b: 3,
       },
+      isImplemented: false,
     },
+
     lucio: {
       id: "lucio",
       name: "Lucio",
@@ -332,7 +351,9 @@ const data = {
         m: 3,
         b: 2,
       },
+      isImplemented: true,
     },
+
     mccree: {
       id: "mccree",
       name: "McCree",
@@ -348,7 +369,9 @@ const data = {
         m: 1,
         b: 3,
       },
+      isImplemented: true,
     },
+
     mei: {
       id: "mei",
       name: "Mei",
@@ -376,7 +399,9 @@ const data = {
         m: 1,
         b: 3,
       },
+      isImplemented: false,
     },
+
     mercy: {
       id: "mercy",
       name: "Mercy",
@@ -413,6 +438,7 @@ const data = {
         m: 2,
         b: 2,
       },
+      isImplemented: true,
     },
     moira: {
       id: "moira",
@@ -429,7 +455,9 @@ const data = {
         m: 3,
         b: 2,
       },
+      isImplemented: true,
     },
+
     orisa: {
       id: "orisa",
       name: "Orisa",
@@ -466,7 +494,9 @@ const data = {
         m: 2,
         b: 1,
       },
+      isImplemented: false,
     },
+
     pharah: {
       id: "pharah",
       name: "Pharah",
@@ -482,6 +512,7 @@ const data = {
         m: 1,
         b: 2,
       },
+      isImplemented: true,
     },
     reaper: {
       id: "reaper",
@@ -498,7 +529,9 @@ const data = {
         m: 3,
         b: 1,
       },
+      isImplemented: true,
     },
+
     reinhardt: {
       id: "reinhardt",
       name: "Reinhardt",
@@ -514,7 +547,9 @@ const data = {
         m: 2,
         b: 3,
       },
+      isImplemented: true,
     },
+
     roadhog: {
       id: "roadhog",
       name: "Roadhog",
@@ -530,7 +565,9 @@ const data = {
         m: 2,
         b: 3,
       },
+      isImplemented: true,
     },
+
     sigma: {
       id: "sigma",
       name: "Sigma",
@@ -547,7 +584,9 @@ const data = {
         m: 1,
         b: 2,
       },
+      isImplemented: true,
     },
+
     soldier: {
       id: "soldier",
       name: "Soldier 76",
@@ -563,7 +602,9 @@ const data = {
         m: 1,
         b: 3,
       },
+      isImplemented: true,
     },
+
     sombra: {
       id: "sombra",
       name: "Sombra",
@@ -579,7 +620,9 @@ const data = {
         m: 3,
         b: 2,
       },
+      isImplemented: false,
     },
+
     symmetra: {
       id: "symmetra",
       name: "Symmetra",
@@ -595,7 +638,9 @@ const data = {
         m: 3,
         b: 2,
       },
+      isImplemented: true,
     },
+
     torbjorn: {
       id: "torbjorn",
       name: "Torbjorn",
@@ -623,7 +668,9 @@ const data = {
         m: 3,
         b: 2,
       },
+      isImplemented: true,
     },
+
     tracer: {
       id: "tracer",
       name: "Tracer",
@@ -639,7 +686,9 @@ const data = {
         m: 2,
         b: 3,
       },
+      isImplemented: true,
     },
+
     widowmaker: {
       id: "widowmaker",
       name: "Widowmaker",
@@ -667,7 +716,9 @@ const data = {
         m: 3,
         b: 1,
       },
+      isImplemented: true,
     },
+
     winston: {
       id: "winston",
       name: "Winston",
@@ -683,7 +734,9 @@ const data = {
         m: 2,
         b: 3,
       },
+      isImplemented: true,
     },
+
     wreckingball: {
       id: "wreckingball",
       name: "Wrecking Ball",
@@ -712,7 +765,9 @@ const data = {
         m: 1,
         b: 3,
       },
+      isImplemented: false,
     },
+
     zarya: {
       id: "zarya",
       name: "Zarya",
@@ -729,7 +784,10 @@ const data = {
         m: 1,
         b: 3,
       },
+      isImplemented: false,
+      zaryaShieldRemaining: 0,
     },
+
     zenyatta: {
       id: "zenyatta",
       name: "Zenyatta",
@@ -766,6 +824,7 @@ const data = {
         m: 2,
         b: 3,
       },
+      isImplemented: false,
     },
   },
   playerCards: {
