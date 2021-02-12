@@ -411,7 +411,7 @@ export default function App() {
       // Winner of last round goes first next round. If round was a draw, random player goes first
       setTurnState((prevState) => ({
         turnCount: 1,
-        playerTurn: winningPlayer === 3 ? prevState.playerTurn : matchRef.wonLastRound === 1 ? 1 : 2,
+        playerTurn: winningPlayer === 3 ? prevState.playerTurn : winningPlayer === 1 ? 1 : 2,
         player1Passed: false,
         player2Passed: false,
       }));
@@ -419,7 +419,7 @@ export default function App() {
       // Update match state
       // Update state if round is a draw
       if (winningPlayer === 3) {
-        alert("Match is a draw! Both players receive a win.");
+        alert("Round is a draw! Both players receive a win.");
 
         // Add a win to both players' record for a draw
         matchRef.current.player1.wins += 1;
@@ -428,15 +428,17 @@ export default function App() {
         // If players have drawn both rounds and so both have two wins, match is a draw
         if (matchState.player1.wins === 2 && matchState.player2.wins === 2) {
           alert("The match is a draw!");
+          alert("Starting a new match.");
+          window.location.reload();
         }
 
       // Update state for whichever player won
       } else {
-        alert(`Player ${winningPlayer} wins!`);
-        
         // Add a win to winner's record
         matchRef.current[`player${winningPlayer}`].wins += 1;
         matchRef.current.wonLastRound = winningPlayer;
+        alert(`Player ${winningPlayer} wins the round!`);
+
 
       }
 
@@ -465,7 +467,7 @@ export default function App() {
           payload: {
             targetRow: player1RowIds[i],
             editKeys: ["synergy", "shield", "allyEffects", "enemyEffects"],
-            editValues: [0, 0, [], []],
+            editValues: [0, [], [], []],
           },
         });
         for (let x = 0; x < player1Cards[i].length; x++) {
@@ -495,7 +497,7 @@ export default function App() {
           payload: {
             targetRow: player2RowIds[i],
             editKeys: ["synergy", "shield", "allyEffects", "enemyEffects"],
-            editValues: [0, 0, [], []],
+            editValues: [0, [], [], []],
           },
         });
         for (let x = 0; x < player2Cards[i].length; x++) {
@@ -523,11 +525,15 @@ export default function App() {
       setMatchState(matchRef.current);
 
       // TODO: create a play again button
-      // If a player has reached two wins, end the match
+      // If a player has reached two wins, end the match and reload the page for a new match
       if (matchState["player1"].wins === 2) {
         alert("Player 1 wins the match!");
+        alert("Starting a new match.");
+        window.location.reload();
       } else if (matchState["player2"].wins === 2) {
         alert("Player 2 wins the match!");
+        alert("Starting a new match.");
+        window.location.reload();
       }
 
     }
@@ -537,12 +543,7 @@ export default function App() {
     }
   }, [turnState, gameState.rows, matchState]);
 
-  /*
-  // Display a message to signify the round starting
-  useEffect(() => {
-    alert(`Round ${matchState.player1.wins + matchState.player2.wins + 1} begins!`)
-  }, [matchState.player1, matchState.player2]);
-  */
+
 
   // Handle card dragging 
   function handleOnDragEnd(result) {
@@ -625,6 +626,12 @@ export default function App() {
         <gameContext.Provider value={{ gameState, dispatch }}>
           <Footer />
           <AudioPlayer />
+          <a 
+            rel="noopener noreferrer" 
+            target="_blank" 
+            href={require('assets/how-to-play.pdf').default}
+            id="howtoplay"
+          >How to Play</a>
           <DragDropContext onDragEnd={handleOnDragEnd}>
             <PlayerHalf
               playerNum={2}

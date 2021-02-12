@@ -26,6 +26,14 @@ body {
   right: 2vw;
 }
 
+#howtoplay {
+  background-color: #c4c3d5;
+  font-size: 16pt;
+  color: #333333;
+  border: 2px solid;
+  text-decoration: none;
+}
+
 #audioicon {
   width: 30px;
   height: 30px;
