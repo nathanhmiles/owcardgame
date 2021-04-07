@@ -1,15 +1,12 @@
 import data from 'data';
 
-const helper = {
-  // Helper function - returns random number between min (inc) and max (exc)
-  getRandInt(min, max) {
-    return Math.floor(Math.random() * (max - min)) + min;
-  },
-
-  // Creates a card with its own health and id unique to the playerCard, returns player-specific ID
-  // TODO: convert to class?
-  createPlayerCard(playerNum, heroId) {  
+// Creates a card with its own health and id unique to the playerCard, returns player-specific ID
+class PlayerCard {
+  constructor(playerNum, heroId) {
     
+    this.playerNum = playerNum;
+    this.heroId = heroId;
+
     // Get card values from data
     let heroData = data.heroes[heroId];
     
@@ -62,6 +59,13 @@ const helper = {
     
     return newCard;
   }
-};
+}
 
-export default helper;
+// Helper function - returns random number between min (inc) and max (exc)
+const getRandInt = (min, max) => {
+  return Math.floor(Math.random() * (max - min)) + min;
+}
+
+
+export default getRandInt;
+export {PlayerCard};

@@ -10,7 +10,7 @@ import CardFocus from "components/cards/CardFocus";
 import AudioPlayer from "components/layout/AudioPlayer";
 import MatchCounter from "components/layout/MatchCounter";
 import data from "data";
-import helper from "helper";
+import getRandInt, {PlayerCard} from "helper";
 import produce from "immer";
 import _ from "lodash";
 
@@ -114,7 +114,7 @@ function reducer(gameState, action) {
     case ACTIONS.CREATE_CARD: {
       const playerNum = action.payload.playerNum;
       const heroId = action.payload.heroId;
-      const newCard = helper.createPlayerCard(playerNum, heroId);
+      const newCard = new PlayerCard(playerNum, heroId);
 
       // Add new card to playercards data (does not add the card to any row)
       // Call Move_Card to make card visible
@@ -348,7 +348,7 @@ export default function App() {
   });
   const [turnState, setTurnState] = useState({
     turnCount: 1,
-    playerTurn: helper.getRandInt(1, 3),
+    playerTurn: getRandInt(1, 3),
     player1Passed: false,
     player2Passed: false,
   });

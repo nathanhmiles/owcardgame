@@ -3,7 +3,7 @@ import gameContext from "context/gameContext";
 import turnContext from "context/turnContext";
 import $ from "jquery";
 import { ACTIONS } from "App";
-import helper from "helper";
+import getRandInt from "helper";
 
 export default function HeroAbilities(props) {
   // Context
@@ -1723,7 +1723,7 @@ export default function HeroAbilities(props) {
           }
 
           // Get total damage amount (2d6 = between 2 - 12)
-          const totalDamage = helper.getRandInt(2, 13);
+          const totalDamage = getRandInt(2, 13);
           alert(`Wholehog rolled ${totalDamage} damage!`);
 
           // Calculate damage per hero and apply
@@ -2183,7 +2183,7 @@ export default function HeroAbilities(props) {
             for (let i = 0; i < maxTargets; i++) {
               let target;
               do {
-                target = helper.getRandInt(0, rowEnemies.length);
+                target = getRandInt(0, rowEnemies.length);
               } while (attackedEnemies.includes(target));
               console.log(`target is ${target}`);
               applyDamage(turretDamage, rowEnemies[target], rowId);

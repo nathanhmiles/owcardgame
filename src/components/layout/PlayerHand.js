@@ -3,7 +3,7 @@ import CardDisplay from "components/layout/CardDisplay";
 import gameContext from "context/gameContext";
 import turnContext from "context/turnContext";
 import data from "data";
-import helper from "helper";
+import getRandInt from "helper";
 import { ACTIONS } from "App";
 
 export default function PlayerHand(props) {
@@ -40,7 +40,7 @@ export default function PlayerHand(props) {
     } else {
       let newCardId;
       do {
-        const randInt = helper.getRandInt(0, Object.keys(data.heroes).length);
+        const randInt = getRandInt(0, Object.keys(data.heroes).length);
         const randKey = Object.keys(data.heroes)[randInt];
         newCardId = data.heroes[randKey].id;
         playerHeroId = `${props.playerNum}${newCardId}`;
