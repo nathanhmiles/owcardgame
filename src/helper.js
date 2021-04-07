@@ -7,6 +7,7 @@ const helper = {
   },
 
   // Creates a card with its own health and id unique to the playerCard, returns player-specific ID
+  // TODO: convert to class?
   createPlayerCard(playerNum, heroId) {  
     
     // Get card values from data
