@@ -8,7 +8,7 @@ export default function TitleCard() {
       <span className="credit">
         Game & Card Design by
         <br />
-        u/bwb912
+        u/barberian912
       </span>
       <img src={owlogo} id="centerlogo" alt="owlogo" />
       <span className="credit">
