@@ -497,4 +497,8 @@ footer {
   #center-section {
     width: 20%;
   }
+
+  .disclaimer {
+    width: 70%;
+  }
 }
