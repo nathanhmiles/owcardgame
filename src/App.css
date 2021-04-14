@@ -465,20 +465,20 @@ footer {
   }
 
   .playerarea {
-    flex-direction: row;
+    flex-direction: column;
   }
   
   #player2area {
-    flex-direction: row-reverse;
+    flex-direction: column-reverse;
   }
 
   .playerarea-section {
     width: 30%;
-    flex-direction: column;
+    flex-direction: row;
   }
 
   .playerbuttons {
-    flex-direction: column;
+    flex-direction: row;
   }
 
   .board {
