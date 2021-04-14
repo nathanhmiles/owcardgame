@@ -61,6 +61,8 @@ body {
   width: 37%;
 }
 
+
+
 #centerlogo {
   height: 100px;
   margin: 0 20px 0 20px;
@@ -71,6 +73,7 @@ body {
   justify-content: space-evenly;
   align-items: center;
   font-size: 5vw;
+  margin-bottom: 10px;
 }
 
 .credit {
@@ -123,7 +126,7 @@ body {
 
 .boardrow {
   width: 75%;
-  min-height: 150px;
+  min-height: 210px;
   /* background: url(assets/row-background.png); */
   background-color: #a8b3d3;
   background-position: center;
@@ -146,14 +149,14 @@ ul {
   display: flex;
   flex-grow: 1;
   /* min-height: 149px; */
-  justify-content: center;
+  width: 100%;
+  justify-content: flex-start;
   padding: 0;
   margin: 0px;
 }
 
 .handlist {
   min-height: 300px;
-  align-items: center;
   flex-wrap: wrap;
 }
 
@@ -208,7 +211,7 @@ li {
 
 .rowlabel {
   position: absolute;
-  font-size: 2vw;
+  font-size: 24pt;
 }
 
 .counterarea {
@@ -405,6 +408,7 @@ button:disabled {
   display: flex;
   top: 20vh;
   height: 60vh;
+  min-height: 400px;
   font-size: 20pt;
   z-index: 50;
 }
@@ -439,4 +443,26 @@ footer {
   display: flex;
   justify-content: center;
   margin: 20px;
+}
+
+@media (max-width: 1700px) {
+  .playerhalf {
+    display: flex;
+    width: 100%;
+    flex-direction: column-reverse;
+    justify-content: center;
+    align-items: center;
+  }
+
+  .board {
+    width: 100%;
+  }
+
+  .playerarea {
+    width: 100%;
+  }
+
+  ul {
+    justify-content: center;
+  }
 }

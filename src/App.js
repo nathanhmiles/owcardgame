@@ -642,7 +642,7 @@ export default function App() {
               matchState={matchState}
             />
             <div id="center-section">
-            <hr />
+            <br/>
             </div>
             <PlayerHalf
               playerNum={1}
