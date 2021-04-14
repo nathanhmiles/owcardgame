@@ -1,6 +1,6 @@
 {
   "files": {
-    "main.css": "/owcardgame/static/css/main.8e2c893b.chunk.css",
+    "main.css": "/owcardgame/static/css/main.1f7ad5a1.chunk.css",
     "main.js": "/owcardgame/static/js/main.30d58fc6.chunk.js",
     "main.js.map": "/owcardgame/static/js/main.30d58fc6.chunk.js.map",
     "runtime-main.js": "/owcardgame/static/js/runtime-main.0b345ce8.js",
@@ -8,7 +8,7 @@
     "static/js/2.9e7355b8.chunk.js": "/owcardgame/static/js/2.9e7355b8.chunk.js",
     "static/js/2.9e7355b8.chunk.js.map": "/owcardgame/static/js/2.9e7355b8.chunk.js.map",
     "index.html": "/owcardgame/index.html",
-    "static/css/main.8e2c893b.chunk.css.map": "/owcardgame/static/css/main.8e2c893b.chunk.css.map",
+    "static/css/main.1f7ad5a1.chunk.css.map": "/owcardgame/static/css/main.1f7ad5a1.chunk.css.map",
     "static/js/2.9e7355b8.chunk.js.LICENSE.txt": "/owcardgame/static/js/2.9e7355b8.chunk.js.LICENSE.txt",
     "static/media/App.css": "/owcardgame/static/media/shieldcounter.5a1f4f54.png",
     "static/media/ana-grenade.mp3": "/owcardgame/static/media/ana-grenade.f80883bc.mp3",
@@ -195,7 +195,7 @@
   "entrypoints": [
     "static/js/runtime-main.0b345ce8.js",
     "static/js/2.9e7355b8.chunk.js",
-    "static/css/main.8e2c893b.chunk.css",
+    "static/css/main.1f7ad5a1.chunk.css",
     "static/js/main.30d58fc6.chunk.js"
   ]
 }
