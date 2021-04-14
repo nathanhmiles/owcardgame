@@ -625,28 +625,31 @@ export default function App() {
       <turnContext.Provider value={{ turnState, setTurnState }}>
         <gameContext.Provider value={{ gameState, dispatch }}>
           <Footer />
-          <AudioPlayer />
           <a 
             rel="noopener noreferrer" 
             target="_blank" 
             href={require('assets/how-to-play.pdf').default}
             id="howtoplay"
           >How to Play</a>
+          <TitleCard />
+          <AudioPlayer />
           <DragDropContext onDragEnd={handleOnDragEnd}>
             <PlayerHalf
               playerNum={2}
               setCardFocus={setCardFocus}
               nextCardDraw={nextCardDraw}
               setNextCardDraw={setNextCardDraw}
+              matchState={matchState}
             />
-            <MatchCounter playerNum={2} matchState={matchState} />
-            <TitleCard />
-            <MatchCounter playerNum={1} matchState={matchState} />
+            <div id="center-section">
+            <hr />
+            </div>
             <PlayerHalf
               playerNum={1}
               setCardFocus={setCardFocus}
               nextCardDraw={nextCardDraw}
               setNextCardDraw={setNextCardDraw}
+              matchState={matchState}
             />
           </DragDropContext>
           {cardFocus !== null && 

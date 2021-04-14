@@ -43,15 +43,22 @@ body {
 .board {
   display: flex;
   flex-direction: column;
-  align-items: center;
+  align-items: flex-end;
   justify-content: center;
+  width: 66%;
+}
+
+.playerhalf {
+  display: flex;
+  width: 100%;
 }
 
 .playerarea {
   display: flex;
-  flex-direction: row;
+  flex-direction: column;
   justify-content: space-between;
   align-items: center;
+  width: 37%;
 }
 
 #centerlogo {
@@ -74,16 +81,19 @@ body {
   text-align: center;
 }
 
+#center-section {
+  
+}
+
 .matchcountercontainer {
-  width: 100%;
+  width: 30%;
   display: flex;
   justify-content: center;
 }
 
 .matchcounter {
-  width: 75px;
-  height: 75px;
-  margin: 16px 0px 16px 0px;
+  width: 50px;
+  height: 50px;
   color: #333333 !important;
   font-weight: bolder;
   font-size: 20pt;
@@ -105,22 +115,23 @@ body {
   display: flex;
   align-items: center;
   justify-content: center;
-  background-color: #c4c3d5;
-  margin: 10px;
-  padding: 20px;
-  width: 90%;
+  /* background-color: #c4c3d5; */
+  margin: 0px;
+  padding: 0px;
+  width: 100%;
 }
 
 .boardrow {
-  width: 80%;
-  min-height: 250px;
-  /*background: url('assets/row-background.png');*/
+  width: 75%;
+  min-height: 150px;
+  /* background: url(assets/row-background.png); */
   background-color: #a8b3d3;
   background-position: center;
   background-size: cover;
-  margin: 20px;
+  margin: 2px;
   display: flex;
   flex-grow: 1;
+  border: 5px solid #c4c3d5;
 }
 
 .cardRow {
@@ -134,31 +145,41 @@ ul {
   list-style: none;
   display: flex;
   flex-grow: 1;
-  min-height: 200px;
+  /* min-height: 149px; */
   justify-content: center;
   padding: 0;
+  margin: 0px;
 }
 
 .handlist {
   min-height: 300px;
   align-items: center;
   flex-wrap: wrap;
-  max-width: 80%;
 }
 
 .playerhand {
   display: flex;
   justify-content: center;
   align-items: center;
+  flex-direction: column;
 }
 
 .playername {
-  font-size: 4vw;
-  left: 200px;
+  font-size: 38pt;
+  font-weight: normal;
+  margin: 0;
+  padding: 0;
 }
 
 .playerarea-section {
-  width: 15vw;
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+li {
+  width: 150px;
 }
 
 .cardcontainer {
@@ -312,19 +333,19 @@ ul {
   border: 5px solid steelblue;
   background-color: #3f547a;
   color: white;
-  width: 50px;
-  height: 50px;
+  width: 30px;
+  height: 30px;
   font-size: 20pt;
 }
 
 .playerbuttons {
   display: flex;
-  flex-direction: column;
+  flex-direction: row;
 }
 
 button {
-  width: 80px;
-  height: 80px;
+  width: 60px;
+  height: 60px;
   margin: 10px;
   font-family: inherit;
   font-size: 16pt;
@@ -368,8 +389,8 @@ button:disabled {
   max-height: 100px;
   min-width: 60px;
   min-height: 60px;
-  width: 8vw;
-  height: 8vw;
+  width: 50px;
+  height: 50px;
   font-size: 42pt;
   margin: 20px;
 }

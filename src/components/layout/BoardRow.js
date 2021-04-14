@@ -50,6 +50,10 @@ export default function BoardRow(props) {
     
   return (
     <div id={rowId} className="rowarea row">
+      <div className="rowcountercontainer">
+        <SynergyCounter synergy={synergyValue} />
+        {rowShield > 0 && <ShieldCounter type="rowcounter" shield={rowShield} />}
+      </div>
       <CounterArea
         type={"row"}
         setCardFocus={props.setCardFocus}
@@ -65,10 +69,6 @@ export default function BoardRow(props) {
           rowId={props.rowId}
           setCardFocus={props.setCardFocus}
         />
-      </div>
-      <div className="rowcountercontainer">
-        <SynergyCounter synergy={synergyValue} />
-        {rowShield > 0 && <ShieldCounter type="rowcounter" shield={rowShield} />}
       </div>
     </div>
   );
