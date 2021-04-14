@@ -639,17 +639,16 @@ export default function App() {
               setCardFocus={setCardFocus}
               nextCardDraw={nextCardDraw}
               setNextCardDraw={setNextCardDraw}
-              matchState={matchState}
             />
             <div id="center-section">
-            <br/>
+              <MatchCounter playerNum={2} matchState={matchState} />
+              <MatchCounter playerNum={1} matchState={matchState} />
             </div>
             <PlayerHalf
               playerNum={1}
               setCardFocus={setCardFocus}
               nextCardDraw={nextCardDraw}
               setNextCardDraw={setNextCardDraw}
-              matchState={matchState}
             />
           </DragDropContext>
           {cardFocus !== null && 

@@ -22,7 +22,7 @@ body {
 
 #audioplayer {
   position: absolute;
-  top: 10vh;
+  top: 2vh;
   right: 2vw;
 }
 
@@ -30,9 +30,13 @@ body {
   background-color: #c4c3d5;
   font-size: 16pt;
   color: #333333;
-  border: 2px solid;
+  border: 2px solid #a8b3d3;
   text-decoration: none;
   padding: 4px;
+  position: absolute;
+  top: 2vh;
+  left: 2vw;
+  border-radius: 5px;
 }
 
 #audioicon {
@@ -89,7 +93,7 @@ body {
 }
 
 .matchcountercontainer {
-  width: 30%;
+  width: 37%;
   display: flex;
   justify-content: center;
 }
@@ -100,6 +104,7 @@ body {
   color: #333333 !important;
   font-weight: bolder;
   font-size: 20pt;
+  margin: 5px;
 }
 
 #player1matchcounter {
@@ -117,7 +122,7 @@ body {
 .rowarea {
   display: flex;
   align-items: center;
-  justify-content: center;
+  justify-content: flex-end;
   /* background-color: #c4c3d5; */
   margin: 0px;
   padding: 0px;
@@ -125,7 +130,7 @@ body {
 }
 
 .boardrow {
-  width: 75%;
+  max-width: 90%;
   min-height: 210px;
   /* background: url(assets/row-background.png); */
   background-color: #a8b3d3;
@@ -135,12 +140,14 @@ body {
   display: flex;
   flex-grow: 1;
   border: 5px solid #c4c3d5;
+  border-radius: 18px;
 }
 
 .cardRow {
   flex-grow: 1;
   display: flex;
   justify-content: center;
+  align-items: center;
 }
 
 /* Should the ul take place of the div? */
@@ -297,12 +304,11 @@ li {
 }
 
 .rowcounter {
-  margin: 10px 0 10px 0;
 }
 
 .shieldcounter.rowcounter {
-  width: 75px;
-  height: 75px; 
+  width: 44px;
+  height: 50px; 
 }
 
 .cardfocuscounter {
@@ -395,7 +401,7 @@ button:disabled {
   width: 50px;
   height: 50px;
   font-size: 42pt;
-  margin: 20px;
+  margin: 0 10px;
 }
 
 #cardfocuscontainer {
@@ -454,6 +460,27 @@ footer {
     align-items: center;
   }
 
+  #player2half {
+    flex-direction: column;
+  }
+
+  .playerarea {
+    flex-direction: row;
+  }
+  
+  #player2area {
+    flex-direction: row-reverse;
+  }
+
+  .playerarea-section {
+    width: 30%;
+    flex-direction: column;
+  }
+
+  .playerbuttons {
+    flex-direction: column;
+  }
+
   .board {
     width: 100%;
   }
@@ -464,5 +491,10 @@ footer {
 
   ul {
     justify-content: center;
+    align-items: center;
+  }
+
+  #center-section {
+    width: 20%;
   }
 }

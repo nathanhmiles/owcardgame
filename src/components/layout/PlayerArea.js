@@ -12,10 +12,9 @@ export default function PlayerArea(props) {
   if (props.playerNum === 1) {
     return (
       <div id={playerAreaId} className="playerarea row">
-      <MatchCounter playerNum={props.playerNum} matchState={props.matchState} />
         <div className="playerarea-section">
           <h1 className="playername">Player {props.playerNum}</h1>
-        <PowerCounter playerNum={props.playerNum} power={totalPower} />
+          <PowerCounter playerNum={props.playerNum} power={totalPower} />
         </div>
         <PlayerHand
           setCardFocus={props.setCardFocus}
@@ -36,9 +35,8 @@ export default function PlayerArea(props) {
         />
         <div className="playerarea-section">
           <h1 className="playername">Player {props.playerNum}</h1>
-        <PowerCounter playerNum={props.playerNum} power={totalPower} />
+          <PowerCounter playerNum={props.playerNum} power={totalPower} />
         </div>
-        <MatchCounter playerNum={props.playerNum} matchState={props.matchState} />
       </div>
     );
   }
