@@ -20,6 +20,11 @@
     }
   }
   
+  .cardfocus {
+    top: 25px;
+    height: 80vw;
+  }
+
   #centerlogo {
     height: 50px;
   }
