@@ -130,7 +130,7 @@ body {
 }
 
 .boardrow {
-  max-width: 90%;
+  max-width: calc(100% - 120px);
   min-height: 210px;
   /* background: url(assets/row-background.png); */
   background-color: #a8b3d3;
@@ -300,7 +300,7 @@ li {
 
 .rowcountercontainer {
   display: flex;
-  flex-direction: column;
+  flex-direction: row;
   font-size: 20pt;
 }
 
@@ -343,8 +343,8 @@ li {
   border: 5px solid steelblue;
   background-color: #3f547a;
   color: white;
-  width: 30px;
-  height: 30px;
+  width: 40px;
+  height: 40px;
   font-size: 20pt;
 }
 
@@ -450,4 +450,5 @@ footer {
   display: flex;
   justify-content: center;
   margin: 20px;
+  width: 80%;
 }

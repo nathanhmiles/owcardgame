@@ -22,6 +22,7 @@
 
   .playerarea-section {
     flex-direction: row;
+    width: 100%;
   }
 
   .playerbuttons {
@@ -39,6 +40,10 @@
   ul {
     justify-content: center;
     align-items: center;
+  }
+
+  .rowcountercontainer {
+    min-width: 100px;
   }
 
   #center-section {
