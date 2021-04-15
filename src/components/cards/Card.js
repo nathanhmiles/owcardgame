@@ -37,6 +37,15 @@ export default function Card(props) {
     // TODO: e.g. clear counters related to card, set isDiscarded
   }
 
+  function getStyle(style, snapshot) {
+    if (!snapshot.isDropAnimating) return style;
+
+    return {
+      ...style,
+      transitionDuration: '0.001s',
+    };
+  }
+
   return (
     (isDiscarded) ? (null) : (
       <Draggable
@@ -44,11 +53,12 @@ export default function Card(props) {
         index={index}
         isDragDisabled={isPlayed || turnState.playerTurn !== playerNum}
       >
-        {(provided) => (
+        {(provided, snapshot) => (
           <li
             {...provided.draggableProps}
             {...provided.dragHandleProps}
             ref={provided.innerRef}
+            style={getStyle(provided.draggableProps.style, snapshot)}
           >
             <div className="cardcontainer">
               {playerNum === 1 ? (
