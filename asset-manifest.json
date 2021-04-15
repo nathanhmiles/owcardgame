@@ -1,8 +1,8 @@
 {
   "files": {
     "main.css": "/owcardgame/static/css/main.e37cb282.chunk.css",
-    "main.js": "/owcardgame/static/js/main.17bd4d7d.chunk.js",
-    "main.js.map": "/owcardgame/static/js/main.17bd4d7d.chunk.js.map",
+    "main.js": "/owcardgame/static/js/main.8590f603.chunk.js",
+    "main.js.map": "/owcardgame/static/js/main.8590f603.chunk.js.map",
     "runtime-main.js": "/owcardgame/static/js/runtime-main.0b345ce8.js",
     "runtime-main.js.map": "/owcardgame/static/js/runtime-main.0b345ce8.js.map",
     "static/js/2.e987e551.chunk.js": "/owcardgame/static/js/2.e987e551.chunk.js",
@@ -196,6 +196,6 @@
     "static/js/runtime-main.0b345ce8.js",
     "static/js/2.e987e551.chunk.js",
     "static/css/main.e37cb282.chunk.css",
-    "static/js/main.17bd4d7d.chunk.js"
+    "static/js/main.8590f603.chunk.js"
   ]
 }
