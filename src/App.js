@@ -623,7 +623,7 @@ export default function App() {
   }
   
   return (
-    <div>
+    <div className="landscape-wrapper">
       <turnContext.Provider value={{ turnState, setTurnState }}>
         <gameContext.Provider value={{ gameState, dispatch }}>
           <Footer />
