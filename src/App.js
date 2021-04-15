@@ -3,6 +3,8 @@ import gameContext from "context/gameContext";
 import turnContext from "context/turnContext";
 import { DragDropContext } from "react-beautiful-dnd";
 import "./App.css";
+import "./1300.css";
+import "./760.css";
 import PlayerHalf from "components/layout/PlayerHalf";
 import TitleCard from "components/layout/TitleCard";
 import Footer from "components/layout/Footer";

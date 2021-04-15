@@ -1,0 +1,51 @@
+
+@media (max-width: 1300px) {
+  .playerhalf {
+    display: flex;
+    width: 100%;
+    flex-direction: column-reverse;
+    justify-content: center;
+    align-items: center;
+  }
+
+  #player2half {
+    flex-direction: column;
+  }
+
+  .playerarea {
+    flex-direction: column;
+  }
+  
+  #player2area {
+    flex-direction: column-reverse;
+  }
+
+  .playerarea-section {
+    flex-direction: row;
+  }
+
+  .playerbuttons {
+    flex-direction: row;
+  }
+
+  .board {
+    width: 100%;
+  }
+
+  .playerarea {
+    width: 100%;
+  }
+
+  ul {
+    justify-content: center;
+    align-items: center;
+  }
+
+  #center-section {
+    width: 20%;
+  }
+
+  .disclaimer {
+    width: 70%;
+  }
+}
