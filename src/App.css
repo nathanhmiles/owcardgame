@@ -1,3 +1,8 @@
+/* Variables */
+:root {
+  --counter-size: 50px;
+}
+
 @font-face {
   font-family: Big-Noodle-Titling;
   src: url("./assets/fonts/big_noodle_titling.ttf");
@@ -55,17 +60,23 @@ body {
 .playerhalf {
   display: flex;
   width: 100%;
+  min-height: 760px;
 }
 
 .playerarea {
   display: flex;
   flex-direction: column;
-  justify-content: space-between;
   align-items: center;
   width: 37%;
 }
 
+#player1area {
+  justify-content: flex-start;
+}
 
+#player2area {
+  justify-content: flex-end;
+}
 
 #centerlogo {
   height: 100px;
@@ -89,7 +100,6 @@ body {
 }
 
 #center-section {
-  
 }
 
 .matchcountercontainer {
@@ -165,6 +175,7 @@ ul {
 .handlist {
   min-height: 300px;
   flex-wrap: wrap;
+  flex-grow: 0;
 }
 
 .playerhand {
@@ -194,6 +205,7 @@ li {
 }
 
 .cardcontainer {
+  position: relative;
   width: 100%;
   display: flex;
   flex-direction: column;
@@ -209,7 +221,6 @@ li {
   z-index: 20;
   font-size: 9pt;
 }
-
 
 .cardimg {
   max-height: 100%;
@@ -235,22 +246,28 @@ li {
 }
 
 .card-counterarea {
-
 }
 
 .effects {
   justify-content: center;
   display: flex;
-  justify-content: center;
 }
 
-.allyeffects {
-
+/*
+.effectscontainer {
+  position: absolute;
 }
 
-.enemyeffects {
-
+#player1board .allyeffects,
+#player2board .enemyeffects {
+  bottom: calc(-1 * (var(--counter-size) + 10px));
 }
+
+#player1board .enemyeffects,
+#player2board .allyeffects {
+  top: calc(-1 * (var(--counter-size) + 10px));
+}
+*/
 
 .counter {
   display: flex;
@@ -260,7 +277,6 @@ li {
   z-index: 25;
   position: relative;
   color: white;
-  
 }
 
 .herocounter {
@@ -269,11 +285,11 @@ li {
 }
 
 .healthcounter {
-  background-image: url('assets/healthbackground.png');
+  background-image: url("assets/healthbackground.png");
 }
 
 .shieldcounter {
-  background-image: url('assets//shieldcounter.png');
+  background-image: url("assets//shieldcounter.png");
   background-position: center;
   background-size: contain;
   background-repeat: no-repeat;
@@ -293,7 +309,7 @@ li {
 
 .shieldcounter.cardcounter {
   top: 11%;
-  left: 81%;
+  left: 80%;
   width: 15%;
   height: auto;
 }
@@ -308,8 +324,8 @@ li {
 }
 
 .shieldcounter.rowcounter {
-  width: 44px;
-  height: 50px; 
+  width: 50px;
+  height: 50px;
 }
 
 .cardfocuscounter {
@@ -385,11 +401,9 @@ button:disabled {
 }
 
 .drawbutton {
-
 }
 
 .endturnbutton {
-
 }
 
 .powercounter {

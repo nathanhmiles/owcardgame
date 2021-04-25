@@ -1,25 +1,24 @@
 @media (max-width: 800px) {
-  
   @media screen and (orientation: portrait) {
-    body{
-      margin:0;
-      overflow:hidden;
+    body {
+      margin: 0;
+      overflow: hidden;
     }
-    .landscape-wrapper{
-        transform: rotate(90deg);
-        transform-origin:bottom left;
-        
-        position:absolute;
-        top: -100vw;
-        left: 0;
-        
-        height:100vw;
-        width:100vh;
-    
-        overflow:auto;
+    .landscape-wrapper {
+      transform: rotate(90deg);
+      transform-origin: bottom left;
+
+      position: absolute;
+      top: -100vw;
+      left: 0;
+
+      height: 100vw;
+      width: 100vh;
+
+      overflow: auto;
     }
   }
-  
+
   .cardfocus {
     top: 25px;
     height: 80vw;
@@ -31,6 +30,5 @@
 
   .credit {
     font-size: 6pt;
-  } 
-  
+  }
 }

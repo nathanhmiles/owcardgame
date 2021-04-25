@@ -9,18 +9,18 @@ export default function HeroAbilities(props) {
   // Context
   const { gameState, dispatch } = useContext(gameContext);
   const { turnState, setTurnState } = useContext(turnContext);
-  
+
   // Variables
   const playerTurn = turnState.playerTurn;
   const enemyPlayerNum = playerTurn === 1 ? 2 : 1;
-  
+
   const playerHeroId = props.playerHeroId;
   const currentCard =
-  gameState.playerCards[`player${playerHeroId[0]}cards`].cards[playerHeroId];
+    gameState.playerCards[`player${playerHeroId[0]}cards`].cards[playerHeroId];
   const heroId = playerHeroId.slice(1, playerHeroId.length);
   const rowId = props.rowId;
   const unsetCardFocus = props.unsetCardFocus;
-  
+
   // ref to keep track of card health during async ability usages
   let targetRef = useRef(null);
   // ref to check if a user clicked end turn - checks current turnstate against refs state
@@ -30,27 +30,31 @@ export default function HeroAbilities(props) {
   // ref to track which hero's ability is currently in use
   let currentHeroAbilityRef = useRef(null);
 
-
   // TODO: later if implementing more built in controls, such as only allowing
   // TODO: user to affect cards in a specific row, create another ref to track
   // TODO: row target info and reference it during the hero's ability call
-  
+
   // Ensures targetRef only contains values during ability usage,
   // Reset to empty object when rerendering (i.e. when ability is finished)
   useEffect(() => {
     targetRef.current = {};
   });
-  
+
   // Applies damage to either shields or health as needed, returning both the shield and health value
   // TODO: currently only damage has its own function that sets state, all other state
   // TODO: is set within the hero's ability
-  function applyDamage(damageValue, targetCardId, targetRow, ignoreShields=false) {
+  function applyDamage(
+    damageValue,
+    targetCardId,
+    targetRow,
+    ignoreShields = false
+  ) {
     // Identify target player
     const targetPlayerNum = parseInt(targetCardId[0]);
     const targetPlayerCards =
       gameState.playerCards[`player${targetPlayerNum}cards`].cards;
     const targetHeroId = targetCardId.slice(1, targetCardId.length);
-    
+
     // Get hero health and shield values
     let targetHealth = targetPlayerCards[targetCardId].health;
     let targetShield = targetPlayerCards[targetCardId].shield;
@@ -75,12 +79,12 @@ export default function HeroAbilities(props) {
     }
 
     // Check ally and enemy card effects
-    const targetCardAllyEffects = targetPlayerCards[targetCardId].allyEffects.filter(
-      (effect) => effect.type === "damage"
-    );
-    const targetCardEnemyEffects = targetPlayerCards[targetCardId].enemyEffects.filter(
-      (effect) => effect.type === "damage"
-    );
+    const targetCardAllyEffects = targetPlayerCards[
+      targetCardId
+    ].allyEffects.filter((effect) => effect.type === "damage");
+    const targetCardEnemyEffects = targetPlayerCards[
+      targetCardId
+    ].enemyEffects.filter((effect) => effect.type === "damage");
 
     // Calculate net total of card effects
     let totalCardEffect = 0;
@@ -107,13 +111,11 @@ export default function HeroAbilities(props) {
       targetHealth = targetRef.current[targetCardId].health;
       targetShield = targetRef.current[targetCardId].shield;
     } else targetRef.current[targetCardId] = {};
-    
+
     if (targetRow in targetRef.current) {
       targetRowShield = targetRef.current[targetRow].totalShield;
     } else targetRef.current[targetRow] = {};
-    
 
-    
     // *** APPLY DAMAGE ***
     // Track how much damage is done to the row's shields so it can be dispatched to state later
     let rowShieldDamage = 0;
@@ -122,33 +124,33 @@ export default function HeroAbilities(props) {
       for (let i = 0; i < damageValue; i++) {
         // Damage row shield before all else, and update ref
         if (targetRowShield > 0 && ignoreShields === false) {
-          console.log(`damaging row shield ${targetRowShield} with damage ${damageValue}`)
-          
+          console.log(
+            `damaging row shield ${targetRowShield} with damage ${damageValue}`
+          );
+
           targetRowShield -= 1;
           rowShieldDamage += 1;
-  
+
           targetRef.current[targetRow]["totalShield"] = targetRowShield;
-  
+
           // Damage hero shield before health, and update ref
         } else if (targetShield > 0 && ignoreShields === false) {
           targetShield -= 1;
-          
+
           // Damage hero health and update ref
         } else if (targetHealth > 0) {
           targetHealth -= 1;
         } else if (targetHealth === 0) {
-          console.log('target health is 0')
+          console.log("target health is 0");
         } else {
           throw new Error(`${targetCardId} is at ${targetHealth} health`);
         }
       }
       targetRef.current[targetCardId]["health"] = targetHealth;
       targetRef.current[targetCardId]["shield"] = targetShield;
-
-    } catch(err) {
+    } catch (err) {
       console.log(err);
     }
-
 
     // Set the new state (will be done in batch at the end of the ability)
     dispatch({
@@ -168,7 +170,7 @@ export default function HeroAbilities(props) {
         editValues: [targetHealth, targetShield],
       },
     });
-    
+
     return;
   }
 
@@ -180,7 +182,7 @@ export default function HeroAbilities(props) {
     // Get hero health
     let targetHealth = targetPlayerCards[targetCardId].health;
     const targetMaxHealth = targetPlayerCards[targetCardId].maxHealth;
-    
+
     if (targetCardId in targetRef.current) {
       targetHealth = targetRef.current[targetCardId].health;
     }
@@ -198,7 +200,7 @@ export default function HeroAbilities(props) {
           targetHealth += 1;
           healingDone += 1;
           targetRef.current[targetCardId]["health"] = targetHealth;
-        }      
+        }
       }
       // Set the new state (will be done in batch at the end of the ability)
       dispatch({
@@ -232,7 +234,7 @@ export default function HeroAbilities(props) {
 
               // Remove the onclick
               $(".row").off("click");
- 
+
               // Check target is valid
               if (targetRow[0] === "p") {
                 reject("Incorrect target");
@@ -294,11 +296,14 @@ export default function HeroAbilities(props) {
               $(".card").off("click");
 
               // Check target is valid
-              if (targetCardRow[0] === "p" || parseInt(targetCardRow[0]) === playerTurn) {
+              if (
+                targetCardRow[0] === "p" ||
+                parseInt(targetCardRow[0]) === playerTurn
+              ) {
                 reject("Incorrect target row");
                 return;
               }
-              
+
               const damageValue = 2;
               applyDamage(damageValue, targetCardId, targetCardRow, true);
 
@@ -337,7 +342,6 @@ export default function HeroAbilities(props) {
         run() {
           return new Promise((resolve, reject) => {
             $(".card").on("click", (e) => {
-              
               // Get target info
               const targetCardId = $(e.target).closest(".card").attr("id");
               const targetCardIndex = $(e.target).closest("li").index();
@@ -357,18 +361,20 @@ export default function HeroAbilities(props) {
                 gameState.rows[targetCardRow].cardIds[targetCardIndex - 1];
               const adjacentTarget2 =
                 gameState.rows[targetCardRow].cardIds[targetCardIndex + 1];
-              
+
               const targets = [targetCardId, adjacentTarget1, adjacentTarget2];
 
               // If target is enemy apply damage, if ally apply healing
               if (parseInt(targetCardId[0]) === playerTurn) {
-                targets.forEach(target => {
-                  if (target !== undefined) applyHealing(1, target, targetCardRow);
+                targets.forEach((target) => {
+                  if (target !== undefined)
+                    applyHealing(1, target, targetCardRow);
                 });
               } else {
-                targets.forEach(target => {
-                  console.log(`attacking ${target}`)
-                  if (target !==undefined ) applyDamage(1, target, targetCardRow);
+                targets.forEach((target) => {
+                  console.log(`attacking ${target}`);
+                  if (target !== undefined)
+                    applyDamage(1, target, targetCardRow);
                 });
               }
 
@@ -398,7 +404,10 @@ export default function HeroAbilities(props) {
               $(".card").off("click");
 
               // Check target is valid
-              if (targetCardRow[0] === "p" || parseInt(targetCardRow[0]) === playerTurn) {
+              if (
+                targetCardRow[0] === "p" ||
+                parseInt(targetCardRow[0]) === playerTurn
+              ) {
                 reject("Incorrect target row");
                 return;
               }
@@ -444,7 +453,10 @@ export default function HeroAbilities(props) {
               $(".card").off("click");
 
               // Check target is valid
-              if (targetRow[0] === "p" || parseInt(targetRow[0]) !== playerTurn) {
+              if (
+                targetRow[0] === "p" ||
+                parseInt(targetRow[0]) !== playerTurn
+              ) {
                 reject("Incorrect target");
                 return;
               }
@@ -550,7 +562,10 @@ export default function HeroAbilities(props) {
               $(".card").off("click");
 
               // Check target is valid
-              if (targetCardRow[0] === "p" || parseInt(targetCardRow[0]) === playerTurn) {
+              if (
+                targetCardRow[0] === "p" ||
+                parseInt(targetCardRow[0]) === playerTurn
+              ) {
                 reject("Incorrect target row");
                 return;
               }
@@ -682,7 +697,7 @@ export default function HeroAbilities(props) {
     },
     echo: {
       ability1: {
-        audioFile: 'echo-burning',
+        audioFile: "echo-burning",
         run() {
           return new Promise((resolve, reject) => {
             $(".card").on("click", (e) => {
@@ -694,14 +709,20 @@ export default function HeroAbilities(props) {
               $(".card").off("click");
 
               // Check target is in valid row
-              if (targetRow[0] === "p" || parseInt(targetRow[0]) === playerTurn) {
+              if (
+                targetRow[0] === "p" ||
+                parseInt(targetRow[0]) === playerTurn
+              ) {
                 reject("Incorrect target");
                 return;
               }
 
               // Apply damage to the target card (includes setting state)
               const targetPlayer = parseInt(targetCardId[0]);
-              const targetCard = gameState.playerCards[`player${targetPlayer}cards`].cards[targetCardId];
+              const targetCard =
+                gameState.playerCards[`player${targetPlayer}cards`].cards[
+                  targetCardId
+                ];
               const damageValue = targetCard.maxHealth - targetCard.health;
               applyDamage(damageValue, targetCardId, targetRow);
 
@@ -713,76 +734,74 @@ export default function HeroAbilities(props) {
         },
       },
       ability2: {
-        audioFile: 'echo-ult',
+        audioFile: "echo-ult",
         synergyCost: 2,
         async run() {
-            // Get the id of the last used ultimate
-            const echoUltHeroId = localStorage.getItem('echoUltHeroId');
+          // Get the id of the last used ultimate
+          const echoUltHeroId = localStorage.getItem("echoUltHeroId");
 
-            // Certain ults need to be tailored specifically for echo to use
-            // Ashe - differntiate echo's bob from ashe's by using a different id
-            if (echoUltHeroId === 'ashe') {
-              // Create bob card
-              dispatch({
-                type: ACTIONS.CREATE_CARD,
-                payload: {
-                  playerNum: playerTurn,
-                  heroId: "bob-echo",
-                },
-              });
+          // Certain ults need to be tailored specifically for echo to use
+          // Ashe - differntiate echo's bob from ashe's by using a different id
+          if (echoUltHeroId === "ashe") {
+            // Create bob card
+            dispatch({
+              type: ACTIONS.CREATE_CARD,
+              payload: {
+                playerNum: playerTurn,
+                heroId: "bob-echo",
+              },
+            });
 
-              // Add summoned hero to hand
-              dispatch({
-                type: ACTIONS.ADD_CARD_TO_HAND,
-                payload: {
-                  playerNum: playerTurn,
-                  playerHeroId: `${playerTurn}bob-echo`,
-                },
-              });
+            // Add summoned hero to hand
+            dispatch({
+              type: ACTIONS.ADD_CARD_TO_HAND,
+              payload: {
+                playerNum: playerTurn,
+                playerHeroId: `${playerTurn}bob-echo`,
+              },
+            });
 
-              return;
-            }
-            // Dva - cant allow echo to create a second dvameka in player's deck
-            else if (echoUltHeroId === 'dva') {
-              alert("Cannot duplicate D.va's Ultimate");
-              return;
-            }
-            // DvaMeka - Echo causes the damage, but none of the other effects
-            else if (echoUltHeroId === 'dvameka') {
-              const rowPosition = rowId[1];
-              const enemyPlayer = playerTurn === 1 ? 2 : 1;
-              const playerRowCardIds = gameState.rows[rowId].cardIds;
-              const enemyPlayerRowCardIds =
-                gameState.rows[`${enemyPlayer}${rowPosition}`].cardIds;
+            return;
+          }
+          // Dva - cant allow echo to create a second dvameka in player's deck
+          else if (echoUltHeroId === "dva") {
+            alert("Cannot duplicate D.va's Ultimate");
+            return;
+          }
+          // DvaMeka - Echo causes the damage, but none of the other effects
+          else if (echoUltHeroId === "dvameka") {
+            const rowPosition = rowId[1];
+            const enemyPlayer = playerTurn === 1 ? 2 : 1;
+            const playerRowCardIds = gameState.rows[rowId].cardIds;
+            const enemyPlayerRowCardIds =
+              gameState.rows[`${enemyPlayer}${rowPosition}`].cardIds;
 
-              // Damage own player cards, except for echo using the ability
-              const damageValue = 4;
-              for (let cardId of playerRowCardIds) {
-                if (cardId !== `${playerTurn}echo`) {
-                  applyDamage(damageValue, cardId, rowId);
-                }
+            // Damage own player cards, except for echo using the ability
+            const damageValue = 4;
+            for (let cardId of playerRowCardIds) {
+              if (cardId !== `${playerTurn}echo`) {
+                applyDamage(damageValue, cardId, rowId);
               }
-
-              // Damage enemy cards
-              for (let cardId of enemyPlayerRowCardIds) {
-                applyDamage(damageValue, cardId, `${enemyPlayer}${rowPosition}`);
-              }
-
-              return;
             }
-          
-            // Run the ultimate in the same way as normal, but without deducting synergy
-            const maxTargets = abilities[echoUltHeroId].ability2.maxTargets;
-            let i = 0;
-            do {
-              await abilities[echoUltHeroId].ability2.run();
-              i++;
-            } while (
-              "maxTargets" in abilities[echoUltHeroId].ability2 &&
-              i < maxTargets
-            );
 
-          
+            // Damage enemy cards
+            for (let cardId of enemyPlayerRowCardIds) {
+              applyDamage(damageValue, cardId, `${enemyPlayer}${rowPosition}`);
+            }
+
+            return;
+          }
+
+          // Run the ultimate in the same way as normal, but without deducting synergy
+          const maxTargets = abilities[echoUltHeroId].ability2.maxTargets;
+          let i = 0;
+          do {
+            await abilities[echoUltHeroId].ability2.run();
+            i++;
+          } while (
+            "maxTargets" in abilities[echoUltHeroId].ability2 &&
+            i < maxTargets
+          );
         },
       },
     },
@@ -802,11 +821,14 @@ export default function HeroAbilities(props) {
 
               // Allow user to end the ability early by clicking on the ability-using-hero's card
               if (targetCardId === `${currentHeroAbilityRef.current}`) {
-                alert('Ability stopped early');
+                alert("Ability stopped early");
                 return;
-              } 
+              }
               // Check target is valid
-              if (targetRow[0] === "p" || parseInt(targetRow[0]) === playerTurn) {
+              if (
+                targetRow[0] === "p" ||
+                parseInt(targetRow[0]) === playerTurn
+              ) {
                 reject("Incorrect target");
                 return;
               }
@@ -881,7 +903,10 @@ export default function HeroAbilities(props) {
               $(".row").off("click");
 
               // Check target is valid
-              if (targetRow[0] === "p" || parseInt(targetRow[0]) === playerTurn) {
+              if (
+                targetRow[0] === "p" ||
+                parseInt(targetRow[0]) === playerTurn
+              ) {
                 reject("Incorrect target");
                 return;
               }
@@ -920,13 +945,16 @@ export default function HeroAbilities(props) {
 
               // Allow user to end the ability early by clicking on the ability-using-hero's card
               if (targetCardId === `${currentHeroAbilityRef.current}`) {
-                alert('Ability stopped early');
+                alert("Ability stopped early");
                 return;
-              } 
+              }
               // Check target is valid
               // TODO: check that target cards are actually in the same column
               // TODO: currently just relying on user to choose correctly
-              if (targetRow[0] === "p" || parseInt(targetRow[0]) === playerTurn) {
+              if (
+                targetRow[0] === "p" ||
+                parseInt(targetRow[0]) === playerTurn
+              ) {
                 reject("Incorrect target");
                 return;
               }
@@ -952,7 +980,9 @@ export default function HeroAbilities(props) {
           return new Promise((resolve, reject) => {
             $(".row").on("click", (e) => {
               const targetRowId = $(e.target).closest(".row").attr("id");
-              const junkratStartIndex = $(`#${playerHeroId}`).closest("li").index();
+              const junkratStartIndex = $(`#${playerHeroId}`)
+                .closest("li")
+                .index();
               const newRowPosition = targetRowId[1];
 
               $(".row").off("click");
@@ -963,21 +993,22 @@ export default function HeroAbilities(props) {
                 return;
               }
 
-                // Set state
-                dispatch({
-                  type: ACTIONS.MOVE_CARD,
-                  payload: {
-                    targetCardId: `${playerHeroId}`,
-                    startRowId: rowId,
-                    finishRowId: targetRowId,
-                    startIndex: junkratStartIndex,
-                    finishIndex: 0,
-                  },
-                });
+              // Set state
+              dispatch({
+                type: ACTIONS.MOVE_CARD,
+                payload: {
+                  targetCardId: `${playerHeroId}`,
+                  startRowId: rowId,
+                  finishRowId: targetRowId,
+                  startIndex: junkratStartIndex,
+                  finishIndex: 0,
+                },
+              });
 
-                // Get all cards in the target row
+              // Get all cards in the target row
               const targetRowCardIds = $.map(
-                $(`#${enemyPlayerNum}${newRowPosition} .card`), (card) => {
+                $(`#${enemyPlayerNum}${newRowPosition} .card`),
+                (card) => {
                   return card.id;
                 }
               );
@@ -989,7 +1020,7 @@ export default function HeroAbilities(props) {
               });
 
               resolve();
-              });
+            });
           });
         },
       },
@@ -1009,7 +1040,10 @@ export default function HeroAbilities(props) {
               $(".row").off("click");
 
               // Check target is valid
-              if (targetRow[0] === "p" || parseInt(targetRow[0]) !== playerTurn) {
+              if (
+                targetRow[0] === "p" ||
+                parseInt(targetRow[0]) !== playerTurn
+              ) {
                 reject("Incorrect target");
                 return;
               }
@@ -1054,7 +1088,6 @@ export default function HeroAbilities(props) {
               },
             });
           }
-            
         },
       },
       lucioAllyEffect: {
@@ -1086,7 +1119,10 @@ export default function HeroAbilities(props) {
               $(".row").off("click");
 
               // Check target is valid
-              if (targetCardRow[0] === "p" || parseInt(targetCardRow[0]) === playerTurn) {
+              if (
+                targetCardRow[0] === "p" ||
+                parseInt(targetCardRow[0]) === playerTurn
+              ) {
                 reject("Incorrect target row");
                 return;
               }
@@ -1116,7 +1152,10 @@ export default function HeroAbilities(props) {
               $(".row").off("click");
 
               // Check target is valid
-              if (targetRow[0] === "p" || parseInt(targetRow[0]) === playerTurn) {
+              if (
+                targetRow[0] === "p" ||
+                parseInt(targetRow[0]) === playerTurn
+              ) {
                 reject("Incorrect target row");
                 return;
               }
@@ -1159,7 +1198,10 @@ export default function HeroAbilities(props) {
                       $(".card").off("click");
 
                       // Check target is valid
-                      if (targetRow[0] === "p" || parseInt(targetRow[0]) === playerTurn) {
+                      if (
+                        targetRow[0] === "p" ||
+                        parseInt(targetRow[0]) === playerTurn
+                      ) {
                         reject("Incorrect target row");
                         return;
                       }
@@ -1209,7 +1251,10 @@ export default function HeroAbilities(props) {
               $(".card").off("click");
 
               // Check target is valid
-              if (targetRow[0] === "p" || parseInt(targetRow[0]) !== playerTurn) {
+              if (
+                targetRow[0] === "p" ||
+                parseInt(targetRow[0]) !== playerTurn
+              ) {
                 reject("Incorrect target");
                 return;
               }
@@ -1250,15 +1295,22 @@ export default function HeroAbilities(props) {
               // Get target information
               const targetCardId = $(e.target).closest(".card").attr("id");
               const targetRowId = $(e.target).closest(".row").attr("id");
-              const mercyStartIndex = $(`#${playerHeroId}`).closest("li").index();
-              const targetCardIndex = $(`#${targetCardId}`).closest("li").index();
+              const mercyStartIndex = $(`#${playerHeroId}`)
+                .closest("li")
+                .index();
+              const targetCardIndex = $(`#${targetCardId}`)
+                .closest("li")
+                .index();
               const newRowPosition = targetRowId[1];
 
               // Remove the onclick
               $(".card").off("click");
 
               // Check target is valid
-              if (targetRowId[0] === "p" || parseInt(targetRowId[0]) !== playerTurn) {
+              if (
+                targetRowId[0] === "p" ||
+                parseInt(targetRowId[0]) !== playerTurn
+              ) {
                 reject("Incorrect target");
                 return;
               }
@@ -1275,18 +1327,25 @@ export default function HeroAbilities(props) {
                 },
               });
 
-              if (gameState.playerCards[`player${playerTurn}cards`].cards[targetCardId].health === 0) {
+              if (
+                gameState.playerCards[`player${playerTurn}cards`].cards[
+                  targetCardId
+                ].health === 0
+              ) {
                 dispatch({
                   type: ACTIONS.EDIT_CARD,
                   payload: {
                     playerNum: playerTurn,
                     targetCardId: targetCardId,
-                    editKeys: ['health'],
-                    editValues: [gameState.playerCards[`player${playerTurn}cards`].cards[targetCardId].maxHealth],
+                    editKeys: ["health"],
+                    editValues: [
+                      gameState.playerCards[`player${playerTurn}cards`].cards[
+                        targetCardId
+                      ].maxHealth,
+                    ],
                   },
                 });
               }
-
 
               resolve();
             });
@@ -1388,9 +1447,9 @@ export default function HeroAbilities(props) {
 
               // Allow user to end the ability early by clicking on the ability-using-hero's card
               if (targetCardId === `${currentHeroAbilityRef.current}`) {
-                alert('Ability stopped early');
+                alert("Ability stopped early");
                 return;
-              } 
+              }
               // Check target is valid
               if (targetCardRow[0] === "p") {
                 reject("Incorrect target row");
@@ -1436,7 +1495,10 @@ export default function HeroAbilities(props) {
               $(".card").off("click");
 
               // Check target is valid
-              if (targetCardRow[0] === "p" || parseInt(targetCardRow[0]) === playerTurn) {
+              if (
+                targetCardRow[0] === "p" ||
+                parseInt(targetCardRow[0]) === playerTurn
+              ) {
                 reject("Incorrect target row");
                 return;
 
@@ -1491,11 +1553,14 @@ export default function HeroAbilities(props) {
 
               // Allow user to end the ability early by clicking on the ability-using-hero's card
               if (targetCardId === `${currentHeroAbilityRef.current}`) {
-                alert('Ability stopped early');
+                alert("Ability stopped early");
                 return;
-              } 
+              }
               // Check target is valid
-              if (targetRow[0] === "p" || parseInt(targetRow[0]) === playerTurn) {
+              if (
+                targetRow[0] === "p" ||
+                parseInt(targetRow[0]) === playerTurn
+              ) {
                 reject("Incorrect target");
                 return;
               }
@@ -1526,11 +1591,14 @@ export default function HeroAbilities(props) {
 
               // Allow user to end the ability early by clicking on the ability-using-hero's card
               if (targetCardId === `${currentHeroAbilityRef.current}`) {
-                alert('Ability stopped early');
+                alert("Ability stopped early");
                 return;
-              } 
+              }
               // Check target is valid
-              if (targetRow[0] === "p" || parseInt(targetRow[0]) === playerTurn) {
+              if (
+                targetRow[0] === "p" ||
+                parseInt(targetRow[0]) === playerTurn
+              ) {
                 reject("Incorrect target");
                 return;
               }
@@ -1607,13 +1675,16 @@ export default function HeroAbilities(props) {
 
               // Allow user to end the ability early by clicking on the ability-using-hero's card
               if (targetCardId === `${currentHeroAbilityRef.current}`) {
-                alert('Ability stopped early');
+                alert("Ability stopped early");
                 return;
-              } 
+              }
               // Check target is valid
               // TODO: check that target cards are actually in the same column
               // TODO: currently just relying on user to choose correctly
-              if (targetCardRow[0] === "p" || parseInt(targetCardRow[0]) === playerTurn) {
+              if (
+                targetCardRow[0] === "p" ||
+                parseInt(targetCardRow[0]) === playerTurn
+              ) {
                 reject("Incorrect target");
                 return;
               }
@@ -1653,7 +1724,10 @@ export default function HeroAbilities(props) {
               $(".card").off("click");
 
               // Check target is valid
-              if (targetCardRow[0] === "p" || parseInt(targetCardRow[0]) === playerTurn) {
+              if (
+                targetCardRow[0] === "p" ||
+                parseInt(targetCardRow[0]) === playerTurn
+              ) {
                 reject("Incorrect target row");
                 return;
               }
@@ -1761,7 +1835,10 @@ export default function HeroAbilities(props) {
                   $(".card").off("click");
 
                   // Check target is valid
-                  if (targetRow[0] === "p" || parseInt(targetRow[0]) === playerTurn) {
+                  if (
+                    targetRow[0] === "p" ||
+                    parseInt(targetRow[0]) === playerTurn
+                  ) {
                     reject("Incorrect target row");
                     return;
                   }
@@ -1795,7 +1872,10 @@ export default function HeroAbilities(props) {
               $(".row").off("click");
 
               // Check target is valid
-              if (targetRow[0] === "p" || parseInt(targetRow[0]) !== playerTurn) {
+              if (
+                targetRow[0] === "p" ||
+                parseInt(targetRow[0]) !== playerTurn
+              ) {
                 reject("Incorrect target");
                 return;
               }
@@ -1827,7 +1907,10 @@ export default function HeroAbilities(props) {
               $(".row").off("click");
 
               // Check target is valid
-              if (targetRow[0] === "p" || parseInt(targetRow[0]) === playerTurn) {
+              if (
+                targetRow[0] === "p" ||
+                parseInt(targetRow[0]) === playerTurn
+              ) {
                 reject("Incorrect target row");
                 return;
               }
@@ -1862,7 +1945,7 @@ export default function HeroAbilities(props) {
       },
     },
     soldier: {
-      id: 'soldier',
+      id: "soldier",
       ability1: {
         audioFile: "soldier-teamheal",
         run() {
@@ -1894,10 +1977,13 @@ export default function HeroAbilities(props) {
 
               // Allow user to end the ability early by clicking on the ability-using-hero's card
               if (targetCardId === `${currentHeroAbilityRef.current}`) {
-                alert('Ability stopped early');
+                alert("Ability stopped early");
                 return;
-              // Check target is valid
-              } else if (targetRow[0] === "p" || parseInt(targetRow[0]) === playerTurn) {
+                // Check target is valid
+              } else if (
+                targetRow[0] === "p" ||
+                parseInt(targetRow[0]) === playerTurn
+              ) {
                 reject("Incorrect target");
                 return;
               }
@@ -1938,27 +2024,32 @@ export default function HeroAbilities(props) {
               $(".card").off("click");
 
               // Check target is valid
-              if (teleportCardRow[0] === "p" || parseInt(teleportCardRow[0]) !== playerTurn) {
+              if (
+                teleportCardRow[0] === "p" ||
+                parseInt(teleportCardRow[0]) !== playerTurn
+              ) {
                 reject("Incorrect target row");
                 return;
               }
 
               // Check if target effect is applied to any row, if so remove effect
               for (let key in gameState.rows) {
-                if (key[0] !== 'p') {
+                if (key[0] !== "p") {
                   const targetPlayer = parseInt(key[0]);
 
-                  console.log(`key is ${key}`)
-                  console.log(JSON.stringify(gameState.rows[key]))
+                  console.log(`key is ${key}`);
+                  console.log(JSON.stringify(gameState.rows[key]));
 
                   for (let effect of gameState.rows[key].allyEffects) {
                     if (effect.playerHeroId === teleportCardId) {
-                      const newRow = gameState.rows[key].allyEffects.filter(effect => effect.playerHeroId !== teleportCardId);
+                      const newRow = gameState.rows[key].allyEffects.filter(
+                        (effect) => effect.playerHeroId !== teleportCardId
+                      );
                       dispatch({
                         type: ACTIONS.EDIT_ROW,
                         payload: {
                           targetRow: key,
-                          editKeys: ['allyEffects'],
+                          editKeys: ["allyEffects"],
                           editValues: [newRow],
                         },
                       });
@@ -1967,45 +2058,58 @@ export default function HeroAbilities(props) {
 
                   for (let effect of gameState.rows[key].enemyEffects) {
                     if (effect.playerHeroId === teleportCardId) {
-                      const newRow = gameState.rows[key].enemyEffects.filter(effect => effect.playerHeroId !== teleportCardId);
+                      const newRow = gameState.rows[key].enemyEffects.filter(
+                        (effect) => effect.playerHeroId !== teleportCardId
+                      );
                       dispatch({
                         type: ACTIONS.EDIT_ROW,
                         payload: {
                           targetRow: key,
-                          editKeys: ['enemyEffects'],
+                          editKeys: ["enemyEffects"],
                           editValues: [newRow],
                         },
                       });
                     }
                   }
 
-                  
                   // Check if target's effect is applied to any card, if so remove
                   for (let cardId of gameState.rows[key].cardIds) {
-                    for (let effect of gameState.playerCards[`player${targetPlayer}cards`].cards[cardId].allyEffects) {
+                    for (let effect of gameState.playerCards[
+                      `player${targetPlayer}cards`
+                    ].cards[cardId].allyEffects) {
                       if (effect.playerHeroId === teleportCardId) {
-                        const newEffects = gameState.playerCards[`player${targetPlayer}cards`].cards[cardId].allyEffects.filter(effect => effect.playerHeroId !== teleportCardId)
+                        const newEffects = gameState.playerCards[
+                          `player${targetPlayer}cards`
+                        ].cards[cardId].allyEffects.filter(
+                          (effect) => effect.playerHeroId !== teleportCardId
+                        );
                         dispatch({
-                          type:   ACTIONS.EDIT_CARD,
+                          type: ACTIONS.EDIT_CARD,
                           payload: {
                             playerNum: targetPlayer,
                             targetCardId: cardId,
-                            editKeys: ['allyEffects'],
+                            editKeys: ["allyEffects"],
                             editValues: [newEffects],
                           },
                         });
                       }
                     }
 
-                    for (let effect of gameState.playerCards[`player${targetPlayer}cards`].cards[cardId].enemyEffects) {
+                    for (let effect of gameState.playerCards[
+                      `player${targetPlayer}cards`
+                    ].cards[cardId].enemyEffects) {
                       if (effect.playerHeroId === teleportCardId) {
-                        const newEffects = gameState.playerCards[`player${targetPlayer}cards`].cards[cardId].enemyEffects.filter(effect => effect.playerHeroId !== teleportCardId)
+                        const newEffects = gameState.playerCards[
+                          `player${targetPlayer}cards`
+                        ].cards[cardId].enemyEffects.filter(
+                          (effect) => effect.playerHeroId !== teleportCardId
+                        );
                         dispatch({
-                          type:   ACTIONS.EDIT_CARD,
+                          type: ACTIONS.EDIT_CARD,
                           payload: {
                             playerNum: targetPlayer,
                             targetCardId: cardId,
-                            editKeys: ['enemyEffects'],
+                            editKeys: ["enemyEffects"],
                             editValues: [newEffects],
                           },
                         });
@@ -2040,11 +2144,15 @@ export default function HeroAbilities(props) {
                 payload: {
                   playerNum: playerTurn,
                   targetCardId: teleportCardId,
-                  editKeys: ['isPlayed', 'allyEffects', 'enemyEffects', 'shield'],
+                  editKeys: [
+                    "isPlayed",
+                    "allyEffects",
+                    "enemyEffects",
+                    "shield",
+                  ],
                   editValues: [false, [], [], 0],
                 },
               });
-
 
               // Reduce number of cards played by player
               dispatch({
@@ -2068,7 +2176,8 @@ export default function HeroAbilities(props) {
           const playerBackRowCardIds = gameState.rows[`${playerTurn}b`].cardIds;
           const playerMiddleRowCardIds =
             gameState.rows[`${playerTurn}m`].cardIds;
-          const playerFrontRowCardIds = gameState.rows[`${playerTurn}f`].cardIds;
+          const playerFrontRowCardIds =
+            gameState.rows[`${playerTurn}f`].cardIds;
 
           const playerCards = [
             playerBackRowCardIds,
@@ -2107,7 +2216,10 @@ export default function HeroAbilities(props) {
               $(".row").off("click");
 
               // Check target is valid
-              if (targetRow[0] === "p" || parseInt(targetRow[0]) === playerTurn) {
+              if (
+                targetRow[0] === "p" ||
+                parseInt(targetRow[0]) === playerTurn
+              ) {
                 reject("Incorrect target");
                 return;
               }
@@ -2149,7 +2261,6 @@ export default function HeroAbilities(props) {
       },
       torbjornEnemyEffect: {
         run(rowId) {
-          
           // Get enemies in target row
           const targetPlayer = parseInt(rowId[0]);
           const torbPlayer = targetPlayer === 1 ? 2 : 1;
@@ -2209,11 +2320,14 @@ export default function HeroAbilities(props) {
 
               // Allow user to end the ability early by clicking on the ability-using-hero's card
               if (targetCardId === `${currentHeroAbilityRef.current}`) {
-                alert('Ability stopped early');
+                alert("Ability stopped early");
                 return;
-              } 
+              }
               // Check target is valid
-              if (targetRow[0] === "p" || parseInt(targetRow[0]) === playerTurn) {
+              if (
+                targetRow[0] === "p" ||
+                parseInt(targetRow[0]) === playerTurn
+              ) {
                 reject("Incorrect target");
                 return;
               }
@@ -2232,7 +2346,7 @@ export default function HeroAbilities(props) {
         synergyCost: 2,
         run() {
           const targetCardId = playerHeroId;
-          const targetCardIndex = $(`#${targetCardId}`).closest('li').index();
+          const targetCardIndex = $(`#${targetCardId}`).closest("li").index();
 
           // Remove all counters from tracer
           dispatch({
@@ -2240,7 +2354,7 @@ export default function HeroAbilities(props) {
             payload: {
               playerNum: playerTurn,
               targetCardId: targetCardId,
-              editKeys: ['allyEffects', 'enemyEffects', 'shield', 'isPlayed'],
+              editKeys: ["allyEffects", "enemyEffects", "shield", "isPlayed"],
               editValues: [[], [], 0, false],
             },
           });
@@ -2266,7 +2380,6 @@ export default function HeroAbilities(props) {
               updateValues: [-1],
             },
           });
-
         },
       },
     },
@@ -2285,7 +2398,10 @@ export default function HeroAbilities(props) {
               $(".row").off("click");
 
               // Check target is valid
-              if (targetRow[0] === "p" || parseInt(targetRow[0]) === playerTurn) {
+              if (
+                targetRow[0] === "p" ||
+                parseInt(targetRow[0]) === playerTurn
+              ) {
                 reject("Incorrect target");
                 return;
               }
@@ -2324,7 +2440,10 @@ export default function HeroAbilities(props) {
               $(".card").off("click");
 
               // Check valid target
-              if (targetRow[0] === "p" || parseInt(targetRow[0]) === playerTurn) {
+              if (
+                targetRow[0] === "p" ||
+                parseInt(targetRow[0]) === playerTurn
+              ) {
                 reject("Incorrect target row");
                 return;
               }
@@ -2375,7 +2494,9 @@ export default function HeroAbilities(props) {
           return new Promise((resolve, reject) => {
             $(".row").on("click", (e) => {
               const targetRowId = $(e.target).closest(".row").attr("id");
-              const winstonStartIndex = $(`#${playerHeroId}`).closest("li").index();
+              const winstonStartIndex = $(`#${playerHeroId}`)
+                .closest("li")
+                .index();
               const newRowPosition = targetRowId[1];
 
               $(".row").off("click");
@@ -2386,21 +2507,22 @@ export default function HeroAbilities(props) {
                 return;
               }
 
-                // Set state
-                dispatch({
-                  type: ACTIONS.MOVE_CARD,
-                  payload: {
-                    targetCardId: `${playerHeroId}`,
-                    startRowId: rowId,
-                    finishRowId: targetRowId,
-                    startIndex: winstonStartIndex,
-                    finishIndex: 0,
-                  },
-                });
+              // Set state
+              dispatch({
+                type: ACTIONS.MOVE_CARD,
+                payload: {
+                  targetCardId: `${playerHeroId}`,
+                  startRowId: rowId,
+                  finishRowId: targetRowId,
+                  startIndex: winstonStartIndex,
+                  finishIndex: 0,
+                },
+              });
 
-                // Get all cards in the target row
+              // Get all cards in the target row
               const targetRowCardIds = $.map(
-                $(`#${enemyPlayerNum}${newRowPosition} .card`), (card) => {
+                $(`#${enemyPlayerNum}${newRowPosition} .card`),
+                (card) => {
                   return card.id;
                 }
               );
@@ -2412,7 +2534,7 @@ export default function HeroAbilities(props) {
               });
 
               resolve();
-              });
+            });
           });
         },
       },
@@ -2422,8 +2544,9 @@ export default function HeroAbilities(props) {
         audioFile: "wreckingball-shields",
         run() {
           // Get number of enemies in opposite row
-          const oppositeRowEnemies = gameState.rows[`${enemyPlayerNum}${rowId[1]}`].cardIds;
-          const newShield = (1 + oppositeRowEnemies.length);
+          const oppositeRowEnemies =
+            gameState.rows[`${enemyPlayerNum}${rowId[1]}`].cardIds;
+          const newShield = 1 + oppositeRowEnemies.length;
           dispatch({
             type: ACTIONS.UPDATE_CARD,
             payload: {
@@ -2455,7 +2578,10 @@ export default function HeroAbilities(props) {
               $(".card").off("click");
 
               // Check target is valid
-              if (targetRow[0] === "p" || parseInt(targetRow[0]) !== playerTurn) {
+              if (
+                targetRow[0] === "p" ||
+                parseInt(targetRow[0]) !== playerTurn
+              ) {
                 reject("Incorrect target");
                 return;
               }
@@ -2483,7 +2609,6 @@ export default function HeroAbilities(props) {
                   updateValues: [shieldValue],
                 },
               });
-              
 
               resolve();
             });
@@ -2559,8 +2684,6 @@ export default function HeroAbilities(props) {
     },
   };
 
-  
-
   // Handle the calling of hero abilites, including checking the ability call is valid
   async function activateAbility1(e) {
     e.stopPropagation();
@@ -2569,7 +2692,7 @@ export default function HeroAbilities(props) {
     currentHeroAbilityRef.current = playerHeroId;
 
     unsetCardFocus();
-    
+
     // TODO: Check any effects that trigger on ability usage
 
     // Check that the card is not in the player's hand
@@ -2648,9 +2771,10 @@ export default function HeroAbilities(props) {
             "maxTargets" in abilities[heroId].ability2 &&
             i < maxTargets
           );
-          
+
           // Record which ult was used for Echo's ability2
-          if (heroId !== 'echo') localStorage.setItem('echoUltHeroId', heroId);
+          // TODO: delete localstore on unmount?
+          if (heroId !== "echo") localStorage.setItem("echoUltHeroId", heroId);
 
           // Subtract ability synergy cost from row synergy
           // Make synergy negative so that the cost is subtracted, not added
@@ -2679,16 +2803,17 @@ export default function HeroAbilities(props) {
     } else alert("Play cards before using abilities!");
   }
 
-  
-
   // Apply card effects every turn
   useEffect(() => {
     // Check the turn count has increased - ensures effects only trigger once per turn
     if (turnState.turnCount > turnRef.current.turnCount) {
-      
       // Identify player row ids
       const playerTurn = turnState.playerTurn;
-      const playerRowIds = [`${playerTurn}b`, `${playerTurn}m`, `${playerTurn}f`];
+      const playerRowIds = [
+        `${playerTurn}b`,
+        `${playerTurn}m`,
+        `${playerTurn}f`,
+      ];
 
       // Get all effects currently applied to rows and cards
       // Run each 'turnstart' effect on each row
@@ -2698,18 +2823,20 @@ export default function HeroAbilities(props) {
 
         // Run ally row effects
         for (let effect of allyRowEffects) {
-          if (effect.on === 'turnstart') {
+          if (effect.on === "turnstart") {
             abilities[effect.hero][effect.id].run(rowId);
-            console.log(`running ${effect.id} on ${rowId}`)
+            console.log(`running ${effect.id} on ${rowId}`);
           }
         }
 
         // Run ally card effects
         for (let cardId of gameState.rows[rowId].cardIds) {
-          const cardEffects = gameState.playerCards[`player${playerTurn}cards`].cards[cardId].allyEffects;
+          const cardEffects =
+            gameState.playerCards[`player${playerTurn}cards`].cards[cardId]
+              .allyEffects;
           for (let effect of cardEffects) {
-            if (effect.on === 'turnstart') {
-              console.log(`running ${JSON.stringify(effect)} on ${rowId}`)
+            if (effect.on === "turnstart") {
+              console.log(`running ${JSON.stringify(effect)} on ${rowId}`);
               abilities[effect.hero][effect.id].run(cardId);
             }
           }
@@ -2717,18 +2844,20 @@ export default function HeroAbilities(props) {
 
         // Run enemy row effects
         for (let effect of enemyRowEffects) {
-          if (effect.on === 'turnstart') {
+          if (effect.on === "turnstart") {
             abilities[effect.hero][effect.id].run(rowId);
-            console.log(`running ${effect.id} on ${rowId}`)
+            console.log(`running ${effect.id} on ${rowId}`);
           }
         }
 
         // Run enemy card effects
         for (let cardId of gameState.rows[rowId].cardIds) {
-          const cardEffects = gameState.playerCards[`player${playerTurn}cards`].cards[cardId].enemyEffects;
+          const cardEffects =
+            gameState.playerCards[`player${playerTurn}cards`].cards[cardId]
+              .enemyEffects;
           for (let effect of cardEffects) {
-            if (effect.on === 'turnstart') {
-              console.log(`running ${JSON.stringify(effect)} on ${rowId}`)
+            if (effect.on === "turnstart") {
+              console.log(`running ${JSON.stringify(effect)} on ${rowId}`);
               abilities[effect.hero][effect.id].run(cardId);
             }
           }
@@ -2738,7 +2867,7 @@ export default function HeroAbilities(props) {
 
     // Update ref to current turn
     turnRef.current.turnCount = turnState.turnCount;
-  },[turnState, gameState.playerCards, gameState.rows]);
+  }, [turnState, gameState.playerCards, gameState.rows]);
 
   return (
     <div id="abilitiescontainer">

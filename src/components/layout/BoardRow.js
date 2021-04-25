@@ -16,44 +16,52 @@ export default function BoardRow(props) {
   const playerNum = props.playerNum;
   const synergyValue = gameState.rows[rowId].synergy;
   const rowShield = gameState.rows[rowId].totalShield();
-  
+
   // Update synergy and power values anytime a card moves row
   useEffect(() => {
     let playerPower = 0;
-    
+
     // For every card in the row, add up the power values
     for (let cardId of gameState.rows[rowId].cardIds) {
       if (
         gameState.playerCards[`player${playerNum}cards`].cards[cardId].health >
         0
-        ) {
-          playerPower +=
+      ) {
+        playerPower +=
           gameState.playerCards[`player${playerNum}cards`].cards[cardId].power[
             rowPosition
           ];
-        }
       }
-      
-      // Set power state
-      dispatch({
-        type: ACTIONS.SET_POWER,
-        payload: {
-          playerNum: playerNum,
-          rowPosition: rowPosition,
-          powerValue: playerPower,
-        },
-      });
-      
-      
-      // TODO: Not all dependencies here, check
-    }, [gameState.rows, gameState.playerCards, dispatch, playerNum, rowId, rowPosition]);
-    
+    }
+
+    // Set power state
+    dispatch({
+      type: ACTIONS.SET_POWER,
+      payload: {
+        playerNum: playerNum,
+        rowPosition: rowPosition,
+        powerValue: playerPower,
+      },
+    });
+
+    // TODO: Not all dependencies here, check
+  }, [
+    gameState.rows,
+    gameState.playerCards,
+    dispatch,
+    playerNum,
+    rowId,
+    rowPosition,
+  ]);
+
   return (
     <div id={rowId} className="rowarea row">
       <div className="rowcountercontainer">
         <div>
           <SynergyCounter synergy={synergyValue} />
-          {rowShield > 0 && <ShieldCounter type="rowcounter" shield={rowShield} />}
+          {rowShield > 0 && (
+            <ShieldCounter type="rowcounter" shield={rowShield} />
+          )}
         </div>
         <CounterArea
           type={"row"}
