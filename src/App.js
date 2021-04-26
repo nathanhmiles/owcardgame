@@ -12,9 +12,10 @@ import CardFocus from "components/cards/CardFocus";
 import AudioPlayer from "components/layout/AudioPlayer";
 import MatchCounter from "components/layout/MatchCounter";
 import data from "data";
-import getRandInt, {PlayerCard} from "helper";
+import getRandInt, { PlayerCard } from "helper";
 import produce from "immer";
 import _ from "lodash";
+import Tutorial from "components/layout/Tutorial";
 
 export const ACTIONS = {
   ADD_CARD_EFFECT: "add-card-effect",
@@ -93,12 +94,13 @@ function reducer(gameState, action) {
       const playerHeroId = action.payload.playerHeroId;
       const targetRow = action.payload.targetRow;
       const rowShield = action.payload.rowShield;
-      
+
       // If hero already added shield to row, increase shield, else set shield
-      return produce(gameState, draft => {
-        draft.rows[targetRow].shield.push(
-          {playerHeroId: playerHeroId, shieldValue: rowShield}
-        );
+      return produce(gameState, (draft) => {
+        draft.rows[targetRow].shield.push({
+          playerHeroId: playerHeroId,
+          shieldValue: rowShield,
+        });
       });
     }
 
@@ -132,30 +134,32 @@ function reducer(gameState, action) {
       const targetRow = action.payload.targetRow;
       const rowShieldDamage = action.payload.rowShieldDamage;
 
-      console.log(`applying ${rowShieldDamage} damage to row ${targetRow}`)
+      console.log(`applying ${rowShieldDamage} damage to row ${targetRow}`);
 
-      return produce(gameState, draft => {
+      return produce(gameState, (draft) => {
         const targetRowShieldArr = draft.rows[targetRow].shield;
         let damageDone = 0;
 
         // Reduce shield of each shieldEntry in the array until 0, then move on to the next until full damage is done
-        outer:    // Use labeled break to break out of both loops if full damage has been done
-        for (let x = 0; x < targetRowShieldArr.length; x++) {
+        // Use labeled break to break out of both loops if full damage has been done
+        outer: for (let x = 0; x < targetRowShieldArr.length; x++) {
           for (let i = 0; i < rowShieldDamage; i++) {
             if (damageDone === rowShieldDamage) break outer;
-            
+
             targetRowShieldArr[x].shieldValue -= 1;
             damageDone += 1;
 
-            console.log(`${targetRowShieldArr[x].playerHeroId}'s shield is now ${targetRowShieldArr[x].shieldValue}`)
+            console.log(
+              `${targetRowShieldArr[x].playerHeroId}'s shield is now ${targetRowShieldArr[x].shieldValue}`
+            );
           }
         }
-        
+
         // Delete entries in shield array if their shieldValue has been reduced to 0
         for (let x = 0; x < targetRowShieldArr.length; x++) {
           if (targetRowShieldArr[x].shieldValue === 0) {
             targetRowShieldArr.splice(x, 1);
-          } 
+          }
         }
       });
     }
@@ -168,10 +172,12 @@ function reducer(gameState, action) {
 
       // Identify affected card, mark as discarded, and remove from relevant row
       return produce(gameState, (draft) => {
-        draft.playerCards[`player${playerNum}cards`].cards[targetCardId].isDiscarded = true;
-        draft.rows[targetCardRow].cardIds = draft.rows[targetCardRow].cardIds.filter(
-          (cardId) => cardId !== targetCardId
-        );
+        draft.playerCards[`player${playerNum}cards`].cards[
+          targetCardId
+        ].isDiscarded = true;
+        draft.rows[targetCardRow].cardIds = draft.rows[
+          targetCardRow
+        ].cardIds.filter((cardId) => cardId !== targetCardId);
       });
     }
 
@@ -188,7 +194,7 @@ function reducer(gameState, action) {
         let targetCard =
           draft.playerCards[`player${playerNum}cards`].cards[targetCardId];
 
-          // Use lodash to set object properties (allows a string to be used for a nested object path)
+        // Use lodash to set object properties (allows a string to be used for a nested object path)
         for (let i = 0; i < editKeys.length; i++) {
           _.set(targetCard, editKeys[i], editValues[i]);
         }
@@ -362,12 +368,12 @@ export default function App() {
 
   // References for setting state inside useEffects
   let matchRef = useRef(null);
- 
+
   // End the round and update match scores when both players have passed their turn
   useEffect(() => {
     // Set ref to current match state, alter ref within endRound(), then call setMatchState once using ref as new state
     matchRef.current = matchState;
-    
+
     // End the round, calculate who won, update score and move to next round
     const endRound = () => {
       // Get power data
@@ -413,7 +419,12 @@ export default function App() {
       // Winner of last round goes first next round. If round was a draw, random player goes first
       setTurnState((prevState) => ({
         turnCount: 1,
-        playerTurn: winningPlayer === 3 ? prevState.playerTurn : winningPlayer === 1 ? 1 : 2,
+        playerTurn:
+          winningPlayer === 3
+            ? prevState.playerTurn
+            : winningPlayer === 1
+            ? 1
+            : 2,
         player1Passed: false,
         player2Passed: false,
       }));
@@ -434,17 +445,14 @@ export default function App() {
           window.location.reload();
         }
 
-      // Update state for whichever player won
+        // Update state for whichever player won
       } else {
         // Add a win to winner's record
         matchRef.current[`player${winningPlayer}`].wins += 1;
         matchRef.current.wonLastRound = winningPlayer;
         alert(`Player ${winningPlayer} wins the round!`);
-
-
       }
 
-        
       // Discard all cards
       // Set ids of rows to be reset
       const player1RowIds = ["1b", "1m", "1f"];
@@ -537,17 +545,14 @@ export default function App() {
         alert("Starting a new match.");
         window.location.reload();
       }
-
-    }
+    };
     // When both players pass, end the round and move to the next round
     if (turnState.player1Passed === true && turnState.player2Passed === true) {
       endRound();
     }
   }, [turnState, gameState.rows, matchState]);
 
-
-
-  // Handle card dragging 
+  // Handle card dragging
   function handleOnDragEnd(result) {
     const { destination, source, draggableId } = result;
     if (!destination) return;
@@ -621,18 +626,20 @@ export default function App() {
     }
     return;
   }
-  
+
   return (
     <div className="landscape-wrapper">
       <turnContext.Provider value={{ turnState, setTurnState }}>
         <gameContext.Provider value={{ gameState, dispatch }}>
           <Footer />
-          <a 
-            rel="noopener noreferrer" 
-            target="_blank" 
-            href={require('assets/how-to-play.pdf').default}
+          <a
+            rel="noopener noreferrer"
+            target="_blank"
+            href={require("assets/how-to-play.pdf").default}
             id="howtoplay"
-          >How to Play</a>
+          >
+            How to Play
+          </a>
           <TitleCard />
           <AudioPlayer />
           <DragDropContext onDragEnd={handleOnDragEnd}>
@@ -653,18 +660,19 @@ export default function App() {
               setNextCardDraw={setNextCardDraw}
             />
           </DragDropContext>
-          {cardFocus !== null && 
+          {cardFocus !== null && (
             <CardFocus
               setCardFocus={setCardFocus}
               unsetCardFocus={() => {
-                setCardFocus('invisible');
-                console.log(`cardfocus is ${JSON.stringify(cardFocus)}`)
+                setCardFocus("invisible");
+                console.log(`cardfocus is ${JSON.stringify(cardFocus)}`);
               }}
               cardFocus={cardFocus}
               setNextCardDraw={setNextCardDraw}
             />
-          }
-          
+          )}
+
+          <Tutorial />
           <Footer />
         </gameContext.Provider>
       </turnContext.Provider>

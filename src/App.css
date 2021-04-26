@@ -49,11 +49,18 @@ body {
   height: 30px;
 }
 
+#player1board {
+  justify-content: flex-start;
+}
+
+#player2board {
+  justify-content: flex-end;
+}
+
 .board {
   display: flex;
   flex-direction: column;
   align-items: flex-end;
-  justify-content: center;
   width: 66%;
 }
 
@@ -173,7 +180,7 @@ ul {
 }
 
 .handlist {
-  min-height: 300px;
+  min-height: 250px;
   flex-wrap: wrap;
   flex-grow: 0;
 }
@@ -200,7 +207,8 @@ ul {
 }
 
 li {
-  width: 150px;
+  min-width: 150px;
+  width: 176px;
   height: fit-content;
 }
 
@@ -212,6 +220,7 @@ li {
   justify-content: center;
   align-items: center;
   max-width: 178px;
+  margin: 4px;
 }
 
 .card {
@@ -457,6 +466,62 @@ footer {
   display: flex;
   justify-content: center;
   text-align: center;
+}
+
+#tutorial-container {
+  width: 100vw;
+  display: flex;
+  justify-content: center;
+  position: relative;
+}
+
+#tutorial {
+  position: fixed;
+  flex-direction: row;
+  top: 20vh;
+  height: 60vh;
+  width: 60vh;
+  padding: 20px;
+  min-height: 400px;
+  font-family: Arial, Helvetica, sans-serif;
+  background-color: rgba(19, 42, 77, 0.85);
+  color: white;
+  z-index: 999;
+  overflow: scroll;
+  overflow-x: hidden;
+}
+
+.tutorial-header {
+  text-align: center;
+}
+
+#tutorial-tabs {
+  display: flex;
+  justify-content: space-around;
+}
+
+.tutorial-image-container {
+  display: flex;
+  justify-content: center;
+}
+
+#tutorial img {
+  width: 100%;
+}
+
+#tutorial strong {
+  font-family: Big-Noodle-Titling;
+  font-size: 2em;
+}
+
+#tutorial h4 {
+  color: #00c3ff;
+}
+
+.tutorial-section {
+  background-color: rgba(0, 0, 0, 0.1);
+  padding: 10px;
+  margin: 5px;
 }
 
 .disclaimer {
