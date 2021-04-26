@@ -1,15 +1,15 @@
 {
   "files": {
-    "main.css": "/owcardgame/static/css/main.dc57f741.chunk.css",
-    "main.js": "/owcardgame/static/js/main.bf5b76c2.chunk.js",
-    "main.js.map": "/owcardgame/static/js/main.bf5b76c2.chunk.js.map",
+    "main.css": "/owcardgame/static/css/main.b14164ff.chunk.css",
+    "main.js": "/owcardgame/static/js/main.b3ed424b.chunk.js",
+    "main.js.map": "/owcardgame/static/js/main.b3ed424b.chunk.js.map",
     "runtime-main.js": "/owcardgame/static/js/runtime-main.0b345ce8.js",
     "runtime-main.js.map": "/owcardgame/static/js/runtime-main.0b345ce8.js.map",
-    "static/js/2.e987e551.chunk.js": "/owcardgame/static/js/2.e987e551.chunk.js",
-    "static/js/2.e987e551.chunk.js.map": "/owcardgame/static/js/2.e987e551.chunk.js.map",
+    "static/js/2.d9518b5d.chunk.js": "/owcardgame/static/js/2.d9518b5d.chunk.js",
+    "static/js/2.d9518b5d.chunk.js.map": "/owcardgame/static/js/2.d9518b5d.chunk.js.map",
     "index.html": "/owcardgame/index.html",
-    "static/css/main.dc57f741.chunk.css.map": "/owcardgame/static/css/main.dc57f741.chunk.css.map",
-    "static/js/2.e987e551.chunk.js.LICENSE.txt": "/owcardgame/static/js/2.e987e551.chunk.js.LICENSE.txt",
+    "static/css/main.b14164ff.chunk.css.map": "/owcardgame/static/css/main.b14164ff.chunk.css.map",
+    "static/js/2.d9518b5d.chunk.js.LICENSE.txt": "/owcardgame/static/js/2.d9518b5d.chunk.js.LICENSE.txt",
     "static/media/App.css": "/owcardgame/static/media/shieldcounter.5a1f4f54.png",
     "static/media/ana-grenade.mp3": "/owcardgame/static/media/ana-grenade.f80883bc.mp3",
     "static/media/ana-icon.png": "/owcardgame/static/media/ana-icon.0a9b633a.png",
@@ -157,6 +157,7 @@
     "static/media/tracer-intro2.mp3": "/owcardgame/static/media/tracer-intro2.34f5db5e.mp3",
     "static/media/tracer-smarts.mp3": "/owcardgame/static/media/tracer-smarts.dd95f288.mp3",
     "static/media/tracer.png": "/owcardgame/static/media/tracer.7cb14be6.png",
+    "static/media/tutorialcard.jpg": "/owcardgame/static/media/tutorialcard.c529c991.jpg",
     "static/media/widowmaker-icon.png": "/owcardgame/static/media/widowmaker-icon.2036fc9e.png",
     "static/media/widowmaker-intro.mp3": "/owcardgame/static/media/widowmaker-intro.d3928b18.mp3",
     "static/media/widowmaker-noonecanhide-fr.mp3": "/owcardgame/static/media/widowmaker-noonecanhide-fr.6d6d39ca.mp3",
@@ -194,8 +195,8 @@
   },
   "entrypoints": [
     "static/js/runtime-main.0b345ce8.js",
-    "static/js/2.e987e551.chunk.js",
-    "static/css/main.dc57f741.chunk.css",
-    "static/js/main.bf5b76c2.chunk.js"
+    "static/js/2.d9518b5d.chunk.js",
+    "static/css/main.b14164ff.chunk.css",
+    "static/js/main.b3ed424b.chunk.js"
   ]
 }
