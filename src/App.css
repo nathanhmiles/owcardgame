@@ -489,6 +489,7 @@ footer {
   z-index: 999;
   overflow: scroll;
   overflow-x: hidden;
+  display: none;
 }
 
 .tutorial-header {
