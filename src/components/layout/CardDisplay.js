@@ -13,7 +13,7 @@ export default function CardDisplay(props) {
   const playerNum = props.playerNum;
 
   return (
-    <Droppable droppableId={props.droppableId} direction="horizontal">
+    <Droppable droppableId={props.droppableId} direction="vertical">
       {(provided) => (
         <ul
           className={props.listClass}
@@ -23,14 +23,14 @@ export default function CardDisplay(props) {
           {cards &&
             cards.map((cardId, index) => {
               return (
-                  <Card
-                    setCardFocus={props.setCardFocus}
-                    playerHeroId={cardId}
-                    key={cardId}
-                    playerNum={playerNum}
-                    rowId={props.rowId}
-                    index={index}
-                  />
+                <Card
+                  setCardFocus={props.setCardFocus}
+                  playerHeroId={cardId}
+                  key={cardId}
+                  playerNum={playerNum}
+                  rowId={props.rowId}
+                  index={index}
+                />
               );
             })}
           {provided.placeholder}

@@ -9,35 +9,18 @@ export default function PlayerArea(props) {
 
   const playerAreaId = `player${props.playerNum}area`;
   const totalPower = props.totalPower;
-  if (props.playerNum === 1) {
-    return (
-      <div id={playerAreaId} className="playerarea row">
-        <div className="playerarea-section">
-          <h1 className="playername">Player {props.playerNum}</h1>
-          <PowerCounter playerNum={props.playerNum} power={totalPower} />
-        </div>
-        <PlayerHand
-          setCardFocus={props.setCardFocus}
-          playerNum={props.playerNum}
-          nextCardDraw={props.nextCardDraw}
-          setNextCardDraw={props.setNextCardDraw}
-        />
+  return (
+    <div id={playerAreaId} className="playerarea row">
+      <div className="playerarea-section">
+        <h1 className="playername">Player {props.playerNum}</h1>
+        <PowerCounter playerNum={props.playerNum} power={totalPower} />
       </div>
-    );
-  } else {
-    return (
-      <div id={playerAreaId} className="playerarea">
-        <PlayerHand
-          setCardFocus={props.setCardFocus}
-          playerNum={props.playerNum}
-          nextCardDraw={props.nextCardDraw}
-          setNextCardDraw={props.setNextCardDraw}
-        />
-        <div className="playerarea-section">
-          <h1 className="playername">Player {props.playerNum}</h1>
-          <PowerCounter playerNum={props.playerNum} power={totalPower} />
-        </div>
-      </div>
-    );
-  }
+      <PlayerHand
+        setCardFocus={props.setCardFocus}
+        playerNum={props.playerNum}
+        nextCardDraw={props.nextCardDraw}
+        setNextCardDraw={props.setNextCardDraw}
+      />
+    </div>
+  );
 }

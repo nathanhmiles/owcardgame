@@ -18,9 +18,10 @@ export default function PlayerHand(props) {
   const handCards = gameState.rows[playerHandId].cardIds;
   const nextCardDraw = props.nextCardDraw;
   const setNextCardDraw = props.setNextCardDraw;
+  const setCardFocus = props.setCardFocus;
 
   // Draws one random card and puts the card into the player's hand
-  function drawCards(nextCardDraw) {
+  function drawCards() {
     // Draw specific card designated by nextCardDraw state
     if (nextCardDraw[`player${playerNum}`] !== null) {
       dispatch({
@@ -56,119 +57,68 @@ export default function PlayerHand(props) {
 
     // Add new card to player hand
     dispatch({
-      type: ACTIONS.ADD_CARD_TO_HAND, payload: { 
-        playerNum: playerNum, 
+      type: ACTIONS.ADD_CARD_TO_HAND,
+      payload: {
+        playerNum: playerNum,
         playerHeroId: playerHeroId,
       },
     });
   }
 
-
-  if (props.playerNum === 1) {
-    return (
-      <>
-        <div className="playerbuttons">
-          <button
-            className="drawbutton"
-            disabled={handCards.length >= 8}
-            onClick={() => drawCards(nextCardDraw)}
-          >
-            Draw
-          </button>
-          <button
-            disabled={!(turnState.playerTurn === playerNum)}
-            className="endturnbutton"
-            onClick={
-              turnState.playerTurn === 1
-                ? () =>
-                    setTurnState((prevState) => ({
-                      ...prevState,
-                      turnCount: prevState.turnCount + 1,
-                      playerTurn: 2,
-                    }))
-                : () =>
-                    setTurnState((prevState) => ({
-                      ...prevState,
-                      turnCount: prevState.turnCount + 1,
-                      playerTurn: 1,
-                    }))
-            }
-          >
-            End Turn
-          </button>
-          <button
-            disabled={(!(gameState.rows[`player${playerNum}hand`].cardsPlayed >= 6) || 
-              turnState[`player${playerNum}Passed`] === true)}
-            className="passbutton"
-            onClick={() => {setTurnState(prevState => ({
+  return (
+    <>
+      <div className="playerbuttons">
+        <button
+          className="drawbutton"
+          disabled={handCards.length >= 8}
+          onClick={drawCards}
+        >
+          Draw
+        </button>
+        <button
+          disabled={!(turnState.playerTurn === playerNum)}
+          className="endturnbutton"
+          onClick={
+            turnState.playerTurn === 1
+              ? () =>
+                  setTurnState((prevState) => ({
+                    ...prevState,
+                    turnCount: prevState.turnCount + 1,
+                    playerTurn: 2,
+                  }))
+              : () =>
+                  setTurnState((prevState) => ({
+                    ...prevState,
+                    turnCount: prevState.turnCount + 1,
+                    playerTurn: 1,
+                  }))
+          }
+        >
+          End Turn
+        </button>
+        <button
+          disabled={
+            !(gameState.rows[`player${playerNum}hand`].cardsPlayed >= 6) ||
+            turnState[`player${playerNum}Passed`] === true
+          }
+          className="passbutton"
+          onClick={() => {
+            setTurnState((prevState) => ({
               ...prevState,
               [`player${playerNum}Passed`]: true,
-            }))}}
-          >
-            Pass
-          </button>
-        </div>
-          <CardDisplay
-          playerNum={props.playerNum}
-          droppableId={`player${props.playerNum}hand`}
-          listClass={"handlist"}
-          rowId={playerHandId}
-          setCardFocus={props.setCardFocus}
-        />
-      </>
-    );
-  } else {
-    return (
-      <>
-          <CardDisplay
-          playerNum={props.playerNum}
-          droppableId={`player${props.playerNum}hand`}
-          listClass={"handlist"}
-          rowId={playerHandId}
-          setCardFocus={props.setCardFocus}
-        />
-        <div className="playerbuttons">
-          <button
-            className="drawbutton"
-            disabled={handCards.length >= 8}
-            onClick={() => drawCards(nextCardDraw)}
-          >
-            Draw
-          </button>
-          <button
-            disabled={!(turnState.playerTurn === playerNum)}
-            className="endturnbutton"
-            onClick={
-              turnState.playerTurn === 1
-                ? () =>
-                    setTurnState((prevState) => ({
-                      ...prevState,
-                      turnCount: prevState.turnCount + 1,
-                      playerTurn: 2,
-                    }))
-                : () =>
-                    setTurnState((prevState) => ({
-                      ...prevState,
-                      turnCount: prevState.turnCount + 1,
-                      playerTurn: 1,
-                    }))
-            }
-          >
-            End Turn
-          </button>
-          <button
-            disabled={(!(gameState.rows[`player${playerNum}hand`].cardsPlayed >= 6) || 
-              turnState[`player${playerNum}Passed`] === true)}
-            className="passbutton"
-            onClick={() => {setTurnState(prevState => ({
-              ...prevState,
-              [`player${playerNum}Passed`]: true,
-            }))}}
-          >
-            Pass
-          </button>
-        </div>
-      </>
-    );
-  }
+            }));
+          }}
+        >
+          Pass
+        </button>
+      </div>
+      <CardDisplay
+        playerNum={props.playerNum}
+        droppableId={`player${props.playerNum}hand`}
+        listClass={"handlist"}
+        rowId={playerHandId}
+        setCardFocus={props.setCardFocus}
+      />
+    </>
+  );
 }

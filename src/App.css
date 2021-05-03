@@ -19,10 +19,27 @@ body {
   background-image: url("https://www.transparenttextures.com/patterns/gplay.png");
   background-color: #dddbe0;
   display: flex;
+  margin: 0%;
+  height: 100vh;
+  width: 100vw;
 }
 
 #root {
   width: 100%;
+}
+
+#page-wrapper {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+}
+
+#landscape-wrapper {
+  display: flex;
+  width: 100%;
+  height: 100%;
+  box-sizing: border-box;
+  padding: 6px;
 }
 
 #audioplayer {
@@ -42,6 +59,7 @@ body {
   top: 2vh;
   left: 2vw;
   border-radius: 5px;
+  display: none;
 }
 
 #audioicon {
@@ -50,31 +68,26 @@ body {
 }
 
 #player1board {
-  justify-content: flex-start;
 }
 
 #player2board {
-  justify-content: flex-end;
 }
 
 .board {
   display: flex;
-  flex-direction: column;
-  align-items: flex-end;
-  width: 66%;
+  flex: 3;
 }
 
 .playerhalf {
   display: flex;
-  width: 100%;
-  min-height: 760px;
+  flex: 1;
 }
 
 .playerarea {
   display: flex;
-  flex-direction: column;
   align-items: center;
-  width: 37%;
+  flex-direction: column;
+  flex: 2;
 }
 
 #player1area {
@@ -82,7 +95,7 @@ body {
 }
 
 #player2area {
-  justify-content: flex-end;
+  justify-content: flex-start;
 }
 
 #centerlogo {
@@ -90,7 +103,7 @@ body {
   margin: 0 20px 0 20px;
 }
 
-#centerlogocontainer {
+#title-container {
   display: flex;
   justify-content: space-evenly;
   align-items: center;
@@ -110,7 +123,7 @@ body {
 }
 
 .matchcountercontainer {
-  width: 37%;
+  /* width: 37%; */
   display: flex;
   justify-content: center;
 }
@@ -138,51 +151,53 @@ body {
 
 .rowarea {
   display: flex;
+  flex: 1;
   align-items: center;
-  justify-content: flex-end;
+  flex-direction: column;
   /* background-color: #c4c3d5; */
-  margin: 0px;
+  margin: 2px;
   padding: 0px;
-  width: 100%;
 }
 
 .boardrow {
-  max-width: calc(100% - 120px);
-  min-height: 210px;
   /* background: url(assets/row-background.png); */
   background-color: #a8b3d3;
   background-position: center;
   background-size: cover;
-  margin: 2px;
   display: flex;
-  flex-grow: 1;
   border: 5px solid #c4c3d5;
   border-radius: 18px;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+  flex: 1;
+  box-sizing: border-box;
 }
 
 .cardRow {
-  flex-grow: 1;
   display: flex;
   justify-content: center;
   align-items: center;
+  flex-direction: column;
 }
 
 /* Should the ul take place of the div? */
-ul {
-  list-style: none;
+.rowlist {
   display: flex;
-  flex-grow: 1;
-  /* min-height: 149px; */
-  width: 100%;
   justify-content: flex-start;
   padding: 0;
   margin: 0px;
 }
 
+ul {
+  list-style: none;
+}
+
 .handlist {
-  min-height: 250px;
+  display: flex;
   flex-wrap: wrap;
-  flex-grow: 0;
+  max-width: 325px;
+  align-items: flex-start;
 }
 
 .playerhand {
@@ -207,8 +222,6 @@ ul {
 }
 
 li {
-  min-width: 150px;
-  width: 176px;
   height: fit-content;
 }
 
@@ -219,7 +232,7 @@ li {
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  max-width: 178px;
+  max-width: 150px;
   margin: 4px;
 }
 
@@ -473,6 +486,7 @@ footer {
   display: flex;
   justify-content: center;
   position: relative;
+  display: none;
 }
 
 #tutorial {
@@ -527,7 +541,7 @@ footer {
 
 .disclaimer {
   font-size: 16pt;
-  display: flex;
+  display: none;
   justify-content: center;
   margin: 20px;
   width: 80%;

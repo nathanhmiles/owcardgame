@@ -628,54 +628,56 @@ export default function App() {
   }
 
   return (
-    <div className="landscape-wrapper">
-      <turnContext.Provider value={{ turnState, setTurnState }}>
-        <gameContext.Provider value={{ gameState, dispatch }}>
-          <Footer />
-          <a
-            rel="noopener noreferrer"
-            target="_blank"
-            href={require("assets/how-to-play.pdf").default}
-            id="howtoplay"
-          >
-            How to Play
-          </a>
-          <TitleCard />
-          <AudioPlayer />
-          <DragDropContext onDragEnd={handleOnDragEnd}>
-            <PlayerHalf
-              playerNum={2}
-              setCardFocus={setCardFocus}
-              nextCardDraw={nextCardDraw}
-              setNextCardDraw={setNextCardDraw}
-            />
-            <div id="center-section">
-              <MatchCounter playerNum={2} matchState={matchState} />
-              <MatchCounter playerNum={1} matchState={matchState} />
-            </div>
-            <PlayerHalf
-              playerNum={1}
-              setCardFocus={setCardFocus}
-              nextCardDraw={nextCardDraw}
-              setNextCardDraw={setNextCardDraw}
-            />
-          </DragDropContext>
-          {cardFocus !== null && (
-            <CardFocus
-              setCardFocus={setCardFocus}
-              unsetCardFocus={() => {
-                setCardFocus("invisible");
-                console.log(`cardfocus is ${JSON.stringify(cardFocus)}`);
-              }}
-              cardFocus={cardFocus}
-              setNextCardDraw={setNextCardDraw}
-            />
-          )}
+    <div id="page-wrapper">
+      <TitleCard />
+      <div id="landscape-wrapper">
+        <turnContext.Provider value={{ turnState, setTurnState }}>
+          <gameContext.Provider value={{ gameState, dispatch }}>
+            <Footer />
+            <a
+              rel="noopener noreferrer"
+              target="_blank"
+              href={require("assets/how-to-play.pdf").default}
+              id="howtoplay"
+            >
+              How to Play
+            </a>
+            <AudioPlayer />
+            <DragDropContext onDragEnd={handleOnDragEnd}>
+              <PlayerHalf
+                playerNum={2}
+                setCardFocus={setCardFocus}
+                nextCardDraw={nextCardDraw}
+                setNextCardDraw={setNextCardDraw}
+              />
+              <div id="center-section">
+                <MatchCounter playerNum={2} matchState={matchState} />
+                <MatchCounter playerNum={1} matchState={matchState} />
+              </div>
+              <PlayerHalf
+                playerNum={1}
+                setCardFocus={setCardFocus}
+                nextCardDraw={nextCardDraw}
+                setNextCardDraw={setNextCardDraw}
+              />
+            </DragDropContext>
+            {cardFocus !== null && (
+              <CardFocus
+                setCardFocus={setCardFocus}
+                unsetCardFocus={() => {
+                  setCardFocus("invisible");
+                  console.log(`cardfocus is ${JSON.stringify(cardFocus)}`);
+                }}
+                cardFocus={cardFocus}
+                setNextCardDraw={setNextCardDraw}
+              />
+            )}
 
-          <Tutorial />
-          <Footer />
-        </gameContext.Provider>
-      </turnContext.Provider>
+            <Tutorial />
+            <Footer />
+          </gameContext.Provider>
+        </turnContext.Provider>
+      </div>
     </div>
   );
 }

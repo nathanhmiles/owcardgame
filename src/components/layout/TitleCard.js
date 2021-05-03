@@ -2,7 +2,7 @@ import owlogo from "assets/logo3.png";
 
 export default function TitleCard() {
   return (
-    <div id="centerlogocontainer">
+    <div id="title-container">
       <br />
       <span className="title">Overwatch</span>
       <span className="credit">
