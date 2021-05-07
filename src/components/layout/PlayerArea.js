@@ -1,25 +1,37 @@
 import React, { useContext } from "react";
-import PlayerHand from "./PlayerHand";
+import PlayerHand from "./PlayerButtons";
 import PowerCounter from "./PowerCounter";
 import gameContext from "context/gameContext";
 import MatchCounter from "./MatchCounter";
+import CardDisplay from "components/layout/CardDisplay";
 
 export default function PlayerArea(props) {
   const { gameState } = useContext(gameContext);
+  const { playerNum } = props;
 
-  const playerAreaId = `player${props.playerNum}area`;
+  const playerAreaId = `player${playerNum}area`;
   const totalPower = props.totalPower;
+  const playerHandId = `player${playerNum}hand`;
   return (
     <div id={playerAreaId} className="playerarea row">
-      <div className="playerarea-section">
-        <h1 className="playername">Player {props.playerNum}</h1>
-        <PowerCounter playerNum={props.playerNum} power={totalPower} />
+      <div className="player-name-buttons">
+        <div className="playerarea-section">
+          <h1 className="playername">Player {props.playerNum}</h1>
+          <PowerCounter playerNum={props.playerNum} power={totalPower} />
+        </div>
+        <PlayerHand
+          setCardFocus={props.setCardFocus}
+          playerNum={props.playerNum}
+          nextCardDraw={props.nextCardDraw}
+          setNextCardDraw={props.setNextCardDraw}
+        />
       </div>
-      <PlayerHand
-        setCardFocus={props.setCardFocus}
+      <CardDisplay
         playerNum={props.playerNum}
-        nextCardDraw={props.nextCardDraw}
-        setNextCardDraw={props.setNextCardDraw}
+        droppableId={`player${props.playerNum}hand`}
+        listClass={"handlist"}
+        rowId={playerHandId}
+        setCardFocus={props.setCardFocus}
       />
     </div>
   );

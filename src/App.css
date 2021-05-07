@@ -32,6 +32,8 @@ body {
   display: flex;
   flex-direction: column;
   height: 100%;
+  padding: 4px;
+  box-sizing: border-box;
 }
 
 #landscape-wrapper {
@@ -393,6 +395,10 @@ li {
 .playerbuttons {
   display: flex;
   flex-direction: row;
+}
+
+.common-buttons {
+  display: flex;
 }
 
 button {

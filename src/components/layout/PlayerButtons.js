@@ -1,5 +1,4 @@
 import React, { useContext } from "react";
-import CardDisplay from "components/layout/CardDisplay";
 import gameContext from "context/gameContext";
 import turnContext from "context/turnContext";
 import data from "data";
@@ -68,34 +67,36 @@ export default function PlayerHand(props) {
   return (
     <>
       <div className="playerbuttons">
-        <button
-          className="drawbutton"
-          disabled={handCards.length >= 8}
-          onClick={drawCards}
-        >
-          Draw
-        </button>
-        <button
-          disabled={!(turnState.playerTurn === playerNum)}
-          className="endturnbutton"
-          onClick={
-            turnState.playerTurn === 1
-              ? () =>
-                  setTurnState((prevState) => ({
-                    ...prevState,
-                    turnCount: prevState.turnCount + 1,
-                    playerTurn: 2,
-                  }))
-              : () =>
-                  setTurnState((prevState) => ({
-                    ...prevState,
-                    turnCount: prevState.turnCount + 1,
-                    playerTurn: 1,
-                  }))
-          }
-        >
-          End Turn
-        </button>
+        <div className="common-buttons">
+          <button
+            className="drawbutton"
+            disabled={handCards.length >= 8}
+            onClick={drawCards}
+          >
+            Draw
+          </button>
+          <button
+            disabled={!(turnState.playerTurn === playerNum)}
+            className="endturnbutton"
+            onClick={
+              turnState.playerTurn === 1
+                ? () =>
+                    setTurnState((prevState) => ({
+                      ...prevState,
+                      turnCount: prevState.turnCount + 1,
+                      playerTurn: 2,
+                    }))
+                : () =>
+                    setTurnState((prevState) => ({
+                      ...prevState,
+                      turnCount: prevState.turnCount + 1,
+                      playerTurn: 1,
+                    }))
+            }
+          >
+            End Turn
+          </button>
+        </div>
         <button
           disabled={
             !(gameState.rows[`player${playerNum}hand`].cardsPlayed >= 6) ||
@@ -112,13 +113,6 @@ export default function PlayerHand(props) {
           Pass
         </button>
       </div>
-      <CardDisplay
-        playerNum={props.playerNum}
-        droppableId={`player${props.playerNum}hand`}
-        listClass={"handlist"}
-        rowId={playerHandId}
-        setCardFocus={props.setCardFocus}
-      />
     </>
   );
 }
