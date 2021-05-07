@@ -1,25 +1,30 @@
 import React, { useEffect, useState } from "react";
 
-export default function AudioPlayer() {
-  const [isPlaying, setIsPlaying] = useState(false);
-  
+export default function AudioPlayer(props) {
+  const { playAudio, setPlayAudio } = props;
+
   useEffect(() => {
     const audio = document.getElementById("backgroundaudio");
     audio.volume = 0.3;
-    isPlaying ? audio.play() : audio.pause();
-  },[isPlaying]);
-  
+    playAudio ? audio.play() : audio.pause();
+  }, [playAudio]);
 
-  return(
+  return (
     <div id="audioplayer">
-      <img 
+      <img
         id="audioicon"
         alt="audio icon"
-        src={isPlaying ? (require(`assets/volume-on.png`).default) : (require('assets/volume-off.png').default)}
-        onClick={() => {setIsPlaying(!isPlaying)}}
+        src={
+          playAudio
+            ? require(`assets/volume-on.png`).default
+            : require("assets/volume-off.png").default
+        }
+        onClick={() => {
+          setPlayAudio(!playAudio);
+        }}
       />
-      <audio 
-        src={require(`assets/audio/overwatch-theme.mp3`).default} 
+      <audio
+        src={require(`assets/audio/overwatch-theme.mp3`).default}
         type="audio/mpeg"
         loop={true}
         id="backgroundaudio"

@@ -10,7 +10,7 @@ export default function PlayerHalf(props) {
   let totalPower = gameState.rows[`player${props.playerNum}hand`].totalPower();
 
   // Reverse order depending on which player (player 2 is on top of the screen, 1 on bottom)
-  if (props.playerNum === 2) {
+  if (props.playerNum === 1) {
     return (
       <div id={`player${props.playerNum}half`} className="playerhalf">
         <PlayerArea

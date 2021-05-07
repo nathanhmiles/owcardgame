@@ -365,6 +365,7 @@ export default function App() {
     player1: null,
     player2: null,
   });
+  const [playAudio, setPlayAudio] = useState(false);
 
   // References for setting state inside useEffects
   let matchRef = useRef(null);
@@ -579,7 +580,7 @@ export default function App() {
 
     // If not moving card within player's hand (i.e. moving into a row),
     // Set new row synergy and set card to played
-    if (finishRowId[0] !== "p") {
+    if (finishRowId[0] !== "p" && playAudio === true) {
       // Play intro audio
       try {
         const introAudio = new Audio(
@@ -642,20 +643,20 @@ export default function App() {
             >
               How to Play
             </a>
-            <AudioPlayer />
+            <AudioPlayer playAudio={playAudio} setPlayAudio={setPlayAudio} />
             <DragDropContext onDragEnd={handleOnDragEnd}>
               <PlayerHalf
-                playerNum={2}
+                playerNum={1}
                 setCardFocus={setCardFocus}
                 nextCardDraw={nextCardDraw}
                 setNextCardDraw={setNextCardDraw}
               />
               <div id="center-section">
-                <MatchCounter playerNum={2} matchState={matchState} />
                 <MatchCounter playerNum={1} matchState={matchState} />
+                <MatchCounter playerNum={2} matchState={matchState} />
               </div>
               <PlayerHalf
-                playerNum={1}
+                playerNum={2}
                 setCardFocus={setCardFocus}
                 nextCardDraw={nextCardDraw}
                 setNextCardDraw={setNextCardDraw}
@@ -670,6 +671,7 @@ export default function App() {
                 }}
                 cardFocus={cardFocus}
                 setNextCardDraw={setNextCardDraw}
+                playAudio={playAudio}
               />
             )}
 

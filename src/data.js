@@ -30,7 +30,6 @@ player: ally, enemy
 
 const data = {
   heroes: {
-    
     ana: {
       id: "ana",
       name: "Ana",
@@ -38,13 +37,13 @@ const data = {
       icon: "assets/heroes/ana-icon.png",
       effects: {
         anaUltimateEffect: {
-          id: 'anaUltimateEffect',
-          hero: 'ana',
-          player: 'ally',
-          target: 'row',
-          type: 'power',
-          on: 'activate',
-          value: 'allies',
+          id: "anaUltimateEffect",
+          hero: "ana",
+          player: "ally",
+          target: "row",
+          type: "power",
+          on: "activate",
+          value: "allies",
         },
       },
       health: 4,
@@ -85,12 +84,12 @@ const data = {
         icon: "assets/heroes/bob-icon.png",
         effects: {
           bobEnemyEffect: {
-            id: 'bobEnemyEffect',
-            hero: 'bob',
-            player: 'enemy',
-            target: 'row',
-            type: 'synergy',
-            on: 'ultimate',
+            id: "bobEnemyEffect",
+            hero: "bob",
+            player: "enemy",
+            target: "row",
+            type: "synergy",
+            on: "ultimate",
             value: 2,
           },
         },
@@ -115,13 +114,13 @@ const data = {
       icon: "assets/heroes/baptiste-icon.png",
       effects: {
         baptisteAllyEffect: {
-          id: 'baptisteAllyEffect',
-          hero: 'baptiste',
-          player: 'ally',
-          target: 'row',
+          id: "baptisteAllyEffect",
+          hero: "baptiste",
+          player: "ally",
+          target: "row",
           health: 3,
-          type: 'immortality',
-          on: 'activate',
+          type: "immortality",
+          on: "activate",
         },
       },
       health: 4,
@@ -145,13 +144,13 @@ const data = {
       icon: "assets/heroes/bastion-icon.png",
       effects: {
         bastionEnemyEffect: {
-          id: 'bastionEnemyEffect',
-          hero: 'bastion',
-          player: 'enemy',
-          target: 'row',
-          type: 'attack',
+          id: "bastionEnemyEffect",
+          hero: "bastion",
+          player: "enemy",
+          target: "row",
+          type: "attack",
           value: 2,
-          on: 'movein'
+          on: "movein",
         },
       },
       health: 5,
@@ -167,7 +166,7 @@ const data = {
       },
       isImplemented: false,
     },
-    
+
     brigitte: {
       id: "brigitte",
       name: "Brigitte",
@@ -283,12 +282,12 @@ const data = {
       icon: "assets/heroes/hanzo-icon.png",
       effects: {
         hanzoEnemyEffect: {
-          id: 'hanzoEnemyEffect',
-          hero: 'hanzo',
-          player: 'enemy',
-          target: 'row',
-          type: 'damage',
-          on: 'attack',
+          id: "hanzoEnemyEffect",
+          hero: "hanzo",
+          player: "enemy",
+          target: "row",
+          type: "damage",
+          on: "attack",
           value: 1,
         },
       },
@@ -331,12 +330,12 @@ const data = {
       icon: "assets/heroes/lucio-icon.png",
       effects: {
         lucioAllyEffect: {
-          id: 'lucioAllyEffect',
-          hero: 'lucio',
-          player: 'ally',
-          target: 'row',
-          type: 'healing',
-          on: 'turnstart',
+          id: "lucioAllyEffect",
+          hero: "lucio",
+          player: "ally",
+          target: "row",
+          type: "healing",
+          on: "turnstart",
           value: 1,
         },
       },
@@ -379,13 +378,13 @@ const data = {
       icon: "assets/heroes/mei-icon.png",
       effects: {
         meiEnemyEffect: {
-          id: 'meiEnemyEffect',
-          hero: 'mei',
-          player: 'enemy',
-          target: 'row',
-          type: 'synergy',
-          value: 'double',
-          on: 'ultimate',
+          id: "meiEnemyEffect",
+          hero: "mei",
+          player: "enemy",
+          target: "row",
+          type: "synergy",
+          value: "double",
+          on: "ultimate",
         },
       },
       health: 4,
@@ -409,22 +408,22 @@ const data = {
       icon: "assets/heroes/mercy-icon.png",
       effects: {
         mercyAllyEffect1: {
-          id: 'mercyAllyEffect1',
-          hero: 'mercy',
-          player: 'ally',
-          target: 'card',
-          type: 'healing',
-          on: 'turnstart',
+          id: "mercyAllyEffect1",
+          hero: "mercy",
+          player: "ally",
+          target: "card",
+          type: "healing",
+          on: "turnstart",
           value: 1,
         },
         mercyAllyEffect2: {
-          id: 'mercyAllyEffect2',
-          hero: 'mercy',
-          player: 'ally',
-          target: 'card',
-          type: 'damage',
+          id: "mercyAllyEffect2",
+          hero: "mercy",
+          player: "ally",
+          target: "card",
+          type: "damage",
           value: 1,
-          on: 'attack',
+          on: "attack",
         },
       },
       health: 3,
@@ -465,22 +464,22 @@ const data = {
       icon: "assets/heroes/orisa-icon.png",
       effects: {
         orisaAllyEffect: {
-          id: 'orisaAllyEffect',
-          hero: 'orisa',
-          player: 'ally',
-          target: 'row',
-          type: 'damage',
-          on: 'attack',
+          id: "orisaAllyEffect",
+          hero: "orisa",
+          player: "ally",
+          target: "row",
+          type: "damage",
+          on: "attack",
           value: -1,
         },
         orisaUltimateEffect: {
-          id: 'orisaUltimateEffect',
-          hero: 'orisa',
-          player: 'ally',
-          target: 'row',
-          type: 'power',
-          on: 'activate',
-          value: 'allies',
+          id: "orisaUltimateEffect",
+          hero: "orisa",
+          player: "ally",
+          target: "row",
+          type: "power",
+          on: "activate",
+          value: "allies",
         },
       },
       health: 5,
@@ -648,12 +647,12 @@ const data = {
       icon: "assets/heroes/torbjorn-icon.png",
       effects: {
         torbjornEnemyEffect: {
-          id: 'torbjornEnemyEffect',
-          hero: 'torbjorn',
-          player: 'enemy',
-          target: 'row',
-          type: 'attack',
-          on: 'turnstart',
+          id: "torbjornEnemyEffect",
+          hero: "torbjorn",
+          player: "enemy",
+          target: "row",
+          type: "attack",
+          on: "turnstart",
           value: 1,
         },
       },
@@ -696,12 +695,12 @@ const data = {
       icon: "assets/heroes/widowmaker-icon.png",
       effects: {
         widowmakerEnemyEffect: {
-          id: 'widowmakerEnemyEffect',
-          hero: 'widowmaker',
-          player: 'enemy',
-          target: 'row',
-          type: 'damage',
-          on: 'attack',
+          id: "widowmakerEnemyEffect",
+          hero: "widowmaker",
+          player: "enemy",
+          target: "row",
+          type: "damage",
+          on: "attack",
           value: 1,
         },
       },
@@ -744,14 +743,14 @@ const data = {
       icon: "assets/heroes/wreckingball-icon.png",
       effects: {
         wreckingballEnemyEffect: {
-          id: 'wreckingballEnemyEffect',
-          hero: 'wreckingball',
-          player: 'enemy',
-          target: 'row',
-          type: 'attack',
+          id: "wreckingballEnemyEffect",
+          hero: "wreckingball",
+          player: "enemy",
+          target: "row",
+          type: "attack",
           value: 2,
-          on: 'ability',
-          health: 'synergy',
+          on: "ability",
+          health: "synergy",
         },
       },
       health: 3,
@@ -795,21 +794,21 @@ const data = {
       icon: "assets/heroes/zenyatta-icon.png",
       effects: {
         zenyattaAllyEffect: {
-          id: 'zenyattaAllyEffect',
-          hero: 'zenyatta',
-          player: 'ally',
-          target: 'card',
-          type: 'healing',
-          on: 'turnstart',
+          id: "zenyattaAllyEffect",
+          hero: "zenyatta",
+          player: "ally",
+          target: "card",
+          type: "healing",
+          on: "turnstart",
           value: 1,
         },
         zenyattaEnemyEffect: {
-          id: 'zenyattaEnemyEffect',
-          hero: 'zenyatta',
-          player: 'enemy',
-          target: 'card',
-          type: 'damage',
-          on: 'attack',
+          id: "zenyattaEnemyEffect",
+          hero: "zenyatta",
+          player: "enemy",
+          target: "card",
+          type: "damage",
+          on: "attack",
           value: 1,
         },
       },
@@ -828,18 +827,18 @@ const data = {
     },
   },
   playerCards: {
-    'player1cards' :{
-      id: 'player1cards',
-      cards: {}
+    player1cards: {
+      id: "player1cards",
+      cards: {},
     },
-    'player2cards': {
-      id: 'player2cards',
-      cards: {}
-    }
+    player2cards: {
+      id: "player2cards",
+      cards: {},
+    },
   },
   rows: {
-    'player1hand': {
-      id: 'player1hand',
+    player1hand: {
+      id: "player1hand",
       cardIds: [],
       cardsPlayed: 0,
       power: {
@@ -852,8 +851,8 @@ const data = {
         return totalPower;
       },
     },
-    'player2hand': {
-      id: 'player2hand',
+    player2hand: {
+      id: "player2hand",
       cardIds: [],
       cardsPlayed: 0,
       power: {
@@ -866,9 +865,9 @@ const data = {
         return totalPower;
       },
     },
-    '1f': {
-      id: '1f',
-      label: 'Front Row',
+    "1b": {
+      id: "1b",
+      label: "Back Row",
       cardIds: [],
       synergy: 0,
       allyEffects: [],
@@ -882,9 +881,9 @@ const data = {
         return totalShield;
       },
     },
-    '1m': {
-      id: '1m',
-      label: 'Middle Row',
+    "1m": {
+      id: "1m",
+      label: "Middle Row",
       cardIds: [],
       synergy: 0,
       allyEffects: [],
@@ -898,9 +897,9 @@ const data = {
         return totalShield;
       },
     },
-    '1b': {
-      id: '1b',
-      label: 'Back Row',
+    "1f": {
+      id: "1f",
+      label: "Front Row",
       cardIds: [],
       synergy: 0,
       allyEffects: [],
@@ -914,9 +913,9 @@ const data = {
         return totalShield;
       },
     },
-    '2b': {
-      id: '2b',
-      label: 'Back Row',
+    "2f": {
+      id: "2f",
+      label: "Front Row",
       cardIds: [],
       synergy: 0,
       allyEffects: [],
@@ -930,9 +929,9 @@ const data = {
         return totalShield;
       },
     },
-    '2m': {
-      id: '2m',
-      label: 'Middle Row',
+    "2m": {
+      id: "2m",
+      label: "Middle Row",
       cardIds: [],
       synergy: 0,
       allyEffects: [],
@@ -946,9 +945,9 @@ const data = {
         return totalShield;
       },
     },
-    '2f': {
-      id: '2f',
-      label: 'Front Row',
+    "2b": {
+      id: "2b",
+      label: "Back Row",
       cardIds: [],
       synergy: 0,
       allyEffects: [],
@@ -962,7 +961,7 @@ const data = {
         return totalShield;
       },
     },
-  }
+  },
 };
 
 export default data;
