@@ -69,7 +69,10 @@ export default function BoardRow(props) {
         />
       </div>
       <div className="boardrow">
-        <div className="rowlabel">{props.label}</div>
+        <div className="rowlabel">
+          <span>{props.label}</span>
+          <span>Row</span>
+        </div>
         <CardDisplay
           playerNum={props.playerNum}
           droppableId={props.rowId}

@@ -867,7 +867,7 @@ const data = {
     },
     "1b": {
       id: "1b",
-      label: "Back Row",
+      label: "Back",
       cardIds: [],
       synergy: 0,
       allyEffects: [],
@@ -883,7 +883,7 @@ const data = {
     },
     "1m": {
       id: "1m",
-      label: "Middle Row",
+      label: "Middle",
       cardIds: [],
       synergy: 0,
       allyEffects: [],
@@ -899,7 +899,7 @@ const data = {
     },
     "1f": {
       id: "1f",
-      label: "Front Row",
+      label: "Front",
       cardIds: [],
       synergy: 0,
       allyEffects: [],
@@ -915,7 +915,7 @@ const data = {
     },
     "2f": {
       id: "2f",
-      label: "Front Row",
+      label: "Front",
       cardIds: [],
       synergy: 0,
       allyEffects: [],
@@ -931,7 +931,7 @@ const data = {
     },
     "2m": {
       id: "2m",
-      label: "Middle Row",
+      label: "Middle",
       cardIds: [],
       synergy: 0,
       allyEffects: [],
@@ -947,7 +947,7 @@ const data = {
     },
     "2b": {
       id: "2b",
-      label: "Back Row",
+      label: "Back",
       cardIds: [],
       synergy: 0,
       allyEffects: [],

@@ -126,18 +126,17 @@ body {
 }
 
 .matchcountercontainer {
-  /* width: 37%; */
   display: flex;
   justify-content: center;
 }
 
 .matchcounter {
-  width: 50px;
-  height: 50px;
+  width: 40px;
+  height: 40px;
   color: #333333 !important;
   font-weight: bolder;
-  font-size: 20pt;
-  margin: 5px;
+  font-size: 2rem;
+  margin: 2px;
 }
 
 #player1matchcounter {
@@ -282,7 +281,10 @@ li {
 
 .rowlabel {
   position: absolute;
-  font-size: 24pt;
+  font-size: 2rem;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
 }
 
 .counterarea {

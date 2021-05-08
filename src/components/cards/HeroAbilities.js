@@ -14,12 +14,10 @@ export default function HeroAbilities(props) {
   const playerTurn = turnState.playerTurn;
   const enemyPlayerNum = playerTurn === 1 ? 2 : 1;
 
-  const playerHeroId = props.playerHeroId;
+  const { playerHeroId, unsetCardFocus, rowId, playAudio } = props;
   const currentCard =
     gameState.playerCards[`player${playerHeroId[0]}cards`].cards[playerHeroId];
   const heroId = playerHeroId.slice(1, playerHeroId.length);
-  const rowId = props.rowId;
-  const unsetCardFocus = props.unsetCardFocus;
 
   // ref to keep track of card health during async ability usages
   let targetRef = useRef(null);
@@ -2700,7 +2698,7 @@ export default function HeroAbilities(props) {
       // Call the relevant hero's ability
       try {
         // Play ability audio if exists
-        if ("audioFile" in abilities[heroId].ability1) {
+        if ("audioFile" in abilities[heroId].ability1 && playAudio === true) {
           const audioFile = abilities[heroId].ability1.audioFile;
           const ability1audio = new Audio(
             require(`assets/audio/${audioFile}.mp3`).default
@@ -2753,7 +2751,7 @@ export default function HeroAbilities(props) {
         // Call the relevant hero's ability and deduct synergy
         try {
           // Play ability audio if exists
-          if ("audioFile" in abilities[heroId].ability2) {
+          if ("audioFile" in abilities[heroId].ability2 && playAudio === true) {
             const audioFile = abilities[heroId].ability2.audioFile;
             const ability2audio = new Audio(
               require(`assets/audio/${audioFile}.mp3`).default
