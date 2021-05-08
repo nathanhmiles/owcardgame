@@ -35,7 +35,6 @@ export default function Card(props) {
 
   function getStyle(style, snapshot) {
     if (!snapshot.isDropAnimating) return style;
-
     return {
       ...style,
       transitionDuration: "0.001s",
@@ -53,6 +52,7 @@ export default function Card(props) {
           <li
             {...provided.draggableProps}
             {...provided.dragHandleProps}
+            className={`${snapshot.isDragging ? "dragging" : "not-dragging"}`}
             ref={provided.innerRef}
             style={getStyle(provided.draggableProps.style, snapshot)}
           >

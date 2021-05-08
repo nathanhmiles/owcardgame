@@ -259,6 +259,10 @@ li {
   font-size: 9pt;
 }
 
+.not-dragging {
+  transform: none !important;
+}
+
 .dead {
   filter: grayscale(1);
 }

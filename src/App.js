@@ -566,21 +566,20 @@ export default function App() {
     const heroId = draggableId.slice(1, draggableId.length);
     let finishSynergy = gameState.rows[finishRowId].synergy;
 
-    // Apply card movement
-    dispatch({
-      type: ACTIONS.MOVE_CARD,
-      payload: {
-        targetCardId: draggableId,
-        startRowId: startRowId,
-        finishRowId: finishRowId,
-        startIndex: source.index,
-        finishIndex: destination.index,
-      },
-    });
-
     // If not moving card within player's hand (i.e. moving into a row),
     // Set new row synergy and set card to played
     if (finishRowId[0] !== "p") {
+      // Apply card movement
+      dispatch({
+        type: ACTIONS.MOVE_CARD,
+        payload: {
+          targetCardId: draggableId,
+          startRowId: startRowId,
+          finishRowId: finishRowId,
+          startIndex: source.index,
+          finishIndex: destination.index,
+        },
+      });
       // If audio is on, play intro audio
       if (playAudio === true) {
         try {
