@@ -33,10 +33,6 @@ export default function Card(props) {
     isDiscarded,
   } = gameState.playerCards[playerCardsId].cards[playerHeroId];
 
-  function discardCard() {
-    // TODO: e.g. clear counters related to card, set isDiscarded
-  }
-
   function getStyle(style, snapshot) {
     if (!snapshot.isDropAnimating) return style;
 
@@ -53,13 +49,13 @@ export default function Card(props) {
       isDragDisabled={isPlayed || turnState.playerTurn !== playerNum}
     >
       {(provided, snapshot) => (
-        <li
-          {...provided.draggableProps}
-          {...provided.dragHandleProps}
-          ref={provided.innerRef}
-          style={getStyle(provided.draggableProps.style, snapshot)}
-        >
-          <div className="cardcontainer">
+        <div className="cardcontainer">
+          <li
+            {...provided.draggableProps}
+            {...provided.dragHandleProps}
+            ref={provided.innerRef}
+            style={getStyle(provided.draggableProps.style, snapshot)}
+          >
             {playerNum === 1 ? (
               <CardEffects
                 type="enemy"
@@ -75,8 +71,7 @@ export default function Card(props) {
             )}
             <div
               id={`${playerHeroId}`}
-              style={health > 0 ? null : { filter: "grayscale(1)" }}
-              className="card"
+              className={`card ${health > 0 ? null : "dead"}`}
               onClick={
                 turnState.playerTurn === playerNum || isPlayed
                   ? () => {
@@ -119,8 +114,8 @@ export default function Card(props) {
                 setCardFocus={props.setCardFocus}
               />
             )}
-          </div>
-        </li>
+          </li>
+        </div>
       )}
     </Draggable>
   );

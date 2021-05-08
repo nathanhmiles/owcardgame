@@ -65,54 +65,52 @@ export default function PlayerHand(props) {
   }
 
   return (
-    <>
-      <div className="playerbuttons">
-        <div className="common-buttons">
-          <button
-            className="drawbutton"
-            disabled={handCards.length >= 8}
-            onClick={drawCards}
-          >
-            Draw
-          </button>
-          <button
-            disabled={!(turnState.playerTurn === playerNum)}
-            className="endturnbutton"
-            onClick={
-              turnState.playerTurn === 1
-                ? () =>
-                    setTurnState((prevState) => ({
-                      ...prevState,
-                      turnCount: prevState.turnCount + 1,
-                      playerTurn: 2,
-                    }))
-                : () =>
-                    setTurnState((prevState) => ({
-                      ...prevState,
-                      turnCount: prevState.turnCount + 1,
-                      playerTurn: 1,
-                    }))
-            }
-          >
-            End Turn
-          </button>
-        </div>
+    <div className="playerbuttons">
+      <div className="common-buttons">
         <button
-          disabled={
-            !(gameState.rows[`player${playerNum}hand`].cardsPlayed >= 6) ||
-            turnState[`player${playerNum}Passed`] === true
-          }
-          className="passbutton"
-          onClick={() => {
-            setTurnState((prevState) => ({
-              ...prevState,
-              [`player${playerNum}Passed`]: true,
-            }));
-          }}
+          className="drawbutton"
+          disabled={handCards.length >= 8}
+          onClick={drawCards}
         >
-          Pass
+          Draw
+        </button>
+        <button
+          disabled={!(turnState.playerTurn === playerNum)}
+          className="endturnbutton"
+          onClick={
+            turnState.playerTurn === 1
+              ? () =>
+                  setTurnState((prevState) => ({
+                    ...prevState,
+                    turnCount: prevState.turnCount + 1,
+                    playerTurn: 2,
+                  }))
+              : () =>
+                  setTurnState((prevState) => ({
+                    ...prevState,
+                    turnCount: prevState.turnCount + 1,
+                    playerTurn: 1,
+                  }))
+          }
+        >
+          End Turn
         </button>
       </div>
-    </>
+      <button
+        disabled={
+          !(gameState.rows[`player${playerNum}hand`].cardsPlayed >= 6) ||
+          turnState[`player${playerNum}Passed`] === true
+        }
+        className="passbutton"
+        onClick={() => {
+          setTurnState((prevState) => ({
+            ...prevState,
+            [`player${playerNum}Passed`]: true,
+          }));
+        }}
+      >
+        Pass
+      </button>
+    </div>
   );
 }

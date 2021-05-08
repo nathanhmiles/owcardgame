@@ -21,7 +21,7 @@ export default function BoardRow(props) {
   useEffect(() => {
     let playerPower = 0;
 
-    // For every card in the row, add up the power values
+    // For every card in the row (that is alive), add up the power values
     for (let cardId of gameState.rows[rowId].cardIds) {
       if (
         gameState.playerCards[`player${playerNum}cards`].cards[cardId].health >
@@ -43,8 +43,6 @@ export default function BoardRow(props) {
         powerValue: playerPower,
       },
     });
-
-    // TODO: Not all dependencies here, check
   }, [
     gameState.rows,
     gameState.playerCards,
@@ -78,6 +76,7 @@ export default function BoardRow(props) {
           listClass="rowlist cardRow"
           rowId={props.rowId}
           setCardFocus={props.setCardFocus}
+          direction="vertical"
         />
       </div>
     </div>

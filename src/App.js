@@ -580,15 +580,17 @@ export default function App() {
 
     // If not moving card within player's hand (i.e. moving into a row),
     // Set new row synergy and set card to played
-    if (finishRowId[0] !== "p" && playAudio === true) {
-      // Play intro audio
-      try {
-        const introAudio = new Audio(
-          require(`assets/audio/${heroId}-intro.mp3`).default
-        );
-        introAudio.play();
-      } catch (err) {
-        console.log("No intro audio available");
+    if (finishRowId[0] !== "p") {
+      // If audio is on, play intro audio
+      if (playAudio === true) {
+        try {
+          const introAudio = new Audio(
+            require(`assets/audio/${heroId}-intro.mp3`).default
+          );
+          introAudio.play();
+        } catch (err) {
+          console.log("No intro audio available");
+        }
       }
 
       // Set new row synergy
