@@ -561,14 +561,14 @@ export default function App() {
     // Get card movement data
     const startRowId = source.droppableId;
     const finishRowId = destination.droppableId;
-    const playerNum = parseInt(finishRowId[0]);
+    const playerNum = turnState.playerTurn;
     const finishPosition = finishRowId[1];
     const heroId = draggableId.slice(1, draggableId.length);
     let finishSynergy = gameState.rows[finishRowId].synergy;
 
     // If not moving card within player's hand (i.e. moving into a row),
     // Set new row synergy and set card to played
-    if (finishRowId[0] !== "p") {
+    if (finishRowId[0] !== "p" && parseInt(finishRowId[0]) === playerNum) {
       // Apply card movement
       dispatch({
         type: ACTIONS.MOVE_CARD,
