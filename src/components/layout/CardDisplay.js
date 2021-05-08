@@ -12,7 +12,7 @@ export default function CardDisplay(props) {
   const cards = gameState.rows[rowId].cardIds;
 
   return (
-    <div className={`carddisplay-container ${cards.length}`}>
+    <div className={`carddisplay-container`}>
       <Droppable droppableId={props.droppableId} direction={direction}>
         {(provided) => (
           <ul
