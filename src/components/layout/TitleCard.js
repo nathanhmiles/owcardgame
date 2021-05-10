@@ -11,7 +11,7 @@ export default function TitleCard(props) {
           href={require("assets/how-to-play.pdf").default}
           id="howtoplay"
         >
-          <i class="fas fa-question"></i>
+          <i className="fas fa-question"></i>
         </a>
       </div>
       <span className="title">Overwatch</span>

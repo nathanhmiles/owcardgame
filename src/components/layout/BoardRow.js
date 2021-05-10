@@ -79,7 +79,6 @@ export default function BoardRow(props) {
           listClass="rowlist cardRow"
           rowId={props.rowId}
           setCardFocus={props.setCardFocus}
-          direction="vertical"
         />
       </div>
     </div>

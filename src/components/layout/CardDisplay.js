@@ -1,4 +1,4 @@
-import React, { useContext } from "react";
+import React, { useContext, useState } from "react";
 import Card from "components/cards/Card";
 import { Droppable } from "react-beautiful-dnd";
 import gameContext from "context/gameContext";
@@ -6,16 +6,23 @@ import gameContext from "context/gameContext";
 export default function CardDisplay(props) {
   // Context
   const { gameState } = useContext(gameContext);
+  const [rowDirection, setRowDirection] = useState(
+    window.innerWidth > 1300 ? "vertical" : "horizontal"
+  );
 
   // Variables
-  const { rowId, playerNum, direction } = props;
+  const { rowId, playerNum } = props;
   const cards = gameState.rows[rowId].cardIds;
 
-  // TODO: droppables are vertical above 1300px width, but horizontal below
+  window.addEventListener("resize", () => {
+    const windowWidth = window.innerWidth;
+    if (windowWidth > 1300) setRowDirection("vertical");
+    else setRowDirection("horizontal");
+  });
 
   return (
     <div className={`carddisplay-container`}>
-      <Droppable droppableId={props.droppableId} direction={direction}>
+      <Droppable droppableId={props.droppableId} direction={rowDirection}>
         {(provided, snapshot) => (
           <ul
             className={`${props.listClass} ${

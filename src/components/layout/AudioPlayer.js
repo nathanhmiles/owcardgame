@@ -16,7 +16,7 @@ export default function AudioPlayer(props) {
           onClick={() => {
             setPlayAudio(!playAudio);
           }}
-          class="fas fa-volume-up"
+          className="fas fa-volume-up"
           id="audioicon"
           alt="audio icon"
         />
@@ -25,7 +25,7 @@ export default function AudioPlayer(props) {
           onClick={() => {
             setPlayAudio(!playAudio);
           }}
-          class="fas fa-volume-mute"
+          className="fas fa-volume-mute"
           id="audioicon"
           alt="audio icon"
         />
