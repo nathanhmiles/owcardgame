@@ -32,6 +32,7 @@ export default function PlayerArea(props) {
         listClass={"handlist"}
         rowId={playerHandId}
         setCardFocus={props.setCardFocus}
+        direction="horizontal"
       />
     </div>
   );

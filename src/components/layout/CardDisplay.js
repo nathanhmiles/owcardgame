@@ -4,28 +4,36 @@ import { Droppable } from "react-beautiful-dnd";
 import gameContext from "context/gameContext";
 
 export default function CardDisplay(props) {
-  // Context
+  // Context & State
   const { gameState } = useContext(gameContext);
+
+  // If a direction prop is passed in, use that for the direction.
+  // Otherwise, dynamically alter direction based on window width
   const [rowDirection, setRowDirection] = useState(
-    window.innerWidth > 1300 ? "vertical" : "horizontal"
+    props.direction
+      ? props.direction
+      : window.innerWidth > 1300
+      ? "vertical"
+      : "horizontal"
   );
+  if (!props.direction) {
+    window.addEventListener("resize", () => {
+      const windowWidth = window.innerWidth;
+      if (windowWidth > 1300) setRowDirection("vertical");
+      else setRowDirection("horizontal");
+    });
+  }
 
   // Variables
-  const { rowId, playerNum } = props;
+  const { rowId, playerNum, listClass, droppableId } = props;
   const cards = gameState.rows[rowId].cardIds;
-
-  window.addEventListener("resize", () => {
-    const windowWidth = window.innerWidth;
-    if (windowWidth > 1300) setRowDirection("vertical");
-    else setRowDirection("horizontal");
-  });
 
   return (
     <div className={`carddisplay-container`}>
-      <Droppable droppableId={props.droppableId} direction={rowDirection}>
+      <Droppable droppableId={droppableId} direction={rowDirection}>
         {(provided, snapshot) => (
           <ul
-            className={`${props.listClass} ${
+            className={`${listClass} ${
               snapshot.isDraggingOver ? "dragging-over" : ""
             }`}
             {...provided.droppableProps}
