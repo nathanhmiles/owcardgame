@@ -635,7 +635,6 @@ export default function App() {
       <div id="landscape-wrapper">
         <turnContext.Provider value={{ turnState, setTurnState }}>
           <gameContext.Provider value={{ gameState, dispatch }}>
-            <Footer />
             <a
               rel="noopener noreferrer"
               target="_blank"
@@ -653,8 +652,12 @@ export default function App() {
                 setNextCardDraw={setNextCardDraw}
               />
               <div id="center-section">
-                <MatchCounter playerNum={1} matchState={matchState} />
-                <MatchCounter playerNum={2} matchState={matchState} />
+                <span>Match</span>
+                <div id="match-counters">
+                  <MatchCounter playerNum={1} matchState={matchState} />
+                  <MatchCounter playerNum={2} matchState={matchState} />
+                </div>
+                <span>Score</span>
               </div>
               <PlayerHalf
                 playerNum={2}
@@ -677,10 +680,10 @@ export default function App() {
             )}
 
             <Tutorial />
-            <Footer />
           </gameContext.Provider>
         </turnContext.Provider>
       </div>
+      <Footer />
     </div>
   );
 }

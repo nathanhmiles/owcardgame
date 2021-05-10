@@ -13,15 +13,26 @@
   src: url("./assets/fonts/KeepCalm-Medium.ttf");
 }
 
+html,
+body {
+  margin: 0;
+  padding: 0;
+}
+
 body {
   font-family: Big-Noodle-Titling;
   color: #333333;
   background-image: url("https://www.transparenttextures.com/patterns/gplay.png");
   background-color: #dddbe0;
   display: flex;
-  margin: 0%;
-  height: 100vh;
-  width: 100vw;
+  height: 100%;
+  width: 100%;
+  min-height: 100vh;
+  min-width: calc(100vw - 20px);
+}
+
+* {
+  box-sizing: border-box;
 }
 
 #root {
@@ -33,15 +44,13 @@ body {
   flex-direction: column;
   height: 100%;
   padding: 4px;
-  box-sizing: border-box;
 }
 
 #landscape-wrapper {
   display: flex;
   width: 100%;
   height: 100%;
-  box-sizing: border-box;
-  padding: 6px;
+  padding: 0;
 }
 
 #audioplayer {
@@ -107,12 +116,12 @@ body {
   display: flex;
   justify-content: space-evenly;
   align-items: center;
-  font-size: 5rem;
+  font-size: 4vw;
   margin-bottom: 4px;
 }
 
 .credit {
-  font-size: 1.5vw;
+  font-size: 1.5rem;
   width: 15vw;
   display: flex;
   justify-content: center;
@@ -122,7 +131,14 @@ body {
 #center-section {
   display: flex;
   align-items: center;
+  justify-content: center;
   margin-top: 50px;
+  flex-direction: column;
+  font-size: 1.5rem;
+}
+
+#match-counters {
+  display: flex;
 }
 
 .matchcountercontainer {
@@ -149,6 +165,8 @@ body {
 
 .title {
   width: 20vw;
+  display: flex;
+  justify-content: center;
 }
 
 .rowarea {
@@ -173,7 +191,6 @@ body {
   align-items: center;
   width: 100%;
   flex: 1;
-  box-sizing: border-box;
 }
 
 .cardRow {
@@ -215,6 +232,10 @@ ul {
   width: 100%;
   padding: 0;
   margin: 0;
+  border: 20px solid transparent; /* hack to prevent board rows from increasing in size slightly when card hovers over */
+}
+
+.dragging-over {
 }
 
 .playerhand {
@@ -228,7 +249,7 @@ ul {
 }
 
 .playername {
-  font-size: 38pt;
+  font-size: 3rem;
   font-weight: normal;
   margin: 0;
   padding: 0;
@@ -371,7 +392,7 @@ li {
 .rowcountercontainer {
   display: flex;
   flex-direction: row;
-  font-size: 20pt;
+  font-size: 2rem;
 }
 
 .rowcounter {
@@ -415,7 +436,7 @@ li {
   color: white;
   width: 40px;
   height: 40px;
-  font-size: 20pt;
+  font-size: 2rem;
 }
 
 .playerbuttons {
@@ -432,7 +453,7 @@ button {
   height: 60px;
   margin: 10px;
   font-family: inherit;
-  font-size: 16pt;
+  font-size: 1.5rem;
   border: 3px solid #333333;
   border-radius: 10%;
   background-color: #333333;
@@ -473,7 +494,7 @@ button:disabled {
   min-height: 60px;
   width: 50px;
   height: 50px;
-  font-size: 42pt;
+  font-size: 4rem;
   margin: 0 10px;
 }
 
@@ -583,9 +604,8 @@ footer {
 }
 
 .disclaimer {
-  font-size: 16pt;
-  display: none;
+  font-size: 1rem;
+  display: flex;
   justify-content: center;
-  margin: 20px;
-  width: 80%;
+  width: 100%;
 }

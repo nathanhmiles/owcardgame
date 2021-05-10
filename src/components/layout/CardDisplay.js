@@ -11,12 +11,16 @@ export default function CardDisplay(props) {
   const { rowId, playerNum, direction } = props;
   const cards = gameState.rows[rowId].cardIds;
 
+  // TODO: droppables are vertical above 1300px width, but horizontal below
+
   return (
     <div className={`carddisplay-container`}>
       <Droppable droppableId={props.droppableId} direction={direction}>
-        {(provided) => (
+        {(provided, snapshot) => (
           <ul
-            className={props.listClass}
+            className={`${props.listClass} ${
+              snapshot.isDraggingOver ? "dragging-over" : ""
+            }`}
             {...provided.droppableProps}
             ref={provided.innerRef}
           >

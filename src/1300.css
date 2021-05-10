@@ -1,56 +1,35 @@
 @media (max-width: 1300px) {
-  .playerhalf {
-    display: flex;
-    width: 100%;
-    flex-direction: column-reverse;
-    justify-content: center;
-    align-items: center;
-  }
-
-  #player2half {
-    flex-direction: column;
-  }
-
-  .playerarea {
-    flex-direction: column;
-  }
-
-  #player2area {
-    flex-direction: column-reverse;
-  }
-
-  .playerarea-section {
-    flex-direction: row;
-    width: 100%;
-    margin: 10px 0;
-  }
-
-  .playerbuttons {
-    flex-direction: row;
-  }
-
+  #landscape-wrapper,
+  .playerhalf,
   .board {
-    width: 100%;
+    flex-direction: column;
   }
-
-  .playerarea {
-    width: 100%;
+  .rowarea {
+    flex-direction: row;
   }
-
-  ul {
-    justify-content: center;
-    align-items: center;
+  .boardrow {
+    min-height: 150px;
   }
-
-  .rowcountercontainer {
-    min-width: 100px;
+  .cardrow {
+    flex-direction: row;
   }
-
+  .cardcontainer {
+    flex-basis: 12%;
+    min-width: 120px;
+  }
   #center-section {
-    width: 20%;
+    flex-direction: column;
+    justify-content: center;
+    margin-top: 0;
+    margin-left: 40px;
   }
-
-  .disclaimer {
-    width: 70%;
+  #centerlogo {
+    height: 60px;
+  }
+  #title-container {
+    font-size: 3rem;
+  }
+  .credit {
+    font-size: 1rem;
   }
 }
