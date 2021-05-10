@@ -10,7 +10,7 @@
   .boardrow {
     min-height: 150px;
   }
-  .cardrow {
+  .cardRow {
     flex-direction: row;
   }
   .cardcontainer {
@@ -22,14 +22,15 @@
     justify-content: center;
     margin-top: 0;
     margin-left: 40px;
+    flex-direction: row;
+  }
+  #match-counters {
+    margin: 0 10px;
   }
   #centerlogo {
     height: 60px;
   }
-  #title-container {
-    font-size: 3rem;
-  }
   .credit {
-    font-size: 1rem;
+    font-size: 2vw;
   }
 }

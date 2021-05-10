@@ -631,19 +631,10 @@ export default function App() {
 
   return (
     <div id="page-wrapper">
-      <TitleCard />
+      <TitleCard playAudio={playAudio} setPlayAudio={setPlayAudio} />
       <div id="landscape-wrapper">
         <turnContext.Provider value={{ turnState, setTurnState }}>
           <gameContext.Provider value={{ gameState, dispatch }}>
-            <a
-              rel="noopener noreferrer"
-              target="_blank"
-              href={require("assets/how-to-play.pdf").default}
-              id="howtoplay"
-            >
-              How to Play
-            </a>
-            <AudioPlayer playAudio={playAudio} setPlayAudio={setPlayAudio} />
             <DragDropContext onDragEnd={handleOnDragEnd}>
               <PlayerHalf
                 playerNum={1}

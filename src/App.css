@@ -53,29 +53,20 @@ body {
   padding: 0;
 }
 
-#audioplayer {
-  position: absolute;
-  top: 2vh;
-  right: 2vw;
-}
-
-#howtoplay {
-  background-color: #c4c3d5;
-  font-size: 16pt;
-  color: #333333;
-  border: 2px solid #a8b3d3;
-  text-decoration: none;
-  padding: 4px;
-  position: absolute;
-  top: 2vh;
-  left: 2vw;
-  border-radius: 5px;
-  display: none;
+.title-corners {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 50px;
 }
 
 #audioicon {
-  width: 30px;
-  height: 30px;
+  font-size: 2rem;
+}
+
+#howtoplay {
+  font-size: 2rem;
+  color: #333333;
 }
 
 #player1board {
@@ -378,7 +369,7 @@ li {
 }
 
 .healthcounter.cardcounter {
-  top: 6.5%;
+  top: 7%;
   left: 83.5%;
 }
 

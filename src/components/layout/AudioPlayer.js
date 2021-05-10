@@ -10,19 +10,26 @@ export default function AudioPlayer(props) {
   }, [playAudio]);
 
   return (
-    <div id="audioplayer">
-      <img
-        id="audioicon"
-        alt="audio icon"
-        src={
-          playAudio
-            ? require(`assets/volume-on.png`).default
-            : require("assets/volume-off.png").default
-        }
-        onClick={() => {
-          setPlayAudio(!playAudio);
-        }}
-      />
+    <div className="title-corners">
+      {playAudio ? (
+        <i
+          onClick={() => {
+            setPlayAudio(!playAudio);
+          }}
+          class="fas fa-volume-up"
+          id="audioicon"
+          alt="audio icon"
+        />
+      ) : (
+        <i
+          onClick={() => {
+            setPlayAudio(!playAudio);
+          }}
+          class="fas fa-volume-mute"
+          id="audioicon"
+          alt="audio icon"
+        />
+      )}
       <audio
         src={require(`assets/audio/overwatch-theme.mp3`).default}
         type="audio/mpeg"

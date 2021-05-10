@@ -1,9 +1,19 @@
 import owlogo from "assets/logo3.png";
+import AudioPlayer from "./AudioPlayer";
 
-export default function TitleCard() {
+export default function TitleCard(props) {
   return (
     <div id="title-container">
-      <br />
+      <div className="title-corners">
+        <a
+          rel="noopener noreferrer"
+          target="_blank"
+          href={require("assets/how-to-play.pdf").default}
+          id="howtoplay"
+        >
+          <i class="fas fa-question"></i>
+        </a>
+      </div>
       <span className="title">Overwatch</span>
       <span className="credit">
         Game & Card Design by
@@ -17,7 +27,10 @@ export default function TitleCard() {
         Nathan H Miles
       </span>
       <span className="title">Card Game</span>
-      <br />
+      <AudioPlayer
+        playAudio={props.playAudio}
+        setPlayAudio={props.setPlayAudio}
+      />
     </div>
   );
 }
