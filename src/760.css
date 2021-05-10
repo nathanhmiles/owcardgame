@@ -2,7 +2,6 @@
   @media screen and (orientation: portrait) {
     body {
       margin: 0;
-      overflow: hidden;
     }
     .landscape-wrapper {
       transform: rotate(90deg);
