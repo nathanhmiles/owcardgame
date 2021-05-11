@@ -6,7 +6,7 @@ import CounterArea from "components/layout/CounterArea";
 import CardDisplay from "components/layout/CardDisplay";
 import { ACTIONS } from "App";
 import $ from "jquery";
-import { checkIsOverflown } from "helper";
+import { isOverflown } from "helper";
 
 export default function BoardRow(props) {
   // Context

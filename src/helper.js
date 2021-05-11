@@ -65,7 +65,7 @@ const getRandInt = (min, max) => {
 };
 
 // Helper function to check if the div element is overflowing
-function checkIsOverflown(element) {
+function isOverflown(element) {
   return (
     element.scrollHeight > element.clientHeight ||
     element.scrollWidth > element.clientWidth
@@ -73,4 +73,4 @@ function checkIsOverflown(element) {
 }
 
 export default getRandInt;
-export { PlayerCard, checkIsOverflown };
+export { PlayerCard, isOverflown };
