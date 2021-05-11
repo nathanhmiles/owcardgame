@@ -1,11 +1,11 @@
-import background from 'assets/healthbackground-hexagon.png'
+import background from "assets/healthbackground-hexagon.png";
 
 export default function HealthCounter(props) {
   const type = props.type;
 
   return (
     <div className={`healthcounter counter ${type}`}>
-      {props.health}
+      <span>{props.health}</span>
     </div>
   );
 }
