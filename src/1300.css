@@ -10,7 +10,7 @@
   .boardrow {
     min-height: 150px;
   }
-  .cardRow {
+  .rowlist {
     flex-direction: row;
   }
   .cardcontainer {
@@ -32,5 +32,20 @@
   }
   .credit {
     font-size: 2vw;
+  }
+}
+
+@media (min-width: 1300px) {
+  .cardcontainer {
+    max-height: 15vh;
+    align-items: flex-start;
+  }
+
+  .card-in-hand {
+    flex-basis: 50%;
+  }
+
+  .rowlist {
+    min-height: 50vh;
   }
 }

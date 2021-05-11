@@ -76,7 +76,7 @@ export default function BoardRow(props) {
         <CardDisplay
           playerNum={props.playerNum}
           droppableId={props.rowId}
-          listClass="rowlist cardRow"
+          listClass="rowlist"
           rowId={props.rowId}
           setCardFocus={props.setCardFocus}
         />

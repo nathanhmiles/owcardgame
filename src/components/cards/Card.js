@@ -99,7 +99,11 @@ export default function Card(props) {
                     ? require(`assets/heroes/${id}.png`).default
                     : require("assets/card-back.png").default
                 }
-                className="cardimg"
+                className={`cardimg ${
+                  turnState.playerTurn === playerNum || isPlayed
+                    ? "show-card"
+                    : "hide-card"
+                }`}
                 alt={`${name} Card`}
               />
             </div>

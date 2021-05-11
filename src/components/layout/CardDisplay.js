@@ -2,6 +2,7 @@ import React, { useContext, useState } from "react";
 import Card from "components/cards/Card";
 import { Droppable } from "react-beautiful-dnd";
 import gameContext from "context/gameContext";
+import $ from "jquery";
 
 export default function CardDisplay(props) {
   // Context & State
@@ -28,8 +29,21 @@ export default function CardDisplay(props) {
   const { rowId, playerNum, listClass, droppableId } = props;
   const cards = gameState.rows[rowId].cardIds;
 
+  function heightIsOverflown(element) {
+    return element.scrollHeight > element.clientHeight;
+  }
+
+  $(function () {
+    const rowList = document.getElementById(`${rowId}-list`);
+    rowList.addEventListener("DOMSubtreeModified", () => {
+      if (heightIsOverflown(rowList)) {
+        console.log("overflwon");
+      }
+    });
+  });
+
   return (
-    <div className={`carddisplay-container`}>
+    <div id={`${rowId}-carddisplay`} className={`carddisplay-container`}>
       <Droppable droppableId={droppableId} direction={rowDirection}>
         {(provided, snapshot) => (
           <ul
@@ -38,6 +52,7 @@ export default function CardDisplay(props) {
             }`}
             {...provided.droppableProps}
             ref={provided.innerRef}
+            id={`${rowId}-list`}
           >
             {cards &&
               cards.map((cardId, index) => {

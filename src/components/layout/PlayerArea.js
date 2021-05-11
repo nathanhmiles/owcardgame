@@ -26,14 +26,16 @@ export default function PlayerArea(props) {
           setNextCardDraw={props.setNextCardDraw}
         />
       </div>
-      <CardDisplay
-        playerNum={props.playerNum}
-        droppableId={`player${props.playerNum}hand`}
-        listClass={"handlist"}
-        rowId={playerHandId}
-        setCardFocus={props.setCardFocus}
-        direction="horizontal"
-      />
+      <div className="playercards-row">
+        <CardDisplay
+          playerNum={props.playerNum}
+          droppableId={`player${props.playerNum}hand`}
+          listClass={"handlist"}
+          rowId={playerHandId}
+          setCardFocus={props.setCardFocus}
+          direction="horizontal"
+        />
+      </div>
     </div>
   );
 }

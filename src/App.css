@@ -89,7 +89,7 @@ body {
   display: flex;
   align-items: center;
   flex-direction: column;
-  flex: 2;
+  flex: 1;
 }
 
 #player1area {
@@ -182,19 +182,16 @@ body {
   align-items: center;
   width: 100%;
   flex: 1;
-}
-
-.cardRow {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  flex-direction: column;
+  max-height: 80vh;
+  overflow: hidden;
 }
 
 /* Should the ul take place of the div? */
 .rowlist {
   display: flex;
+  flex-direction: column;
   justify-content: center;
+  align-items: center;
   padding: 0;
   margin: 0px;
   /* prevents the droppable area from being 0px */
@@ -223,7 +220,6 @@ ul {
   width: 100%;
   padding: 0;
   margin: 0;
-  border: 20px solid transparent; /* hack to prevent board rows from increasing in size slightly when card hovers over */
 }
 
 .dragging-over {
@@ -273,12 +269,19 @@ li {
   font-size: 9pt;
 }
 
+.show-card {
+}
+
+.hide-card {
+  border: 2px solid #dddbe0;
+}
+
 .handlist .not-dragging {
   transform: none !important;
 }
 
 .card-in-hand {
-  flex-basis: 33%;
+  flex-basis: 40%;
 }
 
 .dead {
@@ -303,12 +306,6 @@ li {
   display: flex;
   flex-direction: column;
   flex-wrap: wrap;
-}
-
-.cardRow-counterarea {
-  justify-content: flex-start;
-  max-width: 150px;
-  flex-grow: 1;
 }
 
 .card-counterarea {
@@ -487,6 +484,12 @@ button:disabled {
   height: 50px;
   font-size: 4rem;
   margin: 0 10px;
+}
+
+.playercards-row {
+  max-height: 70vh;
+  display: flex;
+  flex: 1;
 }
 
 #cardfocuscontainer {
