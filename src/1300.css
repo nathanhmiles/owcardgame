@@ -40,15 +40,19 @@
 
 @media (min-width: 1301px) {
   .cardcontainer {
-    max-height: 15vh;
-    align-items: flex-start;
   }
 
   .card-in-hand {
+    /*max-height: 15vh;   allows cards to overlap */
+    align-items: flex-start;
     flex-basis: 50%;
   }
 
   .rowlist {
     min-height: 50vh;
+  }
+
+  .rowarea {
+    max-width: 32%;
   }
 }

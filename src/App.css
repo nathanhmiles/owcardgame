@@ -89,7 +89,7 @@ body {
   display: flex;
   align-items: center;
   flex-direction: column;
-  flex: 1;
+  flex: 1.5;
 }
 
 #player1area {
@@ -218,6 +218,13 @@ ul {
   list-style: none;
 }
 
+ul.vertical {
+  overflow-x: hidden;
+}
+
+ul.horizontal {
+}
+
 .cardlist {
   min-height: 50px;
 }
@@ -230,6 +237,15 @@ ul {
   min-height: 150px;
   padding: 0;
   margin: 0;
+  overflow: auto;
+}
+
+.handlist .not-dragging {
+  transform: none !important;
+}
+
+.card-in-hand {
+  flex-basis: 40%;
 }
 
 .dragging-over {
@@ -284,14 +300,6 @@ li {
 
 .hide-card {
   border: 2px solid #dddbe0;
-}
-
-.handlist .not-dragging {
-  transform: none !important;
-}
-
-.card-in-hand {
-  flex-basis: 40%;
 }
 
 .dead {

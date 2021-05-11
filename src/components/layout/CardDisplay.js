@@ -35,7 +35,7 @@ export default function CardDisplay(props) {
       <Droppable droppableId={droppableId} direction={rowDirection}>
         {(provided, snapshot) => (
           <ul
-            className={`cardlist ${listClass} ${
+            className={`cardlist ${rowDirection} ${listClass} ${
               snapshot.isDraggingOver ? "dragging-over" : ""
             }`}
             {...provided.droppableProps}
