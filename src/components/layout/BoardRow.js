@@ -1,14 +1,17 @@
-import React, { useContext, useEffect } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import gameContext from "context/gameContext";
 import SynergyCounter from "components/layout/SynergyCounter";
 import ShieldCounter from "components/cards/ShieldCounter";
 import CounterArea from "components/layout/CounterArea";
 import CardDisplay from "components/layout/CardDisplay";
 import { ACTIONS } from "App";
+import $ from "jquery";
+import { checkIsOverflown } from "helper";
 
 export default function BoardRow(props) {
   // Context
   const { gameState, dispatch } = useContext(gameContext);
+  const [isOverflown, setIsOverflown] = useState(false);
 
   // Variables
   const rowId = props.rowId;
@@ -52,6 +55,23 @@ export default function BoardRow(props) {
     rowPosition,
   ]);
 
+  // Detect if board row is overflown, and set class if it is
+
+  // TODO: not performing well
+  // $(function () {
+  //   const boardRow = document.getElementById(`${rowId}-boardrow`);
+  //   const rowList = document.getElementById(`${rowId}-list`);
+  //   const resizeObserver = new ResizeObserver((element) => {
+  //     if (checkIsOverflown(boardRow)) {
+  //       console.log(`${rowId} overflown`);
+  //       setIsOverflown(true);
+  //     } else {
+  //       setIsOverflown(false);
+  //     }
+  //   });
+  //   resizeObserver.observe(boardRow);
+  // });
+
   return (
     <div id={rowId} className="rowarea row">
       <div className="rowcountercontainer">
@@ -68,7 +88,10 @@ export default function BoardRow(props) {
           rowId={props.rowId}
         />
       </div>
-      <div className="boardrow">
+      <div
+        id={`${rowId}-boardrow`}
+        className={`boardrow ${isOverflown ? "overflown" : ""}`}
+      >
         <div className="rowlabel">
           <span>{props.label}</span>
           <span>Row</span>

@@ -13,6 +13,9 @@
   .rowlist {
     flex-direction: row;
   }
+  .handlist {
+    padding-left: 5%;
+  }
   .cardcontainer {
     flex-basis: 12%;
     min-width: 120px;
@@ -35,7 +38,7 @@
   }
 }
 
-@media (min-width: 1300px) {
+@media (min-width: 1301px) {
   .cardcontainer {
     max-height: 15vh;
     align-items: flex-start;

@@ -26,7 +26,7 @@ body {
   background-color: #dddbe0;
   display: flex;
   height: 100%;
-  width: 100%;
+  width: calc(100% - 20px); /* account for scrollbar */
   min-height: 100vh;
   min-width: calc(100vw - 20px);
 }
@@ -183,7 +183,10 @@ body {
   width: 100%;
   flex: 1;
   max-height: 80vh;
-  overflow: hidden;
+  overflow: auto;
+}
+
+.boardrow.overflown {
 }
 
 /* Should the ul take place of the div? */
@@ -204,6 +207,7 @@ body {
   height: 100%;
   display: flex;
   justify-content: center;
+  overflow: hidden;
 }
 
 .playerarea .carddisplay-container {
@@ -214,10 +218,16 @@ ul {
   list-style: none;
 }
 
+.cardlist {
+  min-height: 50px;
+}
+
 .handlist {
   display: flex;
   flex-wrap: wrap;
   width: 100%;
+  max-height: 100%;
+  min-height: 150px;
   padding: 0;
   margin: 0;
 }
@@ -490,6 +500,7 @@ button:disabled {
   max-height: 70vh;
   display: flex;
   flex: 1;
+  width: 100%;
 }
 
 #cardfocuscontainer {
@@ -602,4 +613,26 @@ footer {
   display: flex;
   justify-content: center;
   width: 100%;
+}
+
+html {
+  --scrollbarBG: #cfd8dc;
+  --thumbBG: #90a4ae;
+}
+::-webkit-scrollbar {
+  width: 11px;
+  height: 11px;
+}
+body {
+  scrollbar-width: thin;
+  scrollbar-color: var(--thumbBG) var(--scrollbarBG);
+}
+::-webkit-scrollbar-track {
+  background: var(--scrollbarBG);
+  border-radius: 6px;
+}
+::-webkit-scrollbar-thumb {
+  background-color: var(--thumbBG);
+  border-radius: 6px;
+  border: 3px solid var(--scrollbarBG);
 }
