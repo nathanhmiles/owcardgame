@@ -1,15 +1,15 @@
 {
   "files": {
-    "main.css": "/owcardgame/static/css/main.b14164ff.chunk.css",
-    "main.js": "/owcardgame/static/js/main.b3ed424b.chunk.js",
-    "main.js.map": "/owcardgame/static/js/main.b3ed424b.chunk.js.map",
+    "main.css": "/owcardgame/static/css/main.ced6cdf8.chunk.css",
+    "main.js": "/owcardgame/static/js/main.44567b40.chunk.js",
+    "main.js.map": "/owcardgame/static/js/main.44567b40.chunk.js.map",
     "runtime-main.js": "/owcardgame/static/js/runtime-main.0b345ce8.js",
     "runtime-main.js.map": "/owcardgame/static/js/runtime-main.0b345ce8.js.map",
-    "static/js/2.d9518b5d.chunk.js": "/owcardgame/static/js/2.d9518b5d.chunk.js",
-    "static/js/2.d9518b5d.chunk.js.map": "/owcardgame/static/js/2.d9518b5d.chunk.js.map",
+    "static/js/2.eb5a0b4b.chunk.js": "/owcardgame/static/js/2.eb5a0b4b.chunk.js",
+    "static/js/2.eb5a0b4b.chunk.js.map": "/owcardgame/static/js/2.eb5a0b4b.chunk.js.map",
     "index.html": "/owcardgame/index.html",
-    "static/css/main.b14164ff.chunk.css.map": "/owcardgame/static/css/main.b14164ff.chunk.css.map",
-    "static/js/2.d9518b5d.chunk.js.LICENSE.txt": "/owcardgame/static/js/2.d9518b5d.chunk.js.LICENSE.txt",
+    "static/css/main.ced6cdf8.chunk.css.map": "/owcardgame/static/css/main.ced6cdf8.chunk.css.map",
+    "static/js/2.eb5a0b4b.chunk.js.LICENSE.txt": "/owcardgame/static/js/2.eb5a0b4b.chunk.js.LICENSE.txt",
     "static/media/App.css": "/owcardgame/static/media/shieldcounter.5a1f4f54.png",
     "static/media/ana-grenade.mp3": "/owcardgame/static/media/ana-grenade.f80883bc.mp3",
     "static/media/ana-icon.png": "/owcardgame/static/media/ana-icon.0a9b633a.png",
@@ -42,7 +42,7 @@
     "static/media/brigitte-intro.mp3": "/owcardgame/static/media/brigitte-intro.c0395844.mp3",
     "static/media/brigitte-ult.mp3": "/owcardgame/static/media/brigitte-ult.5526abc8.mp3",
     "static/media/brigitte.png": "/owcardgame/static/media/brigitte.04a3a387.png",
-    "static/media/card-back.png": "/owcardgame/static/media/card-back.fb86ba2a.png",
+    "static/media/card-back.png": "/owcardgame/static/media/card-back.fb9991d0.png",
     "static/media/doomfist-intro.mp3": "/owcardgame/static/media/doomfist-intro.cdc4e0a8.mp3",
     "static/media/doomfist-punch.mp3": "/owcardgame/static/media/doomfist-punch.05702c67.mp3",
     "static/media/doomfist-ult.mp3": "/owcardgame/static/media/doomfist-ult.c046b23c.mp3",
@@ -195,8 +195,8 @@
   },
   "entrypoints": [
     "static/js/runtime-main.0b345ce8.js",
-    "static/js/2.d9518b5d.chunk.js",
-    "static/css/main.b14164ff.chunk.css",
-    "static/js/main.b3ed424b.chunk.js"
+    "static/js/2.eb5a0b4b.chunk.js",
+    "static/css/main.ced6cdf8.chunk.css",
+    "static/js/main.44567b40.chunk.js"
   ]
 }
