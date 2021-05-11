@@ -1,14 +1,14 @@
 {
   "files": {
-    "main.css": "/owcardgame/static/css/main.ced6cdf8.chunk.css",
-    "main.js": "/owcardgame/static/js/main.44567b40.chunk.js",
-    "main.js.map": "/owcardgame/static/js/main.44567b40.chunk.js.map",
+    "main.css": "/owcardgame/static/css/main.3063299f.chunk.css",
+    "main.js": "/owcardgame/static/js/main.b1019029.chunk.js",
+    "main.js.map": "/owcardgame/static/js/main.b1019029.chunk.js.map",
     "runtime-main.js": "/owcardgame/static/js/runtime-main.0b345ce8.js",
     "runtime-main.js.map": "/owcardgame/static/js/runtime-main.0b345ce8.js.map",
     "static/js/2.eb5a0b4b.chunk.js": "/owcardgame/static/js/2.eb5a0b4b.chunk.js",
     "static/js/2.eb5a0b4b.chunk.js.map": "/owcardgame/static/js/2.eb5a0b4b.chunk.js.map",
     "index.html": "/owcardgame/index.html",
-    "static/css/main.ced6cdf8.chunk.css.map": "/owcardgame/static/css/main.ced6cdf8.chunk.css.map",
+    "static/css/main.3063299f.chunk.css.map": "/owcardgame/static/css/main.3063299f.chunk.css.map",
     "static/js/2.eb5a0b4b.chunk.js.LICENSE.txt": "/owcardgame/static/js/2.eb5a0b4b.chunk.js.LICENSE.txt",
     "static/media/App.css": "/owcardgame/static/media/shieldcounter.5a1f4f54.png",
     "static/media/ana-grenade.mp3": "/owcardgame/static/media/ana-grenade.f80883bc.mp3",
@@ -66,7 +66,6 @@
     "static/media/hanzo-marked.mp3": "/owcardgame/static/media/hanzo-marked.079d5219.mp3",
     "static/media/hanzo-ult.mp3": "/owcardgame/static/media/hanzo-ult.ae5213fa.mp3",
     "static/media/hanzo.png": "/owcardgame/static/media/hanzo.9793e627.png",
-    "static/media/healthbackground-hexagon.26052b95.png": "/owcardgame/static/media/healthbackground-hexagon.26052b95.png",
     "static/media/how-to-play.pdf": "/owcardgame/static/media/how-to-play.6e96acc1.pdf",
     "static/media/junkrat-intro.mp3": "/owcardgame/static/media/junkrat-intro.425041e9.mp3",
     "static/media/junkrat-laugh.mp3": "/owcardgame/static/media/junkrat-laugh.7eaafa68.mp3",
@@ -196,7 +195,7 @@
   "entrypoints": [
     "static/js/runtime-main.0b345ce8.js",
     "static/js/2.eb5a0b4b.chunk.js",
-    "static/css/main.ced6cdf8.chunk.css",
-    "static/js/main.44567b40.chunk.js"
+    "static/css/main.3063299f.chunk.css",
+    "static/js/main.b1019029.chunk.js"
   ]
 }
