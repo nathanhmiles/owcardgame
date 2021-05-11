@@ -183,7 +183,6 @@ body {
   width: 100%;
   flex: 1;
   max-height: 80vh;
-  overflow: auto;
 }
 
 .boardrow.overflown {
