@@ -25,6 +25,14 @@
   .rowlist {
     flex-direction: row;
   }
+  .rowcountercontainer {
+    flex-direction: row;
+    min-width: 80px;
+    align-items: center;
+  }
+  .counterarea {
+    flex-direction: column;
+  }
   .handlist {
     padding-left: 5%;
   }
@@ -80,5 +88,14 @@
 
   .rowarea {
     max-width: 32%;
+  }
+
+  .rowcountercontainer {
+    flex-direction: column;
+    min-height: 80px;
+    align-items: center;
+  }
+  .counterarea {
+    flex-direction: row;
   }
 }
