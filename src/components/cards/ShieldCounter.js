@@ -4,7 +4,7 @@ export default function ShieldCounter(props) {
 
   return (
     <div className={`shieldcounter counter ${type}`}>
-      <span><h4>{shield}</h4></span>
+      <span className="shieldvalue">{shield}</span>
     </div>
-  )
+  );
 }

@@ -1,14 +1,26 @@
 @media (max-width: 1300px) {
+  #root {
+    width: 100vw;
+  }
+
+  #page-wrapper {
+    width: 100%;
+  }
   #landscape-wrapper,
   .playerhalf,
   .board {
     flex-direction: column;
+    width: 100%;
+  }
+  #landscape-wrapper {
+    align-items: center;
   }
   .rowarea {
     flex-direction: row;
   }
   .boardrow {
     min-height: 150px;
+    overflow: auto;
   }
   .rowlist {
     flex-direction: row;
@@ -39,13 +51,27 @@
 }
 
 @media (min-width: 1301px) {
+  #landscape-wrapper {
+    max-height: 80vh;
+  }
+
+  #page-wrapper {
+    max-height: 100vh;
+  }
+
   .cardcontainer {
+    font-size: clamp(10px, 0.8vw, 2rem);
   }
 
   .card-in-hand {
     /*max-height: 15vh;   allows cards to overlap */
     align-items: flex-start;
     flex-basis: 50%;
+    font-size: clamp(16px, 1vw, 2rem);
+  }
+
+  .boardrow {
+    max-height: calc(100% - 40px);
   }
 
   .rowlist {

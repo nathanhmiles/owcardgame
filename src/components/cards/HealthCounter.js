@@ -5,7 +5,7 @@ export default function HealthCounter(props) {
 
   return (
     <div className={`healthcounter counter ${type}`}>
-      <span>{props.health}</span>
+      <span className="healthvalue">{props.health}</span>
     </div>
   );
 }

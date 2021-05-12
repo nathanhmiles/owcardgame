@@ -73,7 +73,7 @@ export default function Card(props) {
             )}
             <div
               id={`${playerHeroId}`}
-              className={`card ${health > 0 ? null : "dead"}`}
+              className={`card ${health > 0 ? "alive" : "dead"}`}
               onClick={
                 turnState.playerTurn === playerNum || isPlayed
                   ? () => {
