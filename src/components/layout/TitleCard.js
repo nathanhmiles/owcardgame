@@ -1,18 +1,15 @@
 import owlogo from "assets/logo3.png";
 import AudioPlayer from "./AudioPlayer";
+import $ from "jquery";
 
 export default function TitleCard(props) {
   return (
     <div id="title-container">
       <div className="title-corners">
-        <a
-          rel="noopener noreferrer"
-          target="_blank"
-          href={require("assets/how-to-play.pdf").default}
-          id="howtoplay"
-        >
-          <i className="fas fa-question"></i>
-        </a>
+        <i
+          onClick={() => $("#tutorial-container").toggleClass("open")}
+          className="fas fa-question"
+        ></i>
       </div>
       <span className="title">Overwatch</span>
       <span className="credit">

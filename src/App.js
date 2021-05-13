@@ -669,11 +669,10 @@ export default function App() {
                 playAudio={playAudio}
               />
             )}
-
-            <Tutorial />
           </gameContext.Provider>
         </turnContext.Provider>
       </div>
+      <Tutorial />
       <Footer />
     </div>
   );

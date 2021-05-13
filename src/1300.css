@@ -53,6 +53,10 @@
   #centerlogo {
     height: 60px;
   }
+
+  .open #tutorial {
+    width: 70vw;
+  }
   .credit {
     font-size: 2vw;
   }
