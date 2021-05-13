@@ -285,6 +285,9 @@ ul.overflown {
 
 li {
   height: fit-content;
+  display: inherit;
+  justify-content: inherit;
+  align-items: inherit;
 }
 
 .cardcontainer {
@@ -342,21 +345,14 @@ li {
   display: flex;
 }
 
-/*
-.effectscontainer {
+.effectscontainer.allyeffects,
+.effectscontainer.enemyeffects {
   position: absolute;
 }
 
-#player1board .allyeffects,
-#player2board .enemyeffects {
-  bottom: calc(-1 * (var(--counter-size) + 10px));
+.effects .counter {
+  border: 2px solid white;
 }
-
-#player1board .enemyeffects,
-#player2board .allyeffects {
-  top: calc(-1 * (var(--counter-size) + 10px));
-}
-*/
 
 .counter {
   display: flex;
@@ -416,11 +412,11 @@ li {
 }
 
 .rowcounter {
+  width: 40px;
+  height: 40px;
 }
 
 .shieldcounter.rowcounter {
-  width: 50px;
-  height: 50px;
 }
 
 .cardfocuscounter {
@@ -449,9 +445,6 @@ li {
   border: 5px solid steelblue;
   background-color: #3f547a;
   color: white;
-  width: 40px;
-  height: 40px;
-  font-size: 2rem;
 }
 
 .playerbuttons {
@@ -571,157 +564,6 @@ footer {
   justify-content: center;
   align-items: center;
   text-align: center;
-}
-
-#tutorial-container {
-  width: 100%;
-  height: 100%;
-  display: flex;
-  justify-content: center;
-  position: absolute;
-
-  top: 0;
-  left: 0;
-  right: 0;
-  bottom: 0;
-  background-color: rgba(0, 0, 0, 0);
-  z-index: 1;
-  transition: 0.5s;
-  pointer-events: none;
-}
-
-#tutorial-container.open {
-  background-color: rgba(0, 0, 0, 0.5);
-  z-index: 999;
-  pointer-events: initial;
-}
-
-#tutorial {
-  position: fixed;
-  display: none;
-  flex-direction: column;
-  top: 10vh;
-  height: 70vh;
-  min-height: 400px;
-  width: 50vw;
-  max-width: 800px;
-  padding: 20px;
-  font-family: Arial, Helvetica, sans-serif;
-  background-color: var(--background-color);
-  color: var(--ow-dark-blue);
-  overflow: scroll;
-  overflow-x: hidden;
-  border-radius: 12px;
-  z-index: 1000;
-}
-
-.open #tutorial {
-  display: flex;
-}
-
-i#closetutorial:hover {
-  color: #fa9c1e;
-}
-
-.tutorial-header {
-  font-family: Big-Noodle-Titling;
-  font-size: 2em;
-  margin-bottom: 8px;
-}
-
-#tutorial-title {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  margin-bottom: 8px;
-}
-
-#tutorial-tabs {
-  display: flex;
-  justify-content: space-around;
-}
-
-.tutorial-tab {
-  cursor: pointer;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  background: #e1e1e3;
-  padding: 8px;
-  border-radius: 4px;
-  flex-basis: 25%;
-  background: #2e3651;
-  color: #e1e1e3;
-  font-size: clamp(18px, 2vw, 32px);
-}
-
-.tutorial-tab:hover {
-  background: #e1e1e3;
-  color: #2e3651;
-}
-
-.tutorial-tab > i.fas {
-  font-size: 0.7em;
-  padding: 4px;
-}
-
-.tutorialtab-icon {
-}
-
-.tutorial-image-container {
-  display: flex;
-  justify-content: center;
-}
-
-.tutorial-image {
-  width: 100%;
-}
-
-.tutorial-content {
-  font-size: 1em;
-  font-weight: normal;
-}
-
-#card-info-container {
-  display: flex;
-  justify-content: center;
-}
-
-#card-info-container:nth-child(1) {
-  flex: 2;
-}
-
-.card-info {
-  display: flex;
-  flex: 1;
-  flex-basis: 30%;
-  flex-direction: column;
-  justify-content: space-between;
-  padding: 2px;
-}
-
-.card-info-section {
-}
-
-.card-info-heading {
-  font-family: Big-Noodle-Titling;
-  font-size: 1.5em;
-}
-#card-info-class {
-  display: flex;
-  flex-direction: column;
-}
-.card-info > img {
-  border-radius: 10%;
-  width: 100%;
-}
-
-.tutorial-section {
-  background: rgba(46, 54, 81, 0.95);
-  color: var(--background-color);
-  padding: 10px;
-  margin: 5px;
-  width: 100%;
 }
 
 .disclaimer {

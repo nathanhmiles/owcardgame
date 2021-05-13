@@ -102,4 +102,13 @@
   .counterarea {
     flex-direction: row;
   }
+
+  #player1board .effectscontainer.allyeffects,
+  #player2board .effectscontainer.enemyeffects {
+    left: 10px;
+  }
+  #player1board .effectscontainer.enemeyeffects,
+  #player2board .effectscontainer.allyeffects {
+    right: 10px;
+  }
 }

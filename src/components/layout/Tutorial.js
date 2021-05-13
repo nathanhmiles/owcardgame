@@ -1,6 +1,6 @@
 import React from "react";
 import $ from "jquery";
-import Card from "components/cards/Card";
+import "./Tutorial.css";
 
 function Tutorial() {
   const closeTutorialStyle = {
@@ -54,6 +54,12 @@ function Tutorial() {
           <div id="tutorial-tabs">
             <div
               className="tutorial-tab"
+              onClick={() => switchTutorialTab("overview-content")}
+            >
+              Overview
+            </div>
+            <div
+              className="tutorial-tab"
               onClick={() => switchTutorialTab("card-info-content")}
             >
               <i class="fas fa-exclamation"></i>
@@ -65,33 +71,82 @@ function Tutorial() {
             >
               <i class="fas fa-hourglass-half"></i>Turn Actions
             </div>
-
-            <div
-              className="tutorial-tab"
-              onClick={() => switchTutorialTab("other-content")}
-            >
-              Other
+          </div>
+        </div>
+        {/* Overview */}
+        <div id="overview-content" className="tutorial-content">
+          <div id="overview-container" className="tutorial-content-container">
+            <div className="overview-section">
+              <span className="tutorial-heading">How to win</span>
             </div>
+            <div className="overview-section"></div>
           </div>
         </div>
 
-        <div id="card-info-content" className="tutorial-content">
-          <div id="card-info-container">
-            <div className="card-info">
+        {/* Card Info */}
+        <div id="card-info-content" className="tutorial-content" hidden>
+          <div id="card-info-container" className="tutorial-content-container">
+            <div id="card-info-left" className="card-info">
               <div className="card-info-section">
-                <span className="card-info-heading">Class</span>
+                <span className="tutorial-heading">Class</span>
                 <div id="card-info-class">
-                  <span>Offence - High damage</span>
-                  <span>Defense - Area control and status effects</span>
-                  <span>Tank - High health and survivability</span>
-                  <span>Support - Healing and damage increase</span>
+                  <span>
+                    <img
+                      src={require("assets/offence-classicon.png").default}
+                      alt="Offence class icon"
+                      className="classicon"
+                    />
+                    <span>
+                      <strong>Offence</strong> - High damage
+                    </span>
+                  </span>
+                  <span>
+                    <img
+                      src={require("assets/defence-classicon.png").default}
+                      alt="Defence class icon"
+                      className="classicon"
+                    />
+                    <span>
+                      <strong>Defense</strong> - Area control
+                    </span>
+                  </span>
+                  <span>
+                    <img
+                      src={require("assets/tank-classicon.png").default}
+                      alt="Tank class icon"
+                      className="classicon"
+                    />
+                    <span>
+                      <strong>Tank</strong> - Good survivability
+                    </span>
+                  </span>
+                  <span>
+                    <img
+                      src={require("assets/support-classicon.png").default}
+                      alt="Support class icon"
+                      className="classicon"
+                    />
+                    <span>
+                      <span>
+                        <strong>Support</strong> - Healing
+                      </span>
+                    </span>
+                  </span>
                 </div>
               </div>
-              <div className="card-info-section">
-                <span className="card-info-heading">Hero Name</span>
+              <div id="hero-name-section" className="card-info-section">
+                <span className="tutorial-heading">Hero Name</span>
               </div>
               <div className="card-info-section">
-                <span className="card-info-heading">Power/Synergy Scores</span>
+                <span className="tutorial-heading">Power/Synergy Scores</span>
+                <div>
+                  When you play a Hero card, the Hero's power and synergy are
+                  added to your power and synergy scores. The amount of power
+                  and synergy added depends on which row the Hero is put in.
+                  These circles represent the three rows (top circle - front
+                  row, middle circle - middle row, bottom circle - back row)
+                  with power on the left and synergy on the right.
+                </div>
               </div>
             </div>
             <div className="card-info">
@@ -100,9 +155,9 @@ function Tutorial() {
                 alt="Card tutorial"
               />
             </div>
-            <div className="card-info">
+            <div id="card-info-right" className="card-info">
               <div className="card-info-section">
-                <span className="card-info-heading">Health</span>
+                <span className="tutorial-heading">Health</span>
                 <div id="card-info-class">
                   How much damage this Hero can take before being defeated. A
                   defeated hero's card will turn grey when their health drops to
@@ -110,7 +165,7 @@ function Tutorial() {
                 </div>
               </div>
               <div className="card-info-section">
-                <span className="card-info-heading">Shield</span>
+                <span className="tutorial-heading">Shield</span>
                 <div id="card-info-class">
                   Some heroes have the ability to shield themselves, other
                   heroes, or even an entire row. Shields will take damage in
@@ -118,14 +173,14 @@ function Tutorial() {
                 </div>
               </div>
               <div className="card-info-section">
-                <span className="card-info-heading">Deploy Ability</span>
+                <span className="tutorial-heading">Deploy Ability</span>
                 <div>
                   You may choose to use this ability only when you play this
                   card from your hand.
                 </div>
               </div>
               <div className="card-info-section">
-                <span className="card-info-heading">Ultimate Ability</span>
+                <span className="tutorial-heading">Ultimate Ability</span>
                 <div>
                   You may use this ability at any time after the card has been
                   played and is still alive, but you must have sufficient
@@ -136,70 +191,73 @@ function Tutorial() {
           </div>
         </div>
 
+        {/* Turn Actions */}
         <div id="turn-actions-content" className="tutorial-content" hidden>
-          <span>
-            <p>During your turn you can carry out the following actions:</p>
-          </span>
-          <div className="tutorial-section">
-            <p>
-              <strong>
-                <em>Play a Hero Card</em>
-              </strong>
-              <br />
-              Choose and play 1 Hero Card from your hand into the Front, Middle,
-              or Back Row. Any effects that occur when a Hero is played trigger
-              NOW.
-            </p>
-            <p>
-              The card's Power and Synergy scores will be added to your scores
-              at this point. Each player has their own Power score, when both
-              players have played all of their cards, the round is over and the
-              player with the highest Power score wins. Each row has it's own
-              Synergy score. Synergy points are consumed when using a card's
-              Ultimate ability (see the previous page for information on Card
-              Power, Synergy and abilities).
-            </p>
-          </div>
-          <div className="tutorial-section">
-            <p>
-              <strong>
-                <em>Use Primary Ability</em>
-              </strong>{" "}
-              (if you wish)
-              <br />
-              Use the played Hero's primary ability right after you play them
-              onto the battlefield. This ability may only be used once per play
-              of a Hero card. If you decide to NOT use their Primary Ability you
-              may not use it at a later time unless they have been returned to
-              your hand and played again.
-            </p>
-          </div>
-          <div className="tutorial-section">
-            <p>
-              <strong>
-                <em>Activate an Ultimate Ability</em>
-              </strong>
-              <br />
-              Choose a Hero that has already been played and activate their
-              second (Ultimate) ability. The Synergy cost shown to the right of
-              the ability name will be deducted from the row's Synergy score.
-              There must be enough synergy in that row to pay for the cost of
-              the Ultimate Ability. You may only use each Ultimate Ability once
-              per round unless the hero has been returned to your hand and
-              played a second time.
-            </p>
-          </div>
+          <div className="tutorial-content-container">
+            <div className="tutorial-intro">
+              <p>During your turn you can carry out the following actions:</p>
+            </div>
+            <div className="tutorial-section">
+              <p>
+                <strong>
+                  <em>Play a Hero Card</em>
+                </strong>
+                <br />
+                Choose and play 1 Hero Card from your hand into the Front,
+                Middle, or Back Row. Any effects that occur when a Hero is
+                played trigger NOW.
+              </p>
+              <p>
+                The card's Power and Synergy scores will be added to your scores
+                at this point. Each player has their own Power score, when both
+                players have played all of their cards, the round is over and
+                the player with the highest Power score wins. Each row has it's
+                own Synergy score. Synergy points are consumed when using a
+                card's Ultimate ability (see the previous page for information
+                on Card Power, Synergy and abilities).
+              </p>
+            </div>
+            <div className="tutorial-section">
+              <p>
+                <strong>
+                  <em>Use Primary Ability</em>
+                </strong>{" "}
+                (if you wish)
+                <br />
+                Use the played Hero's primary ability right after you play them
+                onto the battlefield. This ability may only be used once per
+                play of a Hero card. If you decide to NOT use their Primary
+                Ability you may not use it at a later time unless they have been
+                returned to your hand and played again.
+              </p>
+            </div>
+            <div className="tutorial-section">
+              <p>
+                <strong>
+                  <em>Activate an Ultimate Ability</em>
+                </strong>
+                <br />
+                Choose a Hero that has already been played and activate their
+                second (Ultimate) ability. The Synergy cost shown to the right
+                of the ability name will be deducted from the row's Synergy
+                score. There must be enough synergy in that row to pay for the
+                cost of the Ultimate Ability. You may only use each Ultimate
+                Ability once per round unless the hero has been returned to your
+                hand and played a second time.
+              </p>
+            </div>
 
-          <div className="tutorial-section">
-            <p>
-              <strong>
-                <em>Pass</em>
-              </strong>
-              <br />
-              You must have six cards on the battlefield in order to choose the
-              Pass Action. After passing you may take no more actions this
-              round.
-            </p>
+            <div className="tutorial-section">
+              <p>
+                <strong>
+                  <em>Pass</em>
+                </strong>
+                <br />
+                You must have six cards on the battlefield in order to choose
+                the Pass Action. After passing you may take no more actions this
+                round.
+              </p>
+            </div>
           </div>
         </div>
       </div>

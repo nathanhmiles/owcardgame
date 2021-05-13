@@ -58,7 +58,7 @@ export default function Card(props) {
             ref={provided.innerRef}
             style={getStyle(provided.draggableProps.style, snapshot)}
           >
-            {playerNum === 1 ? (
+            {playerNum === 2 ? (
               <CardEffects
                 type="enemy"
                 effects={enemyEffects}
@@ -107,7 +107,7 @@ export default function Card(props) {
                 alt={`${name} Card`}
               />
             </div>
-            {playerNum === 1 ? (
+            {playerNum === 2 ? (
               <CardEffects
                 type="ally"
                 effects={allyEffects}
