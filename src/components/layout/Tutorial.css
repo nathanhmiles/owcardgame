@@ -28,14 +28,12 @@
   top: 10vh;
   height: 70vh;
   min-height: 400px;
-  width: 60vw;
-  max-width: 800px;
+  width: 55vw;
   padding: 20px;
   font-family: Arial, Helvetica, sans-serif;
   background-color: var(--background-color);
   color: var(--ow-dark-blue);
-  overflow: scroll;
-  overflow-x: hidden;
+  overflow: auto;
   border-radius: 12px;
   z-index: 1000;
 }
@@ -52,18 +50,21 @@ i#closetutorial:hover {
   font-family: Big-Noodle-Titling;
   font-size: 2em;
   margin-bottom: 8px;
-}
-
-#tutorial-title {
   display: flex;
   flex-direction: column;
   align-items: center;
+}
+
+#tutorial-title {
   margin-bottom: 8px;
+  font-size: 48px;
+  font-weight: bold;
 }
 
 #tutorial-tabs {
   display: flex;
   justify-content: space-around;
+  width: 100%;
 }
 
 .tutorial-tab {
@@ -165,9 +166,6 @@ i#closetutorial:hover {
 }
 
 .tutorial-section {
-  background: rgba(46, 54, 81, 0.95);
-  color: var(--background-color);
-  padding: 4px;
-  margin: 4px;
+  margin: 8px;
   width: 100%;
 }

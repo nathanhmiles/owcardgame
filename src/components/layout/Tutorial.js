@@ -1,6 +1,7 @@
 import React from "react";
 import $ from "jquery";
 import "./Tutorial.css";
+import PowerCounter from "./PowerCounter";
 
 function Tutorial() {
   const closeTutorialStyle = {
@@ -30,32 +31,58 @@ function Tutorial() {
     $(`#${targetId}`).show();
   }
 
+  const powerStyle = {
+    display: "inline-flex",
+    justifyContent: "center",
+    alignItems: "center",
+    width: "24px",
+    height: "24px",
+    backgroundColor: "#fa9c1e",
+    color: "white",
+    borderRadius: "50%",
+    fontFamily: "Big-Noodle-Titling",
+    fontSize: "1.5em",
+  };
+
+  const matchStyle = {
+    display: "inline-flex",
+    justifyContent: "center",
+    alignItems: "center",
+    width: "20px",
+    height: "20px",
+    backgroundColor: "#fa9c1e",
+    color: "black",
+    borderRadius: "50%",
+    fontFamily: "Big-Noodle-Titling",
+    fontSize: "1.5em",
+    margin: "2px",
+  };
+
   return (
     <div onClick={openCloseTutorial} id="tutorial-container" className="open">
       <div id="tutorial">
         <div className="tutorial-header">
-          <div id="tutorial-title">
-            <i
-              onClick={openCloseTutorial}
-              style={closeTutorialStyle}
-              id="closetutorial"
-              class="far fa-times-circle"
-            ></i>
-            <a
-              rel="noopener noreferrer"
-              target="_blank"
-              href={require("assets/how-to-play.pdf").default}
-              id="howtoplay"
-            >
-              <i style={tutorialHatStyle} class="fas fa-graduation-cap"></i>
-            </a>
-            <strong>How To Play</strong>
-          </div>
+          <i
+            onClick={openCloseTutorial}
+            style={closeTutorialStyle}
+            id="closetutorial"
+            class="far fa-times-circle"
+          ></i>
+          <a
+            rel="noopener noreferrer"
+            target="_blank"
+            href={require("assets/how-to-play.pdf").default}
+            id="howtoplay"
+          >
+            <i style={tutorialHatStyle} class="fas fa-graduation-cap"></i>
+          </a>
+          <span id="tutorial-title">How To Play</span>
           <div id="tutorial-tabs">
             <div
               className="tutorial-tab"
               onClick={() => switchTutorialTab("overview-content")}
             >
+              <i class="fas fa-eye"></i>
               Overview
             </div>
             <div
@@ -73,11 +100,46 @@ function Tutorial() {
             </div>
           </div>
         </div>
+
         {/* Overview */}
         <div id="overview-content" className="tutorial-content">
           <div id="overview-container" className="tutorial-content-container">
             <div className="overview-section">
-              <span className="tutorial-heading">How to win</span>
+              <img
+                src={require("assets/overview.jpg").default}
+                alt="Game overview"
+                className="tutorial-image"
+              />
+              <div className="tutorial-section">
+                <div className="tutorial-heading">How to win</div>
+                <span>
+                  When a card is played, that card's Power score is added to
+                  that player's Power score <span style={powerStyle}>3</span>
+                  (please see the Card Info section for a detailed breakdown of
+                  the cards' layout). The player with the highest Power score at
+                  the end of the round wins the round, with two rounds needed to
+                  win the match{" "}
+                  <span style={{ ...matchStyle, backgroundColor: "aqua" }}>
+                    2
+                  </span>
+                  <span style={{ ...matchStyle, backgroundColor: "red" }}>
+                    1
+                  </span>
+                  . The round is over when both players have played six cards
+                  and pressed the Pass button.
+                </span>
+              </div>
+              <div className="tutorial-section">
+                <div className="tutorial-heading">Starting a game</div>
+                <span>
+                  Both players should begin by drawing 8 cards each. Then the
+                  players each take turns to play one card. At the end of your
+                  turn, click the End Turn button to allow the other player to
+                  take their turn. You can tell which player's turn it is by
+                  which cards are facing up. To find out exactly what you can do
+                  on your turn, please see the Turn Actions section above.
+                </span>
+              </div>
             </div>
             <div className="overview-section"></div>
           </div>

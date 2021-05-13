@@ -402,13 +402,12 @@ li {
 
 .healthvalue,
 .shieldvalue {
-  margin-top: 2px;
 }
 
 .rowcountercontainer {
   display: flex;
   flex-direction: row;
-  font-size: 2rem;
+  font-size: 1.5rem;
 }
 
 .rowcounter {
@@ -508,6 +507,7 @@ button {
   height: 50px;
   font-size: 4rem;
   margin: 0 10px;
+  font-family: Big-Noodle-Titling;
 }
 
 .playercards-row {
