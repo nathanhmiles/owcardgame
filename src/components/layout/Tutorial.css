@@ -129,10 +129,6 @@ i#closetutorial:hover {
   padding: 2px;
 }
 
-.card-info-section {
-  margin-bottom: 4px;
-}
-
 .tutorial-heading {
   font-family: Big-Noodle-Titling;
   font-size: 1.5em;
@@ -159,13 +155,22 @@ i#closetutorial:hover {
   text-align: right;
 }
 
-.tutorial-intro {
-  padding: 4px;
-  margin: 4px;
+.tutorial-section {
   width: 100%;
 }
 
-.tutorial-section {
-  margin: 8px;
-  width: 100%;
+ul.tutorial-list {
+  padding: 0;
+}
+
+.tutorial-list li {
+  display: flex;
+  align-items: center;
+  margin: 4px;
+}
+
+li {
+}
+
+.tutorial-counter {
 }

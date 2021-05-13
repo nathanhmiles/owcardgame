@@ -218,18 +218,18 @@ body {
   align-items: flex-start;
 }
 
-ul {
+ul.cardlist {
   list-style: none;
 }
 
-ul.vertical {
+ul.cardlist.vertical {
   overflow-x: hidden;
 }
 
-ul.horizontal {
+ul.cardlist.horizontal {
 }
 
-ul.overflown {
+ul.cardlist.overflown {
   justify-content: flex-start;
 }
 
