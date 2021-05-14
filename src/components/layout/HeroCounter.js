@@ -13,11 +13,15 @@ export default function HeroCounter(props) {
       }
     >
       <img
-        src={require(`assets/heroes/${heroId}-icon.png`).default}
+        src={require(`assets/heroes/cards/${heroId}-icon.png`).default}
         className="counter herocounter"
         alt="Hero Counter"
       />
-    {health && <span className="herocounterhealth"><h4>{health}</h4></span>}
+      {health && (
+        <span className="herocounterhealth">
+          <h4>{health}</h4>
+        </span>
+      )}
     </div>
   );
 }
