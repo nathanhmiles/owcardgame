@@ -70,7 +70,7 @@ export default function CardFocus(props) {
             <ShieldCounter type="cardfocuscounter" shield={shield} />
           )}
           <img
-            src={require(`assets/heroes/cardfocus/${id}.png`).default}
+            src={require(`assets/heroes/cardfocus/${id}.jpg`).default}
             className="cardimg"
             alt={"Card Focus"}
           />
