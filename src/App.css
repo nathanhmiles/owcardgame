@@ -370,7 +370,7 @@ li {
 }
 
 .healthcounter {
-  background-image: url("assets//healthbackground-hexagon.png");
+  background-image: url("assets//healthbackground-hexagon.webp");
   background-position: center;
   background-size: contain;
   background-repeat: no-repeat;
@@ -378,7 +378,7 @@ li {
 }
 
 .shieldcounter {
-  background-image: url("assets//shieldcounter.png");
+  background-image: url("assets//shieldcounter.webp");
   background-position: center;
   background-size: contain;
   background-repeat: no-repeat;
