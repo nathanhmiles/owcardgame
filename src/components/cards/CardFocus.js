@@ -73,7 +73,7 @@ export default function CardFocus(props) {
             <ShieldCounter type="cardfocuscounter" shield={shield} />
           )}
           <img
-            src={require(`assets/heroes/cardfocus/${id}.jpg`).default}
+            src={require(`assets/heroes/cardfocus/${id}.webp`).default}
             className="cardimg"
             alt={"Card Focus"}
             onLoad={() => setImageLoaded(playerHeroId)}

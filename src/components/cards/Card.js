@@ -99,8 +99,8 @@ export default function Card(props) {
                 onLoad={() => setImageLoaded(playerHeroId)}
                 src={
                   turnState.playerTurn === playerNum || isPlayed
-                    ? require(`assets/heroes/cards/${id}.jpg`).default
-                    : require("assets/heroes/cards/card-back.jpg").default
+                    ? require(`assets/heroes/cards/${id}.webp`).default
+                    : require("assets/heroes/cards/card-back.webp").default
                 }
                 className={`cardimg ${
                   turnState.playerTurn === playerNum || isPlayed

@@ -13,7 +13,7 @@ export default function HeroCounter(props) {
       }
     >
       <img
-        src={require(`assets/heroes/cards/${heroId}-icon.png`).default}
+        src={require(`assets/heroes/cards/${heroId}-icon.webp`).default}
         className="counter herocounter"
         alt="Hero Counter"
       />
