@@ -1,4 +1,4 @@
-import React, { useContext, useRef, useEffect } from "react";
+import React, { useContext, useRef, useEffect, useState } from "react";
 import HeroAbilities from "components/cards/HeroAbilities";
 import gameContext from "context/gameContext";
 import HealthCounter from "components/cards/HealthCounter";
@@ -10,6 +10,7 @@ export default function CardFocus(props) {
   const setCardFocus = props.setCardFocus;
   const unsetCardFocus = props.unsetCardFocus;
   const heroRef = useRef();
+  const [imageLoaded, setImageLoaded] = useState(false);
 
   // Remember the last card to be focused, and use that card's data so an error isnt thrown
   useEffect(() => {
@@ -65,7 +66,9 @@ export default function CardFocus(props) {
           className="cardfocus"
           onClick={props.unsetCardFocus}
         >
-          <HealthCounter type="cardfocuscounter" health={health} />
+          {imageLoaded === playerHeroId && (
+            <HealthCounter type="cardfocuscounter" health={health} />
+          )}
           {shield > 0 && (
             <ShieldCounter type="cardfocuscounter" shield={shield} />
           )}
@@ -73,6 +76,7 @@ export default function CardFocus(props) {
             src={require(`assets/heroes/cardfocus/${id}.jpg`).default}
             className="cardimg"
             alt={"Card Focus"}
+            onLoad={() => setImageLoaded(playerHeroId)}
           />
           {health > 0 ? (
             <HeroAbilities
