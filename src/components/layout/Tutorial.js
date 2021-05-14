@@ -283,7 +283,7 @@ function Tutorial() {
                         >
                           <img
                             src={
-                              require(`assets/heroes/cards/mercy-icon.jpg`)
+                              require(`assets/heroes/cards/mercy-icon.webp`)
                                 .default
                             }
                             className="counter herocounter"
@@ -319,7 +319,7 @@ function Tutorial() {
                 <div id="card-info-class">
                   <span>
                     <img
-                      src={require("assets/offence-classicon.png").default}
+                      src={require("assets/offence-classicon.webp").default}
                       alt="Offence class icon"
                       className="classicon"
                     />
@@ -329,7 +329,7 @@ function Tutorial() {
                   </span>
                   <span>
                     <img
-                      src={require("assets/defence-classicon.png").default}
+                      src={require("assets/defence-classicon.webp").default}
                       alt="Defence class icon"
                       className="classicon"
                     />
@@ -339,7 +339,7 @@ function Tutorial() {
                   </span>
                   <span>
                     <img
-                      src={require("assets/tank-classicon.png").default}
+                      src={require("assets/tank-classicon.webp").default}
                       alt="Tank class icon"
                       className="classicon"
                     />
@@ -349,7 +349,7 @@ function Tutorial() {
                   </span>
                   <span>
                     <img
-                      src={require("assets/support-classicon.png").default}
+                      src={require("assets/support-classicon.webp").default}
                       alt="Support class icon"
                       className="classicon"
                     />
@@ -381,7 +381,7 @@ function Tutorial() {
             </div>
             <div className="card-info">
               <img
-                src={require(`assets/dva-example.jpg`).default}
+                src={require(`assets/dva-example.webp`).default}
                 alt="Card tutorial"
               />
             </div>
