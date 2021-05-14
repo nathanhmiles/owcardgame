@@ -1,4 +1,4 @@
-import React, { useContext } from "react";
+import React, { useContext, useState } from "react";
 import { Draggable } from "react-beautiful-dnd";
 import gameContext from "context/gameContext";
 import turnContext from "context/turnContext";
@@ -10,6 +10,7 @@ export default function Card(props) {
   // Context
   const { gameState, dispatch } = useContext(gameContext);
   const { turnState, setTurnState } = useContext(turnContext);
+  const [imageLoaded, setImageLoaded] = useState(false);
 
   // Variables
   const playerHeroId = props.playerHeroId;
@@ -85,9 +86,10 @@ export default function Card(props) {
                   : null
               }
             >
-              {turnState.playerTurn === playerNum || isPlayed ? (
-                <HealthCounter type="cardcounter" health={health} />
-              ) : null}
+              {imageLoaded === playerHeroId &&
+                (turnState.playerTurn === playerNum || isPlayed ? (
+                  <HealthCounter type="cardcounter" health={health} />
+                ) : null)}
               {turnState.playerTurn === playerNum || isPlayed
                 ? shield > 0 && (
                     <ShieldCounter type="cardcounter" shield={shield} />
