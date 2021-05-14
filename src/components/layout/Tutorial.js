@@ -283,7 +283,8 @@ function Tutorial() {
                         >
                           <img
                             src={
-                              require(`assets/heroes/mercy-icon.png`).default
+                              require(`assets/heroes/cards/mercy-icon.png`)
+                                .default
                             }
                             className="counter herocounter"
                             alt="Hero Counter"
