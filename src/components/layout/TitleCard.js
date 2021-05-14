@@ -1,4 +1,4 @@
-import owlogo from "assets/owlogo-small.jpg";
+import owlogo from "assets/owlogo-small.png";
 import AudioPlayer from "./AudioPlayer";
 import $ from "jquery";
 
