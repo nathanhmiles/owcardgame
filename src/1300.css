@@ -72,14 +72,14 @@
   }
 
   .cardcontainer {
-    font-size: clamp(10px, 0.8vw, 2rem);
+    font-size: clamp(16px, 1vw, 2rem);
   }
 
   .card-in-hand {
     /*max-height: 15vh;   allows cards to overlap */
     align-items: flex-start;
     flex-basis: 50%;
-    font-size: clamp(16px, 1vw, 2rem);
+    font-size: clamp(20px, 1.5vw, 2rem);
   }
 
   .boardrow {

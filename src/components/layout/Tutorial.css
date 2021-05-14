@@ -102,6 +102,10 @@ i#closetutorial:hover {
 
 .classicon {
   width: 20px;
+  height: 20px;
+  background-color: white;
+  border-radius: 50%;
+  margin: 0px 4px;
 }
 
 .tutorial-image {
@@ -155,8 +159,18 @@ i#closetutorial:hover {
   text-align: right;
 }
 
+.tutorial-intro {
+  width: 100%;
+  padding: 8px;
+  margin: 4px;
+}
+
 .tutorial-section {
   width: 100%;
+  background-color: var(--ow-dark-blue);
+  color: var(--background-color);
+  padding: 8px;
+  margin: 4px;
 }
 
 ul.tutorial-list {
@@ -170,6 +184,10 @@ ul.tutorial-list {
 }
 
 li {
+}
+
+.counter-desc {
+  flex: 1;
 }
 
 .tutorial-counter {
