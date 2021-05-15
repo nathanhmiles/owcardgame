@@ -15,6 +15,7 @@ import data from "data";
 import getRandInt, { PlayerCard } from "helper";
 import produce from "immer";
 import _ from "lodash";
+import $ from "jquery";
 import Tutorial from "components/layout/Tutorial";
 
 export const ACTIONS = {
@@ -626,7 +627,16 @@ export default function App() {
         },
       });
     }
+    $(`#${result.source.droppableId}-list`).toggleClass("is-drag-origin");
+
     return;
+  }
+
+  // Bug fixes for odd animations when starting a drag under certain conditions
+  // e.g. handlist expanding when less than one card's width is available onscreen in horizontal list mode
+  function handleOnDragStart(result) {
+    console.log(result);
+    $(`#${result.source.droppableId}-list`).toggleClass("is-drag-origin");
   }
 
   return (
@@ -635,7 +645,10 @@ export default function App() {
       <div id="landscape-wrapper">
         <turnContext.Provider value={{ turnState, setTurnState }}>
           <gameContext.Provider value={{ gameState, dispatch }}>
-            <DragDropContext onDragEnd={handleOnDragEnd}>
+            <DragDropContext
+              onDragEnd={handleOnDragEnd}
+              onDragStart={handleOnDragStart}
+            >
               <PlayerHalf
                 playerNum={1}
                 setCardFocus={setCardFocus}

@@ -49,9 +49,7 @@ export default function Card(props) {
       isDragDisabled={isPlayed || turnState.playerTurn !== playerNum}
     >
       {(provided, snapshot) => (
-        <div
-          className={`cardcontainer ${rowId[0] === "p" ? "card-in-hand" : ""}`}
-        >
+        <div className={`cardcontainer`}>
           <li
             {...provided.draggableProps}
             {...provided.dragHandleProps}

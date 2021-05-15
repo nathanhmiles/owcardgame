@@ -226,7 +226,6 @@ ul.cardlist.vertical {
 }
 
 ul.cardlist.horizontal {
-  overflow-y: hidden;
 }
 
 ul.cardlist.overflown {
@@ -252,8 +251,10 @@ ul.cardlist.overflown {
   transform: none !important;
 }
 
-.card-in-hand {
-  flex-basis: 40%;
+.handlist.dragging-over {
+}
+
+.handlist .cardcontainer {
 }
 
 .dragging-over {

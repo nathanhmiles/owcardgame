@@ -31,6 +31,7 @@ export default function CardDisplay(props) {
   const cards = gameState.rows[rowId].cardIds;
   const [overflown, setOverflown] = useState(false);
 
+  // Checks if the row is overflown so that it can position cards inside correctly
   useEffect(() => {
     setOverflown(isOverflown(document.getElementById(`${rowId}-list`)));
   }, [setOverflown, rowId]);
@@ -41,9 +42,9 @@ export default function CardDisplay(props) {
         {(provided, snapshot) => (
           <ul
             id={`${rowId}-list`}
-            className={`cardlist ${
+            className={`cardlist ${listClass} ${
               overflown ? "overflown" : ""
-            } ${rowDirection} ${listClass} ${
+            } ${rowDirection}  ${
               snapshot.isDraggingOver ? "dragging-over" : ""
             }`}
             {...provided.droppableProps}
