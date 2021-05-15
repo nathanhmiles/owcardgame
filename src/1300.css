@@ -22,6 +22,10 @@
     min-height: 150px;
     overflow: auto;
   }
+  .handlist.dragging-over {
+    max-height: 100%;
+  }
+
   .rowlist {
     flex-direction: row;
   }
@@ -29,6 +33,10 @@
     flex-direction: row;
     min-width: 80px;
     align-items: center;
+    justify-content: center;
+  }
+  .rowcountercontainer2 {
+    flex-direction: column;
   }
   .counterarea {
     flex-direction: column;
@@ -40,11 +48,21 @@
     flex-basis: 12%;
     min-width: 120px;
   }
+
+  #player1board .effectscontainer.allyeffects,
+  #player2board .effectscontainer.enemyeffects {
+    top: 10px;
+  }
+  #player1board .effectscontainer.enemeyeffects,
+  #player2board .effectscontainer.allyeffects {
+    bottom: 10px;
+  }
+
   #center-section {
     flex-direction: column;
     justify-content: center;
     margin-top: 0;
-    margin-left: 40px;
+    margin-left: 80px;
     flex-direction: row;
   }
   #match-counters {
@@ -96,8 +114,9 @@
 
   .rowcountercontainer {
     flex-direction: column;
-    min-height: 80px;
+    min-height: 100px;
     align-items: center;
+    justify-content: center;
   }
   .counterarea {
     flex-direction: row;

@@ -33,7 +33,7 @@ export default function CardDisplay(props) {
 
   useEffect(() => {
     setOverflown(isOverflown(document.getElementById(`${rowId}-list`)));
-  });
+  }, [setOverflown, rowId]);
 
   return (
     <div id={`${rowId}-carddisplay`} className={`carddisplay-container`}>

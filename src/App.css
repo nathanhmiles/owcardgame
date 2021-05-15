@@ -191,7 +191,6 @@ body {
 .boardrow.overflown {
 }
 
-/* Should the ul take place of the div? */
 .rowlist {
   display: flex;
   flex-direction: column;
@@ -227,6 +226,7 @@ ul.cardlist.vertical {
 }
 
 ul.cardlist.horizontal {
+  overflow-y: hidden;
 }
 
 ul.cardlist.overflown {
@@ -257,6 +257,7 @@ ul.cardlist.overflown {
 }
 
 .dragging-over {
+  transform: none;
 }
 
 .playerhand {
@@ -412,12 +413,17 @@ li {
   font-size: 1.5rem;
 }
 
+.rowcountercontainer2 {
+  display: flex;
+}
+
 .rowcounter {
   width: 40px;
   height: 40px;
 }
 
 .shieldcounter.rowcounter {
+  height: 44px;
 }
 
 .cardfocuscounter {
