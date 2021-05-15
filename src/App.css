@@ -520,10 +520,7 @@ button {
 }
 
 .playercards-row {
-  max-height: 75%;
-  display: flex;
-  flex: 1;
-  width: 100%;
+  overflow: auto;
 }
 
 #cardfocuscontainer {

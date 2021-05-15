@@ -26,6 +26,7 @@ export default function PlayerArea(props) {
           setNextCardDraw={props.setNextCardDraw}
         />
       </div>
+
       <div className="playercards-row">
         <CardDisplay
           playerNum={props.playerNum}
