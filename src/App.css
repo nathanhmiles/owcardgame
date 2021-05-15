@@ -521,6 +521,7 @@ button {
 
 .playercards-row {
   overflow: auto;
+  width: 100%;
 }
 
 #cardfocuscontainer {
