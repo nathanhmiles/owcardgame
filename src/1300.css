@@ -98,7 +98,9 @@
     flex-basis: 50%;
     font-size: clamp(20px, 1.5vw, 2rem);
   }
-
+  .board {
+    justify-content: center;
+  }
   .boardrow {
     max-height: calc(100% - 80px);
   }
