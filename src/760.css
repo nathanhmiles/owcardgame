@@ -33,4 +33,25 @@
   .tutorial-tab {
     flex-basis: 33% !important;
   }
+
+  #card-info-container {
+    flex-direction: column;
+  }
+
+  #card-info-left {
+    text-align: left !important;
+    align-items: flex-start !important;
+  }
+
+  #card-info-class {
+    align-items: flex-start !important;
+  }
+
+  .tutorial-content #card-info-center {
+    order: -1;
+  }
+
+  #hero-name-section {
+    display: none;
+  }
 }

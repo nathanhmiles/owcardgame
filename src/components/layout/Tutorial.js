@@ -379,7 +379,7 @@ function Tutorial() {
                 </div>
               </div>
             </div>
-            <div className="card-info">
+            <div id="card-info-center" className="card-info">
               <img
                 src={require(`assets/dva-example.webp`).default}
                 alt="Card tutorial"
