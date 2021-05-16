@@ -1,4 +1,4 @@
-import React, { useContext, useEffect, useRef, useState } from "react";
+import React, { useContext, useEffect, useRef } from "react";
 import gameContext from "context/gameContext";
 import turnContext from "context/turnContext";
 import $ from "jquery";
@@ -8,7 +8,7 @@ import getRandInt from "helper";
 export default function HeroAbilities(props) {
   // Context
   const { gameState, dispatch } = useContext(gameContext);
-  const { turnState, setTurnState } = useContext(turnContext);
+  const { turnState } = useContext(turnContext);
 
   // Variables
   const playerTurn = turnState.playerTurn;

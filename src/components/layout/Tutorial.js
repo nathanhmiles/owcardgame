@@ -1,9 +1,6 @@
 import React from "react";
 import $ from "jquery";
 import "./Tutorial.css";
-import PowerCounter from "./PowerCounter";
-import { size } from "lodash";
-import turnContext from "context/turnContext";
 
 function Tutorial() {
   const closeTutorialStyle = {
@@ -90,7 +87,7 @@ function Tutorial() {
             onClick={openCloseTutorial}
             style={closeTutorialStyle}
             id="closetutorial"
-            class="far fa-times-circle"
+            className="far fa-times-circle"
           ></i>
           <a
             rel="noopener noreferrer"
@@ -98,7 +95,7 @@ function Tutorial() {
             href={require("assets/how-to-play.pdf").default}
             id="howtoplay"
           >
-            <i style={tutorialHatStyle} class="fas fa-graduation-cap"></i>
+            <i style={tutorialHatStyle} className="fas fa-graduation-cap"></i>
           </a>
           <span id="tutorial-title">How To Play</span>
           <div id="tutorial-tabs">
@@ -106,21 +103,21 @@ function Tutorial() {
               className="tutorial-tab"
               onClick={() => switchTutorialTab("overview-content")}
             >
-              <i class="fas fa-eye"></i>
+              <i className="fas fa-eye"></i>
               Overview
             </div>
             <div
               className="tutorial-tab"
               onClick={() => switchTutorialTab("card-info-content")}
             >
-              <i class="fas fa-exclamation"></i>
+              <i className="fas fa-exclamation"></i>
               Card Info
             </div>
             <div
               className="tutorial-tab"
               onClick={() => switchTutorialTab("turn-actions-content")}
             >
-              <i class="fas fa-hourglass-half"></i>Turn Actions
+              <i className="fas fa-hourglass-half"></i>Turn Actions
             </div>
           </div>
         </div>
@@ -135,9 +132,9 @@ function Tutorial() {
                 className="tutorial-image"
               />
               <div className="tutorial-section">
-                <p>
-                  <div className="tutorial-heading">How to win</div>
-                  <span>
+                <div className="tutorial-heading">How to win</div>
+                <span>
+                  <p>
                     When a card is played, that card's Power score is added to
                     that player's Power score{" "}
                     <span style={{ ...powerStyle, ...tutorialCounterStyle }}>
@@ -167,18 +164,18 @@ function Tutorial() {
                     </span>
                     . The round is over when both players have played six cards
                     and pressed the Pass button.
-                    <p>
-                      If both players have the same Power score, the player with
-                      the higher total Synergy wins. If both players' Synergy
-                      scores are also tied, the round is a draw and neither
-                      player receives a win.
-                    </p>
-                  </span>
-                </p>
+                  </p>
+                  <p>
+                    If both players have the same Power score, the player with
+                    the higher total Synergy wins. If both players' Synergy
+                    scores are also tied, the round is a draw and neither player
+                    receives a win.
+                  </p>
+                </span>
               </div>
               <div className="tutorial-section">
+                <div className="tutorial-heading">Starting a game</div>
                 <p>
-                  <div className="tutorial-heading">Starting a game</div>
                   <span>
                     Both players should begin by drawing 8 cards each. Then the
                     players each take turns to play one card per turn. At the
@@ -191,120 +188,119 @@ function Tutorial() {
                 </p>
               </div>
               <div className="tutorial-section">
-                <p>
-                  <div className="tutorial-heading">
-                    Scores, abilities and counters
-                  </div>
-                  <span>
-                    <ul className="tutorial-list">
-                      <li>
-                        <span
-                          style={{
-                            ...powerStyle,
-                            ...tutorialCounterStyle,
-                            width: "40px",
-                            height: "40px",
-                            fontSize: "2rem",
-                          }}
-                        >
-                          8
-                        </span>
-                        <span className="counter-desc">
-                          <strong>Power: </strong>Each player has one Power
-                          score which increases as cards are played. A card's
-                          Power is subtracted from the player's Power score if
-                          it is defeated. The player with the higher power score
-                          at the end of the round wins.
-                        </span>
-                      </li>
-                      <li>
-                        <span
-                          style={{
-                            ...synergyStyle,
-                            ...tutorialCounterStyle,
-                            width: "40px",
-                            height: "40px",
-                            fontSize: "2rem",
-                            border: "5px solid steelblue",
-                          }}
-                        >
-                          3
-                        </span>
-                        <span className="counter-desc">
-                          <strong>Synergy: </strong>Each row has its own Synergy
-                          score. The row's synergy increases as heroes are
-                          played into that row. Synergy is spent when heroes use
-                          their Ultimate Ability.
-                        </span>
-                      </li>
-                      <li>
-                        <span
-                          style={{
-                            ...tutorialCounterStyle,
-                            ...healthStyle,
-                            width: "40px",
-                            height: "44px",
-                            fontSize: "2rem",
-                          }}
-                          className={`healthcounter counter tutorial-counter`}
-                        >
-                          4
-                        </span>
-                        <span className="counter-desc">
-                          <strong>Health: </strong>How much damage the hero can
-                          take before it is defeated. A defeated hero's Power is
-                          subtracted from the player's Power score.
-                        </span>
-                      </li>
-                      <li>
-                        <span
-                          style={{
-                            ...tutorialCounterStyle,
-                            ...healthStyle,
-                            width: "40px",
-                            height: "44px",
-                            fontSize: "2rem",
-                          }}
-                          className={`shieldcounter counter`}
-                        >
-                          2
-                        </span>
-                        <span className="counter-desc">
-                          <strong>Shield: </strong>A Shield can be placed either
-                          on a specific hero or on an entire row. If a hero has
-                          Shield or is in a row that has Shield, the Shield will
-                          take any damage before the hero's Health takes damage.
-                        </span>
-                      </li>
-                      <li>
-                        <span
-                          style={{ ...effectStyle, ...tutorialCounterStyle }}
-                          className="counter"
-                        >
-                          <img
-                            src={
-                              require(`assets/heroes/cards/mercy-icon.webp`)
-                                .default
-                            }
-                            className="counter herocounter"
-                            alt="Hero Counter"
-                          />
-                        </span>
-                        <span className="counter-desc">
-                          <strong>Effects: </strong>There are a number of
-                          different positive and negative Effects that heroes
-                          can apply to ally and enemy heroes, as well as ally
-                          and enemy rows. If a hero applies an Effect to a hero
-                          or row, the hero's counter will show up next to the
-                          row or on the hero card. These counters can be clicked
-                          to show the card which applied the Effect, so that you
-                          can easily read the Ability description to understand
-                          what the Effect does.
-                        </span>
-                      </li>
-                    </ul>
-                  </span>
-                </p>
+                <div className="tutorial-heading">
+                  Scores, abilities and counters
+                </div>
+
+                <span>
+                  <ul className="tutorial-list">
+                    <li>
+                      <span
+                        style={{
+                          ...powerStyle,
+                          ...tutorialCounterStyle,
+                          width: "40px",
+                          height: "40px",
+                          fontSize: "2rem",
+                        }}
+                      >
+                        8
+                      </span>
+                      <span className="counter-desc">
+                        <strong>Power: </strong>Each player has one Power score
+                        which increases as cards are played. A card's Power is
+                        subtracted from the player's Power score if it is
+                        defeated. The player with the higher power score at the
+                        end of the round wins.
+                      </span>
+                    </li>
+                    <li>
+                      <span
+                        style={{
+                          ...synergyStyle,
+                          ...tutorialCounterStyle,
+                          width: "40px",
+                          height: "40px",
+                          fontSize: "2rem",
+                          border: "5px solid steelblue",
+                        }}
+                      >
+                        3
+                      </span>
+                      <span className="counter-desc">
+                        <strong>Synergy: </strong>Each row has its own Synergy
+                        score. The row's synergy increases as heroes are played
+                        into that row. Synergy is spent when heroes use their
+                        Ultimate Ability.
+                      </span>
+                    </li>
+                    <li>
+                      <span
+                        style={{
+                          ...tutorialCounterStyle,
+                          ...healthStyle,
+                          width: "40px",
+                          height: "44px",
+                          fontSize: "2rem",
+                        }}
+                        className={`healthcounter counter tutorial-counter`}
+                      >
+                        4
+                      </span>
+                      <span className="counter-desc">
+                        <strong>Health: </strong>How much damage the hero can
+                        take before it is defeated. A defeated hero's Power is
+                        subtracted from the player's Power score.
+                      </span>
+                    </li>
+                    <li>
+                      <span
+                        style={{
+                          ...tutorialCounterStyle,
+                          ...healthStyle,
+                          width: "40px",
+                          height: "44px",
+                          fontSize: "2rem",
+                        }}
+                        className={`shieldcounter counter`}
+                      >
+                        2
+                      </span>
+                      <span className="counter-desc">
+                        <strong>Shield: </strong>A Shield can be placed either
+                        on a specific hero or on an entire row. If a hero has
+                        Shield or is in a row that has Shield, the Shield will
+                        take any damage before the hero's Health takes damage.
+                      </span>
+                    </li>
+                    <li>
+                      <span
+                        style={{ ...effectStyle, ...tutorialCounterStyle }}
+                        className="counter"
+                      >
+                        <img
+                          src={
+                            require(`assets/heroes/cards/mercy-icon.webp`)
+                              .default
+                          }
+                          className="counter herocounter"
+                          alt="Hero Counter"
+                        />
+                      </span>
+                      <span className="counter-desc">
+                        <strong>Effects: </strong>There are a number of
+                        different positive and negative Effects that heroes can
+                        apply to ally and enemy heroes, as well as ally and
+                        enemy rows. If a hero applies an Effect to a hero or
+                        row, the hero's counter will show up next to the row or
+                        on the hero card. These counters can be clicked to show
+                        the card which applied the Effect, so that you can
+                        easily read the Ability description to understand what
+                        the Effect does.
+                      </span>
+                    </li>
+                  </ul>
+                </span>
               </div>
             </div>
           </div>
@@ -431,84 +427,74 @@ function Tutorial() {
               <p>During your turn you can carry out the following actions:</p>
             </div>
             <div className="tutorial-section">
-              <p>
-                <div className="tutorial-heading">Play a Hero Card</div>
-                <span>
-                  <p>
-                    Drag 1 Hero Card from your hand into the Front, Middle, or
-                    Back Row. Any effects that occur when a Hero is played
-                    trigger NOW. The card's Power and Synergy scores will be
-                    added to your scores at this point.
-                  </p>
-                </span>
-              </p>
+              <div className="tutorial-heading">Play a Hero Card</div>
+              <span>
+                <p>
+                  Drag 1 Hero Card from your hand into the Front, Middle, or
+                  Back Row. Any effects that occur when a Hero is played trigger
+                  NOW. The card's Power and Synergy scores will be added to your
+                  scores at this point.
+                </p>
+              </span>
             </div>
             <div className="tutorial-section">
-              <p>
-                <span className="tutorial-heading">Use Deploy Ability</span> (if
-                you wish)
-                <br />
-                <span>
-                  <p>
-                    In order to use a Hero's ability, click on the Hero Card.
-                    This will show a larger version of the card in the middle of
-                    your screen, which is called the Card Focus. Click on the
-                    text of the ability that you want to use. If the ability
-                    requires you to target an ally or enemy card, click on the
-                    card to choose it as your target.
-                  </p>
-                  <p>
-                    A Hero's Deploy Ability can only be used right after you
-                    play them onto the battlefield. If you decide to NOT use
-                    their Deploy Ability you may not use it at a later time
-                    unless they have been returned to your hand and played
-                    again.
-                  </p>
-                  <p>
-                    <strong>Please Note: </strong>The ability descriptions have
-                    not been changed from the original tabletop game, and may
-                    refer to placing tokens or rotating cards when abilities
-                    happen which are irrelevant to the digital version.
-                  </p>
-                </span>
-              </p>
+              <span className="tutorial-heading">Use Deploy Ability</span> (if
+              you wish)
+              <br />
+              <span>
+                <p>
+                  In order to use a Hero's ability, click on the Hero Card. This
+                  will show a larger version of the card in the middle of your
+                  screen, which is called the Card Focus. Click on the text of
+                  the ability that you want to use. If the ability requires you
+                  to target an ally or enemy card, click on the card to choose
+                  it as your target.
+                </p>
+                <p>
+                  A Hero's Deploy Ability can only be used right after you play
+                  them onto the battlefield. If you decide to NOT use their
+                  Deploy Ability you may not use it at a later time unless they
+                  have been returned to your hand and played again.
+                </p>
+                <p>
+                  <strong>Please Note: </strong>The ability descriptions have
+                  not been changed from the original tabletop game, and may
+                  refer to placing tokens or rotating cards when abilities
+                  happen which are irrelevant to the digital version.
+                </p>
+              </span>
             </div>
             <div className="tutorial-section">
-              <p>
-                <div className="tutorial-heading">
-                  Activate an Ultimate Ability
-                </div>
-                <span>
-                  <p>
-                    Choose a Hero that has already been played and activate
-                    their Ultimate Ability. There must be enough Synergy{" "}
-                    <span style={{ ...synergyStyle, ...tutorialCounterStyle }}>
-                      3
-                    </span>{" "}
-                    in that row to pay for the cost of the Ultimate Ability. You
-                    may only use each Ultimate Ability once per round unless the
-                    hero has been returned to your hand and played a second
-                    time.
-                  </p>
-                  <p>
-                    Once the Ultimate Ability has been used, the Synergy cost
-                    will be deducted from the row's Synergy score.
-                  </p>
-                </span>
-              </p>
+              <div className="tutorial-heading">
+                Activate an Ultimate Ability
+              </div>
+              <span>
+                <p>
+                  Choose a Hero that has already been played and activate their
+                  Ultimate Ability. There must be enough Synergy{" "}
+                  <span style={{ ...synergyStyle, ...tutorialCounterStyle }}>
+                    3
+                  </span>{" "}
+                  in that row to pay for the cost of the Ultimate Ability. You
+                  may only use each Ultimate Ability once per round unless the
+                  hero has been returned to your hand and played a second time.
+                </p>
+                <p>
+                  Once the Ultimate Ability has been used, the Synergy cost will
+                  be deducted from the row's Synergy score.
+                </p>
+              </span>
             </div>
 
             <div className="tutorial-section">
-              <p>
-                <div className="tutorial-heading">Pass</div>
-                <span>
-                  <p>
-                    You must have six cards on the battlefield in order to
-                    choose the Pass Action. After passing you may take no more
-                    actions this round.
-                  </p>
-                </span>
-              </p>
+              <div className="tutorial-heading">Pass</div>
+              <span>
+                <p>
+                  You must have six cards on the battlefield in order to choose
+                  the Pass Action. After passing you may take no more actions
+                  this round.
+                </p>
+              </span>
             </div>
           </div>
         </div>
