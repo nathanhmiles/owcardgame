@@ -1,16 +1,36 @@
 @media (max-width: 800px) {
-  @media screen and (orientation: portrait) {
-    body {
-      margin: 0;
-    }
+  .title-corners {
+    font-size: 1rem;
   }
 
+  .rowcountercontainer {
+    flex-direction: column;
+    min-width: 0px;
+  }
+
+  .rowlist {
+    overflow: auto;
+  }
+
+  .playercards-row {
+    overflow: initial;
+  }
+
+  .carddisplay-container {
+    overflow: initial;
+  }
   .cardfocus {
-    top: 25px;
+    top: 15vh;
     height: 80vw;
   }
 
-  #centerlogo {
-    height: 50px;
+  .open #tutorial {
+    width: 80vw;
+    padding: 4px;
+    height: 80vh;
+  }
+
+  .tutorial-tab {
+    flex-basis: 33% !important;
   }
 }

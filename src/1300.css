@@ -20,6 +20,10 @@
   }
   .boardrow {
     min-height: 150px;
+    overflow: hidden;
+  }
+
+  .carddisplay-container {
     overflow: auto;
   }
 

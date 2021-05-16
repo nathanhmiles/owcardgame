@@ -34,7 +34,7 @@ export default function CardDisplay(props) {
   // Checks if the row is overflown so that it can position cards inside correctly
   useEffect(() => {
     setOverflown(isOverflown(document.getElementById(`${rowId}-list`)));
-  }, [setOverflown, rowId]);
+  }, [setOverflown, rowId, cards]);
 
   return (
     <div id={`${rowId}-carddisplay`} className={`carddisplay-container`}>

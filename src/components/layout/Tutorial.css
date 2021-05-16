@@ -78,7 +78,7 @@ i#closetutorial:hover {
   flex-basis: 25%;
   background: #2e3651;
   color: #e1e1e3;
-  font-size: clamp(18px, 2vw, 32px);
+  font-size: clamp(16px, 2vw, 32px);
   border: 2px solid;
 }
 
