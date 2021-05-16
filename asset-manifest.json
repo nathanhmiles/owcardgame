@@ -1,14 +1,14 @@
 {
   "files": {
-    "main.css": "/owcardgame/static/css/main.a1c168eb.chunk.css",
-    "main.js": "/owcardgame/static/js/main.e638b5ed.chunk.js",
-    "main.js.map": "/owcardgame/static/js/main.e638b5ed.chunk.js.map",
+    "main.css": "/owcardgame/static/css/main.06d313b9.chunk.css",
+    "main.js": "/owcardgame/static/js/main.ac3844d1.chunk.js",
+    "main.js.map": "/owcardgame/static/js/main.ac3844d1.chunk.js.map",
     "runtime-main.js": "/owcardgame/static/js/runtime-main.0b345ce8.js",
     "runtime-main.js.map": "/owcardgame/static/js/runtime-main.0b345ce8.js.map",
     "static/js/2.d8dff500.chunk.js": "/owcardgame/static/js/2.d8dff500.chunk.js",
     "static/js/2.d8dff500.chunk.js.map": "/owcardgame/static/js/2.d8dff500.chunk.js.map",
     "index.html": "/owcardgame/index.html",
-    "static/css/main.a1c168eb.chunk.css.map": "/owcardgame/static/css/main.a1c168eb.chunk.css.map",
+    "static/css/main.06d313b9.chunk.css.map": "/owcardgame/static/css/main.06d313b9.chunk.css.map",
     "static/js/2.d8dff500.chunk.js.LICENSE.txt": "/owcardgame/static/js/2.d8dff500.chunk.js.LICENSE.txt",
     "static/media/App.css": "/owcardgame/static/media/shieldcounter.1e59f17c.webp",
     "static/media/ana-grenade.mp3": "/owcardgame/static/media/ana-grenade.f80883bc.mp3",
@@ -201,7 +201,7 @@
   "entrypoints": [
     "static/js/runtime-main.0b345ce8.js",
     "static/js/2.d8dff500.chunk.js",
-    "static/css/main.a1c168eb.chunk.css",
-    "static/js/main.e638b5ed.chunk.js"
+    "static/css/main.06d313b9.chunk.css",
+    "static/js/main.ac3844d1.chunk.js"
   ]
 }
