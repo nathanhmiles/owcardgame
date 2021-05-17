@@ -12,16 +12,14 @@ export default function TitleCard(props) {
         ></i>
       </div>
       <span className="title">Overwatch</span>
-      <span className="credit">
-        Game & Card Design by
-        <br />
-        u/barberian912
-      </span>
+      <div className="credit">
+        <span>Game & Card Design by</span>
+        <span>u/barberian912</span>
+      </div>
       <img src={owlogo} id="centerlogo" alt="owlogo" />
       <span className="credit">
-        Digitisation by
-        <br />
-        Nathan H Miles
+        <span>Digitisation by</span>
+        <span>Nathan H Miles</span>
       </span>
       <span className="title">Card Game</span>
       <AudioPlayer
