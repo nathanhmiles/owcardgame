@@ -180,8 +180,7 @@ body {
 .boardrow {
   /* background: url(assets/row-background.png); */
   background-color: #a8b3d3;
-  background-position: center;
-  background-size: cover;
+  background-image: url("https://www.transparenttextures.com/patterns/gplay.png");
   display: flex;
   border: 5px solid #c4c3d5;
   border-radius: 18px;

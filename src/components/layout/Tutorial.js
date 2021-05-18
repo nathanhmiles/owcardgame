@@ -13,7 +13,7 @@ function Tutorial() {
 
   const tutorialHatStyle = {
     fontSize: "2rem",
-    color: "#2e3651",
+    color: "inherit",
   };
 
   function openCloseTutorial(e) {
@@ -95,6 +95,7 @@ function Tutorial() {
               target="_blank"
               href={require("assets/how-to-play.pdf").default}
               id="howtoplay"
+              style={{ color: "inherit" }}
             >
               <i style={tutorialHatStyle} className="fas fa-graduation-cap"></i>
             </a>
@@ -128,7 +129,7 @@ function Tutorial() {
             <div id="overview-container" className="tutorial-content-container">
               <div className="overview-section">
                 <img
-                  src={require("assets/overview.jpg").default}
+                  src={require("assets/overview.gif").default}
                   alt="Game overview"
                   className="tutorial-image"
                 />
@@ -230,8 +231,8 @@ function Tutorial() {
                         </span>
                         <span className="counter-desc">
                           <strong>Synergy: </strong>Each row has its own Synergy
-                          score. The row's synergy increases as heroes are
-                          played into that row. Synergy is spent when heroes use
+                          score. The row's synergy increases as Heroes are
+                          played into that row. Synergy is spent when Heroes use
                           their Ultimate Ability.
                         </span>
                       </li>
@@ -249,8 +250,8 @@ function Tutorial() {
                           4
                         </span>
                         <span className="counter-desc">
-                          <strong>Health: </strong>How much damage the hero can
-                          take before it is defeated. A defeated hero's Power is
+                          <strong>Health: </strong>How much damage the Hero can
+                          take before it is defeated. A defeated Hero's Power is
                           subtracted from the player's Power score.
                         </span>
                       </li>
@@ -269,9 +270,9 @@ function Tutorial() {
                         </span>
                         <span className="counter-desc">
                           <strong>Shield: </strong>A Shield can be placed either
-                          on a specific hero or on an entire row. If a hero has
+                          on a specific Hero or on an entire row. If a Hero has
                           Shield or is in a row that has Shield, the Shield will
-                          take any damage before the hero's Health takes damage.
+                          take any damage before the Hero's Health takes damage.
                         </span>
                       </li>
                       <li>
@@ -290,11 +291,11 @@ function Tutorial() {
                         </span>
                         <span className="counter-desc">
                           <strong>Effects: </strong>There are a number of
-                          different positive and negative Effects that heroes
-                          can apply to ally and enemy heroes, as well as ally
-                          and enemy rows. If a hero applies an Effect to a hero
-                          or row, the hero's counter will show up next to the
-                          row or on the hero card. These counters can be clicked
+                          different positive and negative Effects that Heroes
+                          can apply to ally and enemy Heroes, as well as ally
+                          and enemy rows. If a Hero applies an Effect to a Hero
+                          or row, the Hero's counter will show up next to the
+                          row or on the Hero card. These counters can be clicked
                           to show the card which applied the Effect, so that you
                           can easily read the Ability description to understand
                           what the Effect does.
@@ -391,16 +392,16 @@ function Tutorial() {
                   <span className="tutorial-heading">Health</span>
                   <div id="card-info-class">
                     How much damage this Hero can take before being defeated. A
-                    defeated hero's card will turn grey when their health drops
+                    defeated Hero's card will turn grey when their health drops
                     to 0.
                   </div>
                 </div>
                 <div className="card-info-section tutorial-section">
                   <span className="tutorial-heading">Shield</span>
                   <div id="card-info-class">
-                    Some heroes have the ability to shield themselves, other
-                    heroes, or even an entire row. Shields will take damage in
-                    place of a hero's health.
+                    Some Heroes have the ability to shield themselves, other
+                    Heroes, or even an entire row. Shields will take damage in
+                    place of a Hero's health.
                   </div>
                 </div>
                 <div>
@@ -418,7 +419,7 @@ function Tutorial() {
                   <div>
                     You may use this ability at any time after the card has been
                     played and is still alive, but you must have sufficient
-                    synergy in the hero's row.
+                    synergy in the Hero's row.
                   </div>
                 </div>
               </div>
@@ -483,7 +484,7 @@ function Tutorial() {
                     </span>{" "}
                     in that row to pay for the cost of the Ultimate Ability. You
                     may only use each Ultimate Ability once per round unless the
-                    hero has been returned to your hand and played a second
+                    Hero has been returned to your hand and played a second
                     time.
                   </p>
                   <p>
