@@ -1,14 +1,14 @@
 {
   "files": {
-    "main.css": "/owcardgame/static/css/main.9a3b06cc.chunk.css",
-    "main.js": "/owcardgame/static/js/main.7f93c1fe.chunk.js",
-    "main.js.map": "/owcardgame/static/js/main.7f93c1fe.chunk.js.map",
+    "main.css": "/owcardgame/static/css/main.7ef464f5.chunk.css",
+    "main.js": "/owcardgame/static/js/main.a8d1c76e.chunk.js",
+    "main.js.map": "/owcardgame/static/js/main.a8d1c76e.chunk.js.map",
     "runtime-main.js": "/owcardgame/static/js/runtime-main.0b345ce8.js",
     "runtime-main.js.map": "/owcardgame/static/js/runtime-main.0b345ce8.js.map",
     "static/js/2.a39552e2.chunk.js": "/owcardgame/static/js/2.a39552e2.chunk.js",
     "static/js/2.a39552e2.chunk.js.map": "/owcardgame/static/js/2.a39552e2.chunk.js.map",
     "index.html": "/owcardgame/index.html",
-    "static/css/main.9a3b06cc.chunk.css.map": "/owcardgame/static/css/main.9a3b06cc.chunk.css.map",
+    "static/css/main.7ef464f5.chunk.css.map": "/owcardgame/static/css/main.7ef464f5.chunk.css.map",
     "static/js/2.a39552e2.chunk.js.LICENSE.txt": "/owcardgame/static/js/2.a39552e2.chunk.js.LICENSE.txt",
     "static/media/App.css": "/owcardgame/static/media/shieldcounter.1e59f17c.webp",
     "static/media/ana-grenade.mp3": "/owcardgame/static/media/ana-grenade.f80883bc.mp3",
@@ -109,7 +109,7 @@
     "static/media/orisa-intro.mp3": "/owcardgame/static/media/orisa-intro.33fe7bb0.mp3",
     "static/media/orisa-ult.mp3": "/owcardgame/static/media/orisa-ult.74fddc72.mp3",
     "static/media/orisa.webp": "/owcardgame/static/media/orisa.192c2040.webp",
-    "static/media/overview.jpg": "/owcardgame/static/media/overview.b457b923.jpg",
+    "static/media/overview.gif": "/owcardgame/static/media/overview.35cc1d25.gif",
     "static/media/overwatch-theme.mp3": "/owcardgame/static/media/overwatch-theme.76802417.mp3",
     "static/media/owlogo-small.787f124f.webp": "/owcardgame/static/media/owlogo-small.787f124f.webp",
     "static/media/pharah-clear.mp3": "/owcardgame/static/media/pharah-clear.b1067cd1.mp3",
@@ -201,7 +201,7 @@
   "entrypoints": [
     "static/js/runtime-main.0b345ce8.js",
     "static/js/2.a39552e2.chunk.js",
-    "static/css/main.9a3b06cc.chunk.css",
-    "static/js/main.7f93c1fe.chunk.js"
+    "static/css/main.7ef464f5.chunk.css",
+    "static/js/main.a8d1c76e.chunk.js"
   ]
 }
