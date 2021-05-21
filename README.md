@@ -7,7 +7,7 @@ All characters, art and the Overwatch logo and brand are the property of Blizzar
 
 The original tabletop card game was designed and created by Reddit user barberian912, and was digitised with their permission by me.
 
-This is a two-player competitive card game similar in design to Gwent.
+This is a two-player competitive card game similar in design to Gwent. Each players takes turns to play a card into one of three rows. Cards generate a certain amount of Power depending on which row they are played into, with the Player that has the most Power at the end of the round winning. Each card also has two abilities that can be used to help allies or hinder enemy cards. Cards that are defeated do not contribute any Power to their Player. The first Player to win two rounds wins the match.
 
 ## How to play
 
