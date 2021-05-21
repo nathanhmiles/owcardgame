@@ -434,18 +434,7 @@ export default function App() {
       // Update match state
       // Update state if round is a draw
       if (winningPlayer === 3) {
-        alert("Round is a draw! Both players receive a win.");
-
-        // Add a win to both players' record for a draw
-        matchRef.current.player1.wins += 1;
-        matchRef.current.player2.wins += 1;
-
-        // If players have drawn both rounds and so both have two wins, match is a draw
-        if (matchState.player1.wins === 2 && matchState.player2.wins === 2) {
-          alert("The match is a draw!");
-          alert("Starting a new match.");
-          window.location.reload();
-        }
+        alert("Round is a draw! Neither player receives a win.");
 
         // Update state for whichever player won
       } else {
