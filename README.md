@@ -11,7 +11,7 @@ This is a two-player competitive card game similar in design to Gwent. Each play
 
 ## How to play
 
-The live game features a tutorial with gifs and images to help explain the different aspects of the game, just press the ? icon in the corner of the screen to open the tutorial. However I will also give an explanation here for ease of use:
+![Overview of the Overwatch Card Game](https://github.com/nathanhmiles/owcardgame/tree/main/src/assets/overview2.gif "Overview of the Overwatch Card Game")
 
 ### How to win
 
@@ -36,6 +36,8 @@ Both players should begin by drawing 8 cards each. Then the players each take tu
 **Effects**: There are a number of different positive and negative Effects that Heroes can apply to ally and enemy Heroes, as well as ally and enemy rows. If a Hero applies an Effect to a Hero or row, the Hero's counter will show up next to the row or on the Hero card. These counters can be clicked to show the card which applied the Effect, so that you can easily read the Ability description to understand what the Effect does.
 
 ### Card Breakdown
+
+![Dva Card](https://github.com/nathanhmiles/owcardgame/blob/main/src/assets/dva-example.webp "Dva Card")
 
 #### Class
 
