@@ -37,7 +37,7 @@ Both players should begin by drawing 8 cards each. Then the players each take tu
 
 ### Card Breakdown
 
-![Dva Card](https://github.com/nathanhmiles/owcardgame/blob/main/src/assets/dva-example.webp | width=400)
+<img src="https://github.com/nathanhmiles/owcardgame/blob/main/src/assets/dva-example.webp" width="400" />
 
 #### Class
 
