@@ -11,7 +11,7 @@ This is a two-player competitive card game similar in design to Gwent. Each play
 
 ## How to play
 
-![Overview of the Overwatch Card Game](https://github.com/nathanhmiles/owcardgame/tree/main/src/assets/overview2.gif "Overview of the Overwatch Card Game")
+![Overview of the Overwatch Card Game](https://github.com/nathanhmiles/owcardgame/blob/main/src/assets/overview2.gif)
 
 ### How to win
 
