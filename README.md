@@ -15,7 +15,7 @@ The live game features a tutorial with gifs and images to help explain the diffe
 
 ### How to win
 
-Each player takes turns to play one card into one of three rows. Each card generates a certain amount of Power depending on which row they are played into. The player with the most power at the end of the round wins, with two rounds needed to win the match. The round ends when both players have played six cards and pressed the Pass button. For more information on a card's Power, please see the **Card Breakdown** below.
+Each player takes turns to play one card into one of three rows. Each card generates a certain amount of Power depending on which row they are played into. The player with the most power at the end of the round wins, with two rounds needed to win the match. The round ends when both players have played six cards and pressed the Pass button. For more information on a card's Power, please see the [**Card Breakdown**][card breakdown] below.
 
 If both players have the same Power score, the player with the higher total Synergy wins. If both players' Synergy scores are also tied, the round is a draw and neither player receives a win.
 
