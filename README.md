@@ -7,13 +7,15 @@ All characters, art and the Overwatch logo and brand are the property of Blizzar
 
 The original tabletop card game was designed and created by Reddit user barberian912, and was digitised with their permission by me.
 
+This is a two-player competitive card game similar in design to Gwent.
+
 ## How to play
 
 The live game features a tutorial with gifs and images to help explain the different aspects of the game, just press the ? icon in the corner of the screen to open the tutorial. However I will also give an explanation here for ease of use:
 
 ### How to win
 
-When a card is played, that card's Power score is added to that player's Power score 8(please see the Card Info section for a detailed breakdown of the cards' layout). The player with the highest Power score at the end of the round wins the round, with two rounds needed to win the match 21. The round is over when both players have played six cards and pressed the Pass button.
+Each player takes turns to play one card into one of three rows. Each card generates a certain amount of Power depending on which row they are played into. The player with the most power at the end of the round wins, with two rounds needed to win the match. The round ends when both players have played six cards and pressed the Pass button. For more information on a card's Power, please see the **Card Breakdown** below.
 
 If both players have the same Power score, the player with the higher total Synergy wins. If both players' Synergy scores are also tied, the round is a draw and neither player receives a win.
 
@@ -24,9 +26,13 @@ Both players should begin by drawing 8 cards each. Then the players each take tu
 ### Scores, abilities and counters
 
 **Power**: Each player has one Power score which increases as cards are played. A card's Power is subtracted from the player's Power score if it is defeated. The player with the higher power score at the end of the round wins.
+
 **Synergy**: Each row has its own Synergy score. The row's synergy increases as Heroes are played into that row. Synergy is spent when Heroes use their Ultimate Ability.
+
 **Health**: How much damage the Hero can take before it is defeated. A defeated Hero's Power is subtracted from the player's Power score.
+
 **Shield**: A Shield can be placed either on a specific Hero or on an entire row. If a Hero has Shield or is in a row that has Shield, the Shield will take any damage before the Hero's Health takes damage.
+
 **Effects**: There are a number of different positive and negative Effects that Heroes can apply to ally and enemy Heroes, as well as ally and enemy rows. If a Hero applies an Effect to a Hero or row, the Hero's counter will show up next to the row or on the Hero card. These counters can be clicked to show the card which applied the Effect, so that you can easily read the Ability description to understand what the Effect does.
 
 ### Card Breakdown
@@ -34,8 +40,11 @@ Both players should begin by drawing 8 cards each. Then the players each take tu
 #### Class
 
 **Offence** - Represented by an orange icon depicting three bullets. Offence heroes have high damage abilities.
+
 **Defense** - Represented by a blue icon depicting a chess piece. Defense heroes provide area control and status effects.
+
 **Tank** - Represented by a green shield icon. Tanks often generate shields for themselves and allies, and have good survivability.
+
 **Support** - Represented by a purple plus icon. Support heroes can heal ally heroes as well as other beneficial effects, such as a damage boost.
 
 #### Power/Synergy Scores
