@@ -84,6 +84,10 @@
 }
 
 @media (min-width: 1301px) {
+  #landscape-wrapper {
+    max-height: 80vh;
+  }
+
   #page-wrapper {
     max-height: 100vh;
   }
