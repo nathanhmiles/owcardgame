@@ -46,7 +46,9 @@ export default function PlayerHand(props) {
         playerHeroId = `${props.playerNum}${newCardId}`;
       } while (
         playerHeroId in gameState.playerCards[playerCardsId].cards ||
-        data.heroes[newCardId].isImplemented === false
+        data.heroes[newCardId].isImplemented === false ||
+        newCardId === "dva" ||
+        newCardId === "bob"
       );
       dispatch({
         type: ACTIONS.CREATE_CARD,

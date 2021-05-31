@@ -283,27 +283,32 @@ export default function HeroAbilities(props) {
       ability1: {
         audioFile: "ashe-deadlockgang",
         run() {
-          // TODO: currently only the first option of ashe's ability 1 is implemented - need to find a way to let the player choose between the two options
           return new Promise((resolve, reject) => {
-            $(".card").on("click", async (e) => {
+            $(".card").on("click", (e) => {
+              // Get target info
               const targetCardId = $(e.target).closest(".card").attr("id");
-              const targetCardIndex = $(e.target).closest("li").index();
-              const enemyPlayer = parseInt(targetCardId[0]);
-              const targetCardRow = $(e.target).closest(".row").attr("id");
+              const targetRow = $(e.target).closest(".row").attr("id");
 
+              // Remove onclick
               $(".card").off("click");
 
+              // Allow user to end the ability early by clicking on the ability-using-hero's card
+              if (targetCardId === `${currentHeroAbilityRef.current}`) {
+                alert("Ability stopped early");
+                return;
+              }
               // Check target is valid
               if (
-                targetCardRow[0] === "p" ||
-                parseInt(targetCardRow[0]) === playerTurn
+                targetRow[0] === "p" ||
+                parseInt(targetRow[0]) === playerTurn
               ) {
-                reject("Incorrect target row");
+                reject("Incorrect target");
                 return;
               }
 
-              const damageValue = 2;
-              applyDamage(damageValue, targetCardId, targetCardRow, true);
+              // Apply damage to the target card (includes setting state)
+              const damageValue = 1;
+              applyDamage(damageValue, targetCardId, targetRow, true);
 
               resolve();
             });
@@ -432,9 +437,87 @@ export default function HeroAbilities(props) {
       },
     },
     bob: {
-      ability1: {},
+      ability1: {
+        run() {
+          // Wait for user click
+          return new Promise((resolve, reject) => {
+            // When a row is clicked
+            $(".row").on("click", (e) => {
+              // Get target information & remove onclick
+              const targetRow = $(e.target).closest(".row").attr("id");
+              $(".row").off("click");
+
+              // Check target is valid
+              if (
+                targetRow[0] === "p" ||
+                parseInt(targetRow[0]) === playerTurn
+              ) {
+                reject("Incorrect target");
+                return;
+              }
+
+              // Apply effect
+              const effectId = "bobEnemyEffect";
+              const heroId = "bob";
+              dispatch({
+                type: ACTIONS.ADD_ROW_EFFECT,
+                payload: {
+                  targetRow: targetRow,
+                  playerHeroId: `${playerTurn}${heroId}`,
+                  effectId: effectId,
+                },
+              });
+
+              resolve();
+            });
+          });
+        },
+      },
       ability2: {
         synergyCost: 1,
+        maxTargets: 3,
+        run() {
+          return new Promise((resolve, reject) => {
+            $(".card").on("click", (e) => {
+              // Get target info
+              const targetCardId = $(e.target).closest(".card").attr("id");
+              const targetRow = $(e.target).closest(".row").attr("id");
+
+              // Remove onclick
+              $(".card").off("click");
+
+              // Allow user to end the ability early by clicking on the ability-using-hero's card
+              if (targetCardId === `${currentHeroAbilityRef.current}`) {
+                alert("Ability stopped early");
+                return;
+              }
+              // Check target is valid
+              if (
+                targetRow[0] === "p" ||
+                parseInt(targetRow[0]) === playerTurn
+              ) {
+                reject("Incorrect target");
+                return;
+              }
+
+              // Apply damage to the target card (includes setting state)
+              const damageValue = 1;
+              applyDamage(damageValue, targetCardId, targetRow);
+
+              // Apply abilities that affect a specific card
+              // Reduce synergy of target row
+              dispatch({
+                type: ACTIONS.UPDATE_SYNERGY,
+                payload: {
+                  rowId: targetRow,
+                  synergyCost: -1,
+                },
+              });
+
+              resolve("resolved!");
+            });
+          });
+        },
       },
     },
     brigitte: {
@@ -2738,11 +2821,55 @@ export default function HeroAbilities(props) {
     currentHeroAbilityRef.current = playerHeroId;
 
     // Get synergy values
-    const synergyCost = abilities[heroId].ability2.synergyCost;
+    let synergyCost = abilities[heroId].ability2.synergyCost;
     const rowSynergy = gameState.rows[rowId].synergy;
     unsetCardFocus();
 
-    // TODO: Check any effects that trigger on ability usage
+    // Check any effects that trigger on ability usage
+    const enemyRowEffects = gameState.rows[rowId].enemyEffects;
+    const enemyCardEffects =
+      gameState.playerCards[`player${playerTurn}cards`].cards[playerHeroId]
+        .enemyEffects;
+    const allyRowEffects = gameState.rows[rowId].enemyEffects;
+    const allyCardEffects =
+      gameState.playerCards[`player${playerTurn}cards`].cards[playerHeroId]
+        .enemyEffects;
+
+    // *ENEMY EFFECTS*
+    // Check for row effects that proc when an ultimate is used
+    for (let effect of enemyRowEffects) {
+      // Apply the effect
+      if (effect.on === "ultimate") {
+        if (effect.value === "double") synergyCost += synergyCost;
+        else synergyCost += effect.value;
+      }
+    }
+
+    // Check for card effects that proc when an ultimate is used
+    for (let effect of enemyCardEffects) {
+      if (effect.on === "ultimate") {
+        if (effect.value === "double") synergyCost += synergyCost;
+        else synergyCost += effect.value;
+      }
+    }
+
+    // *ALLY EFFECTS*
+    // Check for ally row effects that proc when an ultimate is used
+    for (let effect of allyRowEffects) {
+      // Apply the effect
+      if (effect.on === "ultimate") {
+        if (effect.value === "double") synergyCost += synergyCost;
+        else synergyCost += effect.value;
+      }
+    }
+
+    // Check for ally card effects that proc when an ultimate is used
+    for (let effect of allyCardEffects) {
+      if (effect.on === "ultimate") {
+        if (effect.value === "double") synergyCost += synergyCost;
+        else synergyCost += effect.value;
+      }
+    }
 
     // Check that the card is not in the player's hand
     if (rowId[0] !== "p") {

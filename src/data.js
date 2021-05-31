@@ -75,36 +75,7 @@ const data = {
         m: 3,
         b: 1,
       },
-      isImplemented: false,
-
-      bob: {
-        id: "bob",
-        name: "Bob",
-        image: "assets/heroes/bob.png",
-        icon: "assets/heroes/bob-icon.png",
-        effects: {
-          bobEnemyEffect: {
-            id: "bobEnemyEffect",
-            hero: "bob",
-            player: "enemy",
-            target: "row",
-            type: "synergy",
-            on: "ultimate",
-            value: 2,
-          },
-        },
-        health: 3,
-        power: {
-          f: 1,
-          m: 1,
-          b: 1,
-        },
-        synergy: {
-          f: 0,
-          m: 0,
-          b: 0,
-        },
-      },
+      isImplemented: true,
     },
 
     baptiste: {
@@ -167,6 +138,35 @@ const data = {
       isImplemented: false,
     },
 
+    bob: {
+      id: "bob",
+      name: "Bob",
+      image: "assets/heroes/bob.png",
+      icon: "assets/heroes/bob-icon.png",
+      effects: {
+        bobEnemyEffect: {
+          id: "bobEnemyEffect",
+          hero: "bob",
+          player: "enemy",
+          target: "row",
+          type: "synergy",
+          on: "ultimate",
+          value: 2,
+        },
+      },
+      health: 3,
+      power: {
+        f: 1,
+        m: 1,
+        b: 1,
+      },
+      synergy: {
+        f: 0,
+        m: 0,
+        b: 0,
+      },
+    },
+
     brigitte: {
       id: "brigitte",
       name: "Brigitte",
@@ -203,6 +203,24 @@ const data = {
       isImplemented: true,
     },
 
+    dva: {
+      id: "dva",
+      name: "D.va",
+      image: "assets/heroes/dva.png",
+      health: 2,
+      power: {
+        f: 1,
+        m: 1,
+        b: 1,
+      },
+      synergy: {
+        f: 0,
+        m: 0,
+        b: 0,
+      },
+      isImplemented: true,
+    },
+
     dvameka: {
       id: "dvameka",
       name: "D.va + Meka",
@@ -219,24 +237,6 @@ const data = {
         b: 3,
       },
       isImplemented: true,
-
-      dva: {
-        id: "dva",
-        name: "D.va",
-        image: "assets/heroes/dva.png",
-        health: 2,
-        power: {
-          f: 1,
-          m: 1,
-          b: 1,
-        },
-        synergy: {
-          f: 0,
-          m: 0,
-          b: 0,
-        },
-        isImplemented: true,
-      },
     },
 
     echo: {

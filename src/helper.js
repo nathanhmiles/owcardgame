@@ -14,19 +14,15 @@ class PlayerCard {
     let shield = 0;
     const enemyEffects = [];
     const allyEffects = [];
-    let isPlayed = false;
     let isDiscarded = false;
     let ability1Used = false;
     let ability2Used = false;
+    let isPlayed = false;
     const maxHealth = heroData.health;
 
     // Summoned heroes contain special path
     if (heroId === "dva") {
-      heroData = data.heroes.dvameka["dva"];
       isPlayed = true;
-      // Slice used below to allow for echo's ultimate copying ashe
-    } else if (heroId.slice(0, 3) === "bob") {
-      heroData = data.heroes.ashe["bob"];
     }
 
     // Combine values into one new hero object and assign to relevant player
