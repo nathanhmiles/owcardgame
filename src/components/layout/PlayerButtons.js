@@ -36,7 +36,7 @@ export default function PlayerHand(props) {
         [`player${playerNum}`]: null,
       }));
 
-      // Draw a random card id, then check if it was already drawn, if so draw again
+      // Draw a random card ID, then check if it was already drawn, if so draw again
     } else {
       let newCardId;
       do {
