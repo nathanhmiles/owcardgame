@@ -3,18 +3,14 @@ import AudioPlayer from './AudioPlayer';
 import $ from 'jquery';
 
 export default function TitleCard(props) {
-    
     function toggleTutorial() {
         $('#tutorial-container').toggleClass('open');
     }
-    
+
     return (
         <div id='title-container'>
             <div className='title-corners'>
-                <i
-                    onClick={toggleTutorial}
-                    className='fas fa-question'
-                ></i>
+                <i onClick={toggleTutorial} className='fas fa-question'></i>
             </div>
             <span className='title'>Overwatch</span>
             <div className='credit'>
