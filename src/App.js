@@ -638,7 +638,7 @@ export default function App() {
                 },
             });
         }
-        $(`#${result.source.droppableId}-list`).toggleClass('is-drag-origin');
+        document.getElementById(`${result.source.droppableId}-list`).classList.toggle('is-drag-origin');
 
         return;
     }
@@ -647,7 +647,7 @@ export default function App() {
     // e.g. handlist expanding when less than one card's width is available onscreen in horizontal list mode
     function handleOnDragStart(result) {
         console.log(result);
-        $(`#${result.source.droppableId}-list`).toggleClass('is-drag-origin');
+        document.getElementById(`${result.source.droppableId}-list`).classList.toggle('is-drag-origin');
     }
 
     return (

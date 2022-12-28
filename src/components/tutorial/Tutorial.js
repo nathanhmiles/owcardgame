@@ -1,5 +1,4 @@
 import React from 'react';
-import $ from 'jquery';
 import './Tutorial.css';
 import Overview from './components/Overview';
 import CardInfo from './components/CardInfo';
@@ -25,7 +24,7 @@ function Tutorial() {
             e.target.id === 'tutorial-container' ||
             e.target.id === 'closetutorial'
         ) {
-            $('#tutorial-container').removeClass('open');
+            document.getElementById('tutorial-container').classList.remove('open');
         }
     }
 

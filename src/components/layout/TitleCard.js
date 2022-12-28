@@ -1,10 +1,9 @@
 import owlogo from 'assets/owlogo-small.webp';
 import AudioPlayer from './AudioPlayer';
-import $ from 'jquery';
 
 export default function TitleCard(props) {
     function toggleTutorial() {
-        $('#tutorial-container').toggleClass('open');
+        document.getElementById('tutorial-container').classList.toggle('open');
     }
 
     return (
