@@ -1,5 +1,4 @@
 import React from 'react';
-import './Tutorial.css';
 import Overview from './components/Overview';
 import CardInfo from './components/CardInfo';
 import TurnActions from './components/TurnActions';

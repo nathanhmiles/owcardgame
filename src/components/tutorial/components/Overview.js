@@ -11,7 +11,6 @@ function Overview() {
         backgroundColor: '#fa9c1e',
         color: 'white',
         borderRadius: '50%',
-
         fontSize: '1.5em',
     };
 

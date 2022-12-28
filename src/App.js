@@ -3,8 +3,6 @@ import gameContext from 'context/gameContext';
 import turnContext from 'context/turnContext';
 import { DragDropContext } from 'react-beautiful-dnd';
 import './App.css';
-import './1300.css';
-import './760.css';
 import PlayerHalf from 'components/layout/PlayerHalf';
 import TitleCard from 'components/layout/TitleCard';
 import Footer from 'components/layout/Footer';
@@ -14,7 +12,6 @@ import data from 'data';
 import getRandInt, { PlayerCard } from 'helper';
 import produce from 'immer';
 import _ from 'lodash';
-import $ from 'jquery';
 import Tutorial from 'components/tutorial/Tutorial';
 
 export const ACTIONS = {
