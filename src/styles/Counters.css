@@ -88,6 +88,11 @@
     left: 78%;
 }
 
+.matchcountercontainer {
+    display: flex;
+    justify-content: center;
+}
+
 #match-counters {
     display: flex;
 }
@@ -111,9 +116,32 @@
     left: 78%;
 }
 
+.synergycontainer {
+    display: flex;
+    justify-content: center;
+}
+
 .synergycounter {
     border: 5px solid steelblue;
     background-color: #3f547a;
     color: white;
 }
 
+.counterarea {
+    display: flex;
+    flex-direction: column;
+    flex-wrap: wrap;
+}
+
+.card-counterarea {
+}
+
+.rowcountercontainer {
+    display: flex;
+    flex-direction: row;
+    font-size: 1.5rem;
+}
+
+.rowcountercontainer2 {
+    display: flex;
+}

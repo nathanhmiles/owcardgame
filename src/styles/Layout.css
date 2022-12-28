@@ -143,66 +143,14 @@
     font-size: 1.5rem;
 }
 
-.matchcountercontainer {
-    display: flex;
-    justify-content: center;
-}
-
 .title {
     width: 20vw;
     display: flex;
     justify-content: center;
 }
 
-.carddisplay-container {
-    width: 100%;
-    height: 100%;
-    display: flex;
-    justify-content: center;
-    padding: 4px;
-}
-
 .playerarea .carddisplay-container {
     align-items: flex-start;
-}
-
-ul.cardlist {
-    list-style: none;
-}
-
-ul.cardlist.vertical {
-    overflow-x: hidden;
-}
-
-ul.cardlist.horizontal {
-}
-
-ul.cardlist.overflown {
-    justify-content: flex-start;
-}
-
-.cardlist {
-    min-height: 50px;
-}
-
-.handlist {
-    display: flex;
-    flex-wrap: wrap;
-    width: 100%;
-    max-height: 100%;
-    min-height: 150px;
-    padding: 0;
-    margin: 0;
-}
-
-.handlist .not-dragging {
-    transform: none !important;
-}
-
-.handlist.dragging-over {
-}
-
-.handlist .cardcontainer {
 }
 
 .dragging-over {
@@ -240,14 +188,6 @@ li {
     align-items: inherit;
 }
 
-.cardcontainer {
-    position: relative;
-    width: 100%;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    font-size: clamp(16px, 1vw, 2rem);
-}
 
 .rowlabel {
     position: absolute;
@@ -257,44 +197,9 @@ li {
     align-items: center;
 }
 
-.counterarea {
-    display: flex;
-    flex-direction: column;
-    flex-wrap: wrap;
-}
-
-.card-counterarea {
-}
-
-.rowcountercontainer {
-    display: flex;
-    flex-direction: row;
-    font-size: 1.5rem;
-}
-
-.rowcountercontainer2 {
-    display: flex;
-}
-
-.synergycontainer {
-    display: flex;
-    justify-content: center;
-}
-
 .playercards-row {
     overflow: auto;
     width: 100%;
-}
-
-#cardfocuscontainer {
-    display: flex;
-    justify-content: center;
-    position: absolute;
-    width: 100%;
-    height: 100%;
-    top: 0;
-    left: 0;
-    pointer-events: none;
 }
 
 footer {
