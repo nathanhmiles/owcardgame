@@ -3,8 +3,8 @@ import { Draggable } from "react-beautiful-dnd";
 import gameContext from "context/gameContext";
 import turnContext from "context/turnContext";
 import CardEffects from "components/cards/CardEffects";
-import HealthCounter from "components/cards/HealthCounter";
-import ShieldCounter from "components/cards/ShieldCounter";
+import HealthCounter from "components/counters/HealthCounter";
+import ShieldCounter from "components/counters/ShieldCounter";
 
 export default function Card(props) {
   // Context

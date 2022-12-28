@@ -2,7 +2,6 @@ import React, { useContext, useEffect, useState } from "react";
 import Card from "components/cards/Card";
 import { Droppable } from "react-beautiful-dnd";
 import gameContext from "context/gameContext";
-import $ from "jquery";
 import { isOverflown } from "helper";
 
 export default function CardDisplay(props) {

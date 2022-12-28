@@ -1,4 +1,4 @@
-import React, { useContext, useEffect } from "react";
+import React, { useContext } from "react";
 import gameContext from "context/gameContext";
 import PlayerArea from "components/layout/PlayerArea";
 import PlayerBoard from "components/layout/PlayerBoard";

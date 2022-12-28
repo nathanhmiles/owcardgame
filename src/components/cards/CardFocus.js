@@ -1,8 +1,8 @@
 import React, { useContext, useRef, useEffect, useState } from "react";
 import HeroAbilities from "components/cards/HeroAbilities";
 import gameContext from "context/gameContext";
-import HealthCounter from "components/cards/HealthCounter";
-import ShieldCounter from "components/cards/ShieldCounter";
+import HealthCounter from "components/counters/HealthCounter";
+import ShieldCounter from "components/counters/ShieldCounter";
 
 export default function CardFocus(props) {
   const { gameState, dispatch } = useContext(gameContext);

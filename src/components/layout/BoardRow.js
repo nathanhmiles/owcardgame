@@ -1,11 +1,10 @@
 import React, { useContext, useEffect, useState } from "react";
 import gameContext from "context/gameContext";
-import SynergyCounter from "components/layout/SynergyCounter";
-import ShieldCounter from "components/cards/ShieldCounter";
+import SynergyCounter from "components/counters/SynergyCounter";
+import ShieldCounter from "components/counters/ShieldCounter";
 import CounterArea from "components/layout/CounterArea";
 import CardDisplay from "components/layout/CardDisplay";
 import { ACTIONS } from "App";
-import $ from "jquery";
 import { isOverflown } from "helper";
 
 export default function BoardRow(props) {

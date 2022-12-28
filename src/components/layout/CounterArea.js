@@ -1,6 +1,6 @@
 import React, { useContext } from 'react';
 import gameContext from 'context/gameContext';
-import HeroCounter from 'components/layout/HeroCounter';
+import HeroCounter from 'components/counters/HeroCounter';
 
 export default function CounterArea(props) {
   const { gameState } = useContext(gameContext);

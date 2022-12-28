@@ -1,8 +1,7 @@
 import React, { useContext } from "react";
 import PlayerHand from "./PlayerButtons";
-import PowerCounter from "./PowerCounter";
+import PowerCounter from "../counters/PowerCounter";
 import gameContext from "context/gameContext";
-import MatchCounter from "./MatchCounter";
 import CardDisplay from "components/layout/CardDisplay";
 
 export default function PlayerArea(props) {

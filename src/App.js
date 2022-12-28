@@ -9,14 +9,13 @@ import PlayerHalf from "components/layout/PlayerHalf";
 import TitleCard from "components/layout/TitleCard";
 import Footer from "components/layout/Footer";
 import CardFocus from "components/cards/CardFocus";
-import AudioPlayer from "components/layout/AudioPlayer";
-import MatchCounter from "components/layout/MatchCounter";
+import MatchCounter from "components/counters/MatchCounter";
 import data from "data";
 import getRandInt, { PlayerCard } from "helper";
 import produce from "immer";
 import _ from "lodash";
 import $ from "jquery";
-import Tutorial from "components/layout/Tutorial";
+import Tutorial from "components/tutorial/Tutorial";
 
 export const ACTIONS = {
   ADD_CARD_EFFECT: "add-card-effect",
@@ -664,7 +663,6 @@ export default function App() {
                 setCardFocus={setCardFocus}
                 unsetCardFocus={() => {
                   setCardFocus("invisible");
-                  console.log(`cardfocus is ${JSON.stringify(cardFocus)}`);
                 }}
                 cardFocus={cardFocus}
                 setNextCardDraw={setNextCardDraw}
