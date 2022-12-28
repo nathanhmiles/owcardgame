@@ -48,9 +48,8 @@ function TurnActions() {
                 </div>
                 <div className='tutorial-section'>
                     <span className='tutorial-heading'>
-                        Use Deploy Ability
-                    </span>{' '}
-                    (if you wish)
+                        Use Deploy Ability (if you wish)
+                    </span>
                     <br />
                     <span>
                         <p>
@@ -91,7 +90,7 @@ function TurnActions() {
                         <p>
                             Choose a Hero that has already been
                             played and activate their Ultimate
-                            Ability. There must be enough Synergy{' '}
+                            Ability. There must be enough Synergy
                             <span
                                 style={{
                                     ...synergyStyle,
@@ -99,7 +98,7 @@ function TurnActions() {
                                 }}
                             >
                                 3
-                            </span>{' '}
+                            </span>
                             in that row to pay for the cost of the
                             Ultimate Ability. You may only use each
                             Ultimate Ability once per round unless

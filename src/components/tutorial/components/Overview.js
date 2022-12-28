@@ -70,7 +70,7 @@ function Overview() {
                             <p>
                                 When a card is played, that card's
                                 Power score is added to that
-                                player's Power score{' '}
+                                player's Power score
                                 <span
                                     style={{
                                         ...powerStyle,
@@ -84,7 +84,7 @@ function Overview() {
                                 cards' layout). The player with the
                                 highest Power score at the end of
                                 the round wins the round, with two
-                                rounds needed to win the match{' '}
+                                rounds needed to win the match
                                 <span
                                     style={{
                                         ...matchStyle,
