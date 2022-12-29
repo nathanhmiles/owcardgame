@@ -2,9 +2,8 @@
     #root {
         width: 100vw;
     }
-
     #page-wrapper {
-        width: 100%;
+        /* width: 100%; */
     }
     #landscape-wrapper,
     .playerhalf,
@@ -14,9 +13,6 @@
     }
     #landscape-wrapper {
         align-items: center;
-    }
-    .rowarea {
-        flex-direction: row;
     }
     .boardrow {
         min-height: 150px;
@@ -60,12 +56,18 @@
     #player2board .effectscontainer.allyeffects {
         bottom: 10px;
     }
-
+    #player1board .rowarea {
+        flex-direction: column;
+        margin: 4px 0px;
+    }
+    #player2board .rowarea {
+        flex-direction: column-reverse;
+        margin: 4px 0px;
+    }
     #center-section {
         flex-direction: column;
         justify-content: center;
         margin-top: 0;
-        margin-left: 80px;
         flex-direction: row;
     }
     #match-counters {
@@ -144,7 +146,7 @@
     }
 
     .rowcountercontainer {
-        flex-direction: column;
+        flex-direction: row;
         min-width: 0px;
     }
 
@@ -153,14 +155,13 @@
     }
 
     .playercards-row {
-        overflow: initial;
+        overflow: auto;
     }
 
     .carddisplay-container {
         overflow: initial;
     }
     .cardfocus {
-        top: 15vh;
         height: 80vw;
     }
 

@@ -13,6 +13,7 @@ import getRandInt, { PlayerCard } from 'helper';
 import produce from 'immer';
 import _ from 'lodash';
 import Tutorial from 'components/tutorial/Tutorial';
+import CenterSection from 'components/layout/CenterSection';
 
 export const ACTIONS = {
     ADD_CARD_EFFECT: 'add-card-effect',
@@ -663,20 +664,7 @@ export default function App() {
                                 nextCardDraw={nextCardDraw}
                                 setNextCardDraw={setNextCardDraw}
                             />
-                            <div id='center-section'>
-                                <span>Match</span>
-                                <div id='match-counters'>
-                                    <MatchCounter
-                                        playerNum={1}
-                                        matchState={matchState}
-                                    />
-                                    <MatchCounter
-                                        playerNum={2}
-                                        matchState={matchState}
-                                    />
-                                </div>
-                                <span>Score</span>
-                            </div>
+                            <CenterSection matchState={matchState}></CenterSection>
                             <PlayerHalf
                                 playerNum={2}
                                 setCardFocus={setCardFocus}

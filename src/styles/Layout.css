@@ -133,7 +133,10 @@
     justify-content: center;
     text-align: center;
 }
-
+#center-section-container {
+    display: flex;
+    justify-content: center;
+}
 #center-section {
     display: flex;
     align-items: center;

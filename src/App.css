@@ -3,6 +3,7 @@
 @import './styles/Counters.css';
 @import './styles/Layout.css';
 @import './styles/Responsive.css';
+@import './styles/Scrollbar.css';
 @import './styles/Tutorial.css';
 
 /* Variables */
@@ -36,9 +37,7 @@ body {
     background-color: var(--background-color);
     display: flex;
     height: 100%;
-    width: calc(100% - 20px); /* account for scrollbar */
     min-height: 100vh;
-    min-width: calc(100vw - 20px);
 }
 
 * {
@@ -49,24 +48,3 @@ body {
     width: 100%;
 }
 
-html {
-    --scrollbarBG: #fff;
-    --thumbBG: #90a4ae;
-}
-::-webkit-scrollbar {
-    width: 11px;
-    height: 11px;
-}
-body {
-    scrollbar-width: thin;
-    scrollbar-color: var(--thumbBG) var(--scrollbarBG);
-}
-::-webkit-scrollbar-track {
-    background: var(--scrollbarBG);
-    border-radius: 6px;
-}
-::-webkit-scrollbar-thumb {
-    background-color: var(--thumbBG);
-    border-radius: 6px;
-    border: 3px solid var(--scrollbarBG);
-}

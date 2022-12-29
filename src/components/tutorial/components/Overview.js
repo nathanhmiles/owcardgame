@@ -1,3 +1,4 @@
+import Counter from 'components/counters/Counter';
 import React from 'react';
 
 function Overview() {
@@ -71,6 +72,7 @@ function Overview() {
                                 When a card is played, that card's
                                 Power score is added to that
                                 player's Power score
+                                {/* <Counter value={8} styles={['power', 'tutorial']}></Counter> */}
                                 <span
                                     style={{
                                         ...powerStyle,
