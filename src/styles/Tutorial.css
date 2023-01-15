@@ -34,7 +34,7 @@
     background-color: var(--background-color);
     color: #333;
     overflow: auto;
-    border-radius: 12px;
+    border-radius: 6px;
     z-index: 1000;
 }
 
