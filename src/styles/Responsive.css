@@ -2,9 +2,6 @@
     #root {
         width: 100vw;
     }
-    #page-wrapper {
-        /* width: 100%; */
-    }
     #landscape-wrapper,
     .playerhalf,
     .board {
