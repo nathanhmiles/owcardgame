@@ -1,4 +1,5 @@
-import HeroCounter from 'components/counters/HeroCounter';
+import React from 'react';
+import HeroCounter from '../counters/HeroCounter';
 
 export default function CardEffects(props) {
     const type = props.type;

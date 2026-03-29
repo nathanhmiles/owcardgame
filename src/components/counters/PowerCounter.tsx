@@ -1,3 +1,5 @@
+import React from "react";
+
 export default function PowerCounter(props) {
     return (
         <span className='power'>

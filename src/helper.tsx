@@ -1,4 +1,4 @@
-import data from 'data';
+import data from './data';
 
 // Creates a card with its own health and id unique to the playerCard, returns player-specific ID
 class PlayerCard {

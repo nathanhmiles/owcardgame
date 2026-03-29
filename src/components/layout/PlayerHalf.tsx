@@ -1,7 +1,7 @@
 import React, { useContext } from 'react';
-import gameContext from 'context/gameContext';
-import PlayerArea from 'components/layout/PlayerArea';
-import PlayerBoard from 'components/layout/PlayerBoard';
+import gameContext from '../../context/gameContext';
+import PlayerArea from './PlayerArea';
+import PlayerBoard from './PlayerBoard';
 
 export default function PlayerHalf(props) {
     const { gameState } = useContext(gameContext);

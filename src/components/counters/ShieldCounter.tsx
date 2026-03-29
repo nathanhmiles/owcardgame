@@ -1,3 +1,5 @@
+import React from "react";
+
 export default function ShieldCounter(props) {
     const shield = props.shield;
     const type = props.type;

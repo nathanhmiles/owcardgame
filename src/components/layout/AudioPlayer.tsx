@@ -4,7 +4,8 @@ export default function AudioPlayer(props) {
     const { playAudio, setPlayAudio } = props;
 
     useEffect(() => {
-        const audio = document.getElementById('backgroundaudio');
+        const audio = document.getElementById('backgroundaudio') as HTMLAudioElement | null;
+        if (!audio) return;
         audio.volume = 0.3;
         playAudio ? audio.play() : audio.pause();
     }, [playAudio]);

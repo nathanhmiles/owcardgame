@@ -1,3 +1,5 @@
+import React from "react";
+
 export default function SynergyCounter(props) {
     return (
         <div className='synergycontainer'>

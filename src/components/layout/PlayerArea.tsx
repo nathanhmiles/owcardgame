@@ -1,8 +1,8 @@
 import React, { useContext } from 'react';
 import PlayerHand from './PlayerButtons';
 import PowerCounter from '../counters/PowerCounter';
-import gameContext from 'context/gameContext';
-import CardDisplay from 'components/layout/CardDisplay';
+import gameContext from '../../context/gameContext';
+import CardDisplay from './CardDisplay';
 
 export default function PlayerArea(props) {
     const { gameState } = useContext(gameContext);

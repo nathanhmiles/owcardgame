@@ -1,5 +1,6 @@
+import React from 'react';
 import BoardRow from './BoardRow';
-import data from 'data';
+import data from 'src/data';
 
 export default function PlayerBoard(props) {
     const rows = data.rows;

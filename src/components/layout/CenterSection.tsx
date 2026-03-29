@@ -1,4 +1,5 @@
 import MatchCounter from 'components/counters/MatchCounter';
+import React from 'react';
 
 function CenterSection(props) {
 

@@ -1,9 +1,12 @@
-import owlogo from 'assets/owlogo-small.webp';
+import React from 'react';
+import owlogo from 'src/assets/owlogo-small.webp';
 import AudioPlayer from './AudioPlayer';
 
 export default function TitleCard(props) {
     function toggleTutorial() {
-        document.getElementById('tutorial-container').classList.toggle('open');
+        const tutorialContainer = document.getElementById('tutorial-container');
+        if (!tutorialContainer) return;
+        tutorialContainer.classList.toggle('open');
     }
 
     return (

@@ -1,3 +1,5 @@
+import React from "react";
+
 export default function HeroCounter(props) {
     const playerHeroId = props.playerHeroId;
     const heroId = props.heroId;

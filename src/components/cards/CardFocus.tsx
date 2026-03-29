@@ -1,15 +1,15 @@
 import React, { useContext, useRef, useEffect, useState } from 'react';
-import HeroAbilities from 'components/cards/HeroAbilities';
-import gameContext from 'context/gameContext';
-import HealthCounter from 'components/counters/HealthCounter';
-import ShieldCounter from 'components/counters/ShieldCounter';
+import HeroAbilities from './HeroAbilities';
+import gameContext from '../../context/gameContext';
+import HealthCounter from '../counters/HealthCounter';
+import ShieldCounter from '../counters/ShieldCounter';
 
 export default function CardFocus(props) {
     const { gameState, dispatch } = useContext(gameContext);
     const cardFocus = props.cardFocus;
     const setCardFocus = props.setCardFocus;
     const unsetCardFocus = props.unsetCardFocus;
-    const heroRef = useRef();
+    const heroRef = useRef(null);
     const [imageLoaded, setImageLoaded] = useState(false);
 
     // Remember the last card to be focused, and use that card's data so an error isnt thrown

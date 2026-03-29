@@ -1,8 +1,8 @@
 import React, { useContext, useEffect, useState } from 'react';
-import Card from 'components/cards/Card';
+import Card from '../cards/Card';
 import { Droppable } from 'react-beautiful-dnd';
-import gameContext from 'context/gameContext';
-import { isOverflown } from 'helper';
+import gameContext from '../../context/gameContext';
+import { isOverflown } from '../../helper';
 
 export default function CardDisplay(props) {
     // Context & State

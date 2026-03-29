@@ -1,10 +1,10 @@
 import React, { useContext, useState } from 'react';
 import { Draggable } from 'react-beautiful-dnd';
-import gameContext from 'context/gameContext';
-import turnContext from 'context/turnContext';
-import CardEffects from 'components/cards/CardEffects';
-import HealthCounter from 'components/counters/HealthCounter';
-import ShieldCounter from 'components/counters/ShieldCounter';
+import gameContext from '../../context/gameContext';
+import turnContext from '../../context/turnContext';
+import CardEffects from './CardEffects';
+import HealthCounter from '../counters/HealthCounter';
+import ShieldCounter from '../counters/ShieldCounter';
 
 export default function Card(props) {
     // Context
