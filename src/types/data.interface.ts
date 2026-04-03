@@ -1,0 +1,116 @@
+export interface HeroEffectData {
+    id: string;
+    hero: string;
+    player: 'ally' | 'enemy';
+    target: 'card' | 'row';
+    type: 'damage' | 'healing' | 'attack' | 'synergy' | 'power' | 'immortality';
+    value?: number | 'double' | 'allies';
+    on: 'turnstart' | 'movein' | 'moveout' | 'attack' | 'heal' | 'activate' | 'ability' | 'ultimate';
+    health?: number | 'synergy'; // Indicates the health value of a destroyable effect, can be a static number or based on synergy value
+}
+
+export interface HeroData {
+    id: string;
+    name: string;
+    image: string;
+    icon?: string;
+    isImplemented: boolean;
+    health: number;
+    power: {
+        f: number;
+        m: number;
+        b: number;
+    };
+    synergy: {
+        f: number;
+        m: number;
+        b: number;
+    };
+    effects?: {
+        [effectId: string]: HeroEffectData;
+    };
+    zaryaShieldRemaining?: number; // Only used for Zarya, tracks remaining shield value from her passive
+}
+
+export interface PlayerCardsData {
+    id: string;
+    cards: {
+        [playerHeroId: string]: any; // The actual card data will be generated dynamically, so we can use 'any' here
+    };
+}
+
+export interface PlayerHandData {
+    id: string;
+    cardIds: string[]; // Array of playerHeroIds currently in the hand
+    cardsPlayed: number; // Number of cards played this turn, used to determine if player can still play cards
+    power: {
+        f: number;
+        m: number;
+        b: number;
+    };
+    totalPower(): number; // Method to calculate total power of the hand
+}
+
+export interface RowData {
+    id: string;
+    label: string;
+    cardIds: string[]; // Array of playerHeroIds currently in the row
+    synergy: number; // Total synergy value of the row, calculated from the cards in the row
+    allyEffects: HeroEffectData[]; // Array of ally effects currently active on the row
+    enemyEffects: HeroEffectData[]; // Array of enemy effects currently active on the row
+    shield: { source: string; shieldValue: number }[]; // Array of shield entries, each with a source and value
+    totalShield(): number; // Method to calculate total shield value of the row
+}
+
+export interface GameData {
+    heroes: {
+        ana: HeroData;
+        ashe: HeroData;
+        baptiste: HeroData;
+        bastion: HeroData;
+        bob: HeroData;
+        brigitte: HeroData;
+        doomfist: HeroData;
+        dva: HeroData;
+        dvameka: HeroData;
+        echo: HeroData;
+        genji: HeroData;
+        hanzo: HeroData;
+        junkrat: HeroData;
+        lucio: HeroData;
+        mccree: HeroData;
+        mei: HeroData;
+        mercy: HeroData;
+        moira: HeroData;
+        orisa: HeroData;
+        pharah: HeroData;
+        reaper: HeroData;
+        reinhardt: HeroData;
+        roadhog: HeroData;
+        sigma: HeroData;
+        soldier: HeroData;
+        sombra: HeroData;
+        symmetra: HeroData;
+        torbjorn: HeroData;
+        tracer: HeroData;
+        widowmaker: HeroData;
+        winston: HeroData;
+        wreckingball: HeroData;
+        zarya: HeroData;
+        zenyatta: HeroData;
+    },
+    playerCards: {
+        player1cards: PlayerCardsData;
+        player2cards: PlayerCardsData;
+    },
+    rows: {
+        player1hand: PlayerHandData;
+        player2hand: PlayerHandData;
+        '1b': RowData;
+        '1m': RowData;
+        '1f': RowData;
+        '2b': RowData;
+        '2m': RowData;
+        '2f': RowData;
+    };
+}
