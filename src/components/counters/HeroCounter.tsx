@@ -1,6 +1,7 @@
 import React from "react";
+import {HeroCard} from "../../types/hero-card.interface";
 
-export default function HeroCounter(props) {
+export default function HeroCounter(props: HeroCard) {
     const playerHeroId = props.playerHeroId;
     const heroId = props.heroId;
     const playerNum = props.playerNum;

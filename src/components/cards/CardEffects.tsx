@@ -1,9 +1,13 @@
 import React from 'react';
 import HeroCounter from '../counters/HeroCounter';
+import {Effect} from "../../types/effect.interface";
 
-export default function CardEffects(props) {
-    const type = props.type;
-    const effects = props.effects;
+export default function CardEffects(props: {
+    type: string;
+    effects: Effect[];
+    setCardFocus: () => void;
+}) {
+    const { type, effects } = props;
 
     return (
         <div className={`effectscontainer ${type}effects`}>

@@ -5,20 +5,18 @@ import turnContext from '../../context/turnContext';
 import CardEffects from './CardEffects';
 import HealthCounter from '../counters/HealthCounter';
 import ShieldCounter from '../counters/ShieldCounter';
+import {HeroCard} from "../../types/hero-card.interface";
 
-export default function Card(props) {
+export default function Card(props: HeroCard) {
     // Context
     const { gameState, dispatch } = useContext(gameContext);
     const { turnState, setTurnState } = useContext(turnContext);
     const [imageLoaded, setImageLoaded] = useState(false);
 
     // Variables
-    const playerHeroId = props.playerHeroId;
-    const playerNum = props.playerNum;
+    const { playerHeroId, playerNum, rowId, index } = props;
     const playerCardsId = `player${playerNum}cards`;
-    const rowId = props.rowId;
     const rowPosition = rowId[1];
-    const index = props.index;
 
     // Get card attributes from relevant player
     const {
