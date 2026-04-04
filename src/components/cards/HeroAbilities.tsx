@@ -11,7 +11,7 @@ export default function HeroAbilities(props) {
     const { turnState } = useContext(turnContext);
 
     // Variables
-    const playerTurn = turnState.playerTurn;
+    const playerTurn: 1 | 2 = turnState.playerTurn;
     const enemyPlayerNum = playerTurn === 1 ? 2 : 1;
 
     const { playerHeroId, unsetCardFocus, rowId, playAudio } = props;
