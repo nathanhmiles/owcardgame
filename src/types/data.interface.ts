@@ -10,7 +10,7 @@ export interface HeroEffectData {
 }
 
 export interface HeroData {
-    id: string;
+    id: HeroId;
     name: string;
     image: string;
     icon?: string;
@@ -98,10 +98,11 @@ export type HeroId =
 'zarya' |
 'zenyatta';
 
+export type RowId = '1b' | '1m' | '1f' | '2b' | '2m' | '2f';
+
 export interface GameData {
     heroes: {
-        // @ts-ignore
-        [heroId: HeroId]: HeroData;
+        [id in HeroId]: HeroData;
     },
     playerCards: {
         player1cards: PlayerCardsData;
@@ -110,11 +111,6 @@ export interface GameData {
     rows: {
         player1hand: PlayerHandData;
         player2hand: PlayerHandData;
-        '1b': RowData;
-        '1m': RowData;
-        '1f': RowData;
-        '2b': RowData;
-        '2m': RowData;
-        '2f': RowData;
+        [id in RowId]: RowData;
     };
 }
