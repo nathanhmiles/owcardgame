@@ -62,42 +62,46 @@ export interface RowData {
     totalShield(): number; // Method to calculate total shield value of the row
 }
 
+export type HeroId =
+'ana' |
+'ashe' |
+'baptiste' |
+'bastion' |
+'bob' |
+'brigitte' |
+'doomfist' |
+'dva' |
+'dvameka' |
+'echo' |
+'genji' |
+'hanzo' |
+'junkrat' |
+'lucio' |
+'mccree' |
+'mei' |
+'mercy' |
+'moira' |
+'orisa' |
+'pharah' |
+'reaper' |
+'reinhardt' |
+'roadhog' |
+'sigma' |
+'soldier' |
+'sombra' |
+'symmetra' |
+'torbjorn' |
+'tracer' |
+'widowmaker' |
+'winston' |
+'wreckingball' |
+'zarya' |
+'zenyatta';
+
 export interface GameData {
     heroes: {
-        ana: HeroData;
-        ashe: HeroData;
-        baptiste: HeroData;
-        bastion: HeroData;
-        bob: HeroData;
-        brigitte: HeroData;
-        doomfist: HeroData;
-        dva: HeroData;
-        dvameka: HeroData;
-        echo: HeroData;
-        genji: HeroData;
-        hanzo: HeroData;
-        junkrat: HeroData;
-        lucio: HeroData;
-        mccree: HeroData;
-        mei: HeroData;
-        mercy: HeroData;
-        moira: HeroData;
-        orisa: HeroData;
-        pharah: HeroData;
-        reaper: HeroData;
-        reinhardt: HeroData;
-        roadhog: HeroData;
-        sigma: HeroData;
-        soldier: HeroData;
-        sombra: HeroData;
-        symmetra: HeroData;
-        torbjorn: HeroData;
-        tracer: HeroData;
-        widowmaker: HeroData;
-        winston: HeroData;
-        wreckingball: HeroData;
-        zarya: HeroData;
-        zenyatta: HeroData;
+        // @ts-ignore
+        [heroId: HeroId]: HeroData;
     },
     playerCards: {
         player1cards: PlayerCardsData;
