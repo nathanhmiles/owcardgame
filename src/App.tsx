@@ -1,19 +1,19 @@
 import React, { useState, useReducer, useEffect, useRef } from 'react';
-import gameContext from 'src/context/gameContext';
-import turnContext from 'src/context/turnContext';
+import gameContext from './context/gameContext';
+import turnContext from './context/turnContext';
 import { DragDropContext } from 'react-beautiful-dnd';
 import './App.css';
-import PlayerHalf from 'src/components/layout/PlayerHalf';
-import TitleCard from 'src/components/layout/TitleCard';
-import Footer from 'src/components/layout/Footer';
-import CardFocus from 'src/components/cards/CardFocus';
-import MatchCounter from 'src/components/counters/MatchCounter';
-import data from 'src/data';
-import getRandInt, { PlayerCard } from 'src/helper';
+import PlayerHalf from './components/layout/PlayerHalf';
+import TitleCard from './components/layout/TitleCard';
+import Footer from './components/layout/Footer';
+import CardFocus from './components/cards/CardFocus';
+import data from './data';
+import { getRandInt } from './helper';
+import { PlayerCard } from './player-card.factory';
 import produce from 'immer';
 import _ from 'lodash';
-import Tutorial from 'components/tutorial/Tutorial';
-import CenterSection from 'src/components/layout/CenterSection';
+import Tutorial from './components/tutorial/Tutorial';
+import CenterSection from './components/layout/CenterSection';
 
 export const ACTIONS = {
     ADD_CARD_EFFECT: 'add-card-effect',
