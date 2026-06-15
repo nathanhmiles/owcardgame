@@ -14,7 +14,7 @@ export interface HeroData {
     name: string;
     image: string;
     icon?: string;
-    isImplemented: boolean;
+    isImplemented?: boolean;
     health: number;
     power: {
         f: number;

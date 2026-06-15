@@ -1,4 +1,4 @@
-import { GameData } from "./types/data.interface";
+import {GameData, PlayerHandData} from "./types/data.interface";
 
 // Data for all hero cards
 
@@ -849,7 +849,8 @@ const data: GameData = {
                 b: 0,
             },
             totalPower() {
-                const totalPower = Object.values(this.power).reduce(
+                const power: PlayerHandData['power'] = this.power;
+                const totalPower: number = Object.values(power).reduce(
                     (a, b) => a + b,
                     0
                 );
@@ -866,7 +867,8 @@ const data: GameData = {
                 b: 0,
             },
             totalPower() {
-                const totalPower = Object.values(this.power).reduce(
+                const power: PlayerHandData['power'] = this.power;
+                const totalPower = Object.values(power).reduce(
                     (a, b) => a + b,
                     0
                 );

@@ -1,6 +1,13 @@
 import React, { useContext } from 'react';
 import gameContext from '../../context/gameContext';
 import HeroCounter from '../counters/HeroCounter';
+import {SetCardFocusFn} from "../../types/hero-card.interface";
+
+interface CounterAreaProps {
+    type: string;
+    rowId: string;
+    setCardFocus: SetCardFocusFn;
+}
 
 export default function CounterArea(props) {
     const { gameState } = useContext(gameContext);
@@ -23,7 +30,6 @@ export default function CounterArea(props) {
                             heroId={effect.hero}
                             key={effect.playerHeroId}
                             setCardFocus={props.setCardFocus}
-                            playerNum={props.playerNum}
                             rowId={rowId}
                             health={effect.health}
                         />
