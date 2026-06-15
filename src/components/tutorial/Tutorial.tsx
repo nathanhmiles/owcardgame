@@ -1,8 +1,8 @@
 import React from 'react';
-import Overview from './components/Overview';
-import CardInfo from './components/CardInfo';
-import TurnActions from './components/TurnActions';
-import TabButton from './components/TabButton';
+import Overview from './Overview';
+import CardInfo from './CardInfo';
+import TurnActions from './TurnActions';
+import TabButton from './TabButton';
 
 function Tutorial() {
     const closeTutorialStyle = {

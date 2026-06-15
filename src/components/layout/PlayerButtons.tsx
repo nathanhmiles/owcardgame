@@ -2,7 +2,7 @@ import React, { useContext } from 'react';
 import gameContext from 'context/gameContext';
 import turnContext from 'context/turnContext';
 import data from 'data';
-import getRandInt from 'helper';
+import { getRandInt } from 'helper';
 import { ACTIONS } from 'App';
 
 export default function PlayerHand(props) {

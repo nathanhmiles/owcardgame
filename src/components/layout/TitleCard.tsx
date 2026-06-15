@@ -1,5 +1,5 @@
 import React from 'react';
-import owlogo from 'src/assets/owlogo-small.webp';
+import owlogo from 'assets/owlogo-small.webp';
 import AudioPlayer from './AudioPlayer';
 
 export default function TitleCard(props) {

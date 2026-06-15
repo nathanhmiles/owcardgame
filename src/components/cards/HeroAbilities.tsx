@@ -3,7 +3,7 @@ import gameContext from 'context/gameContext';
 import turnContext from 'context/turnContext';
 import $ from 'jquery';
 import { ACTIONS } from 'App';
-import getRandInt from 'helper';
+import { getRandInt } from 'helper';
 
 export default function HeroAbilities(props) {
     // Context
