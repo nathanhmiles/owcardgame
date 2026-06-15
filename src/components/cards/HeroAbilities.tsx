@@ -2058,20 +2058,22 @@ export default function HeroAbilities(props) {
 
                     // Copy arrays of cards from state, assign id to the row for later reference
                     // We will manipulate the array, so we dont want a reference to the original array
-                    const enemyBackRowCards = Array.from(
+                    const enemyBackRowCards: string[] = Array.from(
                         gameState.rows[`${enemyPlayer}b`].cardIds
                     );
                     enemyBackRowCards['id'] = `${enemyPlayer}b`;
-                    const enemyMiddleRowCards = Array.from(
+
+                    const enemyMiddleRowCards: string[] = Array.from(
                         gameState.rows[`${enemyPlayer}m`].cardIds
                     );
                     enemyMiddleRowCards['id'] = `${enemyPlayer}m`;
-                    const enemyFrontRowCards = Array.from(
+
+                    const enemyFrontRowCards: string[] = Array.from(
                         gameState.rows[`${enemyPlayer}f`].cardIds
                     );
                     enemyFrontRowCards['id'] = `${enemyPlayer}f`;
 
-                    const enemyRows = [
+                    const enemyRows: string[][] = [
                         enemyBackRowCards,
                         enemyMiddleRowCards,
                         enemyFrontRowCards,
@@ -2079,7 +2081,7 @@ export default function HeroAbilities(props) {
 
                     // Filter out heroes at 0 health
                     for (let row of enemyRows) {
-                        row.filter((cardId) => {
+                        row.filter((cardId: string) => {
                             if (
                                 gameState.playerCards[
                                     `player${enemyPlayer}cards`
@@ -2107,6 +2109,7 @@ export default function HeroAbilities(props) {
                     if (damageValue > 0) {
                         for (let row of enemyRows) {
                             for (let cardId of row) {
+                                // @ts-ignore
                                 applyDamage(damageValue, cardId, row.id);
                                 damageDone += damageValue;
                             }

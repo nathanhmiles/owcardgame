@@ -108,9 +108,12 @@ export interface GameData {
         player1cards: PlayerCardsData;
         player2cards: PlayerCardsData;
     },
+    // Row collection contains two special hand entries plus the mapped board rows.
+    // Use an intersection so we can have named properties alongside the mapped rows.
     rows: {
         player1hand: PlayerHandData;
         player2hand: PlayerHandData;
+    } & {
         [id in RowId]: RowData;
     };
 }
