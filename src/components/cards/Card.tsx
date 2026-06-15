@@ -5,13 +5,22 @@ import turnContext from '../../context/turnContext';
 import CardEffects from './CardEffects';
 import HealthCounter from '../counters/HealthCounter';
 import ShieldCounter from '../counters/ShieldCounter';
-import {HeroCard} from "../../types/hero-card.interface";
+import {RowId} from "../../types/data.interface";
+import {SetCardFocusFn} from "../../types/hero-card.interface";
 
-export default function Card(props: HeroCard) {
+interface CardProps {
+    playerHeroId: string;
+    playerNum: number;
+    rowId: RowId;
+    index: number;
+    setCardFocus: SetCardFocusFn;
+}
+
+export default function Card(props: CardProps) {
     // Context
     const { gameState, dispatch } = useContext(gameContext);
     const { turnState, setTurnState } = useContext(turnContext);
-    const [imageLoaded, setImageLoaded] = useState(false);
+    const [imageLoaded, setImageLoaded] = useState('');
 
     // Variables
     const { playerHeroId, playerNum, rowId, index } = props;
@@ -64,12 +73,14 @@ export default function Card(props: HeroCard) {
                             <CardEffects
                                 type='enemy'
                                 effects={enemyEffects}
+                                rowId={rowId}
                                 setCardFocus={props.setCardFocus}
                             />
                         ) : (
                             <CardEffects
                                 type='ally'
                                 effects={allyEffects}
+                                rowId={rowId}
                                 setCardFocus={props.setCardFocus}
                             />
                         )}
@@ -126,12 +137,14 @@ export default function Card(props: HeroCard) {
                             <CardEffects
                                 type='ally'
                                 effects={allyEffects}
+                                rowId={rowId}
                                 setCardFocus={props.setCardFocus}
                             />
                         ) : (
                             <CardEffects
                                 type='enemy'
                                 effects={enemyEffects}
+                                rowId={rowId}
                                 setCardFocus={props.setCardFocus}
                             />
                         )}

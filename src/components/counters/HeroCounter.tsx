@@ -1,10 +1,18 @@
 import React from "react";
-import {HeroCard} from "../../types/hero-card.interface";
+import {HeroCard, SetCardFocusFn} from "../../types/hero-card.interface";
+import {RowId} from "../../types/data.interface";
 
-export default function HeroCounter(props: HeroCard) {
+interface HeroCounterProps {
+    playerHeroId: string;
+    heroId: string;
+    rowId: RowId;
+    health: number;
+    setCardFocus: SetCardFocusFn;
+}
+
+export default function HeroCounter(props: HeroCounterProps) {
     const playerHeroId = props.playerHeroId;
     const heroId = props.heroId;
-    const playerNum = props.playerNum;
     const rowId = props.rowId;
     const health = props.health;
 

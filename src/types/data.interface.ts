@@ -48,7 +48,7 @@ export interface PlayerHandData {
         m: number;
         b: number;
     };
-    totalPower(): number; // Method to calculate total power of the hand
+    totalPower: () => number; // Method to calculate total power of the hand
 }
 
 export interface RowData {
@@ -59,7 +59,7 @@ export interface RowData {
     allyEffects: HeroEffectData[]; // Array of ally effects currently active on the row
     enemyEffects: HeroEffectData[]; // Array of enemy effects currently active on the row
     shield: { source: string; shieldValue: number }[]; // Array of shield entries, each with a source and value
-    totalShield(): number; // Method to calculate total shield value of the row
+    totalShield: () => number; // Method to calculate total shield value of the row
 }
 
 export type HeroId =

@@ -1,5 +1,4 @@
 import React from 'react';
-import owlogo from 'assets/owlogo-small.webp';
 import AudioPlayer from './AudioPlayer';
 
 export default function TitleCard(props) {
@@ -19,7 +18,7 @@ export default function TitleCard(props) {
                 <span>Game & Card Design by</span>
                 <span>u/barberian912</span>
             </div>
-            <img src={owlogo} id='centerlogo' alt='owlogo' />
+            <img src="assets/owlogo-small.webp" id='centerlogo' alt='owlogo' />
             <span className='credit'>
                 <span>Digitisation by</span>
                 <span>Nathan H Miles</span>

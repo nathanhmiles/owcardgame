@@ -19,7 +19,6 @@ export default function AudioPlayer(props) {
                     }}
                     className='fas fa-volume-up'
                     id='audioicon'
-                    alt='audio icon'
                 />
             ) : (
                 <i
@@ -28,12 +27,10 @@ export default function AudioPlayer(props) {
                     }}
                     className='fas fa-volume-mute'
                     id='audioicon'
-                    alt='audio icon'
                 />
             )}
             <audio
                 src={require(`assets/audio/overwatch-theme.mp3`).default}
-                type='audio/mpeg'
                 loop={true}
                 id='backgroundaudio'
             />

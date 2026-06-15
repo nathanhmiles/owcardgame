@@ -1,9 +1,11 @@
-import { SetCardFocusFn } from './card.types';
+import { RowId } from "./data.interface";
+
+export type SetCardFocusFn = (arg: { playerHeroId: string, rowId: RowId }) => void;
 
 export interface HeroCard {
     playerHeroId: string;
     playerNum: number;
-    rowId: string[];
+    rowId: RowId;
     index: number;
     setCardFocus: SetCardFocusFn;
 }

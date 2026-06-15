@@ -271,7 +271,7 @@ export default function HeroAbilities(props) {
                                 );
                             }
 
-                            resolve();
+                            resolve(null);
                         });
                     });
                 },
@@ -332,7 +332,7 @@ export default function HeroAbilities(props) {
                                 true
                             );
 
-                            resolve();
+                            resolve(null);
                         });
                     });
                 },
@@ -407,7 +407,7 @@ export default function HeroAbilities(props) {
                             if (parseInt(targetCardId[0]) === playerTurn) {
                                 targets.forEach((target) => {
                                     if (target !== undefined)
-                                        applyHealing(1, target, targetCardRow);
+                                        applyHealing(1, target);
                                 });
                             } else {
                                 targets.forEach((target) => {
@@ -417,7 +417,7 @@ export default function HeroAbilities(props) {
                                 });
                             }
 
-                            resolve();
+                            resolve(null);
                         });
                     });
                 },
@@ -476,7 +476,7 @@ export default function HeroAbilities(props) {
                                 applyDamage(1, adjacentEnemy2, targetCardRow);
                             }
 
-                            resolve();
+                            resolve(null);
                         });
                     });
                 },
@@ -516,7 +516,7 @@ export default function HeroAbilities(props) {
                                 },
                             });
 
-                            resolve();
+                            resolve(null);
                         });
                     });
                 },
@@ -622,7 +622,7 @@ export default function HeroAbilities(props) {
                                 });
                             }
 
-                            resolve();
+                            resolve(null);
                         });
                     });
                 },
@@ -685,7 +685,7 @@ export default function HeroAbilities(props) {
                                 targetCardRow
                             );
 
-                            resolve();
+                            resolve(null);
                         });
                     });
                 },
@@ -748,7 +748,7 @@ export default function HeroAbilities(props) {
                                 applyDamage(1, adjacentEnemy2, targetCardRow);
                             }
 
-                            resolve();
+                            resolve(null);
                         });
                     });
                 },
@@ -765,7 +765,7 @@ export default function HeroAbilities(props) {
                             [`player${playerTurn}`]: 'dvameka',
                         }));
 
-                        resolve();
+                        resolve(null);
                     });
                 },
             },
@@ -1077,7 +1077,7 @@ export default function HeroAbilities(props) {
                                 },
                             });
 
-                            resolve();
+                            resolve(null);
                         });
                     });
                 },
@@ -1117,7 +1117,7 @@ export default function HeroAbilities(props) {
                                 },
                             });
 
-                            resolve();
+                            resolve(null);
                         });
                     });
                 },
@@ -1165,7 +1165,7 @@ export default function HeroAbilities(props) {
                             const damageValue = 3;
                             applyDamage(damageValue, targetCardId, targetRow);
 
-                            resolve();
+                            resolve(null);
                         });
                     });
                 },
@@ -1223,7 +1223,7 @@ export default function HeroAbilities(props) {
                                 applyDamage(damageValue, cardId, targetRowId);
                             });
 
-                            resolve();
+                            resolve(null);
                         });
                     });
                 },
@@ -1266,7 +1266,7 @@ export default function HeroAbilities(props) {
                                 },
                             });
 
-                            resolve();
+                            resolve(null);
                         });
                     });
                 },
@@ -1345,7 +1345,7 @@ export default function HeroAbilities(props) {
                                 },
                             });
 
-                            resolve();
+                            resolve(null);
                         });
                     });
                 },
@@ -1425,7 +1425,7 @@ export default function HeroAbilities(props) {
                                                 targetCard,
                                                 targetRow
                                             );
-                                            resolve();
+                                            resolve(null);
                                         });
                                     });
                                 };
@@ -1436,7 +1436,7 @@ export default function HeroAbilities(props) {
                                 } while (remainingDamage > 0);
                             }
 
-                            resolve();
+                            resolve(null);
                         });
                     });
                 },
@@ -1501,7 +1501,7 @@ export default function HeroAbilities(props) {
                                 },
                             });
 
-                            resolve();
+                            resolve(null);
                         });
                     });
                 },
@@ -1573,7 +1573,7 @@ export default function HeroAbilities(props) {
                                 });
                             }
 
-                            resolve();
+                            resolve(null);
                         });
                     });
                 },
@@ -1659,13 +1659,13 @@ export default function HeroAbilities(props) {
                                             applyHealing(2, targetCardId);
                                         }
 
-                                        resolve();
+                                        resolve(null);
                                     });
                                 });
                             }
                             await moiraAbility1Stage2();
 
-                            resolve();
+                            resolve(null);
                         });
                     });
                 },
@@ -1712,7 +1712,7 @@ export default function HeroAbilities(props) {
                                 );
                             }
 
-                            resolve();
+                            resolve(null);
                         });
                     });
                 },
@@ -1784,7 +1784,7 @@ export default function HeroAbilities(props) {
                                 },
                             });
 
-                            resolve();
+                            resolve(null);
                         });
                     });
                 },
@@ -1831,7 +1831,7 @@ export default function HeroAbilities(props) {
                             const damageValue = 2;
                             applyDamage(damageValue, targetCardId, targetRow);
 
-                            resolve();
+                            resolve(null);
                         });
                     });
                 },
@@ -1876,7 +1876,7 @@ export default function HeroAbilities(props) {
                             const damageValue = 1;
                             applyDamage(damageValue, targetCardId, targetRow);
 
-                            resolve();
+                            resolve(null);
                         });
                     });
                 },
@@ -1986,7 +1986,7 @@ export default function HeroAbilities(props) {
                                 },
                             });
 
-                            resolve();
+                            resolve(null);
                         });
                     });
                 },
@@ -2043,7 +2043,7 @@ export default function HeroAbilities(props) {
                                 targetCardRow
                             );
 
-                            resolve();
+                            resolve(null);
                         });
                     });
                 },
@@ -2077,7 +2077,7 @@ export default function HeroAbilities(props) {
                         enemyFrontRowCards,
                     ];
 
-                    // Filter out heros at 0 health
+                    // Filter out heroes at 0 health
                     for (let row of enemyRows) {
                         row.filter((cardId) => {
                             if (
@@ -2145,7 +2145,7 @@ export default function HeroAbilities(props) {
                                     }
 
                                     applyDamage(1, targetCard, targetRow);
-                                    resolve();
+                                    resolve(null);
                                 });
                             });
                         };
@@ -2194,7 +2194,7 @@ export default function HeroAbilities(props) {
                                 },
                             });
 
-                            resolve();
+                            resolve(null);
                         });
                     });
                 },
@@ -2243,7 +2243,7 @@ export default function HeroAbilities(props) {
                                 applyDamage(damageValue, cardId, targetRow);
                             });
 
-                            resolve();
+                            resolve(null);
                         });
                     });
                 },
@@ -2306,7 +2306,7 @@ export default function HeroAbilities(props) {
                             applyDamage(damageValue, targetCardId, targetRow);
                             enemiesHitByAbility.current += 1;
 
-                            resolve();
+                            resolve(null);
                         });
                     });
                 },
@@ -2527,7 +2527,7 @@ export default function HeroAbilities(props) {
                                 },
                             });
 
-                            resolve();
+                            resolve(null);
                         });
                     });
                 },
@@ -2602,7 +2602,7 @@ export default function HeroAbilities(props) {
                                 },
                             });
 
-                            resolve();
+                            resolve(null);
                         });
                     });
                 },
@@ -2716,7 +2716,7 @@ export default function HeroAbilities(props) {
                             const damageValue = 1;
                             applyDamage(damageValue, targetCardId, targetRow);
 
-                            resolve();
+                            resolve(null);
                         });
                     });
                 },
@@ -2807,7 +2807,7 @@ export default function HeroAbilities(props) {
                                 },
                             });
 
-                            resolve();
+                            resolve(null);
                         });
                     });
                 },
@@ -2852,7 +2852,7 @@ export default function HeroAbilities(props) {
                                 },
                             });
 
-                            resolve();
+                            resolve(null);
                         });
                     });
                 },
@@ -2928,7 +2928,7 @@ export default function HeroAbilities(props) {
                                 applyDamage(damageValue, cardId, targetRowId);
                             });
 
-                            resolve();
+                            resolve(null);
                         });
                     });
                 },
@@ -3009,7 +3009,7 @@ export default function HeroAbilities(props) {
                                 },
                             });
 
-                            resolve();
+                            resolve(null);
                         });
                     });
                 },
@@ -3065,7 +3065,7 @@ export default function HeroAbilities(props) {
                                 },
                             });
 
-                            resolve();
+                            resolve(null);
                         });
                     });
                 },

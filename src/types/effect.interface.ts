@@ -1,5 +1,5 @@
 export interface Effect {
     hero: string;
-    playerHeroId: number;
+    playerHeroId: string;
     health: number;
 }

@@ -1,11 +1,11 @@
-import React from 'react';
+import React, {CSSProperties} from 'react';
 import Overview from './Overview';
 import CardInfo from './CardInfo';
 import TurnActions from './TurnActions';
 import TabButton from './TabButton';
 
 function Tutorial() {
-    const closeTutorialStyle = {
+    const closeTutorialStyle: CSSProperties = {
         position: 'absolute',
         right: '10px',
         top: '10px',
@@ -18,10 +18,11 @@ function Tutorial() {
         color: 'inherit',
     };
 
-    function openCloseTutorial(e) {
+    function openCloseTutorial(e: React.MouseEvent<HTMLDivElement, MouseEvent>) {
+        const target = e.target as HTMLElement;
         if (
-            e.target.id === 'tutorial-container' ||
-            e.target.id === 'closetutorial'
+            target.id === 'tutorial-container' ||
+            target.id === 'closetutorial'
         ) {
             document.getElementById('tutorial-container').classList.remove('open');
         }
